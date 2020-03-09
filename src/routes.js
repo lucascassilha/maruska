@@ -1,11 +1,27 @@
 import React from 'react';
+import { createStackNavigator } from '@react-navigation/stack';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import PropTypes from 'prop-types';
 
 import Home from '~/pages/Home/index';
 import Notifications from '~/pages/Notifications/index';
 import Places from '~/pages/Places/index';
 import Settings from '~/pages/Settings/index';
+
+const Stack = createStackNavigator();
+
+function Pet() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Home"
+        component={Home}
+        options={{ headerShown: false, headerMode: 'screen' }}
+      />
+    </Stack.Navigator>
+  );
+}
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -20,7 +36,7 @@ export default function Routes() {
     >
       <Tab.Screen
         name="Pets"
-        component={Home}
+        component={Pet}
         options={{
           tabBarIcon: ({ color }) => (
             <Icon name="paw" size={25} color={color} />
@@ -57,3 +73,11 @@ export default function Routes() {
     </Tab.Navigator>
   );
 }
+
+Routes.propTypes = {
+  color: PropTypes.string,
+};
+
+Routes.defaultProps = {
+  color: '#fff',
+};
