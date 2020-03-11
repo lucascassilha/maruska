@@ -1,8 +1,10 @@
 import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Checkbox } from 'react-native-paper';
 import { useSelector, useDispatch } from 'react-redux';
 import { Alert } from 'react-native';
+import DatePicker from 'react-native-date-picker';
 import changeStatus from '~/store/modules/modalVisible/actions';
 import addPet from '~/store/modules/pets/actions';
 
@@ -12,9 +14,8 @@ import {
   Box,
   Scroll,
   Title,
-  ButtonInput,
-  Label,
   InputLabel,
+  SelectorBox,
   Input,
   CheckHolder,
   Submit,
@@ -22,6 +23,7 @@ import {
   CancelHolder,
   Instruction,
   CancelLabel,
+  DateHolder,
 } from './styles';
 
 export default function AddModal() {
@@ -29,6 +31,9 @@ export default function AddModal() {
   const pets = useSelector(state => state.pets.data);
   const [undefDate, setUndef] = useState(false);
 
+  const [date, setDate] = useState(new Date());
+  const [kind, setKind] = useState(null);
+  const [sex, setSex] = useState(null);
   const [name, setName] = useState(null);
   const [breed, setBreed] = useState(null);
 
@@ -57,21 +62,114 @@ export default function AddModal() {
     dispatch(addPet(pet));
   };
 
+  const openDatePicker = async () => {};
+
   return (
     <Wrapper visible={visible[0]} transparent animationType="slide">
       <Container>
         <Box>
           <Scroll showsVerticalScrollIndicator={false}>
             <Title>Add a pet </Title>
-            <ButtonInput>
-              <Label>Kind</Label>
-            </ButtonInput>
-            <ButtonInput>
-              <Label>Select the sex</Label>
-            </ButtonInput>
-            <ButtonInput disabled={undefDate}>
-              <Label>Select date of birth</Label>
-            </ButtonInput>
+            <InputLabel>Kind</InputLabel>
+            <SelectorBox>
+              <CheckHolder>
+                <Checkbox
+                  status={kind ? 'checked' : 'unchecked'}
+                  color="#eb3349"
+                  uncheckedColor="#eb3349"
+                  onPress={() => setKind(true)}
+                />
+                <Icon
+                  name="dog"
+                  color="#eb3349"
+                  size={25}
+                  style={{ marginRight: 5 }}
+                />
+                <InputLabel>Dog</InputLabel>
+              </CheckHolder>
+              <CheckHolder>
+                <Checkbox
+                  color="#eb3349"
+                  uncheckedColor="#eb3349"
+                  status={kind === false ? 'checked' : 'unchecked'}
+                  onPress={() => setKind(false)}
+                />
+                <Icon
+                  name="cat"
+                  color="#eb3349"
+                  size={25}
+                  style={{ marginRight: 5 }}
+                />
+                <InputLabel>Cat</InputLabel>
+              </CheckHolder>
+              <CheckHolder>
+                <Checkbox
+                  status={kind === undefined ? 'checked' : 'unchecked'}
+                  color="#eb3349"
+                  uncheckedColor="#eb3349"
+                  onPress={() => setKind(undefined)}
+                />
+                <Icon
+                  name="duck"
+                  color="#eb3349"
+                  size={25}
+                  style={{ marginRight: 5 }}
+                />
+                <InputLabel>Other</InputLabel>
+              </CheckHolder>
+            </SelectorBox>
+            <InputLabel>Sex</InputLabel>
+            <SelectorBox>
+              <CheckHolder>
+                <Checkbox
+                  status={sex ? 'checked' : 'unchecked'}
+                  color="#eb3349"
+                  uncheckedColor="#eb3349"
+                  onPress={() => setSex(true)}
+                />
+                <Icon
+                  name="gender-male"
+                  color="#eb3349"
+                  size={25}
+                  style={{ marginRight: 5 }}
+                />
+                <InputLabel>Male</InputLabel>
+              </CheckHolder>
+              <CheckHolder>
+                <Checkbox
+                  color="#eb3349"
+                  uncheckedColor="#eb3349"
+                  status={sex === false ? 'checked' : 'unchecked'}
+                  onPress={() => setSex(false)}
+                />
+                <Icon
+                  name="gender-female"
+                  color="#eb3349"
+                  size={25}
+                  style={{ marginRight: 5 }}
+                />
+                <InputLabel>Female</InputLabel>
+              </CheckHolder>
+              <CheckHolder>
+                <Checkbox
+                  status={sex === undefined ? 'checked' : 'unchecked'}
+                  color="#eb3349"
+                  uncheckedColor="#eb3349"
+                  onPress={() => setSex(undefined)}
+                />
+                <Icon
+                  name="gender-male-female"
+                  color="#eb3349"
+                  size={25}
+                  style={{ marginRight: 5 }}
+                />
+                <InputLabel>None of those</InputLabel>
+              </CheckHolder>
+            </SelectorBox>
+            <InputLabel>Select the date of birth</InputLabel>
+            <DateHolder disabled={undefDate}>
+              <DatePicker date={date} onDateChange={setDate} mode="date" />
+            </DateHolder>
             <CheckHolder>
               <Checkbox
                 status={undefDate ? 'checked' : 'unchecked'}

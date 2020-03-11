@@ -5,6 +5,7 @@ import LinearGradient from 'react-native-linear-gradient';
 export const Wrapper = styled.Modal``;
 
 export const Container = styled(Animatable.View)`
+  background-color: rgba(0, 0, 0, 0.4);
   flex: 1;
   justify-content: center;
 `;
@@ -32,27 +33,21 @@ export const Title = styled.Text`
   text-align: center;
 `;
 
-export const ButtonInput = styled.TouchableOpacity`
-  align-items: center;
-  justify-content: center;
-  align-self: stretch;
-  background-color: #eb3349;
-  padding: 14px;
-  border-radius: 4px;
-  margin: 15px 0px;
-  opacity: ${props => (props.disabled ? 0.5 : 1)};
-`;
-
-export const Label = styled.Text`
-  color: #fff;
-`;
-
 export const InputLabel = styled.Text`
   color: #eb3349;
   font-size: 14px;
   text-align: left;
 `;
 
+export const SelectorBox = styled.View``;
+
+export const DateHolder = styled.View`
+  align-self: stretch;
+  align-items: center;
+  justify-content: center;
+  opacity: ${props => (props.disabled ? 0.2 : 1)};
+  margin: 0 20px;
+`;
 export const Input = styled.TextInput`
   align-self: stretch;
   background-color: #eb3349;
@@ -64,7 +59,6 @@ export const Input = styled.TextInput`
 
 export const CheckHolder = styled.View`
   align-items: center;
-  justify-content: center;
   flex-direction: row;
   margin-bottom: 20px;
 `;
