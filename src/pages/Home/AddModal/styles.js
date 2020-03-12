@@ -13,7 +13,7 @@ export const Container = styled(Animatable.View)`
 export const Box = styled(LinearGradient).attrs({
   colors: ['#fff', '#EFEFEF'],
 })`
-  margin: 40px;
+  margin: 30px;
   border-radius: 10px;
   border-radius: 10px;
   elevation: 2;

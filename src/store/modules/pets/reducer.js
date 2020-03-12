@@ -9,7 +9,8 @@ export default function pets(state = INITIAL_STATE, action) {
     switch (action.type) {
       case '@pet/ADD': {
         const { pet } = action.payload;
-        return draft.data.push(pet);
+        draft.data.push(pet);
+        break;
       }
       default:
     }
