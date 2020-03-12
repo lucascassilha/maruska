@@ -21,14 +21,7 @@ import {
 import logo from '~/assets/img/logo.png';
 
 export default function Home() {
-  const [pets, setPets] = useState([
-    {
-      id: 1,
-    },
-    {
-      id: 2,
-    },
-  ]);
+  const pets = useSelector(state => state.pets.data);
 
   const dispatch = useDispatch();
   const handleOpen = () => {
@@ -49,8 +42,8 @@ export default function Home() {
           <Box>
             <PetImage />
             <TextHolder>
-              <Name>Cacau</Name>
-              <Info>Female Basset</Info>
+              <Name>{item.name}</Name>
+              <Info>{`${item.sex} ${item.breed ? item.breed : ''}`}</Info>
               <Info>1 year and 7 months</Info>
             </TextHolder>
           </Box>

@@ -5,6 +5,7 @@ import { Checkbox } from 'react-native-paper';
 import { useSelector, useDispatch } from 'react-redux';
 import { Alert } from 'react-native';
 import DatePicker from 'react-native-date-picker';
+import * as Yup from 'yup';
 import changeStatus from '~/store/modules/modalVisible/actions';
 import addPet from '~/store/modules/pets/actions';
 
@@ -36,15 +37,51 @@ export default function AddModal() {
   const [sex, setSex] = useState(null);
   const [name, setName] = useState(null);
   const [breed, setBreed] = useState(null);
+  const [years, setYears] = useState(null);
+  const [months, setMonths] = useState(null);
 
   const dispatch = useDispatch();
+
+  const resetStates = () => {
+    setDate(new Date());
+    setSex(null);
+    setKind(null);
+    setName(null);
+    setBreed(null);
+    setMonths(null);
+    setYears(null);
+    setUndef(false);
+  };
   const handleClose = () => {
+    resetStates();
     dispatch(changeStatus());
   };
 
-  const breedInput = useRef();
+  const handleAddPet = async () => {
+    const schema = Yup.object().shape({
+      name: Yup.string().required(),
+      kind: Yup.bool().required(),
+      sex: Yup.bool().required(),
+      breed: Yup.string().nullable(),
+      years: Yup.number()
+        .positive()
+        .nullable(),
+      months: Yup.number()
+        .max(12)
+        .positive()
+        .nullable(),
+      date: Yup.string().when('years', (value, field) =>
+        value ? field : field.required()
+      ),
+    });
 
-  const handleAddPet = () => {
+    const pet = { name, kind, sex, date, years, months, breed };
+    console.log(pet);
+
+    if (!(await schema.isValid(pet))) {
+      return Alert.alert('Maruska', 'Invalid or missing information');
+    }
+
     pets.map(item => {
       if (item.name === name) {
         return Alert.alert(
@@ -54,15 +91,22 @@ export default function AddModal() {
       }
     });
 
-    const pet = {
-      name,
-      breed,
-    };
+    let sexString = ' ';
+    if (sex) {
+      sexString = 'Male';
+    } else if (sex === false) {
+      sexString = 'Female';
+    }
 
-    dispatch(addPet(pet));
+    dispatch(addPet({ ...pet, sex: sexString, avatar: null }));
+
+    handleClose();
+    resetStates();
   };
 
-  const openDatePicker = async () => {};
+  const monthRef = useRef();
+  const nameRef = useRef();
+  const breedRef = useRef();
 
   return (
     <Wrapper visible={visible[0]} transparent animationType="slide">
@@ -168,7 +212,13 @@ export default function AddModal() {
             </SelectorBox>
             <InputLabel>Select the date of birth</InputLabel>
             <DateHolder disabled={undefDate}>
-              <DatePicker date={date} onDateChange={setDate} mode="date" />
+              <DatePicker
+                date={date}
+                onDateChange={setDate}
+                mode="date"
+                maximumDate={new Date()}
+                locale="en"
+              />
             </DateHolder>
             <CheckHolder>
               <Checkbox
@@ -183,20 +233,39 @@ export default function AddModal() {
               <>
                 <Instruction>Then please input an aproximate Date</Instruction>
                 <InputLabel>Years</InputLabel>
-                <Input keyboardType="number-pad" maxLength={2} />
+                <Input
+                  keyboardType="number-pad"
+                  maxLength={2}
+                  onChangeText={setYears}
+                  onSubmitEditing={() => monthRef.current.focus()}
+                  returnKeyType="next"
+                />
                 <InputLabel>Months</InputLabel>
-                <Input keyboardType="number-pad" maxLength={2} />
+                <Input
+                  keyboardType="number-pad"
+                  maxLength={2}
+                  ref={monthRef}
+                  onSubmitEditing={() => nameRef.current.focus()}
+                  onChangeText={setMonths}
+                  returnKeyType="next"
+                />
               </>
             ) : null}
             <InputLabel>Name</InputLabel>
-            <Input onChangeText={setName} returnKeyType="next" />
+            <Input
+              onChangeText={setName}
+              ref={nameRef}
+              returnKeyType="next"
+              onSubmitEditing={() => breedRef.current.focus()}
+            />
             <InputLabel>Breed (optional)</InputLabel>
             <Input
               onChangeText={setBreed}
-              ref={breedInput}
-              returnKeyType="next"
+              ref={breedRef}
+              returnKeyType="send"
+              onSubmitEditing={handleAddPet}
             />
-            <Submit>
+            <Submit onPress={handleAddPet}>
               <SubmitTitle>Add pet</SubmitTitle>
             </Submit>
             <CancelHolder onPress={handleClose}>
