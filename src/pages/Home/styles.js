@@ -29,6 +29,7 @@ export const PetImage = styled.Image`
 
 export const TextHolder = styled.View`
   margin-left: 10px;
+  width: 60%;
 `;
 
 export const Name = styled.Text`

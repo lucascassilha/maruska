@@ -4,7 +4,10 @@ import reducers from './modules/rootReducer';
 
 import persistReducers from './persistReducer';
 
-const store = createStore(persistReducers(reducers));
+const store = createStore(
+  persistReducers(reducers),
+  console.tron.createEnhancer()
+);
 
 const persistor = persistStore(store);
 

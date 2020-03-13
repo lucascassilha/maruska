@@ -3,7 +3,6 @@ import { StatusBar } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import Maruska from '~/components/MaruskaLogo/index';
 import changeStatus from '~/store/modules/modalVisible/actions';
-
 import Modal from './AddModal/index';
 
 import FAB from '~/components/FAB/index';
@@ -25,7 +24,7 @@ export default function Home() {
 
   const dispatch = useDispatch();
   const handleOpen = () => {
-    dispatch(changeStatus());
+    dispatch(changeStatus(0));
   };
 
   return (
@@ -37,14 +36,14 @@ export default function Home() {
       <PetList
         showsVerticalScrollIndicator={false}
         data={pets}
-        keyExtractor={item => item.id}
+        keyExtractor={item => item.name}
         renderItem={({ item }) => (
           <Box>
             <PetImage />
             <TextHolder>
               <Name>{item.name}</Name>
               <Info>{`${item.sex} ${item.breed ? item.breed : ''}`}</Info>
-              <Info>1 year and 7 months</Info>
+              <Info>{item.date}</Info>
             </TextHolder>
           </Box>
         )}
