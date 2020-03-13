@@ -1,7 +1,13 @@
-export default function modal(state = [false], action) {
+export default function modal(state = [false, false], action) {
   switch (action.type) {
     case '@modal/CHANGE': {
-      return [!state[0]];
+      const { id } = action.payload;
+      if (id === 0) {
+        return [!state[id], false];
+      }
+      if (id === 1) {
+        return [false, !state[id]];
+      }
     }
     default: {
       return state;

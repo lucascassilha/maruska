@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Checkbox } from 'react-native-paper';
@@ -60,8 +60,8 @@ export default function AddModal() {
   const handleAddPet = async () => {
     const schema = Yup.object().shape({
       name: Yup.string().required(),
-      kind: Yup.bool().required(),
-      sex: Yup.bool().required(),
+      kind: Yup.string().required(),
+      sex: Yup.string().required(),
       breed: Yup.string().nullable(),
       years: Yup.number()
         .positive()
@@ -76,29 +76,22 @@ export default function AddModal() {
     });
 
     const pet = { name, kind, sex, date, years, months, breed };
-    console.log(pet);
 
+    console.log(pet);
     if (!(await schema.isValid(pet))) {
       return Alert.alert('Maruska', 'Invalid or missing information');
     }
 
-    pets.map(item => {
-      if (item.name === name) {
-        return Alert.alert(
-          'Maruska',
-          "You can't add two pets with the same name!"
-        );
-      }
-    });
+    const findOne = pets.findIndex(item => item.name === name);
 
-    let sexString = ' ';
-    if (sex) {
-      sexString = 'Male';
-    } else if (sex === false) {
-      sexString = 'Female';
+    if (findOne >= 0) {
+      return Alert.alert(
+        'Maruska',
+        "You can't add a two pets with the same name"
+      );
     }
 
-    dispatch(addPet({ ...pet, sex: sexString, avatar: null }));
+    dispatch(addPet({ ...pet, avatar: null }));
 
     handleClose();
     resetStates();
@@ -109,7 +102,12 @@ export default function AddModal() {
   const breedRef = useRef();
 
   return (
-    <Wrapper visible={visible[0]} transparent animationType="slide">
+    <Wrapper
+      visible={visible[0]}
+      transparent
+      animationType="slide"
+      onRequestClose={handleClose}
+    >
       <Container>
         <Box>
           <Scroll showsVerticalScrollIndicator={false}>
@@ -118,10 +116,10 @@ export default function AddModal() {
             <SelectorBox>
               <CheckHolder>
                 <Checkbox
-                  status={kind ? 'checked' : 'unchecked'}
+                  status={kind === 'Dog' ? 'checked' : 'unchecked'}
                   color="#eb3349"
                   uncheckedColor="#eb3349"
-                  onPress={() => setKind(true)}
+                  onPress={() => setKind('Dog')}
                 />
                 <Icon
                   name="dog"
@@ -135,8 +133,8 @@ export default function AddModal() {
                 <Checkbox
                   color="#eb3349"
                   uncheckedColor="#eb3349"
-                  status={kind === false ? 'checked' : 'unchecked'}
-                  onPress={() => setKind(false)}
+                  status={kind === 'Cat' ? 'checked' : 'unchecked'}
+                  onPress={() => setKind('Cat')}
                 />
                 <Icon
                   name="cat"
@@ -148,10 +146,10 @@ export default function AddModal() {
               </CheckHolder>
               <CheckHolder>
                 <Checkbox
-                  status={kind === undefined ? 'checked' : 'unchecked'}
+                  status={kind === 'Other' ? 'checked' : 'unchecked'}
                   color="#eb3349"
                   uncheckedColor="#eb3349"
-                  onPress={() => setKind(undefined)}
+                  onPress={() => setKind('Other')}
                 />
                 <Icon
                   name="duck"
@@ -166,10 +164,10 @@ export default function AddModal() {
             <SelectorBox>
               <CheckHolder>
                 <Checkbox
-                  status={sex ? 'checked' : 'unchecked'}
+                  status={sex === 'Male' ? 'checked' : 'unchecked'}
                   color="#eb3349"
                   uncheckedColor="#eb3349"
-                  onPress={() => setSex(true)}
+                  onPress={() => setSex('Male')}
                 />
                 <Icon
                   name="gender-male"
@@ -183,8 +181,8 @@ export default function AddModal() {
                 <Checkbox
                   color="#eb3349"
                   uncheckedColor="#eb3349"
-                  status={sex === false ? 'checked' : 'unchecked'}
-                  onPress={() => setSex(false)}
+                  status={sex === 'Female' ? 'checked' : 'unchecked'}
+                  onPress={() => setSex('Female')}
                 />
                 <Icon
                   name="gender-female"
@@ -196,10 +194,10 @@ export default function AddModal() {
               </CheckHolder>
               <CheckHolder>
                 <Checkbox
-                  status={sex === undefined ? 'checked' : 'unchecked'}
+                  status={sex === '' ? 'checked' : 'unchecked'}
                   color="#eb3349"
                   uncheckedColor="#eb3349"
-                  onPress={() => setSex(undefined)}
+                  onPress={() => setSex('')}
                 />
                 <Icon
                   name="gender-male-female"
@@ -257,11 +255,13 @@ export default function AddModal() {
               ref={nameRef}
               returnKeyType="next"
               onSubmitEditing={() => breedRef.current.focus()}
+              maxLength={20}
             />
             <InputLabel>Breed (optional)</InputLabel>
             <Input
               onChangeText={setBreed}
               ref={breedRef}
+              maxLength={20}
               returnKeyType="send"
               onSubmitEditing={handleAddPet}
             />
