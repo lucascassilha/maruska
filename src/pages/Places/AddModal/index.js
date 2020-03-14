@@ -1,13 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Checkbox } from 'react-native-paper';
 import { useSelector, useDispatch } from 'react-redux';
 import { Alert } from 'react-native';
-import DatePicker from 'react-native-date-picker';
 import * as Yup from 'yup';
 import changeStatus from '~/store/modules/modalVisible/actions';
-import addPet from '~/store/modules/pets/actions';
+import addLocation from '~/store/modules/places/actions';
 
 import {
   Wrapper,
@@ -29,6 +27,7 @@ export default function AddModal() {
   const visible = useSelector(state => state.modal);
 
   const [city, setCity] = useState(null);
+  const [name, setName] = useState(null);
   const [kind, setKind] = useState(null);
   const [address, setAddress] = useState(null);
   const [phone, setPhone] = useState(null);
@@ -38,12 +37,35 @@ export default function AddModal() {
     setPhone(null);
     setAddress(null);
     setKind(null);
+    setCity(null);
+    setName(null);
   };
   const handleClose = () => {
     resetStates();
     dispatch(changeStatus(1));
   };
 
+  const handleAddLocation = async () => {
+    const schema = Yup.object().shape({
+      phone: Yup.string().required(),
+      address: Yup.string().required(),
+      city: Yup.string().required(),
+      kind: Yup.string().required(),
+      name: Yup.string().required(),
+    });
+
+    const location = { phone, address, city, kind, name };
+
+    if (!(await schema.isValid(location))) {
+      return Alert.alert('Maruska', 'Invalid or missing information!');
+    }
+    dispatch(addLocation(location));
+
+    handleClose();
+    resetStates();
+  };
+
+  const cityRef = useRef();
   const addressRef = useRef();
   const phoneRef = useRef();
 
@@ -91,10 +113,18 @@ export default function AddModal() {
                 <InputLabel>Clinic</InputLabel>
               </CheckHolder>
             </SelectorBox>
+            <InputLabel>Name</InputLabel>
+            <Input
+              onChangeText={setName}
+              returnKeyType="next"
+              onSubmitEditing={() => cityRef.current.focus()}
+              maxLength={20}
+            />
             <InputLabel>City</InputLabel>
             <Input
               onChangeText={setCity}
               returnKeyType="next"
+              ref={cityRef}
               onSubmitEditing={() => addressRef.current.focus()}
               maxLength={20}
             />
@@ -112,8 +142,9 @@ export default function AddModal() {
               maxLength={15}
               keyboardType="number-pad"
               returnKeyType="send"
+              onSubmitEditing={handleAddLocation}
             />
-            <Submit>
+            <Submit onPress={handleAddLocation}>
               <SubmitTitle>Add location</SubmitTitle>
             </Submit>
             <CancelHolder onPress={handleClose}>
@@ -125,10 +156,3 @@ export default function AddModal() {
     </Wrapper>
   );
 }
-
-AddModal.propTypes = {
-  visible: PropTypes.bool,
-};
-AddModal.defaultProps = {
-  visible: false,
-};

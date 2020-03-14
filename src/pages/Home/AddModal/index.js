@@ -54,7 +54,7 @@ export default function AddModal() {
   };
   const handleClose = () => {
     resetStates();
-    dispatch(changeStatus());
+    dispatch(changeStatus(0));
   };
 
   const handleAddPet = async () => {
@@ -277,10 +277,3 @@ export default function AddModal() {
     </Wrapper>
   );
 }
-
-AddModal.propTypes = {
-  visible: PropTypes.bool,
-};
-AddModal.defaultProps = {
-  visible: false,
-};
