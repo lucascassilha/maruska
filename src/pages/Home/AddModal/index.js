@@ -194,10 +194,10 @@ export default function AddModal() {
               </CheckHolder>
               <CheckHolder>
                 <Checkbox
-                  status={sex === '' ? 'checked' : 'unchecked'}
+                  status={sex === 'Other' ? 'checked' : 'unchecked'}
                   color="#eb3349"
                   uncheckedColor="#eb3349"
-                  onPress={() => setSex('')}
+                  onPress={() => setSex('Other')}
                 />
                 <Icon
                   name="gender-male-female"
