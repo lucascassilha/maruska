@@ -7,6 +7,11 @@ const INITIAL_STATE = {
 export default function places(state = INITIAL_STATE, action) {
   return produce(state, draft => {
     switch (action.type) {
+      case '@location/ADD': {
+        const { location } = action.payload;
+        draft.data.push(location);
+        break;
+      }
       default:
     }
   });

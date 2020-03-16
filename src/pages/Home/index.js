@@ -19,7 +19,7 @@ import {
 
 import logo from '~/assets/img/logo.png';
 
-export default function Home() {
+export default function Home({ navigation }) {
   const pets = useSelector(state => state.pets.data);
 
   const dispatch = useDispatch();
@@ -38,7 +38,7 @@ export default function Home() {
         data={pets}
         keyExtractor={item => item.name}
         renderItem={({ item }) => (
-          <Box>
+          <Box onPress={() => navigation.navigate('Pet', { pet: item })}>
             <PetImage />
             <TextHolder>
               <Name>{item.name}</Name>

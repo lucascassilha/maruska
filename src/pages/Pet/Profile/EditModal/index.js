@@ -42,7 +42,7 @@ export default function AddModal() {
   };
   const handleClose = () => {
     resetStates();
-    dispatch(changeStatus(1));
+    dispatch(changeStatus(2));
   };
 
   const handleAddLocation = async () => {
@@ -71,7 +71,7 @@ export default function AddModal() {
 
   return (
     <Wrapper
-      visible={visible[1]}
+      visible={visible[2]}
       transparent
       animationType="slide"
       onRequestClose={handleClose}

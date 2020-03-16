@@ -26,6 +26,10 @@ export default function Settings() {
           <Icon name="star" color="#fff" size={25} />
           <Label>Rate us</Label>
         </Button>
+        <Button>
+          <Icon name="thumb-up" color="#fff" size={25} />
+          <Label>Acknowledgments</Label>
+        </Button>
       </Box>
       <Version>2020 - v2.0.0</Version>
     </Container>
