@@ -1,6 +1,9 @@
 import React from 'react';
 import { StatusBar } from 'react-native';
 import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
+import changeStatus from '~/store/modules/modalVisible/actions';
+import EditModal from './EditModal';
 
 import {
   Container,
@@ -32,6 +35,12 @@ import pencil from '~/assets/img/pencil.png';
 
 export default function Profile({ route }) {
   const { pet } = route.params;
+
+  const dispatch = useDispatch();
+  const handleOpen = () => {
+    dispatch(changeStatus(2));
+  };
+
   const buttons = [
     {
       id: 0,
@@ -42,7 +51,12 @@ export default function Profile({ route }) {
     { id: 2, image: weight, colors: ['#CFDDFF', '#DAEBFB'] },
     { id: 3, image: doctor, colors: ['#FFF4CF', '#FFFDE7'] },
     { id: 4, image: camera, colors: ['#DCFFCF', '#EBFFE7'] },
-    { id: 5, image: pencil, colors: ['#F2F6FF', '#ECECEC'] },
+    {
+      id: 5,
+      image: pencil,
+      colors: ['#F2F6FF', '#ECECEC'],
+      onPress: handleOpen,
+    },
   ];
 
   return (
@@ -97,7 +111,7 @@ export default function Profile({ route }) {
           data={buttons}
           keyExtractor={item => item.id}
           renderItem={({ item }) => (
-            <ButtonHolder>
+            <ButtonHolder onPress={item.onPress}>
               <Gradient colors={item.colors}>
                 <ImageIcon source={item.image} />
               </Gradient>
