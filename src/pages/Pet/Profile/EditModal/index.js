@@ -1,11 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Checkbox } from 'react-native-paper';
 import { useSelector, useDispatch } from 'react-redux';
 import { Alert } from 'react-native';
+import DatePicker from 'react-native-date-picker';
 import * as Yup from 'yup';
+import PropTypes from 'prop-types';
 import changeStatus from '~/store/modules/modalVisible/actions';
-import addLocation from '~/store/modules/places/actions';
+import { editPet } from '~/store/modules/pets/actions';
 
 import {
   Wrapper,
@@ -14,60 +15,70 @@ import {
   Scroll,
   Title,
   InputLabel,
-  SelectorBox,
   Input,
   CheckHolder,
   Submit,
   SubmitTitle,
   CancelHolder,
   CancelLabel,
+  DateHolder,
+  Instruction,
 } from './styles';
 
-export default function AddModal() {
+export default function EditPet({ petInformation, navigation }) {
   const visible = useSelector(state => state.modal);
 
-  const [city, setCity] = useState(null);
-  const [name, setName] = useState(null);
-  const [kind, setKind] = useState(null);
-  const [address, setAddress] = useState(null);
-  const [phone, setPhone] = useState(null);
+  const [breed, setBreed] = useState(petInformation.breed || null);
+  const [chip, setChip] = useState(petInformation.chip || null);
+  const [date, setDate] = useState(petInformation.originalDate);
+  const [years, setYears] = useState(petInformation.originalYears || null);
+  const [months, setMonths] = useState(petInformation.originalMonths || null);
+
+  const [undefDate, setUndef] = useState(false);
+
+  useEffect(() => {
+    if (petInformation.originalYears) {
+      setUndef(true);
+    }
+  }, [years]);
+
   const dispatch = useDispatch();
 
-  const resetStates = () => {
-    setPhone(null);
-    setAddress(null);
-    setKind(null);
-    setCity(null);
-    setName(null);
-  };
   const handleClose = () => {
-    resetStates();
     dispatch(changeStatus(2));
   };
 
-  const handleAddLocation = async () => {
+  const handleEditPet = async () => {
     const schema = Yup.object().shape({
-      phone: Yup.string().required(),
-      address: Yup.string().required(),
-      city: Yup.string().required(),
-      kind: Yup.string().required(),
-      name: Yup.string().required(),
+      chip: Yup.string().nullable(),
+      breed: Yup.string().nullable(),
+      years: Yup.number()
+        .positive()
+        .nullable(),
+      months: Yup.number()
+        .max(12)
+        .positive()
+        .nullable(),
+      date: Yup.string(),
     });
 
-    const location = { phone, address, city, kind, name };
+    const pet = { breed, chip, date, years, months, name: petInformation.name };
 
-    if (!(await schema.isValid(location))) {
+    if (!(await schema.isValid(pet))) {
       return Alert.alert('Maruska', 'Invalid or missing information!');
     }
-    dispatch(addLocation(location));
+    dispatch(editPet(pet));
 
     handleClose();
-    resetStates();
+    Alert.alert(
+      'Maruska',
+      'Please open the pet screen again to see the changes!'
+    );
   };
 
-  const cityRef = useRef();
-  const addressRef = useRef();
-  const phoneRef = useRef();
+  const monthRef = useRef();
+  const chipRef = useRef();
+  const breedRef = useRef();
 
   return (
     <Wrapper
@@ -79,73 +90,69 @@ export default function AddModal() {
       <Container>
         <Box>
           <Scroll showsVerticalScrollIndicator={false}>
-            <Title>Add a location </Title>
-            <InputLabel>Kind</InputLabel>
-            <SelectorBox>
-              <CheckHolder>
-                <Checkbox
-                  status={kind === 'PetShop' ? 'checked' : 'unchecked'}
-                  color="#eb3349"
-                  uncheckedColor="#eb3349"
-                  onPress={() => setKind('PetShop')}
+            <Title>Edit pet </Title>
+            <InputLabel>Change the birth date</InputLabel>
+            <DateHolder disabled={undefDate}>
+              <DatePicker
+                date={date}
+                onDateChange={setDate}
+                mode="date"
+                maximumDate={new Date()}
+                locale="en"
+              />
+            </DateHolder>
+            <CheckHolder>
+              <Checkbox
+                status={undefDate ? 'checked' : 'unchecked'}
+                onPress={() => setUndef(!undefDate)}
+                color="#eb3349"
+                uncheckedColor="#eb3349"
+              />
+              <InputLabel>I do not know the exact date</InputLabel>
+            </CheckHolder>
+            {undefDate ? (
+              <>
+                <Instruction>Then please input an approximate date</Instruction>
+                <InputLabel>Years</InputLabel>
+                <Input
+                  value={years}
+                  keyboardType="number-pad"
+                  maxLength={2}
+                  onChangeText={setYears}
+                  onSubmitEditing={() => monthRef.current.focus()}
+                  returnKeyType="next"
                 />
-                <Icon
-                  name="bone"
-                  color="#eb3349"
-                  size={25}
-                  style={{ marginRight: 5 }}
+                <InputLabel>Months</InputLabel>
+                <Input
+                  value={months}
+                  keyboardType="number-pad"
+                  maxLength={2}
+                  ref={monthRef}
+                  onChangeText={setMonths}
+                  onSubmitEditing={() => breedRef.current.focus()}
+                  returnKeyType="next"
                 />
-                <InputLabel>Pet Shop</InputLabel>
-              </CheckHolder>
-              <CheckHolder>
-                <Checkbox
-                  color="#eb3349"
-                  uncheckedColor="#eb3349"
-                  status={kind === 'Clinic' ? 'checked' : 'unchecked'}
-                  onPress={() => setKind('Clinic')}
-                />
-                <Icon
-                  name="hospital"
-                  color="#eb3349"
-                  size={25}
-                  style={{ marginRight: 5 }}
-                />
-                <InputLabel>Clinic</InputLabel>
-              </CheckHolder>
-            </SelectorBox>
-            <InputLabel>Name</InputLabel>
+              </>
+            ) : null}
+            <InputLabel>Breed</InputLabel>
             <Input
-              onChangeText={setName}
+              value={breed}
+              onChangeText={setBreed}
               returnKeyType="next"
-              onSubmitEditing={() => cityRef.current.focus()}
+              ref={breedRef}
+              onSubmitEditing={() => chipRef.current.focus()}
               maxLength={20}
             />
-            <InputLabel>City</InputLabel>
+            <InputLabel>Chip number</InputLabel>
             <Input
-              onChangeText={setCity}
-              returnKeyType="next"
-              ref={cityRef}
-              onSubmitEditing={() => addressRef.current.focus()}
-              maxLength={20}
-            />
-            <InputLabel>Address</InputLabel>
-            <Input
-              onChangeText={setAddress}
-              ref={addressRef}
-              onSubmitEditing={() => phoneRef.current.focus()}
-              returnKeyType="next"
-            />
-            <InputLabel>Phone Number</InputLabel>
-            <Input
-              onChangeText={setPhone}
-              ref={phoneRef}
-              maxLength={15}
-              keyboardType="number-pad"
+              value={chip}
+              onChangeText={setChip}
+              ref={chipRef}
               returnKeyType="send"
-              onSubmitEditing={handleAddLocation}
+              onSubmitEditing={handleEditPet}
             />
-            <Submit onPress={handleAddLocation}>
-              <SubmitTitle>Add location</SubmitTitle>
+            <Submit onPress={handleEditPet}>
+              <SubmitTitle>Edit pet</SubmitTitle>
             </Submit>
             <CancelHolder onPress={handleClose}>
               <CancelLabel>Cancel</CancelLabel>
@@ -156,3 +163,8 @@ export default function AddModal() {
     </Wrapper>
   );
 }
+
+EditPet.propTypes = {
+  petInformation: PropTypes.oneOfType([PropTypes.array, PropTypes.object])
+    .isRequired,
+};

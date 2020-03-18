@@ -62,6 +62,7 @@ export default function Profile({ route }) {
   return (
     <Container>
       <StatusBar backgroundColor="#eb3349" barStyle="light-content" />
+      <EditModal petInformation={pet} />
       <PetInfo>
         <Header>
           <Avatar
@@ -87,8 +88,8 @@ export default function Profile({ route }) {
               <Info>{pet.lastVaccine || '--/--/--'}</Info>
             </InfoTextHolder>
             <InfoTextHolder>
-              <Label>Last apointment</Label>
-              <Info>{pet.lastApoint || '--/--/--'}</Info>
+              <Label>Last appointment</Label>
+              <Info>{pet.lastAppoint || '--/--/--'}</Info>
             </InfoTextHolder>
           </TextLine>
           <TextLine>

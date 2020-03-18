@@ -11,6 +11,7 @@ export default function modal(state = [false, false, false], action) {
       if (id === 2) {
         return [false, false, !state[id]];
       }
+      return [false, false, false];
     }
     default: {
       return state;

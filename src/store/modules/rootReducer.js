@@ -5,4 +5,9 @@ import places from './places/reducer';
 import notifications from './notifications/reducer';
 import modal from './modalVisible/reducer';
 
-export default combineReducers({ pets, places, notifications, modal });
+export default combineReducers({
+  pets,
+  places,
+  notifications,
+  modal,
+});

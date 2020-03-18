@@ -7,7 +7,7 @@ import { Alert } from 'react-native';
 import DatePicker from 'react-native-date-picker';
 import * as Yup from 'yup';
 import changeStatus from '~/store/modules/modalVisible/actions';
-import addPet from '~/store/modules/pets/actions';
+import { addPet } from '~/store/modules/pets/actions';
 
 import {
   Wrapper,
