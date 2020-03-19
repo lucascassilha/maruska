@@ -78,6 +78,16 @@ export default function pets(state = INITIAL_STATE, action) {
         }
         break;
       }
+      case '@pet/PICTURE': {
+        const { image, petID } = action.payload;
+        const petData = draft.data;
+
+        const petIndex = petData.findIndex(item => item.name === petID);
+        if (petIndex >= 0) {
+          draft.data[petIndex].avatar = image;
+        }
+        break;
+      }
       default:
     }
   });

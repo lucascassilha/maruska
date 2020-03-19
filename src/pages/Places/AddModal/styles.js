@@ -28,15 +28,16 @@ export const Scroll = styled.ScrollView.attrs({
 export const Title = styled.Text`
   font-size: 24px;
   color: #eb3349;
-  font-weight: bold;
   margin-bottom: 20px;
   text-align: center;
+  font-family: 'OpenSans-Bold';
 `;
 
 export const InputLabel = styled.Text`
   color: #eb3349;
   font-size: 14px;
   text-align: left;
+  font-family: 'OpenSans-Regular';
 `;
 
 export const SelectorBox = styled.View``;
@@ -66,7 +67,7 @@ export const Submit = styled.TouchableOpacity`
 `;
 export const SubmitTitle = styled.Text`
   font-size: 16px;
-  font-weight: bold;
+  font-family: 'OpenSans-Bold';
   color: #fff;
 `;
 
@@ -78,6 +79,6 @@ export const CancelHolder = styled.TouchableOpacity`
 
 export const CancelLabel = styled.Text`
   color: #eb3349;
-  font-weight: bold;
+  font-family: 'OpenSans-Bold';
   text-decoration: underline;
 `;

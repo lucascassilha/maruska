@@ -6,6 +6,8 @@ import PropTypes from 'prop-types';
 
 import Home from '~/pages/Home/index';
 import Profile from '~/pages/Pet/Profile/index';
+import Avatar from '~/pages/Pet/Avatar/index';
+import Health from '~/pages/Pet/Health/index';
 import Notifications from '~/pages/Notifications/index';
 import Places from '~/pages/Places/index';
 import Settings from '~/pages/Settings/index';
@@ -41,10 +43,67 @@ function Pet() {
           resetOnBlur: true,
           headerTitleStyle: {
             color: '#fff',
-            fontSize: 22,
-            fontWeight: 'bold',
+            fontSize: 20,
+            fontFamily: 'OpenSans-Bold',
           },
-
+          headerBackImage: () => {
+            return <Icon name="chevron-left" color="#fff" size={25} />;
+          },
+        })}
+      />
+      <Stack.Screen
+        name="Avatar"
+        component={Avatar}
+        options={({ route }) => ({
+          title: 'Choose a picture!',
+          headerStyle: {
+            backgroundColor: '#eb3349',
+            shadowColor: 'rgba(0,0,0,0)',
+            shadowOpacity: 0,
+            shadowOffset: {
+              height: 0,
+            },
+            shadowRadius: 0,
+            elevation: 0,
+          },
+          headerBackTitleStyle: null,
+          headerTintColor: '#fff',
+          headerTitleAlign: 'center',
+          resetOnBlur: true,
+          headerTitleStyle: {
+            color: '#fff',
+            fontSize: 20,
+            fontFamily: 'OpenSans-Bold',
+          },
+          headerBackImage: () => {
+            return <Icon name="chevron-left" color="#fff" size={25} />;
+          },
+        })}
+      />
+      <Stack.Screen
+        name="Health"
+        component={Health}
+        options={({ route }) => ({
+          title: 'Pet Health',
+          headerStyle: {
+            backgroundColor: '#eb3349',
+            shadowColor: 'rgba(0,0,0,0)',
+            shadowOpacity: 0,
+            shadowOffset: {
+              height: 0,
+            },
+            shadowRadius: 0,
+            elevation: 0,
+          },
+          headerBackTitleStyle: null,
+          headerTintColor: '#fff',
+          headerTitleAlign: 'center',
+          resetOnBlur: true,
+          headerTitleStyle: {
+            color: '#fff',
+            fontSize: 20,
+            fontFamily: 'OpenSans-Bold',
+          },
           headerBackImage: () => {
             return <Icon name="chevron-left" color="#fff" size={25} />;
           },
@@ -69,6 +128,9 @@ export default function Routes() {
         name="Pets"
         component={Pet}
         options={{
+          titleStyle: {
+            fontFamily: 'OpenSans-Regular',
+          },
           tabBarIcon: ({ color }) => (
             <Icon name="paw" size={25} color={color} />
           ),
@@ -78,6 +140,9 @@ export default function Routes() {
         name="Places"
         component={Places}
         options={{
+          titleStyle: {
+            fontFamily: 'OpenSans-Regular',
+          },
           tabBarIcon: ({ color }) => (
             <Icon name="home" size={25} color={color} />
           ),
@@ -87,6 +152,9 @@ export default function Routes() {
         name="Notifications"
         component={Notifications}
         options={{
+          titleStyle: {
+            fontFamily: 'OpenSans-Regular',
+          },
           tabBarIcon: ({ color }) => (
             <Icon name="bell" size={25} color={color} />
           ),
@@ -96,6 +164,9 @@ export default function Routes() {
         name="Settings"
         component={Settings}
         options={{
+          titleStyle: {
+            fontFamily: 'OpenSans-Regular',
+          },
           tabBarIcon: ({ color }) => (
             <Icon name="settings" size={25} color={color} />
           ),

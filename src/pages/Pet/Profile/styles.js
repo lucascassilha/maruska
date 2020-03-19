@@ -31,6 +31,7 @@ export const Avatar = styled.Image`
   background-color: #fff;
   margin-bottom: 10px;
   margin-top: -10px;
+  opacity: ${props => (props.nullImage ? 1 : 0.3)};
 `;
 
 export const InfoHolder = styled.View`
@@ -46,19 +47,20 @@ export const TextLine = styled.View``;
 
 export const Label = styled.Text`
   color: #fff;
+  font-family: 'OpenSans-Regular';
   font-size: 12px;
 `;
 
 export const Info = styled.Text`
-  font-size: 18px;
+  font-size: 16px;
   color: #fff;
-  font-weight: bold;
+  font-family: 'OpenSans-Bold';
 `;
 
 export const MenuTitle = styled.Text`
-  font-weight: bold;
+  font-family: 'OpenSans-Regular';
   color: #eb3349;
-  font-size: 18px;
+  font-size: 20px;
   margin-top: 20px;
   margin-left: 30px;
 `;
@@ -66,23 +68,6 @@ export const MenuTitle = styled.Text`
 export const EmergencyHolder = styled.View`
   margin-top: 5px;
   padding: 0px 30px;
-`;
-
-export const EmergencyButton = styled(RectButton)`
-  align-items: center;
-  justify-content: center;
-  align-self: stretch;
-  background-color: #eb3349;
-  border-radius: 4px;
-  padding: 15px;
-  margin-top: 10px;
-  margin-bottom: 5px;
-`;
-
-export const EmergencyLabel = styled.Text`
-  font-weight: bold;
-  color: #fff;
-  font-size: 16px;
 `;
 
 export const MenuHolder = styled.FlatList``;

@@ -7,6 +7,7 @@ import * as Yup from 'yup';
 import PropTypes from 'prop-types';
 import changeStatus from '~/store/modules/modalVisible/actions';
 import { editPet } from '~/store/modules/pets/actions';
+import Button from '~/components/Button/index';
 
 import {
   Wrapper,
@@ -151,9 +152,7 @@ export default function EditPet({ petInformation, navigation }) {
               returnKeyType="send"
               onSubmitEditing={handleEditPet}
             />
-            <Submit onPress={handleEditPet}>
-              <SubmitTitle>Edit pet</SubmitTitle>
-            </Submit>
+            <Button onPress={handleEditPet} title="Edit pet" />
             <CancelHolder onPress={handleClose}>
               <CancelLabel>Cancel</CancelLabel>
             </CancelHolder>

@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import changeStatus from '~/store/modules/modalVisible/actions';
 import EditModal from './EditModal';
+import Button from '~/components/Button/index';
 
 import {
   Container,
@@ -18,8 +19,6 @@ import {
   Info,
   MenuTitle,
   EmergencyHolder,
-  EmergencyButton,
-  EmergencyLabel,
   MenuHolder,
   ButtonHolder,
   Gradient,
@@ -33,7 +32,7 @@ import doctor from '~/assets/img/doctor.png';
 import camera from '~/assets/img/camera.png';
 import pencil from '~/assets/img/pencil.png';
 
-export default function Profile({ route }) {
+export default function Profile({ route, navigation }) {
   const { pet } = route.params;
 
   const dispatch = useDispatch();
@@ -49,8 +48,22 @@ export default function Profile({ route }) {
     },
     { id: 1, image: pill, colors: ['#CFFFF4', '#DAFBF3'] },
     { id: 2, image: weight, colors: ['#CFDDFF', '#DAEBFB'] },
-    { id: 3, image: doctor, colors: ['#FFF4CF', '#FFFDE7'] },
-    { id: 4, image: camera, colors: ['#DCFFCF', '#EBFFE7'] },
+    {
+      id: 3,
+      image: doctor,
+      colors: ['#FFF4CF', '#FFFDE7'],
+      onPress: () => {
+        navigation.navigate('Health', { petID: pet.name });
+      },
+    },
+    {
+      id: 4,
+      image: camera,
+      colors: ['#DCFFCF', '#EBFFE7'],
+      onPress: () => {
+        navigation.navigate('Avatar', { petID: pet.name });
+      },
+    },
     {
       id: 5,
       image: pencil,
@@ -66,9 +79,10 @@ export default function Profile({ route }) {
       <PetInfo>
         <Header>
           <Avatar
-            source={{
-              uri: 'https://api.adorable.io/avatars/95/abott@adorable.png',
-            }}
+            nullImage={pet.avatar}
+            source={
+              pet.avatar ? { uri: `data:image/*;base64,${pet.avatar}` } : null
+            }
           />
         </Header>
         <InfoHolder>
@@ -121,12 +135,8 @@ export default function Profile({ route }) {
         />
         <MenuTitle>Emergency Menu</MenuTitle>
         <EmergencyHolder>
-          <EmergencyButton>
-            <EmergencyLabel>Lost my pet!</EmergencyLabel>
-          </EmergencyButton>
-          <EmergencyButton>
-            <EmergencyLabel>Call my clinic!</EmergencyLabel>
-          </EmergencyButton>
+          <Button title="Lost my pet!" />
+          <Button title="Call my Clinic!" />
         </EmergencyHolder>
       </PetMenu>
     </Container>
@@ -135,4 +145,6 @@ export default function Profile({ route }) {
 
 Profile.propTypes = {
   route: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
+  navigation: PropTypes.oneOfType([PropTypes.object, PropTypes.array])
+    .isRequired,
 };

@@ -25,13 +25,14 @@ export const TextHolder = styled.View``;
 
 export const Name = styled.Text`
   font-size: 24px;
-  font-weight: bold;
+  font-family: 'OpenSans-Bold';
   color: #fff;
 `;
 
 export const Info = styled.Text`
   font-size: 14px;
   color: #fff;
+  font-family: 'OpenSans-Regular';
 `;
 
 export const ButtonHolder = styled.View`

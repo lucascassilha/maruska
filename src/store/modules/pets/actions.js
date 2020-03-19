@@ -11,3 +11,10 @@ export function editPet(pet) {
     payload: { pet },
   };
 }
+
+export function editPicture(image, petID) {
+  return {
+    type: '@pet/PICTURE',
+    payload: { image, petID },
+  };
+}

@@ -1,5 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState, useRef } from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Checkbox } from 'react-native-paper';
 import { useSelector, useDispatch } from 'react-redux';
@@ -8,6 +7,7 @@ import DatePicker from 'react-native-date-picker';
 import * as Yup from 'yup';
 import changeStatus from '~/store/modules/modalVisible/actions';
 import { addPet } from '~/store/modules/pets/actions';
+import Button from '~/components/Button/index';
 
 import {
   Wrapper,
@@ -19,8 +19,6 @@ import {
   SelectorBox,
   Input,
   CheckHolder,
-  Submit,
-  SubmitTitle,
   CancelHolder,
   Instruction,
   CancelLabel,
@@ -265,9 +263,7 @@ export default function AddModal() {
               returnKeyType="send"
               onSubmitEditing={handleAddPet}
             />
-            <Submit onPress={handleAddPet}>
-              <SubmitTitle>Add pet</SubmitTitle>
-            </Submit>
+            <Button title="Add pet" onPress={handleAddPet} />
             <CancelHolder onPress={handleClose}>
               <CancelLabel>Cancel</CancelLabel>
             </CancelHolder>

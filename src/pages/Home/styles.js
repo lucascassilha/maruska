@@ -24,7 +24,8 @@ export const PetImage = styled.Image`
   height: 100px;
   width: 100px;
   border-radius: 50px;
-  background-color: #333;
+  background-color: #fff;
+  opacity: ${props => (props.nullImage ? 1 : 0.3)};
 `;
 
 export const TextHolder = styled.View`
@@ -34,11 +35,12 @@ export const TextHolder = styled.View`
 
 export const Name = styled.Text`
   font-size: 22px;
-  font-weight: bold;
+  font-family: 'OpenSans-Bold';
   color: #fff;
 `;
 
 export const Info = styled.Text`
   font-size: 14px;
   color: #fff;
+  font-family: 'OpenSans-Regular';
 `;

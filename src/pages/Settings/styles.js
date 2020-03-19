@@ -24,12 +24,12 @@ export const Button = styled.TouchableOpacity`
 export const Label = styled.Text`
   font-size: 18px;
   color: #fff;
-  font-weight: bold;
+  font-family: 'OpenSans-Bold';
   margin-left: 5px;
 `;
 
 export const Version = styled.Text`
   margin-top: 10px;
   font-size: 16px;
-  font-weight: bold;
+  font-family: 'OpenSans-Bold';
 `;

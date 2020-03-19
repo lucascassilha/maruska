@@ -28,7 +28,7 @@ export const Scroll = styled.ScrollView.attrs({
 export const Title = styled.Text`
   font-size: 24px;
   color: #eb3349;
-  font-weight: bold;
+  font-family: 'OpenSans-Bold';
   margin-bottom: 20px;
   text-align: center;
 `;
@@ -37,6 +37,7 @@ export const InputLabel = styled.Text`
   color: #eb3349;
   font-size: 14px;
   text-align: left;
+  font-family: 'OpenSans-Bold';
 `;
 
 export const SelectorBox = styled.View``;
@@ -55,26 +56,13 @@ export const Input = styled.TextInput`
   margin-bottom: 20px;
   padding: 8px 15px;
   color: #fff;
+  font-family: 'OpenSans-Regular';
 `;
 
 export const CheckHolder = styled.View`
   align-items: center;
   flex-direction: row;
   margin-bottom: 20px;
-`;
-
-export const Submit = styled.TouchableOpacity`
-  align-self: stretch;
-  background-color: #eb3349;
-  padding: 10px;
-  border-radius: 4px;
-  align-items: center;
-  margin: 10px 0px;
-`;
-export const SubmitTitle = styled.Text`
-  font-size: 16px;
-  font-weight: bold;
-  color: #fff;
 `;
 
 export const CancelHolder = styled.TouchableOpacity`
@@ -86,13 +74,13 @@ export const CancelHolder = styled.TouchableOpacity`
 export const Instruction = styled.Text`
   color: #eb3349;
   text-align: center;
-  font-weight: bold;
+  font-family: 'OpenSans-Bold';
   font-size: 16px;
   margin: 10px 0px;
 `;
 
 export const CancelLabel = styled.Text`
   color: #eb3349;
-  font-weight: bold;
+  font-family: 'OpenSans-Bold';
   text-decoration: underline;
 `;

@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { StatusBar } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
 import Maruska from '~/components/MaruskaLogo/index';
 import changeStatus from '~/store/modules/modalVisible/actions';
 import Modal from './AddModal/index';
@@ -39,7 +40,14 @@ export default function Home({ navigation }) {
         keyExtractor={item => item.name}
         renderItem={({ item }) => (
           <Box onPress={() => navigation.navigate('Pet', { pet: item })}>
-            <PetImage />
+            <PetImage
+              nullImage={item.avatar}
+              source={
+                item.avatar
+                  ? { uri: `data:image/*;base64,${item.avatar}` }
+                  : null
+              }
+            />
             <TextHolder>
               <Name>{item.name}</Name>
               <Info>{`${item.sex} ${item.breed ? item.breed : ''}`}</Info>
@@ -51,3 +59,8 @@ export default function Home({ navigation }) {
     </Container>
   );
 }
+
+Home.propTypes = {
+  navigation: PropTypes.oneOfType([PropTypes.object, PropTypes.array])
+    .isRequired,
+};

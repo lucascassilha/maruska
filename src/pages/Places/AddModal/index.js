@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Checkbox } from 'react-native-paper';
 import { useSelector, useDispatch } from 'react-redux';
@@ -6,6 +6,7 @@ import { Alert } from 'react-native';
 import * as Yup from 'yup';
 import changeStatus from '~/store/modules/modalVisible/actions';
 import addLocation from '~/store/modules/places/actions';
+import Button from '~/components/Button/index';
 
 import {
   Wrapper,
@@ -144,9 +145,7 @@ export default function AddModal() {
               returnKeyType="send"
               onSubmitEditing={handleAddLocation}
             />
-            <Submit onPress={handleAddLocation}>
-              <SubmitTitle>Add location</SubmitTitle>
-            </Submit>
+            <Button onPress={handleAddLocation} title="Add location" />
             <CancelHolder onPress={handleClose}>
               <CancelLabel>Cancel</CancelLabel>
             </CancelHolder>
