@@ -18,3 +18,24 @@ export function editPicture(image, petID) {
     payload: { image, petID },
   };
 }
+
+export function petAppointment(appointment, petID) {
+  return {
+    type: '@pet/APPOINTMENT',
+    payload: { appointment, petID },
+  };
+}
+
+export function petSurgery(surgery, petID) {
+  return {
+    type: '@pet/SURGERY',
+    payload: { surgery, petID },
+  };
+}
+
+export function petProblem(problem, petID) {
+  return {
+    type: '@pet/PROBLEM',
+    payload: { problem, petID },
+  };
+}

@@ -9,6 +9,9 @@ import Profile from '~/pages/Pet/Profile/index';
 import Avatar from '~/pages/Pet/Avatar/index';
 import Health from '~/pages/Pet/Health/index';
 import DocAdd from '~/pages/Pet/HealthAdd/Doctor/index';
+import AppointAdd from '~/pages/Pet/HealthAdd/Appointments/index';
+import SurgeryAdd from '~/pages/Pet/HealthAdd/Surgeries/index';
+import ProblemAdd from '~/pages/Pet/HealthAdd/Problems/index';
 import Weight from '~/pages/Pet/Weight/index';
 import Vaccines from '~/pages/Pet/Vaccines/index';
 import Medications from '~/pages/Pet/Medications/index';
@@ -51,7 +54,7 @@ function Pet() {
       <Stack.Screen
         name="Avatar"
         component={Avatar}
-        options={({ route }) => ({
+        options={() => ({
           title: 'Choose a picture!',
           headerStyle: {
             backgroundColor: '#eb3349',
@@ -73,7 +76,7 @@ function Pet() {
       <Stack.Screen
         name="Health"
         component={Health}
-        options={({ route }) => ({
+        options={() => ({
           title: 'Pet Health',
           headerStyle: {
             backgroundColor: '#eb3349',
@@ -95,8 +98,74 @@ function Pet() {
       <Stack.Screen
         name="DocAdd"
         component={DocAdd}
-        options={({ route }) => ({
+        options={() => ({
           title: `New Vet`,
+          headerStyle: {
+            backgroundColor: '#eb3349',
+          },
+          headerBackTitleStyle: null,
+          headerTintColor: '#fff',
+          headerTitleAlign: 'center',
+          resetOnBlur: true,
+          headerTitleStyle: {
+            color: '#fff',
+            fontSize: 20,
+            fontFamily: 'OpenSans-Bold',
+          },
+          headerBackImage: () => {
+            return <Icon name="chevron-left" color="#fff" size={25} />;
+          },
+        })}
+      />
+      <Stack.Screen
+        name="AppointAdd"
+        component={AppointAdd}
+        options={({ route }) => ({
+          title: `New Appointment`,
+          headerStyle: {
+            backgroundColor: '#eb3349',
+          },
+          headerBackTitleStyle: null,
+          headerTintColor: '#fff',
+          headerTitleAlign: 'center',
+          resetOnBlur: true,
+          headerTitleStyle: {
+            color: '#fff',
+            fontSize: 20,
+            fontFamily: 'OpenSans-Bold',
+          },
+          headerBackImage: () => {
+            return <Icon name="chevron-left" color="#fff" size={25} />;
+          },
+        })}
+      />
+      <Stack.Screen
+        name="SurgeryAdd"
+        component={SurgeryAdd}
+        options={() => ({
+          title: `Register Surgery`,
+          headerStyle: {
+            backgroundColor: '#eb3349',
+          },
+          headerBackTitleStyle: null,
+          headerTintColor: '#fff',
+          headerTitleAlign: 'center',
+          resetOnBlur: true,
+          headerTitleStyle: {
+            color: '#fff',
+            fontSize: 20,
+            fontFamily: 'OpenSans-Bold',
+          },
+          headerBackImage: () => {
+            return <Icon name="chevron-left" color="#fff" size={25} />;
+          },
+        })}
+      />
+      <Stack.Screen
+        name="ProblemAdd"
+        component={ProblemAdd}
+        options={() => ({
+          title: `Register Problem`,
           headerStyle: {
             backgroundColor: '#eb3349',
           },
@@ -117,7 +186,7 @@ function Pet() {
       <Stack.Screen
         name="Weight"
         component={Weight}
-        options={({ route }) => ({
+        options={() => ({
           title: 'Weight Control',
           headerStyle: {
             backgroundColor: '#eb3349',
@@ -139,7 +208,7 @@ function Pet() {
       <Stack.Screen
         name="Vaccines"
         component={Vaccines}
-        options={({ route }) => ({
+        options={() => ({
           title: 'Vaccination Card',
           headerStyle: {
             backgroundColor: '#eb3349',
@@ -161,7 +230,7 @@ function Pet() {
       <Stack.Screen
         name="Medications"
         component={Medications}
-        options={({ route }) => ({
+        options={() => ({
           title: 'Medications',
           headerStyle: {
             backgroundColor: '#eb3349',

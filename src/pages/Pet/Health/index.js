@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { useSelector } from 'react-redux';
 import { Linking } from 'react-native';
+import PropTypes from 'prop-types';
 
 import {
   Container,
@@ -17,29 +18,17 @@ import {
   DateBox,
   DateLabel,
   ButtonBoxSmall,
-  TitleInput,
-  LabelInput,
-  ExtraHolder,
-  ExtraLabel,
-  ExtraInput,
 } from './styles';
 
 export default function Health({ route, navigation }) {
   const { petID } = route.params;
 
   const doctors = useSelector(state => state.doctors.data);
-  const [appointments, setAppointments] = useState([
-    { id: 1 },
-    { id: 2 },
-    { id: 3 },
-  ]);
-  const [surgeries, setSurgeries] = useState([{ id: 1 }, { id: 2 }, { id: 3 }]);
-  const [title, setTitle] = useState('Name');
+  const pets = useSelector(state => state.pets.data);
+  const [appointments, setAppointments] = useState([]);
+  const [surgeries, setSurgeries] = useState([]);
+  const [problems, setProblems] = useState([]);
   const [docList, setDocList] = useState([]);
-
-  const handleOpen = type => {
-    navigation.navigate('HealthAdd', { petID, type });
-  };
 
   useEffect(() => {
     const docs = doctors.map(item => {
@@ -52,6 +41,19 @@ export default function Health({ route, navigation }) {
       setDocList(docs);
     }
   }, [doctors]);
+
+  useEffect(() => {
+    const petIndex = pets.findIndex(item => item.name === petID);
+    if (pets[petIndex].appointments && pets[petIndex].appointments[0]) {
+      setAppointments(pets[petIndex].appointments);
+    }
+    if (pets[petIndex].surgeries && pets[petIndex].surgeries[0]) {
+      setSurgeries(pets[petIndex].surgeries);
+    }
+    if (pets[petIndex].problems && pets[petIndex].problems[0]) {
+      setProblems(pets[petIndex].problems);
+    }
+  }, [pets]);
 
   useEffect(() => {
     console.log('loaded!');
@@ -94,21 +96,23 @@ export default function Health({ route, navigation }) {
       <TitleBox>
         <Title>Appointments</Title>
         <ButtonBox>
-          <IconHolder onPress={() => handleOpen('Appointment')}>
+          <IconHolder
+            onPress={() => navigation.navigate('AppointAdd', { petID })}
+          >
             <Icon name="plus" color="#eb3349" size={20} />
           </IconHolder>
         </ButtonBox>
       </TitleBox>
       <List
         data={appointments}
-        keyExtractor={item => item.id}
+        keyExtractor={item => item.date}
         renderItem={({ item }) => (
           <Box>
             <TextBox>
-              <LabelTitle>Animal Clinic</LabelTitle>
-              <LabelSubtitle>Doutor Estranho</LabelSubtitle>
+              <LabelTitle>{item.clinic}</LabelTitle>
+              <LabelSubtitle>{item.doctor}</LabelSubtitle>
               <DateBox>
-                <DateLabel>13/05/2000 - 14:00</DateLabel>
+                <DateLabel>{`${item.day} - ${item.time}`}</DateLabel>
               </DateBox>
             </TextBox>
             <ButtonBox>
@@ -125,7 +129,9 @@ export default function Health({ route, navigation }) {
       <TitleBox>
         <Title>Surgeries</Title>
         <ButtonBox>
-          <IconHolder>
+          <IconHolder
+            onPress={() => navigation.navigate('SurgeryAdd', { petID })}
+          >
             <Icon name="plus" color="#eb3349" size={20} />
           </IconHolder>
         </ButtonBox>
@@ -136,10 +142,10 @@ export default function Health({ route, navigation }) {
         renderItem={({ item }) => (
           <Box>
             <TextBox>
-              <LabelTitle>Castration</LabelTitle>
-              <LabelSubtitle>Animal Clinic</LabelSubtitle>
+              <LabelTitle>{item.name || ''}</LabelTitle>
+              <LabelSubtitle>{item.clinic}</LabelSubtitle>
               <DateBox>
-                <DateLabel>13/05/2000</DateLabel>
+                <DateLabel>{item.day}</DateLabel>
               </DateBox>
             </TextBox>
             <ButtonBoxSmall>
@@ -153,23 +159,22 @@ export default function Health({ route, navigation }) {
       <TitleBox>
         <Title>Problems</Title>
         <ButtonBox>
-          <IconHolder>
+          <IconHolder
+            onPress={() => navigation.navigate('ProblemAdd', { petID })}
+          >
             <Icon name="plus" color="#eb3349" size={20} />
           </IconHolder>
         </ButtonBox>
       </TitleBox>
       <List
-        data={surgeries}
-        keyExtractor={item => item.id}
+        data={problems}
+        keyExtractor={item => item.description}
         renderItem={({ item }) => (
           <Box>
             <TextBox>
-              <LabelTitle>Epilepsy</LabelTitle>
-              <LabelSubtitle>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce
-                maximus lacus vitae viverra ultricies. Lorem ipsum dolor sit
-                amet, consectetur adipiscing elit.
-              </LabelSubtitle>
+              <LabelTitle>{item.title}</LabelTitle>
+              <LabelSubtitle>{`${item.day} - ${item.time}`}</LabelSubtitle>
+              <LabelSubtitle>{item.description}</LabelSubtitle>
             </TextBox>
             <ButtonBoxSmall>
               <IconHolder>
@@ -182,3 +187,9 @@ export default function Health({ route, navigation }) {
     </Container>
   );
 }
+
+Health.propTypes = {
+  route: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
+  navigation: PropTypes.oneOfType([PropTypes.object, PropTypes.array])
+    .isRequired,
+};

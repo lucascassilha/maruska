@@ -75,23 +75,3 @@ export const DateBox = styled.View``;
 export const DateLabel = styled.Text`
   color: #fff;
 `;
-
-export const TitleInput = styled.TextInput`
-  font-family: 'OpenSans-Bold';
-  color: #fff;
-  font-size: 16px;
-  height: 40px;
-`;
-
-export const LabelInput = styled.TextInput`
-  font-family: 'OpenSans-Regular';
-  color: #fff;
-  font-size: 14px;
-  height: 40px;
-`;
-
-export const ExtraHolder = styled.View``;
-
-export const ExtraLabel = styled.Text``;
-
-export const ExtraInput = styled.TextInput``;

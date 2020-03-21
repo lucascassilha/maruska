@@ -1,54 +1,47 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { Picker, Alert } from 'react-native';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import * as Yup from 'yup';
+import { format } from 'date-fns';
+import DatePicker from 'react-native-date-picker';
 import Button from '~/components/Button/index';
-import addDoctor from '~/store/modules/doctors/actions';
+import { petAppointment } from '~/store/modules/pets/actions';
 
-import { Container, InputLabel, Input } from './styles';
+import { Container, InputLabel, DateHolder } from './styles';
 
-export default function DocAdd({ route, navigation }) {
+export default function AppointAdd({ route, navigation }) {
   const { petID } = route.params;
   const places = useSelector(state => state.places.data);
   const doctors = useSelector(state => state.doctors.data);
 
-  const [name, setName] = useState(null);
-  const [phone, setPhone] = useState(null);
   const [clinic, setClinic] = useState(null);
+  const [date, setDate] = useState(new Date());
   const [selectedDoc, setDoc] = useState(null);
   const dispatch = useDispatch();
 
-  const handleAddDoctor = async () => {
-    let doc = { name, phone, clinic, pets: [petID] };
-    if (!selectedDoc) {
-      const schema = Yup.object().shape({
-        name: Yup.string().required(),
-        phone: Yup.string().required(),
-        clinic: Yup.string().required(),
-        pets: Yup.array().required(),
-      });
+  const handleAppointment = async () => {
+    const appointment = { clinic, doctor: selectedDoc, date };
+    const schema = Yup.object().shape({
+      clinic: Yup.string().required(),
+      doctor: Yup.string().required(),
+      date: Yup.date().required(),
+    });
 
-      if (!(await schema.isValid(doc))) {
-        return Alert.alert('Maruska', 'Please enter valid information');
-      }
+    if (!(await schema.isValid(appointment))) {
+      return Alert.alert('Maruska', 'Please enter valid information');
     }
 
-    if (selectedDoc) {
-      const docIndex = doctors.findIndex(item => item.name === selectedDoc);
-      if (docIndex === -1) {
-        return Alert.alert('Maruska', 'Please enter valid information');
-      }
-      doc = doctors[docIndex];
-    }
+    const time = format(date, 'HH:mm');
+    const day = format(date, 'dd/MM/yyyy');
 
-    dispatch(addDoctor(doc, petID));
+    dispatch(petAppointment({ ...appointment, time, day }, petID));
     navigation.goBack();
   };
 
   const pickerPlaces = places.filter(item => item.kind === 'Clinic');
   const pickerDoctors = doctors.map(item => {
-    if (!item.pets.includes(petID)) {
+    if (item.pets.includes(petID)) {
       return item;
     }
   });
@@ -56,23 +49,9 @@ export default function DocAdd({ route, navigation }) {
   console.log(doctors);
   console.log(pickerDoctors);
 
-  const phoneRef = useRef();
-
   return (
     <Container>
-      <InputLabel>Name</InputLabel>
-      <Input
-        maxLength={20}
-        onChangeText={setName}
-        onSubmitEditing={() => phoneRef.current.focus()}
-      />
-      <InputLabel>Phone Number</InputLabel>
-      <Input
-        maxLength={20}
-        keyboardType="number-pad"
-        onChangeText={setPhone}
-        ref={phoneRef}
-      />
+      <InputLabel>Appointment clinic</InputLabel>
       <Picker
         style={{ padding: 15 }}
         onValueChange={value => setClinic(value)}
@@ -86,7 +65,7 @@ export default function DocAdd({ route, navigation }) {
           />
         ))}
       </Picker>
-      <InputLabel>Or select a already registered vet</InputLabel>
+      <InputLabel>Appointment Vet</InputLabel>
       <Picker
         style={{ padding: 15 }}
         onValueChange={value => setDoc(value)}
@@ -101,12 +80,22 @@ export default function DocAdd({ route, navigation }) {
             />
           ))}
       </Picker>
-      <Button title="Add Vet" onPress={handleAddDoctor} />
+      <InputLabel>Please select the date and time</InputLabel>
+      <DateHolder>
+        <DatePicker
+          date={date}
+          onDateChange={setDate}
+          mode="datetime"
+          minimumDate={new Date()}
+          locale="en"
+        />
+      </DateHolder>
+      <Button title="Add Appointment" onPress={handleAppointment} />
     </Container>
   );
 }
 
-DocAdd.propTypes = {
+AppointAdd.propTypes = {
   route: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
   navigation: PropTypes.oneOfType([PropTypes.object, PropTypes.array])
     .isRequired,

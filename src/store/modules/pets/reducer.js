@@ -102,6 +102,57 @@ export default function pets(state = INITIAL_STATE, action) {
         }
         break;
       }
+      case '@pet/APPOINTMENT': {
+        const { appointment, petID } = action.payload;
+        const petData = draft.data;
+
+        const petIndex = petData.findIndex(item => item.name === petID);
+        if (petIndex >= 0) {
+          if (
+            petData[petIndex].appointments &&
+            petData[petIndex].appointments.length > 0
+          ) {
+            petData[petIndex].appointments.push(appointment);
+          } else {
+            petData[petIndex].appointments = [appointment];
+          }
+        }
+        break;
+      }
+      case '@pet/SURGERY': {
+        const { surgery, petID } = action.payload;
+        const petData = draft.data;
+
+        const petIndex = petData.findIndex(item => item.name === petID);
+        if (petIndex >= 0) {
+          if (
+            petData[petIndex].surgeries &&
+            petData[petIndex].surgeries.length > 0
+          ) {
+            petData[petIndex].surgeries.push(surgery);
+          } else {
+            petData[petIndex].surgeries = [surgery];
+          }
+        }
+        break;
+      }
+      case '@pet/PROBLEM': {
+        const { problem, petID } = action.payload;
+        const petData = draft.data;
+
+        const petIndex = petData.findIndex(item => item.name === petID);
+        if (petIndex >= 0) {
+          if (
+            petData[petIndex].problems &&
+            petData[petIndex].problems.length > 0
+          ) {
+            petData[petIndex].problems.push(problem);
+          } else {
+            petData[petIndex].problems = [problem];
+          }
+        }
+        break;
+      }
       default:
     }
   });
