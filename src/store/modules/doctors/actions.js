@@ -1,6 +1,6 @@
-export default function addDoctor(doctor) {
+export default function addDoctor(doctor, petID) {
   return {
     type: '@doctor/ADD',
-    payload: { doctor },
+    payload: { doctor, petID },
   };
 }

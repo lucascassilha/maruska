@@ -88,6 +88,20 @@ export default function pets(state = INITIAL_STATE, action) {
         }
         break;
       }
+      case '@doctor/ADD': {
+        const { doctor, petID } = action.payload;
+        const petData = draft.data;
+
+        const petIndex = petData.findIndex(item => item.name === petID);
+        if (petIndex >= 0) {
+          if (petData.doctors && petData.doctors.length > 0) {
+            draft.data[petIndex].doctors.push(doctor.name);
+          } else {
+            draft.data[petIndex].doctors = [doctor.name];
+          }
+        }
+        break;
+      }
       default:
     }
   });

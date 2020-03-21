@@ -8,7 +8,7 @@ import Home from '~/pages/Home/index';
 import Profile from '~/pages/Pet/Profile/index';
 import Avatar from '~/pages/Pet/Avatar/index';
 import Health from '~/pages/Pet/Health/index';
-import HealthAdd from '~/pages/Pet/HealthAdd/index';
+import DocAdd from '~/pages/Pet/HealthAdd/Doctor/index';
 import Weight from '~/pages/Pet/Weight/index';
 import Vaccines from '~/pages/Pet/Vaccines/index';
 import Medications from '~/pages/Pet/Medications/index';
@@ -93,10 +93,10 @@ function Pet() {
         })}
       />
       <Stack.Screen
-        name="HealthAdd"
-        component={HealthAdd}
+        name="DocAdd"
+        component={DocAdd}
         options={({ route }) => ({
-          title: `New ${route.params.type}`,
+          title: `New Vet`,
           headerStyle: {
             backgroundColor: '#eb3349',
           },
