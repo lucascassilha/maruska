@@ -1,22 +1,22 @@
 import styled from 'styled-components/native';
 
 export const Container = styled.ScrollView.attrs({
-  contentContainerStyle: {
-    alignItems: 'center',
-  },
+  contentContainerStyle: {},
 })``;
 
 export const TitleBox = styled.View`
+  margin: 10px 20px;
   flex-direction: row;
   align-items: center;
-  margin-top: 10px;
+  justify-content: space-between;
+  width: 100%;
 `;
 
 export const Title = styled.Text`
   font-family: 'OpenSans-Regular';
   font-size: 21px;
   color: #eb3349;
-  margin-left: 10px;
+  text-align: left;
 `;
 
 export const List = styled.FlatList.attrs({
@@ -75,3 +75,23 @@ export const DateBox = styled.View``;
 export const DateLabel = styled.Text`
   color: #fff;
 `;
+
+export const TitleInput = styled.TextInput`
+  font-family: 'OpenSans-Bold';
+  color: #fff;
+  font-size: 16px;
+  height: 40px;
+`;
+
+export const LabelInput = styled.TextInput`
+  font-family: 'OpenSans-Regular';
+  color: #fff;
+  font-size: 14px;
+  height: 40px;
+`;
+
+export const ExtraHolder = styled.View``;
+
+export const ExtraLabel = styled.Text``;
+
+export const ExtraInput = styled.TextInput``;

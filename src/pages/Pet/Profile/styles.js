@@ -1,6 +1,5 @@
 import styled from 'styled-components/native';
 import LinearGradient from 'react-native-linear-gradient';
-import { RectButton } from 'react-native-gesture-handler';
 
 export const Container = styled.ScrollView`
   background-color: #fff;
@@ -22,12 +21,13 @@ export const PetMenu = styled.ScrollView`
 export const Header = styled.View`
   align-items: center;
   justify-content: center;
+  margin-top: 10px;
 `;
 
 export const Avatar = styled.Image`
-  height: 120px;
-  width: 120px;
-  border-radius: 60px;
+  height: 250px;
+  width: 250px;
+  border-radius: 10px;
   background-color: #fff;
   margin-bottom: 10px;
   margin-top: -10px;
@@ -66,7 +66,7 @@ export const MenuTitle = styled.Text`
 `;
 
 export const EmergencyHolder = styled.View`
-  margin-top: 5px;
+  margin: 5px 0px;
   padding: 0px 30px;
 `;
 

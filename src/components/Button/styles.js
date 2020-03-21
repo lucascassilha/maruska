@@ -6,7 +6,7 @@ export const Wrapper = styled(RectButton)`
   background-color: #eb3349;
   align-items: center;
   justify-content: center;
-  padding: 10px;
+  padding: 15px;
   border-radius: 4px;
   margin-top: 10px;
   elevation: 1;

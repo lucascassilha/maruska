@@ -45,9 +45,26 @@ export default function Profile({ route, navigation }) {
       id: 0,
       image: vaccine,
       colors: ['#FED3D8', '#F9DEE1'],
+      onPress: () => {
+        navigation.navigate('Vaccines', { petID: pet.name });
+      },
     },
-    { id: 1, image: pill, colors: ['#CFFFF4', '#DAFBF3'] },
-    { id: 2, image: weight, colors: ['#CFDDFF', '#DAEBFB'] },
+    {
+      id: 1,
+      image: pill,
+      colors: ['#CFFFF4', '#DAFBF3'],
+      onPress: () => {
+        navigation.navigate('Medications', { petID: pet.name });
+      },
+    },
+    {
+      id: 2,
+      image: weight,
+      colors: ['#CFDDFF', '#DAEBFB'],
+      onPress: () => {
+        navigation.navigate('Weight', { petID: pet.name });
+      },
+    },
     {
       id: 3,
       image: doctor,

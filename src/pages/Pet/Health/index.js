@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-
+import React, { useState, useEffect } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import {
@@ -16,44 +15,86 @@ import {
   DateBox,
   DateLabel,
   ButtonBoxSmall,
+  TitleInput,
+  LabelInput,
+  ExtraHolder,
+  ExtraLabel,
+  ExtraInput,
 } from './styles';
 
-export default function Health() {
-  const [doctors, setDoctors] = useState([{ id: 1 }, { id: 2 }, { id: 3 }]);
+export default function Health({ route, navigation }) {
+  const { petID } = route.params;
+
+  const [doctors, setDoctors] = useState([{ name: 'abc' }]);
   const [appointments, setAppointments] = useState([
     { id: 1 },
     { id: 2 },
     { id: 3 },
   ]);
   const [surgeries, setSurgeries] = useState([{ id: 1 }, { id: 2 }, { id: 3 }]);
+  const [title, setTitle] = useState('Name');
+
+  const handleOpen = type => {
+    navigation.navigate('HealthAdd', { petID, type });
+  };
+
+  useEffect(() => {
+    console.log('loaded!');
+  }, []);
 
   return (
     <Container>
       <TitleBox>
-        <Title>Doctors </Title>
+        <Title>Doctors</Title>
+        <ButtonBox>
+          <IconHolder onPress={() => handleOpen('Doctor')}>
+            <Icon name="plus" color="#eb3349" size={20} />
+          </IconHolder>
+        </ButtonBox>
       </TitleBox>
       <List
         data={doctors}
-        keyExtractor={item => item.id}
-        renderItem={({ item }) => (
-          <Box>
-            <TextBox>
-              <LabelTitle>Doutor Estranho</LabelTitle>
-              <LabelSubtitle>Animal Clinic</LabelSubtitle>
-            </TextBox>
-            <ButtonBox>
-              <IconHolder>
-                <Icon name="phone" color="#fff" size={20} />
-              </IconHolder>
-              <IconHolder>
-                <Icon name="trash-alt" color="#fff" size={20} />
-              </IconHolder>
-            </ButtonBox>
-          </Box>
-        )}
+        keyExtractor={item => item.name}
+        renderItem={({ item }) =>
+          item.name === '@input' ? (
+            <Box>
+              <TextBox>
+                <TitleInput
+                  defaultValue="Doctor Name"
+                  onChangeText={setTitle}
+                />
+                <LabelInput defaultValue="Clinic" />
+                <ExtraHolder>
+                  <ExtraLabel>Phone: </ExtraLabel>
+                  <ExtraInput />
+                </ExtraHolder>
+              </TextBox>
+            </Box>
+          ) : (
+            <Box>
+              <TextBox>
+                <LabelTitle>Doutor Estranho</LabelTitle>
+                <LabelSubtitle>Animal Clinic</LabelSubtitle>
+              </TextBox>
+              <ButtonBox>
+                <IconHolder>
+                  <Icon name="phone" color="#fff" size={20} />
+                </IconHolder>
+                <IconHolder>
+                  <Icon name="trash-alt" color="#fff" size={20} />
+                </IconHolder>
+              </ButtonBox>
+            </Box>
+          )
+        }
       />
       <TitleBox>
         <Title>Appointments</Title>
+        <ButtonBox>
+          <IconHolder>
+            <Icon name="plus" color="#eb3349" size={20} />
+          </IconHolder>
+        </ButtonBox>
       </TitleBox>
       <List
         data={appointments}
@@ -80,6 +121,11 @@ export default function Health() {
       />
       <TitleBox>
         <Title>Surgeries</Title>
+        <ButtonBox>
+          <IconHolder>
+            <Icon name="plus" color="#eb3349" size={20} />
+          </IconHolder>
+        </ButtonBox>
       </TitleBox>
       <List
         data={surgeries}
@@ -103,6 +149,11 @@ export default function Health() {
       />
       <TitleBox>
         <Title>Problems</Title>
+        <ButtonBox>
+          <IconHolder>
+            <Icon name="plus" color="#eb3349" size={20} />
+          </IconHolder>
+        </ButtonBox>
       </TitleBox>
       <List
         data={surgeries}

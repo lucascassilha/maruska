@@ -23,7 +23,7 @@ export const Box = styled.TouchableOpacity`
 export const PetImage = styled.Image`
   height: 100px;
   width: 100px;
-  border-radius: 50px;
+  border-radius: 10px;
   background-color: #fff;
   opacity: ${props => (props.nullImage ? 1 : 0.3)};
 `;
