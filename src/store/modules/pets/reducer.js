@@ -119,6 +119,21 @@ export default function pets(state = INITIAL_STATE, action) {
         }
         break;
       }
+      case '@pet/DELETE_APPOINTMENT': {
+        const { appointment, petID } = action.payload;
+        const petData = draft.data;
+
+        const petIndex = petData.findIndex(item => item.name === petID);
+        if (petIndex >= 0) {
+          if (petData[petIndex].appointments.length >= 0) {
+            const index = petData[petIndex].appointments.findIndex(
+              item => item.date === appointment
+            );
+            petData[petIndex].appointments.splice(index, 1);
+          }
+        }
+        break;
+      }
       case '@pet/SURGERY': {
         const { surgery, petID } = action.payload;
         const petData = draft.data;
@@ -136,6 +151,22 @@ export default function pets(state = INITIAL_STATE, action) {
         }
         break;
       }
+      case '@pet/DELETE_SURGERY': {
+        const { surgery, petID } = action.payload;
+        const petData = draft.data;
+
+        const petIndex = petData.findIndex(item => item.name === petID);
+        if (petIndex >= 0) {
+          console.tron.log(petData[petIndex]);
+          if (petData[petIndex].surgeries.length >= 0) {
+            const index = petData[petIndex].surgeries.findIndex(
+              item => item.name === surgery
+            );
+            petData[petIndex].surgeries.splice(index, 1);
+          }
+        }
+        break;
+      }
       case '@pet/PROBLEM': {
         const { problem, petID } = action.payload;
         const petData = draft.data;
@@ -149,6 +180,22 @@ export default function pets(state = INITIAL_STATE, action) {
             petData[petIndex].problems.push(problem);
           } else {
             petData[petIndex].problems = [problem];
+          }
+        }
+        break;
+      }
+      case '@pet/DELETE_PROBLEM': {
+        const { problem, petID } = action.payload;
+        const petData = draft.data;
+
+        const petIndex = petData.findIndex(item => item.name === petID);
+        if (petIndex >= 0) {
+          console.tron.log(petData[petIndex]);
+          if (petData[petIndex].problems.length >= 0) {
+            const index = petData[petIndex].problems.findIndex(
+              item => item.title === problem
+            );
+            petData[petIndex].problems.splice(index, 1);
           }
         }
         break;

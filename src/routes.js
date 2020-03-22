@@ -3,6 +3,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import PropTypes from 'prop-types';
+import { TouchableOpacity, Alert } from 'react-native';
 
 import Home from '~/pages/Home/index';
 import Profile from '~/pages/Pet/Profile/index';
@@ -90,6 +91,23 @@ function Pet() {
             fontSize: 20,
             fontFamily: 'OpenSans-Bold',
           },
+          headerRight: () => (
+            <TouchableOpacity
+              onPress={() => {
+                Alert.alert(
+                  'Maruska',
+                  'To add doctors and appointments, you need to add a clinic first!'
+                );
+              }}
+              style={{
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginRight: 20,
+              }}
+            >
+              <Icon name="information" color="#fff" size={25} />
+            </TouchableOpacity>
+          ),
           headerBackImage: () => {
             return <Icon name="chevron-left" color="#fff" size={25} />;
           },

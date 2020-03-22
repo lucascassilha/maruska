@@ -24,7 +24,7 @@ export default function AppointAdd({ route, navigation }) {
     const appointment = { clinic, doctor: selectedDoc, date };
     const schema = Yup.object().shape({
       clinic: Yup.string().required(),
-      doctor: Yup.string().required(),
+      doctor: Yup.string().nullable(),
       date: Yup.date().required(),
     });
 
@@ -32,10 +32,16 @@ export default function AppointAdd({ route, navigation }) {
       return Alert.alert('Maruska', 'Please enter valid information');
     }
 
+    const clinicIndex = places.findIndex(item => item.name === clinic);
+    let phone = null;
+    if (clinicIndex >= 0) {
+      phone = places[clinicIndex].phone;
+    }
+
     const time = format(date, 'HH:mm');
     const day = format(date, 'dd/MM/yyyy');
 
-    dispatch(petAppointment({ ...appointment, time, day }, petID));
+    dispatch(petAppointment({ ...appointment, time, day, phone }, petID));
     navigation.goBack();
   };
 
@@ -51,7 +57,7 @@ export default function AppointAdd({ route, navigation }) {
 
   return (
     <Container>
-      <InputLabel>Appointment clinic</InputLabel>
+      <InputLabel>Where is it?</InputLabel>
       <Picker
         style={{ padding: 15 }}
         onValueChange={value => setClinic(value)}
@@ -65,7 +71,7 @@ export default function AppointAdd({ route, navigation }) {
           />
         ))}
       </Picker>
-      <InputLabel>Appointment Vet</InputLabel>
+      <InputLabel>With who? (optional)</InputLabel>
       <Picker
         style={{ padding: 15 }}
         onValueChange={value => setDoc(value)}
@@ -74,10 +80,7 @@ export default function AppointAdd({ route, navigation }) {
         <Picker.Item label="Select a vet" value={null} />
         {pickerDoctors[0] &&
           pickerDoctors.map(item => (
-            <Picker.Item
-              label={`${item.name} - ${item.clinic}`}
-              value={item.name}
-            />
+            <Picker.Item label={`${item.name}`} value={item.name} />
           ))}
       </Picker>
       <InputLabel>Please select the date and time</InputLabel>
@@ -90,7 +93,7 @@ export default function AppointAdd({ route, navigation }) {
           locale="en"
         />
       </DateHolder>
-      <Button title="Add Appointment" onPress={handleAppointment} />
+      <Button title="Register" onPress={handleAppointment} />
     </Container>
   );
 }

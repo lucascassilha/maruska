@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Alert } from 'react-native';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
@@ -14,7 +14,7 @@ export default function ProblemAdd({ route, navigation }) {
   const { petID } = route.params;
 
   const [title, setTitle] = useState(null);
-  const [description, setDescription] = useState(null);
+  const [description, setDescription] = useState('');
   const [date, setDate] = useState(new Date());
   const dispatch = useDispatch();
 
@@ -37,12 +37,20 @@ export default function ProblemAdd({ route, navigation }) {
     navigation.goBack();
   };
 
+  const charactersLeft = useMemo(() => 150 - description.length, [description]);
+
   return (
     <Container>
-      <InputLabel>Problem title</InputLabel>
+      <InputLabel>Problem</InputLabel>
       <Input maxLength={25} onChangeText={setTitle} />
-      <InputLabel>Problem description</InputLabel>
-      <Input maxLength={100} onChangeText={setDescription} />
+      <InputLabel>{`What happened?  (${charactersLeft})`}</InputLabel>
+      <Input
+        maxLength={150}
+        multiline
+        numberOfLines={4}
+        textAlignVertical="top"
+        onChangeText={setDescription}
+      />
       <InputLabel>When did it happened?</InputLabel>
       <DateHolder>
         <DatePicker
@@ -52,7 +60,7 @@ export default function ProblemAdd({ route, navigation }) {
           locale="en"
         />
       </DateHolder>
-      <Button title="Add Problem" onPress={handleProblem} />
+      <Button title="Register" onPress={handleProblem} />
     </Container>
   );
 }

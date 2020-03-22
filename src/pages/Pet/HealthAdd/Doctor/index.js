@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import * as Yup from 'yup';
 import Button from '~/components/Button/index';
-import addDoctor from '~/store/modules/doctors/actions';
+import { addDoctor, deleteDoctor } from '~/store/modules/doctors/actions';
 
 import { Container, InputLabel, Input } from './styles';
 
@@ -33,13 +33,19 @@ export default function DocAdd({ route, navigation }) {
         return Alert.alert('Maruska', 'Please enter valid information');
       }
     }
+    const inputDoctorIndex = doctors.findIndex(item => item.name === name);
+    if (inputDoctorIndex >= 0) {
+      return Alert.alert('Maruska', 'You already registered this vet!');
+    }
 
-    if (selectedDoc) {
-      const docIndex = doctors.findIndex(item => item.name === selectedDoc);
-      if (docIndex === -1) {
-        return Alert.alert('Maruska', 'Please enter valid information');
-      }
-      doc = doctors[docIndex];
+    const pickerDoctorIndex = doctors.findIndex(
+      item => item.name === selectedDoc
+    );
+    if (selectedDoc && pickerDoctorIndex === -1) {
+      return Alert.alert('Maruska', 'Please enter valid information');
+    }
+    if (pickerDoctorIndex >= 0) {
+      doc = doctors[pickerDoctorIndex];
     }
 
     dispatch(addDoctor(doc, petID));
@@ -52,9 +58,6 @@ export default function DocAdd({ route, navigation }) {
       return item;
     }
   });
-
-  console.log(doctors);
-  console.log(pickerDoctors);
 
   const phoneRef = useRef();
 
@@ -101,7 +104,7 @@ export default function DocAdd({ route, navigation }) {
             />
           ))}
       </Picker>
-      <Button title="Add Vet" onPress={handleAddDoctor} />
+      <Button title="Register" onPress={handleAddDoctor} />
     </Container>
   );
 }

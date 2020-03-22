@@ -14,8 +14,10 @@ export default function Button({ title, onPress, disabled }) {
 Button.propTypes = {
   title: PropTypes.string,
   onPress: PropTypes.func.isRequired,
+  disabled: PropTypes.bool,
 };
 
 Button.defaultProps = {
   title: '',
+  disabled: false,
 };

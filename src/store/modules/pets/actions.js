@@ -26,6 +26,13 @@ export function petAppointment(appointment, petID) {
   };
 }
 
+export function petDeleteAppointment(appointment, petID) {
+  return {
+    type: '@pet/DELETE_APPOINTMENT',
+    payload: { appointment, petID },
+  };
+}
+
 export function petSurgery(surgery, petID) {
   return {
     type: '@pet/SURGERY',
@@ -33,9 +40,23 @@ export function petSurgery(surgery, petID) {
   };
 }
 
+export function petDeleteSurgery(surgery, petID) {
+  return {
+    type: '@pet/DELETE_SURGERY',
+    payload: { surgery, petID },
+  };
+}
+
 export function petProblem(problem, petID) {
   return {
     type: '@pet/PROBLEM',
+    payload: { problem, petID },
+  };
+}
+
+export function petDeleteProblem(problem, petID) {
+  return {
+    type: '@pet/DELETE_PROBLEM',
     payload: { problem, petID },
   };
 }

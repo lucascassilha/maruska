@@ -1,7 +1,6 @@
 import styled from 'styled-components/native';
-import { RectButton } from 'react-native-gesture-handler';
 
-export const Wrapper = styled(RectButton)`
+export const Wrapper = styled.TouchableOpacity`
   align-self: stretch;
   background-color: #eb3349;
   align-items: center;

@@ -8,7 +8,7 @@ export const Container = styled.ScrollView`
 
 export const PetInfo = styled.View`
   flex: 1;
-  background-color: #eb3349;
+  background-color: #db253b;
   elevation: 2;
   padding: 10px 30px;
   justify-content: center;

@@ -1,8 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import { useSelector } from 'react-redux';
-import { Linking } from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
+import { Linking, Alert } from 'react-native';
 import PropTypes from 'prop-types';
+import { deleteDoctor } from '~/store/modules/doctors/actions';
+import {
+  petDeleteAppointment,
+  petDeleteSurgery,
+  petDeleteProblem,
+} from '~/store/modules/pets/actions';
 
 import {
   Container,
@@ -30,13 +36,14 @@ export default function Health({ route, navigation }) {
   const [problems, setProblems] = useState([]);
   const [docList, setDocList] = useState([]);
 
+  const dispatch = useDispatch();
+
   useEffect(() => {
     const docs = doctors.map(item => {
       if (item.pets.includes(petID)) {
         return item;
       }
     });
-    console.log(docs);
     if (docs[0]) {
       setDocList(docs);
     }
@@ -55,9 +62,30 @@ export default function Health({ route, navigation }) {
     }
   }, [pets]);
 
-  useEffect(() => {
-    console.log('loaded!');
-  }, []);
+  const handleDeleteDoctors = doctor => {
+    dispatch(deleteDoctor(doctor, petID));
+    if (docList.length === 1) {
+      setDocList([]);
+    }
+  };
+  const handleDeleteAppointment = date => {
+    dispatch(petDeleteAppointment(date, petID));
+    if (appointments.length === 1) {
+      setAppointments([]);
+    }
+  };
+  const handleDeleteSurgery = surgery => {
+    dispatch(petDeleteSurgery(surgery, petID));
+    if (surgeries.length === 1) {
+      setSurgeries([]);
+    }
+  };
+  const handleDeleteProblem = problem => {
+    dispatch(petDeleteProblem(problem, petID));
+    if (problems.length === 1) {
+      setProblems([]);
+    }
+  };
 
   return (
     <Container>
@@ -86,7 +114,11 @@ export default function Health({ route, navigation }) {
               >
                 <Icon name="phone" color="#fff" size={20} />
               </IconHolder>
-              <IconHolder>
+              <IconHolder
+                onPress={() => {
+                  handleDeleteDoctors(item.name);
+                }}
+              >
                 <Icon name="trash-alt" color="#fff" size={20} />
               </IconHolder>
             </ButtonBox>
@@ -110,16 +142,22 @@ export default function Health({ route, navigation }) {
           <Box>
             <TextBox>
               <LabelTitle>{item.clinic}</LabelTitle>
-              <LabelSubtitle>{item.doctor}</LabelSubtitle>
+              {item.doctor ? (
+                <LabelSubtitle>{item.doctor}</LabelSubtitle>
+              ) : null}
               <DateBox>
                 <DateLabel>{`${item.day} - ${item.time}`}</DateLabel>
               </DateBox>
             </TextBox>
             <ButtonBox>
-              <IconHolder>
+              <IconHolder
+                onPress={() => {
+                  Linking.openURL(`tel://${item.phone}`);
+                }}
+              >
                 <Icon name="phone" color="#fff" size={20} />
               </IconHolder>
-              <IconHolder>
+              <IconHolder onPress={() => handleDeleteAppointment(item.date)}>
                 <Icon name="trash-alt" color="#fff" size={20} />
               </IconHolder>
             </ButtonBox>
@@ -143,13 +181,15 @@ export default function Health({ route, navigation }) {
           <Box>
             <TextBox>
               <LabelTitle>{item.name || ''}</LabelTitle>
-              <LabelSubtitle>{item.clinic}</LabelSubtitle>
+              {item.clinic ? (
+                <LabelSubtitle>{item.clinic}</LabelSubtitle>
+              ) : null}
               <DateBox>
                 <DateLabel>{item.day}</DateLabel>
               </DateBox>
             </TextBox>
             <ButtonBoxSmall>
-              <IconHolder>
+              <IconHolder onPress={() => handleDeleteSurgery(item.name)}>
                 <Icon name="trash-alt" color="#fff" size={20} />
               </IconHolder>
             </ButtonBoxSmall>
@@ -177,7 +217,7 @@ export default function Health({ route, navigation }) {
               <LabelSubtitle>{item.description}</LabelSubtitle>
             </TextBox>
             <ButtonBoxSmall>
-              <IconHolder>
+              <IconHolder onPress={() => handleDeleteProblem(item.title)}>
                 <Icon name="trash-alt" color="#fff" size={20} />
               </IconHolder>
             </ButtonBoxSmall>

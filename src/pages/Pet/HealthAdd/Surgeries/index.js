@@ -23,7 +23,7 @@ export default function SurgeryAdd({ route, navigation }) {
     const surgery = { clinic, date, name: surgeryName };
     const schema = Yup.object().shape({
       name: Yup.string().required(),
-      clinic: Yup.string().required(),
+      clinic: Yup.string().nullable(),
       date: Yup.date().required(),
     });
 
@@ -43,7 +43,7 @@ export default function SurgeryAdd({ route, navigation }) {
     <Container>
       <InputLabel>Surgery Name</InputLabel>
       <Input maxLength={25} onChangeText={setName} />
-      <InputLabel>Clinic</InputLabel>
+      <InputLabel>Clinic (optional)</InputLabel>
       <Picker
         style={{ padding: 15 }}
         onValueChange={value => setClinic(value)}
@@ -66,7 +66,7 @@ export default function SurgeryAdd({ route, navigation }) {
           locale="en"
         />
       </DateHolder>
-      <Button title="Add Surgery" onPress={handleSurgery} />
+      <Button title="Register" onPress={handleSurgery} />
     </Container>
   );
 }
