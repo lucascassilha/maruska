@@ -218,6 +218,23 @@ function Pet() {
             fontSize: 20,
             fontFamily: 'OpenSans-Bold',
           },
+          headerRight: () => (
+            <TouchableOpacity
+              onPress={() => {
+                Alert.alert(
+                  'Maruska',
+                  'To change to lbs or kg go to the settings page!'
+                );
+              }}
+              style={{
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginRight: 30,
+              }}
+            >
+              <Icon name="information" color="#fff" size={25} />
+            </TouchableOpacity>
+          ),
           headerBackImage: () => {
             return <Icon name="chevron-left" color="#fff" size={25} />;
           },

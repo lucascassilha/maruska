@@ -200,6 +200,23 @@ export default function pets(state = INITIAL_STATE, action) {
         }
         break;
       }
+      case '@pet/WEIGHT': {
+        const { weightData, petID } = action.payload;
+        const petData = draft.data;
+
+        const petIndex = petData.findIndex(item => item.name === petID);
+        if (petIndex >= 0) {
+          if (petData[petIndex].weight && petData[petIndex].weight.length > 0) {
+            if (petData[petIndex].weight.length >= 6) {
+              petData[petIndex].weight.shift();
+            }
+            petData[petIndex].weight.push(weightData);
+          } else {
+            petData[petIndex].weight = [weightData];
+          }
+        }
+        break;
+      }
       default:
     }
   });

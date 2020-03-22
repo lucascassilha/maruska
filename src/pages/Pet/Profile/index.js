@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { StatusBar } from 'react-native';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
@@ -39,6 +39,11 @@ export default function Profile({ route, navigation }) {
   const handleOpen = () => {
     dispatch(changeStatus(2));
   };
+
+  const weightData = useMemo(
+    () => (pet.weight ? pet.weight[pet.weight.length - 1].weight : '--'),
+    [pet]
+  );
 
   const buttons = [
     {
@@ -106,7 +111,7 @@ export default function Profile({ route, navigation }) {
           <TextLine>
             <InfoTextHolder>
               <Label>Weight</Label>
-              <Info>{pet.weight || '--'}</Info>
+              <Info>{`${weightData} kg`}</Info>
             </InfoTextHolder>
             <InfoTextHolder>
               <Label>Kind</Label>

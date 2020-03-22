@@ -60,3 +60,10 @@ export function petDeleteProblem(problem, petID) {
     payload: { problem, petID },
   };
 }
+
+export function petWeightAdd(weightData, petID) {
+  return {
+    type: '@pet/WEIGHT',
+    payload: { weightData, petID },
+  };
+}
