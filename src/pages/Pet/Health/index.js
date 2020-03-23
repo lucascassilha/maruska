@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { useSelector, useDispatch } from 'react-redux';
-import { Linking, Alert } from 'react-native';
+import { Linking } from 'react-native';
 import PropTypes from 'prop-types';
 import { deleteDoctor } from '~/store/modules/doctors/actions';
 import {

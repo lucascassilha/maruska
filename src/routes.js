@@ -223,7 +223,7 @@ function Pet() {
               onPress={() => {
                 Alert.alert(
                   'Maruska',
-                  'To change to lbs or kg go to the settings page!'
+                  'You can only add a weight once a month! Also,if you wish to change to another unit system go to the settings page!'
                 );
               }}
               style={{

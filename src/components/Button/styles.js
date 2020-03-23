@@ -13,7 +13,7 @@ export const Wrapper = styled.TouchableOpacity`
 `;
 
 export const Label = styled.Text`
-  color: #fff;
+  color: #ffff;
   font-size: 16px;
   font-family: 'OpenSans-Bold';
 `;

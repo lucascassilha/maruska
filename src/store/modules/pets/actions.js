@@ -67,3 +67,24 @@ export function petWeightAdd(weightData, petID) {
     payload: { weightData, petID },
   };
 }
+
+export function petMedication(medication, petID) {
+  return {
+    type: '@pet/MEDICATION',
+    payload: { medication, petID },
+  };
+}
+
+export function petCheckMedication(medication, petID) {
+  return {
+    type: '@pet/CHECK_MEDICATION',
+    payload: { medication, petID },
+  };
+}
+
+export function petDeleteMedication(weightData, petID) {
+  return {
+    type: '@pet/DELETE_MEDICATION',
+    payload: { weightData, petID },
+  };
+}
