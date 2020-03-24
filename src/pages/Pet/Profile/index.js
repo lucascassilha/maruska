@@ -157,8 +157,17 @@ export default function Profile({ route, navigation }) {
         />
         <MenuTitle>Emergency Menu</MenuTitle>
         <EmergencyHolder>
-          <Button title="Lost my pet!" />
-          <Button title="Call my Clinic!" />
+          <Button
+            title="Lost my pet!"
+            onPress={() =>
+              navigation.navigate('LostPet', { changeInfo: false, pet })
+            }
+          />
+          <Button
+            title="Change my information"
+            onPress={() =>
+              navigation.navigate('LostPet', { changeInfo: true, pet: false })}
+          />
         </EmergencyHolder>
       </PetMenu>
     </Container>

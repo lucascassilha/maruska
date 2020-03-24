@@ -165,7 +165,6 @@ export default function pets(state = INITIAL_STATE, action) {
 
         const petIndex = petData.findIndex(item => item.name === petID);
         if (petIndex >= 0) {
-          console.tron.log(petData[petIndex]);
           if (petData[petIndex].surgeries.length >= 0) {
             const index = petData[petIndex].surgeries.findIndex(
               item => item.name === surgery
@@ -198,7 +197,6 @@ export default function pets(state = INITIAL_STATE, action) {
 
         const petIndex = petData.findIndex(item => item.name === petID);
         if (petIndex >= 0) {
-          console.tron.log(petData[petIndex]);
           if (petData[petIndex].problems.length >= 0) {
             const index = petData[petIndex].problems.findIndex(
               item => item.title === problem
