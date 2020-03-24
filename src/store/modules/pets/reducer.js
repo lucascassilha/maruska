@@ -1,5 +1,17 @@
 import { produce } from 'immer';
-import { formatDistanceStrict, subYears, subMonths } from 'date-fns';
+import {
+  formatDistanceToNow,
+  formatDistanceStrict,
+  format,
+  parseISO,
+  subYears,
+  subMonths,
+  addYears,
+  addMonths,
+  addDays,
+  addHours,
+  isValid,
+} from 'date-fns';
 
 const INITIAL_STATE = {
   data: [],
@@ -15,16 +27,15 @@ export default function pets(state = INITIAL_STATE, action) {
         const currentDate = new Date();
         let returnDate = null;
         if (years) {
-          const auxDate = subYears(subMonths(currentDate, months), years);
-          returnDate = formatDistanceStrict(auxDate, currentDate);
+          returnDate = subYears(subMonths(currentDate, months), years);
         } else {
-          returnDate = formatDistanceStrict(date, currentDate);
+          returnDate = date;
         }
 
         const info = {
           ...pet,
-          date: returnDate,
-          originalDate: date,
+          date: '',
+          originalDate: returnDate,
           originalYears: years,
           originalMonths: months,
         };
@@ -213,6 +224,79 @@ export default function pets(state = INITIAL_STATE, action) {
             petData[petIndex].weight.push(weightData);
           } else {
             petData[petIndex].weight = [weightData];
+          }
+        }
+        break;
+      }
+      case '@pet/MEDICATION': {
+        const { medication, petID } = action.payload;
+        const petData = draft.data;
+
+        const petIndex = petData.findIndex(item => item.name === petID);
+        if (petIndex >= 0) {
+          if (
+            petData[petIndex].medications &&
+            petData[petIndex].medications.length > 0
+          ) {
+            petData[petIndex].medications.push(medication);
+          } else {
+            petData[petIndex].medications = [medication];
+          }
+        }
+        break;
+      }
+      case '@pet/CHECK_MEDICATION': {
+        const { medication, petID } = action.payload;
+        const petData = draft.data;
+
+        const petIndex = petData.findIndex(item => item.name === petID);
+        if (petIndex >= 0) {
+          const medicationIndex = petData[petIndex].medications.findIndex(
+            item => item.name === medication
+          );
+          const medicationRef = petData[petIndex].medications[medicationIndex];
+          if (medicationRef.doses > 0) {
+            medicationRef.doses -= 1;
+            const { intervalValue, interval } = medicationRef;
+            const currentDate = new Date();
+            if (interval === 1) {
+              medicationRef.nextDoseDate = addYears(currentDate, intervalValue);
+            }
+            if (interval === 2) {
+              medicationRef.nextDoseDate = addMonths(
+                currentDate,
+                intervalValue
+              );
+            }
+            if (interval === 3) {
+              medicationRef.nextDoseDate = addDays(currentDate, intervalValue);
+            }
+            if (interval === 4) {
+              medicationRef.nextDoseDate = addHours(currentDate, intervalValue);
+            }
+            medicationRef.lastDose = currentDate;
+            medicationRef.lastDoseString = format(
+              currentDate,
+              'dd/MM/yyyy - HH:mm'
+            );
+          }
+          if (medicationRef.doses === 0) {
+            medicationRef.nextDoseDate = undefined;
+          }
+        }
+        break;
+      }
+      case '@pet/DELETE_MEDICATION': {
+        const { medication, petID } = action.payload;
+        const petData = draft.data;
+
+        const petIndex = petData.findIndex(item => item.name === petID);
+        if (petIndex >= 0) {
+          if (petData[petIndex].medications.length >= 0) {
+            const index = petData[petIndex].medications.findIndex(
+              item => item.name === medication
+            );
+            petData[petIndex].medications.splice(index, 1);
           }
         }
         break;

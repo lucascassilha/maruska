@@ -13,8 +13,7 @@ export default function Weight({ route, navigation }) {
 
   const pets = useSelector(state => state.pets.data);
 
-  const date = format(new Date(2020, 3), 'MMMM');
-  console.log(date);
+  const date = format(new Date(), 'MMMM');
   const dispatch = useDispatch();
 
   const [weight, setWeight] = useState(null);
@@ -41,6 +40,7 @@ export default function Weight({ route, navigation }) {
               const currentDate = new Date();
               const weightData = { weight, date, created_at: currentDate };
               dispatch(petWeightAdd(weightData, petID));
+              navigation.goBack();
             },
           },
           { text: 'Cancel' },
@@ -60,14 +60,14 @@ export default function Weight({ route, navigation }) {
 
       setLabels(labelList);
       setData(weightList);
-    }
 
-    const monthRegistered = weightData.findIndex(item => {
-      const parsedDate = parseISO(item.created_at);
-      return differenceInMonths(parsedDate, new Date()) === 0;
-    });
-    if (monthRegistered === 0) {
-      setEditable(false);
+      const monthRegistered = weightData.findIndex(item => {
+        return differenceInMonths(item.created_at, new Date()) === 0;
+      });
+      console.log(monthRegistered);
+      if (monthRegistered === 0) {
+        setEditable(false);
+      }
     }
   }, []);
 

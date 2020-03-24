@@ -67,7 +67,8 @@ export default function AddModal() {
       months: Yup.number()
         .max(12)
         .positive()
-        .nullable(),
+        .nullable()
+        .when('years', (value, field) => (value ? field.required() : field)),
       date: Yup.string().when('years', (value, field) =>
         value ? field : field.required()
       ),
@@ -75,7 +76,6 @@ export default function AddModal() {
 
     const pet = { name, kind, sex, date, years, months, breed };
 
-    console.log(pet);
     if (!(await schema.isValid(pet))) {
       return Alert.alert('Maruska', 'Invalid or missing information');
     }

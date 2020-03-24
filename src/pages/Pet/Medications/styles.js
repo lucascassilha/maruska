@@ -1,6 +1,6 @@
 import styled from 'styled-components/native';
 
-export const Container = styled.ScrollView`
+export const Container = styled.View`
   flex: 1;
   background-color: #fff;
   padding: 0px 30px;
@@ -12,29 +12,30 @@ export const List = styled.FlatList`
 
 export const Label = styled.Text`
   color: #eb3349;
-  font-family: 'OpenSans-Regular';
+  font-family: 'OpenSans-Bold';
   font-size: 18px;
-  margin-top: 10px;
+  margin: 10px 0px;
+  text-align: center;
 `;
 
 export const InputBox = styled.View`
   align-self: stretch;
-  background-color: #eb3349;
+  background-color: #fff;
   padding: 20px;
   border-radius: 4px;
   margin: 10px 0px;
 `;
 
 export const Input = styled.TextInput`
-  background-color: #fff;
+  background-color: #eb3349;
   padding: 5px 10px;
   border-radius: 4px;
   margin: 5px 0px;
-  color: #eb3349;
+  color: #fff;
 `;
 
 export const InputLabel = styled.Text`
-  color: #fff;
+  color: #eb3349;
   margin-top: 5px;
   font-size: 16px;
   font-family: 'OpenSans-Regular';
@@ -93,3 +94,31 @@ export const SubTitle = styled.Text`
   font-family: 'OpenSans-Regular';
   color: #fff;
 `;
+
+export const ModalHolder = styled.Modal``;
+
+export const ModalContainer = styled.View`
+  background-color: rgba(0, 0, 0, 0.4);
+  flex: 1;
+  justify-content: center;
+`;
+
+export const Scroll = styled.ScrollView``;
+
+export const ModalBox = styled.View`
+  background-color: #fff;
+  margin: 30px;
+  padding: 15px;
+  border-radius: 10px;
+`;
+
+export const IntervalBox = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+`;
+
+export const SubBox = styled.View`
+  width: 48%;
+`;
+
+export const CancelBox = styled.TouchableOpacity``;

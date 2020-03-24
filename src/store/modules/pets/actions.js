@@ -82,9 +82,9 @@ export function petCheckMedication(medication, petID) {
   };
 }
 
-export function petDeleteMedication(weightData, petID) {
+export function petDeleteMedication(medication, petID) {
   return {
     type: '@pet/DELETE_MEDICATION',
-    payload: { weightData, petID },
+    payload: { medication, petID },
   };
 }

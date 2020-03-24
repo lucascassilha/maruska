@@ -13,7 +13,7 @@ export const PetList = styled.FlatList.attrs({
 
 export const Box = styled.TouchableOpacity`
   background-color: #eb3349;
-  margin: 10px 0px;
+  margin: 5px 0px;
   padding: 20px;
   border-radius: 4px;
   flex-direction: row;
