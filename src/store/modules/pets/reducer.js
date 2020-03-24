@@ -1,16 +1,13 @@
 import { produce } from 'immer';
 import {
-  formatDistanceToNow,
   formatDistanceStrict,
   format,
-  parseISO,
   subYears,
   subMonths,
   addYears,
   addMonths,
   addDays,
   addHours,
-  isValid,
 } from 'date-fns';
 
 const INITIAL_STATE = {
@@ -297,6 +294,73 @@ export default function pets(state = INITIAL_STATE, action) {
               item => item.name === medication
             );
             petData[petIndex].medications.splice(index, 1);
+          }
+        }
+        break;
+      }
+      case '@pet/VACCINE': {
+        const { vaccine, petID } = action.payload;
+        const petData = draft.data;
+
+        const petIndex = petData.findIndex(item => item.name === petID);
+        if (petIndex >= 0) {
+          if (
+            petData[petIndex].vaccines &&
+            petData[petIndex].vaccines.length > 0
+          ) {
+            petData[petIndex].vaccines.push(vaccine);
+          } else {
+            petData[petIndex].vaccines = [vaccine];
+          }
+        }
+        break;
+      }
+      case '@pet/CHECK_VACCINE': {
+        const { vaccine, petID } = action.payload;
+        const petData = draft.data;
+
+        const petIndex = petData.findIndex(item => item.name === petID);
+        if (petIndex >= 0) {
+          const medicationIndex = petData[petIndex].vaccines.findIndex(
+            item => item.name === vaccine
+          );
+          const medicationRef = petData[petIndex].vaccines[medicationIndex];
+          if (medicationRef.doses > 0) {
+            medicationRef.doses -= 1;
+            const { intervalValue, interval } = medicationRef;
+            const currentDate = new Date();
+            if (interval === 1) {
+              medicationRef.nextDoseDate = addYears(currentDate, intervalValue);
+            }
+            if (interval === 2) {
+              medicationRef.nextDoseDate = addMonths(
+                currentDate,
+                intervalValue
+              );
+            }
+            if (interval === 3) {
+              medicationRef.nextDoseDate = addDays(currentDate, intervalValue);
+            }
+            medicationRef.lastDose = currentDate;
+            medicationRef.lastDoseString = format(currentDate, 'dd/MM/yyyy');
+          }
+          if (medicationRef.doses === 0) {
+            medicationRef.nextDoseDate = undefined;
+          }
+        }
+        break;
+      }
+      case '@pet/DELETE_VACCINE': {
+        const { vaccine, petID } = action.payload;
+        const petData = draft.data;
+
+        const petIndex = petData.findIndex(item => item.name === petID);
+        if (petIndex >= 0) {
+          if (petData[petIndex].vaccines.length >= 0) {
+            const index = petData[petIndex].vaccines.findIndex(
+              item => item.name === vaccine
+            );
+            petData[petIndex].vaccines.splice(index, 1);
           }
         }
         break;

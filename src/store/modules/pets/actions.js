@@ -88,3 +88,24 @@ export function petDeleteMedication(medication, petID) {
     payload: { medication, petID },
   };
 }
+
+export function petVaccine(vaccine, petID) {
+  return {
+    type: '@pet/VACCINE',
+    payload: { vaccine, petID },
+  };
+}
+
+export function petCheckVaccine(vaccine, petID) {
+  return {
+    type: '@pet/CHECK_VACCINE',
+    payload: { vaccine, petID },
+  };
+}
+
+export function petDeleteVaccine(vaccine, petID) {
+  return {
+    type: '@pet/DELETE_VACCINE',
+    payload: { vaccine, petID },
+  };
+}
