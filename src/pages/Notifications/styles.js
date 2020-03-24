@@ -20,12 +20,13 @@ export const Box = styled.View`
 
 export const PetTitle = styled.Text`
   font-size: 22px;
-  font-weight: bold;
+  font-family: 'OpenSans-Bold';
   color: #fff;
 `;
 
 export const Description = styled.Text`
   color: #fff;
+  font-family: 'OpenSans-Regular';
 `;
 
 export const InfoHolder = styled.View`
@@ -42,4 +43,5 @@ export const InfoBox = styled.View`
 export const InfoLabel = styled.Text`
   color: #fff;
   margin-left: 5px;
+  font-family: 'OpenSans-Regular';
 `;

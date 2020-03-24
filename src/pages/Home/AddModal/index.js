@@ -1,5 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState, useRef } from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Checkbox } from 'react-native-paper';
 import { useSelector, useDispatch } from 'react-redux';
@@ -7,7 +6,8 @@ import { Alert } from 'react-native';
 import DatePicker from 'react-native-date-picker';
 import * as Yup from 'yup';
 import changeStatus from '~/store/modules/modalVisible/actions';
-import addPet from '~/store/modules/pets/actions';
+import { addPet } from '~/store/modules/pets/actions';
+import Button from '~/components/Button/index';
 
 import {
   Wrapper,
@@ -19,8 +19,6 @@ import {
   SelectorBox,
   Input,
   CheckHolder,
-  Submit,
-  SubmitTitle,
   CancelHolder,
   Instruction,
   CancelLabel,
@@ -69,7 +67,8 @@ export default function AddModal() {
       months: Yup.number()
         .max(12)
         .positive()
-        .nullable(),
+        .nullable()
+        .when('years', (value, field) => (value ? field.required() : field)),
       date: Yup.string().when('years', (value, field) =>
         value ? field : field.required()
       ),
@@ -77,7 +76,6 @@ export default function AddModal() {
 
     const pet = { name, kind, sex, date, years, months, breed };
 
-    console.log(pet);
     if (!(await schema.isValid(pet))) {
       return Alert.alert('Maruska', 'Invalid or missing information');
     }
@@ -265,9 +263,7 @@ export default function AddModal() {
               returnKeyType="send"
               onSubmitEditing={handleAddPet}
             />
-            <Submit onPress={handleAddPet}>
-              <SubmitTitle>Add pet</SubmitTitle>
-            </Submit>
+            <Button title="Add pet" onPress={handleAddPet} />
             <CancelHolder onPress={handleClose}>
               <CancelLabel>Cancel</CancelLabel>
             </CancelHolder>

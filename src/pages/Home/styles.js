@@ -13,7 +13,7 @@ export const PetList = styled.FlatList.attrs({
 
 export const Box = styled.TouchableOpacity`
   background-color: #eb3349;
-  margin: 10px 0px;
+  margin: 5px 0px;
   padding: 20px;
   border-radius: 4px;
   flex-direction: row;
@@ -23,8 +23,9 @@ export const Box = styled.TouchableOpacity`
 export const PetImage = styled.Image`
   height: 100px;
   width: 100px;
-  border-radius: 50px;
-  background-color: #333;
+  border-radius: 10px;
+  background-color: #fff;
+  opacity: ${props => (props.nullImage ? 1 : 0.3)};
 `;
 
 export const TextHolder = styled.View`
@@ -34,11 +35,12 @@ export const TextHolder = styled.View`
 
 export const Name = styled.Text`
   font-size: 22px;
-  font-weight: bold;
+  font-family: 'OpenSans-Bold';
   color: #fff;
 `;
 
 export const Info = styled.Text`
   font-size: 14px;
   color: #fff;
+  font-family: 'OpenSans-Regular';
 `;

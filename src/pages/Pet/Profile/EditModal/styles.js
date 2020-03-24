@@ -39,8 +39,6 @@ export const InputLabel = styled.Text`
   text-align: left;
 `;
 
-export const SelectorBox = styled.View``;
-
 export const Input = styled.TextInput`
   align-self: stretch;
   background-color: #eb3349;
@@ -80,4 +78,20 @@ export const CancelLabel = styled.Text`
   color: #eb3349;
   font-weight: bold;
   text-decoration: underline;
+`;
+
+export const DateHolder = styled.View`
+  align-self: stretch;
+  align-items: center;
+  justify-content: center;
+  opacity: ${props => (props.disabled ? 0.2 : 1)};
+  margin: 0 20px;
+`;
+
+export const Instruction = styled.Text`
+  color: #eb3349;
+  text-align: center;
+  font-weight: bold;
+  font-size: 16px;
+  margin: 10px 0px;
 `;
