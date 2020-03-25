@@ -86,6 +86,15 @@ export default function pets(state = INITIAL_STATE, action) {
         }
         break;
       }
+      case '@pet/DELETE': {
+        const { pet } = action.payload;
+
+        const findIndex = draft.data.findIndex(item => item.name === pet);
+        if (findIndex >= 0) {
+          draft.data.splice(findIndex, 1);
+        }
+        break;
+      }
       case '@pet/PICTURE': {
         const { image, petID } = action.payload;
         const petData = draft.data;

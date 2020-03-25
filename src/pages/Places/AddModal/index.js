@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Alert } from 'react-native';
 import * as Yup from 'yup';
 import changeStatus from '~/store/modules/modalVisible/actions';
-import addLocation from '~/store/modules/places/actions';
+import { addLocation } from '~/store/modules/places/actions';
 import Button from '~/components/Button/index';
 
 import {
@@ -18,14 +18,13 @@ import {
   SelectorBox,
   Input,
   CheckHolder,
-  Submit,
-  SubmitTitle,
   CancelHolder,
   CancelLabel,
 } from './styles';
 
 export default function AddModal() {
   const visible = useSelector(state => state.modal);
+  const locations = useSelector(state => state.places.data);
 
   const [city, setCity] = useState(null);
   const [name, setName] = useState(null);
@@ -60,6 +59,16 @@ export default function AddModal() {
     if (!(await schema.isValid(location))) {
       return Alert.alert('Maruska', 'Invalid or missing information!');
     }
+
+    const findIndex = locations.findIndex(item => item.name === name);
+
+    if (findIndex >= 0) {
+      return Alert.alert(
+        'Maruksa',
+        'You have already registered this location!'
+      );
+    }
+
     dispatch(addLocation(location));
 
     handleClose();

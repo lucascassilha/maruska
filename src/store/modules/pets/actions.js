@@ -12,6 +12,13 @@ export function editPet(pet) {
   };
 }
 
+export function deletePet(pet) {
+  return {
+    type: '@pet/DELETE',
+    payload: { pet },
+  };
+}
+
 export function editPicture(image, petID) {
   return {
     type: '@pet/PICTURE',

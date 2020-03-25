@@ -1,10 +1,11 @@
 import React, { useMemo } from 'react';
-import { StatusBar } from 'react-native';
+import { StatusBar, Alert } from 'react-native';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import changeStatus from '~/store/modules/modalVisible/actions';
 import EditModal from './EditModal';
 import Button from '~/components/Button/index';
+import { deletePet } from '~/store/modules/pets/actions';
 
 import {
   Container,
@@ -94,6 +95,23 @@ export default function Profile({ route, navigation }) {
     },
   ];
 
+  const handleDeletePet = () => {
+    Alert.alert(
+      'Are you sure you want to do this?',
+      'You will not get this pet information back!',
+      [
+        {
+          text: "I'm sure",
+          onPress: () => {
+            dispatch(deletePet(pet.name));
+            navigation.navigate('Home');
+          },
+        },
+        { text: 'Cancel' },
+      ]
+    );
+  };
+
   return (
     <Container>
       <StatusBar backgroundColor="#eb3349" barStyle="light-content" />
@@ -160,14 +178,12 @@ export default function Profile({ route, navigation }) {
           <Button
             title="Lost my pet!"
             onPress={() =>
-              navigation.navigate('LostPet', { changeInfo: false, pet })
-            }
+              navigation.navigate('LostPet', { changeInfo: false, pet })}
           />
-          <Button
-            title="Change my information"
-            onPress={() =>
-              navigation.navigate('LostPet', { changeInfo: true, pet: false })}
-          />
+        </EmergencyHolder>
+        <MenuTitle>Pet Options</MenuTitle>
+        <EmergencyHolder>
+          <Button title="Delete pet" onPress={handleDeletePet} />
         </EmergencyHolder>
       </PetMenu>
     </Container>

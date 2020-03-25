@@ -298,6 +298,23 @@ function Pet() {
             fontSize: 20,
             fontFamily: 'OpenSans-Bold',
           },
+          headerRight: () => (
+            <TouchableOpacity
+              onPress={() => {
+                Alert.alert(
+                  'Information',
+                  'To confirm a medication dose, click on the check button on the side of the delete button (trash)!'
+                );
+              }}
+              style={{
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginRight: 20,
+              }}
+            >
+              <Icon name="information" color="#fff" size={25} />
+            </TouchableOpacity>
+          ),
           headerBackImage: () => {
             return <Icon name="chevron-left" color="#fff" size={25} />;
           },

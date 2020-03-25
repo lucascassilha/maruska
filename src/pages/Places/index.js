@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { Linking } from 'react-native';
+import { Alert, Linking } from 'react-native';
 import changeStatus from '~/store/modules/modalVisible/actions';
 import Modal from './AddModal/index';
+import { deleteLocation } from '~/store/modules/places/actions';
 
 import {
   Container,
@@ -38,6 +39,22 @@ export default function Places() {
     Linking.openURL(url);
   };
 
+  const handleDelete = ID => {
+    Alert.alert(
+      'Are you sure you want to do this?',
+      'You will not get this information back!',
+      [
+        {
+          text: "I'm sure",
+          onPress: () => {
+            dispatch(deleteLocation(ID));
+          },
+        },
+        { text: 'Cancel' },
+      ]
+    );
+  };
+
   return (
     <Container>
       <Maruska />
@@ -45,7 +62,7 @@ export default function Places() {
       <Modal />
       <PlaceList
         data={places}
-        keyExtractor={item => item.phone}
+        keyExtractor={item => item.name}
         renderItem={({ item }) => (
           <Box>
             <TextHolder>
@@ -55,10 +72,13 @@ export default function Places() {
             </TextHolder>
             <ButtonHolder>
               <Button onPress={() => handleCall(item.phone)}>
-                <Icon name="phone" size={30} color="#fff" />
+                <Icon name="phone" size={28} color="#fff" />
               </Button>
               <Button onPress={() => handleMaps(item.address, item.city)}>
-                <Icon name="car" size={30} color="#fff" />
+                <Icon name="car" size={28} color="#fff" />
+              </Button>
+              <Button onPress={() => handleDelete(item.name)}>
+                <Icon name="trash-can" size={28} color="#fff" />
               </Button>
             </ButtonHolder>
           </Box>

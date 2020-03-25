@@ -7,7 +7,7 @@ export const Container = styled.View`
 
 export const PlaceList = styled.FlatList.attrs({
   contentContainerStyle: {
-    padding: 30,
+    padding: 20,
   },
 })``;
 
@@ -21,7 +21,9 @@ export const Box = styled.View`
   justify-content: space-between;
 `;
 
-export const TextHolder = styled.View``;
+export const TextHolder = styled.View`
+  width: 60%;
+`;
 
 export const Name = styled.Text`
   font-size: 24px;
