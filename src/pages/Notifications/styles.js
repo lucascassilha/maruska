@@ -7,7 +7,7 @@ export const Container = styled.View`
 
 export const NotifList = styled.FlatList.attrs({
   contentContainerStyle: {
-    padding: 30,
+    padding: 20,
   },
 })``;
 

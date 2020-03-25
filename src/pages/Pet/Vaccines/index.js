@@ -54,14 +54,11 @@ export default function Vaccines({ route }) {
 
   useEffect(() => {
     const petIndex = pets.findIndex(item => item.name === petID);
-    console.log(pets[petIndex].vaccines);
     if (pets[petIndex].vaccines && pets[petIndex].vaccines[0]) {
       const list = pets[petIndex].vaccines;
       const returnable = produce(list, draft => {
         draft.map(item => {
           const currentDate = new Date();
-          console.log(item.nextDoseDate);
-          console.log(isValid(item.nextDoseDate));
           if (isValid(item.nextDoseDate)) {
             item.nextDoseString = formatDistanceStrict(
               item.nextDoseDate,
@@ -69,7 +66,6 @@ export default function Vaccines({ route }) {
             );
           } else if (item.nextDoseDate !== undefined) {
             const parsedDate = parseISO(item.nextDoseDate);
-            console.log(`Parsed valid: ${isValid(parsedDate)}`);
             item.nextDoseString = formatDistanceStrict(parsedDate, currentDate);
           } else {
             item.nextDoseString = 'Vaccinated!';
@@ -147,7 +143,22 @@ export default function Vaccines({ route }) {
   };
 
   const handleDeleteVaccine = ID => {
-    dispatch(petDeleteVaccine(ID, petID));
+    Alert.alert(
+      'Are you sure?',
+      "We don't recommend deleting any vaccine data, once it may be valuable information for your pet's health!",
+      [
+        {
+          text: "I'm sure",
+          onPress: () => {
+            if (vaccines.length === 1) {
+              setVaccines([]);
+            }
+            dispatch(petDeleteVaccine(ID, petID));
+          },
+        },
+        { text: 'CANCEL' },
+      ]
+    );
   };
 
   const dosesRef = useRef();

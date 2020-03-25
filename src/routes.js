@@ -20,6 +20,8 @@ import Notifications from '~/pages/Notifications/index';
 import Places from '~/pages/Places/index';
 import Settings from '~/pages/Settings/index';
 
+import LostPet from '~/pages/Pet/LostPet/index';
+
 const Stack = createStackNavigator();
 
 function Pet() {
@@ -257,6 +259,23 @@ function Pet() {
             fontSize: 20,
             fontFamily: 'OpenSans-Bold',
           },
+          headerRight: () => (
+            <TouchableOpacity
+              onPress={() => {
+                Alert.alert(
+                  'Information',
+                  'To confirm a vaccine dose, click on the check button on the side of the delete button (trash)!'
+                );
+              }}
+              style={{
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginRight: 20,
+              }}
+            >
+              <Icon name="information" color="#fff" size={25} />
+            </TouchableOpacity>
+          ),
           headerBackImage: () => {
             return <Icon name="chevron-left" color="#fff" size={25} />;
           },
@@ -267,6 +286,45 @@ function Pet() {
         component={Medications}
         options={() => ({
           title: 'Medications',
+          headerStyle: {
+            backgroundColor: '#eb3349',
+          },
+          headerBackTitleStyle: null,
+          headerTintColor: '#fff',
+          headerTitleAlign: 'center',
+          resetOnBlur: true,
+          headerTitleStyle: {
+            color: '#fff',
+            fontSize: 20,
+            fontFamily: 'OpenSans-Bold',
+          },
+          headerRight: () => (
+            <TouchableOpacity
+              onPress={() => {
+                Alert.alert(
+                  'Information',
+                  'To confirm a medication dose, click on the check button on the side of the delete button (trash)!'
+                );
+              }}
+              style={{
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginRight: 20,
+              }}
+            >
+              <Icon name="information" color="#fff" size={25} />
+            </TouchableOpacity>
+          ),
+          headerBackImage: () => {
+            return <Icon name="chevron-left" color="#fff" size={25} />;
+          },
+        })}
+      />
+      <Stack.Screen
+        name="LostPet"
+        component={LostPet}
+        options={() => ({
+          title: 'Contact Information',
           headerStyle: {
             backgroundColor: '#eb3349',
           },

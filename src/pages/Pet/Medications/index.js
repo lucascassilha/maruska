@@ -108,15 +108,17 @@ export default function Medications({ route }) {
 
     const petIndex = pets.findIndex(item => item.name === petID);
 
-    const medIndex = pets[petIndex].medications.findIndex(
-      item => item.name === name
-    );
-
-    if (medIndex >= 0) {
-      return Alert.alert(
-        'Error',
-        'You have already registered this medication!'
+    if (pets[petIndex].medications) {
+      const medIndex = pets[petIndex].medications.findIndex(
+        item => item.name === name
       );
+
+      if (medIndex >= 0) {
+        return Alert.alert(
+          'Error',
+          'You have already registered this medication!'
+        );
+      }
     }
 
     const currentDate = new Date();

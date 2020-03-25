@@ -86,6 +86,15 @@ export default function pets(state = INITIAL_STATE, action) {
         }
         break;
       }
+      case '@pet/DELETE': {
+        const { pet } = action.payload;
+
+        const findIndex = draft.data.findIndex(item => item.name === pet);
+        if (findIndex >= 0) {
+          draft.data.splice(findIndex, 1);
+        }
+        break;
+      }
       case '@pet/PICTURE': {
         const { image, petID } = action.payload;
         const petData = draft.data;
@@ -165,7 +174,6 @@ export default function pets(state = INITIAL_STATE, action) {
 
         const petIndex = petData.findIndex(item => item.name === petID);
         if (petIndex >= 0) {
-          console.tron.log(petData[petIndex]);
           if (petData[petIndex].surgeries.length >= 0) {
             const index = petData[petIndex].surgeries.findIndex(
               item => item.name === surgery
@@ -198,7 +206,6 @@ export default function pets(state = INITIAL_STATE, action) {
 
         const petIndex = petData.findIndex(item => item.name === petID);
         if (petIndex >= 0) {
-          console.tron.log(petData[petIndex]);
           if (petData[petIndex].problems.length >= 0) {
             const index = petData[petIndex].problems.findIndex(
               item => item.title === problem

@@ -3,22 +3,21 @@ import styled from 'styled-components/native';
 export const Container = styled.View`
   flex: 1;
   background-color: #fff;
-  padding: 0px 30px;
+  padding: 0px 20px;
   align-items: center;
 `;
 
 export const Box = styled.View`
-  background-color: #eb3349;
   align-self: stretch;
-  padding: 20px;
-  border-radius: 4px;
 `;
 
 export const Button = styled.TouchableOpacity`
-  border-bottom-width: 1px;
-  border-bottom-color: #df273d;
+  background-color: #eb3349;
+  border-radius: 4px;
+  margin: 5px 0px;
   padding: 20px 0px;
   flex-direction: row;
+  padding: 20px 10px;
 `;
 
 export const Label = styled.Text`
