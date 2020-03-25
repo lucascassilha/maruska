@@ -1,6 +1,7 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useMemo } from 'react';
 import { Alert } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
+import PropTypes from 'prop-types';
 import Button from '~/components/Button/index';
 
 import {
@@ -20,7 +21,7 @@ export default function LostPet({ route }) {
   const [modalVisible, setVisible] = useState(false);
   const [auxInfo, setAuxInfo] = useState(false);
   const [contact, setContact] = useState(null);
-  const [lostRegion, setRegion] = useState(null);
+  const [lostRegion, setRegion] = useState('');
 
   useEffect(() => {
     const loadInfo = async () => {
@@ -53,6 +54,10 @@ export default function LostPet({ route }) {
 
   const regionRef = useRef();
 
+  const regionLength = useMemo(() => 40 - Number(lostRegion.length), [
+    lostRegion,
+  ]);
+
   return (
     <Container>
       <LabelInput>
@@ -68,7 +73,7 @@ export default function LostPet({ route }) {
         onSubmitEditing={() => regionRef.current.focus()}
       />
       <LabelInput>
-        We also need to know in which region the pet got lost (optional) (40)
+        {`We also need to know in which region the pet got lost (optional - ${regionLength})`}
       </LabelInput>
       <Input
         onChangeText={setRegion}
@@ -104,3 +109,7 @@ export default function LostPet({ route }) {
     </Container>
   );
 }
+
+LostPet.propTypes = {
+  route: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
+};
