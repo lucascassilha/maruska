@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { format, differenceInMonths, parseISO } from 'date-fns';
+import { format, differenceInMonths, parseISO, isValid } from 'date-fns';
 import { Dimensions, Alert } from 'react-native';
 import { LineChart } from 'react-native-chart-kit';
 import { useSelector, useDispatch } from 'react-redux';
@@ -61,8 +61,14 @@ export default function Weight({ route, navigation }) {
       setLabels(labelList);
       setData(weightList);
 
+      const currentDate = new Date();
+
       const monthRegistered = weightData.findIndex(item => {
-        return differenceInMonths(item.created_at, new Date()) === 0;
+        const dateValid = isValid(item.created_at);
+        const parsedDate = dateValid
+          ? item.created_at
+          : parseISO(item.created_at);
+        return differenceInMonths(parsedDate, currentDate) === 0;
       });
       console.log(monthRegistered);
       if (monthRegistered === 0) {

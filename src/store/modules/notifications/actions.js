@@ -11,3 +11,9 @@ export function notificationCancel(notificationID) {
     payload: { notificationID },
   };
 }
+
+export function clearPastNotifications() {
+  return {
+    type: '@notification/CLEAR',
+  };
+}

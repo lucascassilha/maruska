@@ -23,8 +23,8 @@ export default function Notifications() {
   useEffect(() => {
     const currentDate = new Date();
     const list = produce(notifications, draft => {
-      draft
-        .map(item => {
+      draft.map(item => {
+        if (item.date) {
           let auxDate = item.date;
           if (!isValid(item.date)) {
             auxDate = parseISO(item.date);
@@ -35,15 +35,9 @@ export default function Notifications() {
           item.isPast = isPast;
           item.dateString = date;
           item.timeString = time;
-        })
-        .sort((a, b) => {
-          const parsedA = parseISO(a.date);
-          const parsedB = parseISO(b.date);
-          return !isAfter(parsedA, parsedB);
-        });
+        }
+      });
     });
-
-    console.log(list[0].isPast);
 
     setList(list);
   }, [notifications]);

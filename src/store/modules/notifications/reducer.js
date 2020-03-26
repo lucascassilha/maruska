@@ -1,4 +1,5 @@
 import { produce } from 'immer';
+import { parseISO, isAfter, isValid } from 'date-fns';
 import Notification from '~/config/NotificationService';
 
 const INITIAL_STATE = {
@@ -14,6 +15,15 @@ export default function notifications(state = INITIAL_STATE, action) {
 
         draft.data.push(notification);
 
+        draft.data.sort(function(a, b) {
+          const aValid = isValid(a.date);
+          const bValid = isValid(b.date);
+          const parsedA = aValid ? a.date : parseISO(a.date);
+          const parsedB = bValid ? b.date : parseISO(b.date);
+          console.log(!isAfter(parsedA, parsedB));
+          return isAfter(parsedA, parsedB);
+        });
+
         break;
       }
       case '@notification/CANCEL': {
@@ -25,9 +35,11 @@ export default function notifications(state = INITIAL_STATE, action) {
 
         if (findIndex >= 0) {
           draft.data.splice(findIndex, 1);
-          Notification.cancelNotification(notificationID);
         }
 
+        break;
+      }
+      case '@notification/CLEAR': {
         break;
       }
       default:

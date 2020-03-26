@@ -9,6 +9,8 @@ export const Container = styled.View`
 
 export const Box = styled.View`
   align-self: stretch;
+  flex: 1;
+  justify-content: center;
 `;
 
 export const Button = styled.TouchableOpacity`
@@ -28,7 +30,8 @@ export const Label = styled.Text`
 `;
 
 export const Version = styled.Text`
+  text-align: center;
   margin-top: 10px;
   font-size: 16px;
-  font-family: 'OpenSans-Bold';
+  font-family: 'OpenSans-Regular';
 `;

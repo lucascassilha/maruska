@@ -22,6 +22,11 @@ export default function Settings() {
       `Pet Menu icons from FlatIcon \nProject assets from romannurik`
     );
   };
+
+  const handleLink = () => {
+    Linking.openURL('https://ko-fi.com/lcdev');
+  };
+
   return (
     <Container>
       <Maruska />
@@ -32,7 +37,8 @@ export default function Settings() {
               title: 'Maruska - The app for your pets!',
               message:
                 'Check out this app: https://play.google.com/store/apps/details?id=com.lcdev.maruska',
-            })}
+            })
+          }
         >
           <Icon name="share" color="#fff" size={25} />
           <Label>Share the app</Label>
@@ -43,7 +49,8 @@ export default function Settings() {
         </Button>
         <Button
           onPress={() =>
-            Linking.openURL('market://details?id=com.lcdev.maruska')}
+            Linking.openURL('market://details?id=com.lcdev.maruska')
+          }
         >
           <Icon name="star" color="#fff" size={25} />
           <Label>Rate us</Label>
@@ -52,8 +59,13 @@ export default function Settings() {
           <Icon name="account-multiple" color="#fff" size={25} />
           <Label>Acknowledgments</Label>
         </Button>
+        <Button onPress={handleLink}>
+          <Icon name="coffee" color="#fff" size={25} />
+          <Label>Buy me a coffee</Label>
+        </Button>
+        <Version>v2.0.0</Version>
+        <Version>LCdev - 2020</Version>
       </Box>
-      <Version>2020 - v2.0.0 LCdev</Version>
     </Container>
   );
 }

@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import Maruska from '~/components/MaruskaLogo/index';
 import changeStatus from '~/store/modules/modalVisible/actions';
 import Modal from './AddModal/index';
+import Notification from '~/config/NotificationService';
 
 import FAB from '~/components/FAB/index';
 
@@ -27,7 +28,7 @@ export default function Home({ navigation }) {
   const [petDate, setPetData] = useState([]);
 
   const dispatch = useDispatch();
-  const handleOpen = () => {
+  const handleOpen = async () => {
     dispatch(changeStatus(0));
   };
 

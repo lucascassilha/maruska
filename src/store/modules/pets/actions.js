@@ -82,10 +82,10 @@ export function petMedication(medication, petID) {
   };
 }
 
-export function petCheckMedication(medication, petID, notificationID) {
+export function petCheckMedication(medication, petID, notificationInfo) {
   return {
     type: '@pet/CHECK_MEDICATION',
-    payload: { medication, petID, notificationID },
+    payload: { medication, petID, notificationInfo },
   };
 }
 

@@ -4,7 +4,6 @@ import { Alert } from 'react-native';
 class NotificationService {
   constructor(onNotification) {
     this.configure(onNotification);
-    this.lastId = 0;
   }
 
   configure(onNotification) {
@@ -15,28 +14,42 @@ class NotificationService {
     });
   }
 
-  localNotification() {
-    this.lastId += 1;
+  async localNotification() {
+    const id = `${Math.floor(
+      Math.random() * 10000
+    )}${new Date().getMilliseconds()}`;
+
     PushNotification.localNotification({
       title: 'Local Notification',
       message: 'My Notification Message',
       playSound: false,
       soundName: 'default',
       actions: '["Yes", "No"]',
+      id,
+      largeIcon: 'ic_launcher',
+      smallIcon: 'ic_notification',
+      color: 'red',
     });
-    return this.lastId;
+    return id;
   }
 
-  scheduleNotification(date, title, message) {
-    this.lastId += 1;
-    PushNotification.localNotificationSchedule({
+  async scheduleNotification(date, title, message) {
+    const id = `${Math.floor(
+      Math.random() * 10000
+    )}${new Date().getMilliseconds()}`;
+    await PushNotification.localNotificationSchedule({
+      id,
       date,
       title,
       message,
       playSound: true,
       soundName: 'default',
+      largeIcon: 'ic_launcher',
+      smallIcon: 'ic_notification',
+      color: 'red',
     });
-    return this.lastId;
+    console.tron.log(`NOTIFICATION ID: ${id}`);
+    return id;
   }
 
   checkPermission(cbk) {
