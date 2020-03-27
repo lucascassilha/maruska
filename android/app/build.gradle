@@ -156,11 +156,18 @@ android {
     buildTypes {
         debug {
             signingConfig signingConfigs.debug
+            resValue "string", "CodePushDeploymentKey", '""'
+        }
+
+        releaseStaging {
+            resValue "string", "CodePushDeploymentKey", '"zIqOz6Qsg2Jv0c8Q4flhz5S0SKAuCFEUng419"'
+            matchingFallbacks = ['release']
         }
         release {
             // Caution! In production, you need to generate your own keystore file.
             // see https://facebook.github.io/react-native/docs/signed-apk-android.
             signingConfig signingConfigs.debug
+            resValue "string", "CodePushDeploymentKey", '"7t_87MA4jXhbBTyN5dHY2ytShdg67He6gbz0H"'
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
@@ -182,6 +189,7 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-code-push')
     implementation project(':react-native-admob')
     implementation project(':react-native-push-notification')
     implementation project(':react-native-vector-icons')
