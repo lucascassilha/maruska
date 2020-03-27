@@ -5,15 +5,31 @@ import * as Yup from 'yup';
 import { Alert, Picker } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { produce } from 'immer';
-import { formatDistanceStrict, parseISO, isValid } from 'date-fns';
+import {
+  formatDistanceStrict,
+  parseISO,
+  isValid,
+  isAfter,
+  addYears,
+  addMonths,
+  addDays,
+  addHours,
+} from 'date-fns';
+import PropTypes from 'prop-types';
 import Button from '~/components/Button/index';
 import FAB from '~/components/FAB';
+
+import Notification from '~/config/NotificationService';
 
 import {
   petMedication,
   petCheckMedication,
   petDeleteMedication,
 } from '~/store/modules/pets/actions';
+import {
+  notificationCancel,
+  notificationAdd,
+} from '~/store/modules/notifications/actions';
 
 import {
   Container,
@@ -37,6 +53,8 @@ import {
   CancelBox,
 } from './styles';
 
+console.disableYellowBox = true;
+
 export default function Medications({ route }) {
   const { petID } = route.params;
   const pets = useSelector(state => state.pets.data);
@@ -54,24 +72,34 @@ export default function Medications({ route }) {
 
   useEffect(() => {
     const petIndex = pets.findIndex(item => item.name === petID);
-    console.log(pets[petIndex].medications);
     if (pets[petIndex].medications && pets[petIndex].medications[0]) {
       const list = pets[petIndex].medications;
       const returnable = produce(list, draft => {
         draft.map(item => {
           const currentDate = new Date();
-          console.log(item.nextDoseDate);
-          console.log(isValid(item.nextDoseDate));
-          if (isValid(item.nextDoseDate)) {
-            item.nextDoseString = formatDistanceStrict(
-              item.nextDoseDate,
-              currentDate
-            );
-          } else if (item.nextDoseDate !== undefined) {
-            const parsedDate = parseISO(item.nextDoseDate);
-            console.log(`Parsed valid: ${isValid(parsedDate)}`);
-            item.nextDoseString = formatDistanceStrict(parsedDate, currentDate);
-          } else {
+          if (item.nextDoseDate) {
+            if (isValid(item.nextDoseDate)) {
+              if (isAfter(currentDate, item.nextDoseDate)) {
+                item.nextDoseString = 'Now!';
+                return 0;
+              }
+              item.nextDoseString = formatDistanceStrict(
+                item.nextDoseDate,
+                currentDate
+              );
+            } else if (item.nextDoseDate !== undefined) {
+              const parsedDate = parseISO(item.nextDoseDate);
+              if (isAfter(currentDate, parsedDate)) {
+                item.nextDoseString = 'Now!';
+                return 0;
+              }
+              item.nextDoseString = formatDistanceStrict(
+                parsedDate,
+                currentDate
+              );
+            }
+          }
+          if (item.doses === 0) {
             item.nextDoseString = 'Finished!';
           }
         });
@@ -124,9 +152,23 @@ export default function Medications({ route }) {
     const currentDate = new Date();
     const nextDoseString = formatDistanceStrict(date, currentDate);
 
+    const title = 'Medication time!';
+    const message = `${petID} needs to take the first dose of ${name}!`;
+
+    const notificationID = await Notification.scheduleNotification(
+      date,
+      title,
+      message
+    );
+
+    dispatch(
+      notificationAdd({ id: notificationID, date, title, message, petID })
+    );
+
     dispatch(
       petMedication(
         {
+          notificationID,
           name,
           doses,
           nextDoseDate: date,
@@ -143,12 +185,69 @@ export default function Medications({ route }) {
     setVisible(false);
   };
 
-  const handleCheckMedication = name => {
-    dispatch(petCheckMedication(name, petID));
+  const handleCheckMedication = async (
+    medID,
+    notificationID,
+    notificationDate,
+    notificationInfo
+  ) => {
+    const currentDate = new Date();
+
+    dispatch(notificationCancel(notificationID));
+    Notification.cancelNotification(notificationID);
+
+    const dosesLeft = notificationInfo.doses;
+    const intervalPeriod = notificationInfo.interval;
+    const intervalData = notificationInfo.intervalValue;
+
+    let notificationData = {};
+
+    let nextDoseDate = null;
+    let reminderNotification = -1;
+    if (parseInt(dosesLeft, 10) > 1) {
+      if (intervalPeriod === 1) {
+        nextDoseDate = addYears(currentDate, parseInt(intervalData, 10));
+      }
+      if (intervalPeriod === 2) {
+        nextDoseDate = addMonths(currentDate, parseInt(intervalData, 10));
+      }
+      if (intervalPeriod === 3) {
+        nextDoseDate = addDays(currentDate, parseInt(intervalData, 10));
+      }
+      if (intervalPeriod === 4) {
+        nextDoseDate = addHours(currentDate, parseInt(intervalData, 10));
+      }
+      const title = 'Medication time!';
+      const message = `${petID} needs to take ${medID}!`;
+
+      reminderNotification = await Notification.scheduleNotification(
+        nextDoseDate,
+        title,
+        message
+      );
+      notificationData = {
+        title,
+        message,
+        date: nextDoseDate,
+        id: reminderNotification,
+        petID,
+      };
+
+      dispatch(notificationAdd(notificationData));
+    }
+
+    notificationData = {
+      id: reminderNotification,
+      date: nextDoseDate,
+    };
+
+    dispatch(petCheckMedication(medID, petID, notificationData));
   };
 
-  const handleDeleteMedication = name => {
-    dispatch(petDeleteMedication(name, petID));
+  const handleDeleteMedication = async (medID, notificationID) => {
+    Notification.cancelNotification(notificationID);
+    dispatch(notificationCancel(notificationID));
+    dispatch(petDeleteMedication(medID, petID));
   };
 
   const dosesRef = useRef();
@@ -169,10 +268,27 @@ export default function Medications({ route }) {
               <SubTitle>{`Doses left: ${item.doses}`}</SubTitle>
             </TextBox>
             <ButtonBox>
-              <ButtonHolder onPress={() => handleCheckMedication(item.name)}>
+              <ButtonHolder
+                onPress={() => {
+                  const notificationInfo = {
+                    doses: item.doses,
+                    interval: item.interval,
+                    intervalValue: item.intervalValue,
+                  };
+                  handleCheckMedication(
+                    item.name,
+                    item.notificationID,
+                    item.nextDoseDate,
+                    notificationInfo
+                  );
+                }}
+              >
                 <Icon name="clipboard-check" color="#fff" size={20} />
               </ButtonHolder>
-              <ButtonHolder onPress={() => handleDeleteMedication(item.name)}>
+              <ButtonHolder
+                onPress={() =>
+                  handleDeleteMedication(item.name, item.notificationID)}
+              >
                 <Icon name="trash-alt" color="#fff" size={20} />
               </ButtonHolder>
             </ButtonBox>
@@ -254,3 +370,7 @@ export default function Medications({ route }) {
     </Container>
   );
 }
+
+Medications.propTypes = {
+  route: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
+};

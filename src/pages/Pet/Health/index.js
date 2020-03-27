@@ -9,6 +9,9 @@ import {
   petDeleteSurgery,
   petDeleteProblem,
 } from '~/store/modules/pets/actions';
+import { notificationCancel } from '~/store/modules/notifications/actions';
+
+import Notification from '~/config/NotificationService';
 
 import {
   Container,
@@ -68,7 +71,10 @@ export default function Health({ route, navigation }) {
       setDocList([]);
     }
   };
-  const handleDeleteAppointment = date => {
+  const handleDeleteAppointment = async (date, notificationID) => {
+    await Notification.cancelNotification(notificationID);
+    dispatch(notificationCancel(notificationID));
+
     dispatch(petDeleteAppointment(date, petID));
     if (appointments.length === 1) {
       setAppointments([]);
@@ -157,7 +163,11 @@ export default function Health({ route, navigation }) {
               >
                 <Icon name="phone" color="#fff" size={20} />
               </IconHolder>
-              <IconHolder onPress={() => handleDeleteAppointment(item.date)}>
+              <IconHolder
+                onPress={() =>
+                  handleDeleteAppointment(item.date, item.notificationID)
+                }
+              >
                 <Icon name="trash-alt" color="#fff" size={20} />
               </IconHolder>
             </ButtonBox>

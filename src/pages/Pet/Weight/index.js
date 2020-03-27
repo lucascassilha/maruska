@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { format, differenceInMonths, parseISO } from 'date-fns';
+import {
+  format,
+  differenceInMonths,
+  parseISO,
+  isValid,
+  addMonths,
+} from 'date-fns';
 import { Dimensions, Alert } from 'react-native';
 import { LineChart } from 'react-native-chart-kit';
 import { useSelector, useDispatch } from 'react-redux';
@@ -7,6 +13,10 @@ import Button from '~/components/Button/index';
 import { petWeightAdd } from '~/store/modules/pets/actions';
 
 import { Container, InputLabel, Input, ErrorLabel } from './styles';
+
+import Notification from '~/config/NotificationService';
+
+import { notificationAdd } from '~/store/modules/notifications/actions';
 
 export default function Weight({ route, navigation }) {
   const { petID } = route.params;
@@ -36,8 +46,25 @@ export default function Weight({ route, navigation }) {
         [
           {
             text: "It's right",
-            onPress: () => {
+            onPress: async () => {
               const currentDate = new Date();
+              const notificationDate = addMonths(currentDate, 1);
+              const title = `It's time to weight ${petID}`;
+              const message = `Don't forget to register ${petID}'s weight this month!`;
+              const notificationID = await Notification.scheduleNotification(
+                notificationDate,
+                title,
+                message
+              );
+              const notification = {
+                title,
+                message,
+                id: notificationID,
+                petID,
+                date: notificationDate,
+              };
+              dispatch(notificationAdd(notification));
+
               const weightData = { weight, date, created_at: currentDate };
               dispatch(petWeightAdd(weightData, petID));
               navigation.goBack();
@@ -61,8 +88,14 @@ export default function Weight({ route, navigation }) {
       setLabels(labelList);
       setData(weightList);
 
+      const currentDate = new Date();
+
       const monthRegistered = weightData.findIndex(item => {
-        return differenceInMonths(item.created_at, new Date()) === 0;
+        const dateValid = isValid(item.created_at);
+        const parsedDate = dateValid
+          ? item.created_at
+          : parseISO(item.created_at);
+        return differenceInMonths(parsedDate, currentDate) === 0;
       });
       console.log(monthRegistered);
       if (monthRegistered === 0) {

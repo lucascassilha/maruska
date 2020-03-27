@@ -7,7 +7,6 @@ import {
   addYears,
   addMonths,
   addDays,
-  addHours,
 } from 'date-fns';
 
 const INITIAL_STATE = {
@@ -250,7 +249,7 @@ export default function pets(state = INITIAL_STATE, action) {
         break;
       }
       case '@pet/CHECK_MEDICATION': {
-        const { medication, petID } = action.payload;
+        const { medication, petID, notificationInfo } = action.payload;
         const petData = draft.data;
 
         const petIndex = petData.findIndex(item => item.name === petID);
@@ -261,23 +260,11 @@ export default function pets(state = INITIAL_STATE, action) {
           const medicationRef = petData[petIndex].medications[medicationIndex];
           if (medicationRef.doses > 0) {
             medicationRef.doses -= 1;
-            const { intervalValue, interval } = medicationRef;
+            medicationRef.nextDoseDate = notificationInfo.date;
+            medicationRef.notificationID = notificationInfo.id;
+
             const currentDate = new Date();
-            if (interval === 1) {
-              medicationRef.nextDoseDate = addYears(currentDate, intervalValue);
-            }
-            if (interval === 2) {
-              medicationRef.nextDoseDate = addMonths(
-                currentDate,
-                intervalValue
-              );
-            }
-            if (interval === 3) {
-              medicationRef.nextDoseDate = addDays(currentDate, intervalValue);
-            }
-            if (interval === 4) {
-              medicationRef.nextDoseDate = addHours(currentDate, intervalValue);
-            }
+
             medicationRef.lastDose = currentDate;
             medicationRef.lastDoseString = format(
               currentDate,
@@ -323,7 +310,7 @@ export default function pets(state = INITIAL_STATE, action) {
         break;
       }
       case '@pet/CHECK_VACCINE': {
-        const { vaccine, petID } = action.payload;
+        const { vaccine, petID, notificationInfo } = action.payload;
         const petData = draft.data;
 
         const petIndex = petData.findIndex(item => item.name === petID);
@@ -334,22 +321,17 @@ export default function pets(state = INITIAL_STATE, action) {
           const medicationRef = petData[petIndex].vaccines[medicationIndex];
           if (medicationRef.doses > 0) {
             medicationRef.doses -= 1;
-            const { intervalValue, interval } = medicationRef;
+
+            medicationRef.nextDoseDate = addDays(notificationInfo.date, 1);
+            medicationRef.notificationID = notificationInfo.id;
+
             const currentDate = new Date();
-            if (interval === 1) {
-              medicationRef.nextDoseDate = addYears(currentDate, intervalValue);
-            }
-            if (interval === 2) {
-              medicationRef.nextDoseDate = addMonths(
-                currentDate,
-                intervalValue
-              );
-            }
-            if (interval === 3) {
-              medicationRef.nextDoseDate = addDays(currentDate, intervalValue);
-            }
+
             medicationRef.lastDose = currentDate;
-            medicationRef.lastDoseString = format(currentDate, 'dd/MM/yyyy');
+            medicationRef.lastDoseString = format(
+              currentDate,
+              'dd/MM/yyyy - HH:mm'
+            );
           }
           if (medicationRef.doses === 0) {
             medicationRef.nextDoseDate = undefined;

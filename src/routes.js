@@ -132,6 +132,23 @@ function Pet() {
             fontSize: 20,
             fontFamily: 'OpenSans-Bold',
           },
+          headerRight: () => (
+            <TouchableOpacity
+              onPress={() => {
+                Alert.alert(
+                  'Information',
+                  'To add a doctor, you first need to input a clinic!'
+                );
+              }}
+              style={{
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginRight: 20,
+              }}
+            >
+              <Icon name="information" color="#fff" size={25} />
+            </TouchableOpacity>
+          ),
           headerBackImage: () => {
             return <Icon name="chevron-left" color="#fff" size={25} />;
           },

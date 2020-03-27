@@ -3,10 +3,13 @@ import { Picker, Alert } from 'react-native';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import * as Yup from 'yup';
-import { format } from 'date-fns';
+import { format, subDays } from 'date-fns';
 import DatePicker from 'react-native-date-picker';
 import Button from '~/components/Button/index';
 import { petAppointment } from '~/store/modules/pets/actions';
+import { notificationAdd } from '~/store/modules/notifications/actions';
+
+import Notification from '~/config/NotificationService';
 
 import { Container, InputLabel, DateHolder } from './styles';
 
@@ -41,7 +44,32 @@ export default function AppointAdd({ route, navigation }) {
     const time = format(date, 'HH:mm');
     const day = format(date, 'dd/MM/yyyy');
 
-    dispatch(petAppointment({ ...appointment, time, day, phone }, petID));
+    const notificationDate = subDays(date, 1);
+    const title = 'Appointment Tomorrow!';
+    const message = `Don't forget ${petID} has an appointment with ${selectedDoc} tomorrow at ${time}`;
+
+    const notificationID = await Notification.scheduleNotification(
+      notificationDate,
+      title,
+      message
+    );
+
+    const notification = {
+      title,
+      message,
+      id: notificationID,
+      date: notificationDate,
+      petID,
+    };
+
+    dispatch(notificationAdd(notification));
+
+    dispatch(
+      petAppointment(
+        { ...appointment, time, day, phone, notificationID },
+        petID
+      )
+    );
     navigation.goBack();
   };
 

@@ -5,9 +5,25 @@ import * as Yup from 'yup';
 import { Alert, Picker } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { produce } from 'immer';
-import { formatDistanceStrict, parseISO, isValid } from 'date-fns';
+import {
+  formatDistanceStrict,
+  format,
+  parseISO,
+  isValid,
+  subDays,
+  addYears,
+  addMonths,
+  addDays,
+} from 'date-fns';
 import Button from '~/components/Button/index';
 import FAB from '~/components/FAB';
+
+import Notification from '~/config/NotificationService';
+
+import {
+  notificationCancel,
+  notificationAdd,
+} from '~/store/modules/notifications/actions';
 
 import {
   petVaccine,
@@ -119,10 +135,31 @@ export default function Vaccines({ route }) {
     const currentDate = new Date();
     const nextDoseString = formatDistanceStrict(date, currentDate);
 
+    const notificationDate = subDays(date, 1);
+    const title = 'Vaccine time!';
+    const message = `${petID} needs to take the first dose of ${name} tomorrow!`;
+
+    const notificationID = await Notification.scheduleNotification(
+      notificationDate,
+      title,
+      message
+    );
+
+    dispatch(
+      notificationAdd({
+        id: notificationID,
+        date: notificationDate,
+        title,
+        message,
+        petID,
+      })
+    );
+
     dispatch(
       petVaccine(
         {
           name,
+          notificationID,
           doses,
           nextDoseDate: date,
           created_at: currentDate,
@@ -138,8 +175,62 @@ export default function Vaccines({ route }) {
     setVisible(false);
   };
 
-  const handleCheckVaccine = ID => {
-    dispatch(petCheckVaccine(ID, petID));
+  const handleCheckVaccine = async (
+    vacID,
+    notificationID,
+    notificationDate,
+    notificationInfo
+  ) => {
+    const currentDate = new Date();
+
+    dispatch(notificationCancel(notificationID));
+    Notification.cancelNotification(notificationID);
+
+    const dosesLeft = notificationInfo.doses;
+    const intervalPeriod = notificationInfo.interval;
+    const intervalData = notificationInfo.intervalValue;
+
+    let notificationData = {};
+
+    let nextDoseDate = null;
+    let reminderNotification = -1;
+    if (parseInt(dosesLeft, 10) > 1) {
+      if (intervalPeriod === 1) {
+        nextDoseDate = addYears(currentDate, parseInt(intervalData, 10));
+      }
+      if (intervalPeriod === 2) {
+        nextDoseDate = addMonths(currentDate, parseInt(intervalData, 10));
+      }
+      if (intervalPeriod === 3) {
+        nextDoseDate = addDays(currentDate, parseInt(intervalData, 10));
+      }
+      const title = 'Vaccine tomorrow!';
+      const time = format(nextDoseDate, 'HH:mm');
+      const message = `${petID} needs to take ${vacID} tomorrow at ${time}!`;
+      nextDoseDate = subDays(nextDoseDate, 1);
+
+      reminderNotification = await Notification.scheduleNotification(
+        nextDoseDate,
+        title,
+        message
+      );
+      notificationData = {
+        title,
+        message,
+        date: nextDoseDate,
+        id: reminderNotification,
+        petID,
+      };
+
+      dispatch(notificationAdd(notificationData));
+    }
+
+    notificationData = {
+      id: reminderNotification,
+      date: nextDoseDate,
+    };
+
+    dispatch(petCheckVaccine(vacID, petID, notificationData));
   };
 
   const handleDeleteVaccine = ID => {
@@ -179,7 +270,21 @@ export default function Vaccines({ route }) {
               <SubTitle>{`Doses left: ${item.doses}`}</SubTitle>
             </TextBox>
             <ButtonBox>
-              <ButtonHolder onPress={() => handleCheckVaccine(item.name)}>
+              <ButtonHolder
+                onPress={() => {
+                  const notificationInfo = {
+                    doses: item.doses,
+                    interval: item.interval,
+                    intervalValue: item.intervalValue,
+                  };
+                  handleCheckVaccine(
+                    item.name,
+                    item.notificationID,
+                    item.nextDoseDate,
+                    notificationInfo
+                  );
+                }}
+              >
                 <Icon name="clipboard-check" color="#fff" size={20} />
               </ButtonHolder>
               <ButtonHolder onPress={() => handleDeleteVaccine(item.name)}>
