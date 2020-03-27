@@ -4,10 +4,10 @@ import { formatDistanceStrict, parseISO } from 'date-fns';
 import { StatusBar } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
+import { AdMobInterstitial } from 'react-native-admob';
 import Maruska from '~/components/MaruskaLogo/index';
 import changeStatus from '~/store/modules/modalVisible/actions';
 import Modal from './AddModal/index';
-import Notification from '~/config/NotificationService';
 
 import FAB from '~/components/FAB/index';
 
@@ -31,6 +31,11 @@ export default function Home({ navigation }) {
   const handleOpen = async () => {
     dispatch(changeStatus(0));
   };
+
+  useEffect(() => {
+    AdMobInterstitial.setAdUnitID('ca-app-pub-7615541994083029/3957454243');
+    AdMobInterstitial.requestAd().then(() => AdMobInterstitial.showAd());
+  }, []);
 
   useEffect(() => {
     const currentDate = new Date();

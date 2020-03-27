@@ -204,7 +204,7 @@ export default function Medications({ route }) {
 
     let nextDoseDate = null;
     let reminderNotification = -1;
-    if (parseInt(dosesLeft, 10) > 0) {
+    if (parseInt(dosesLeft, 10) > 1) {
       if (intervalPeriod === 1) {
         nextDoseDate = addYears(currentDate, parseInt(intervalData, 10));
       }

@@ -103,10 +103,10 @@ export function petVaccine(vaccine, petID) {
   };
 }
 
-export function petCheckVaccine(vaccine, petID) {
+export function petCheckVaccine(vaccine, petID, notificationInfo) {
   return {
     type: '@pet/CHECK_VACCINE',
-    payload: { vaccine, petID },
+    payload: { vaccine, petID, notificationInfo },
   };
 }
 

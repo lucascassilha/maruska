@@ -16,7 +16,6 @@ export const Box = styled.View`
   margin: 10px 0px;
   border-radius: 4px;
   padding: 20px;
-  display: ${props => (props.isPast ? 'none' : 'flex')};
 `;
 
 export const PetTitle = styled.Text`

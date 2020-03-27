@@ -3,11 +3,10 @@ import { Picker, Alert } from 'react-native';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import * as Yup from 'yup';
-import { format } from 'date-fns';
+import { format, isAfter } from 'date-fns';
 import DatePicker from 'react-native-date-picker';
 import Button from '~/components/Button/index';
 import { petSurgery } from '~/store/modules/pets/actions';
-
 import { Container, InputLabel, DateHolder, Input } from './styles';
 
 export default function SurgeryAdd({ route, navigation }) {
