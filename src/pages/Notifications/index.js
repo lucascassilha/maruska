@@ -4,6 +4,7 @@ import { produce } from 'immer';
 import { useSelector } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { format, parseISO, isValid, isAfter } from 'date-fns';
+import LottieView from 'lottie-react-native';
 import Maruska from '~/components/MaruskaLogo/index';
 import {
   Container,
@@ -14,6 +15,8 @@ import {
   InfoHolder,
   InfoBox,
   InfoLabel,
+  AnimationHolder,
+  AnimationLabel,
 } from './styles';
 
 export default function Notifications() {
@@ -46,6 +49,20 @@ export default function Notifications() {
     <Container>
       <Maruska />
       <NotifList
+        contentContainerStyle={{
+          padding: 20,
+          flexGrow: 1,
+        }}
+        ListEmptyComponent={() => (
+          <AnimationHolder>
+            <LottieView
+              style={{ width: '100%' }}
+              source={require('~/assets/animations/no_notifications.json')}
+              autoPlay
+              loop
+            />
+          </AnimationHolder>
+        )}
         data={notList}
         keyExtractor={item => item.id}
         renderItem={({ item }) => (

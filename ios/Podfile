@@ -38,6 +38,9 @@ target 'Maruska' do
 
   pod 'react-native-admob', :path => '../node_modules/react-native-admob'
 
+  pod 'CodePush', :path => '../node_modules/react-native-code-push'
+
+
   target 'MaruskaTests' do
     inherit! :search_paths
     # Pods for testing

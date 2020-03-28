@@ -29,6 +29,7 @@ import {
   petVaccine,
   petCheckVaccine,
   petDeleteVaccine,
+  petLastVaccine,
 } from '~/store/modules/pets/actions';
 
 import {
@@ -231,9 +232,10 @@ export default function Vaccines({ route }) {
     };
 
     dispatch(petCheckVaccine(vacID, petID, notificationData));
+    dispatch(petLastVaccine(petID));
   };
 
-  const handleDeleteVaccine = ID => {
+  const handleDeleteVaccine = (ID, notificationID) => {
     Alert.alert(
       'Are you sure?',
       "We don't recommend deleting any vaccine data, once it may be valuable information for your pet's health!",
@@ -244,6 +246,8 @@ export default function Vaccines({ route }) {
             if (vaccines.length === 1) {
               setVaccines([]);
             }
+            Notification.cancelNotification(notificationID);
+            dispatch(notificationCancel(notificationID));
             dispatch(petDeleteVaccine(ID, petID));
           },
         },
@@ -287,7 +291,11 @@ export default function Vaccines({ route }) {
               >
                 <Icon name="clipboard-check" color="#fff" size={20} />
               </ButtonHolder>
-              <ButtonHolder onPress={() => handleDeleteVaccine(item.name)}>
+              <ButtonHolder
+                onPress={() =>
+                  handleDeleteVaccine(item.name, item.notificationID)
+                }
+              >
                 <Icon name="trash-alt" color="#fff" size={20} />
               </ButtonHolder>
             </ButtonBox>

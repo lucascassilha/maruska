@@ -33,11 +33,12 @@ class NotificationService {
     return id;
   }
 
-  async scheduleNotification(date, title, message) {
+  scheduleNotification(date, title, message) {
     const id = `${Math.floor(
       Math.random() * 10000
     )}${new Date().getMilliseconds()}`;
-    await PushNotification.localNotificationSchedule({
+
+    PushNotification.localNotificationSchedule({
       id,
       date,
       title,
@@ -48,7 +49,6 @@ class NotificationService {
       smallIcon: 'ic_notification',
       color: 'red',
     });
-    console.tron.log(`NOTIFICATION ID: ${id}`);
     return id;
   }
 

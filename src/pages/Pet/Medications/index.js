@@ -245,6 +245,9 @@ export default function Medications({ route }) {
   };
 
   const handleDeleteMedication = async (medID, notificationID) => {
+    if (medications.length === 1) {
+      setMedications([]);
+    }
     Notification.cancelNotification(notificationID);
     dispatch(notificationCancel(notificationID));
     dispatch(petDeleteMedication(medID, petID));

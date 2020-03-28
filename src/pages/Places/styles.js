@@ -5,11 +5,7 @@ export const Container = styled.View`
   flex: 1;
 `;
 
-export const PlaceList = styled.FlatList.attrs({
-  contentContainerStyle: {
-    padding: 20,
-  },
-})``;
+export const PlaceList = styled.FlatList``;
 
 export const Box = styled.View`
   background-color: #eb3349;
@@ -44,4 +40,19 @@ export const ButtonHolder = styled.View`
 
 export const Button = styled.TouchableOpacity`
   margin: 0px 10px;
+`;
+
+export const AnimationHolder = styled.View`
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  margin-top: -40px;
+`;
+
+export const AnimationLabel = styled.Text`
+  font-size: 16px;
+  color: #000;
+  opacity: 0.5;
+  text-align: center;
+  font-family: 'OpenSans-Regular';
 `;
