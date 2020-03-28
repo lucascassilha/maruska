@@ -7,7 +7,6 @@ import {
   addYears,
   addMonths,
   addDays,
-  parseISO,
 } from 'date-fns';
 
 const INITIAL_STATE = {
@@ -352,27 +351,6 @@ export default function pets(state = INITIAL_STATE, action) {
             );
             petData[petIndex].vaccines.splice(index, 1);
           }
-        }
-        break;
-      }
-      case '@pet/LAST_VACCINE': {
-        const { petID } = action.payload;
-        const currentDate = new Date();
-
-        const formattedDate = format(currentDate, 'dd/MM/yyyy');
-
-        const findIndex = draft.data.findIndex(item => item.name === petID);
-        if (findIndex >= 0) {
-          draft.data[findIndex].lastVaccine = formattedDate;
-        }
-        break;
-      }
-      case '@pet/LAST_APPOINTMENT': {
-        const { day, petID } = action.payload;
-
-        const findIndex = draft.data.findIndex(item => item.name === petID);
-        if (findIndex >= 0) {
-          draft.data[findIndex].lastAppoint = day;
         }
         break;
       }

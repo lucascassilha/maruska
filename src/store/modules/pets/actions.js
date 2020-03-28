@@ -116,17 +116,3 @@ export function petDeleteVaccine(vaccine, petID) {
     payload: { vaccine, petID },
   };
 }
-
-export function petLastAppointment(petID, day) {
-  return {
-    type: '@pet/LAST_APPOINTMENT',
-    payload: { petID, day },
-  };
-}
-
-export function petLastVaccine(petID) {
-  return {
-    type: '@pet/LAST_VACCINE',
-    payload: { petID },
-  };
-}

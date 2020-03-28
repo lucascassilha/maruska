@@ -18,9 +18,10 @@ export default function notifications(state = INITIAL_STATE, action) {
         draft.data.sort(function(a, b) {
           const aValid = isValid(a.date);
           const bValid = isValid(b.date);
-          const parsedA = !aValid ? parseISO(a.date) : a.date;
-          const parsedB = !bValid ? parseISO(b.date) : b.date;
-          return parsedA - parsedB;
+          const parsedA = aValid ? a.date : parseISO(a.date);
+          const parsedB = bValid ? b.date : parseISO(b.date);
+          console.log(!isAfter(parsedA, parsedB));
+          return isAfter(parsedA, parsedB);
         });
 
         break;
@@ -39,39 +40,18 @@ export default function notifications(state = INITIAL_STATE, action) {
         break;
       }
       case 'persist/REHYDRATE': {
-        const notificationPayload = action.payload
-          ? action.payload.notifications || null
-          : null;
-        if (notificationPayload && notificationPayload[0]) {
-          const notList = notificationPayload.data;
+        const { notifications } = action.payload;
+        const notList = notifications.data;
 
-          const currentDate = new Date();
-          draft.data = notList.filter(item => {
-            const validDate = isValid(item.date);
-            if (validDate) {
-              return isAfter(item.date, currentDate);
-            }
-            const parsedDate = parseISO(item.date);
-            return isAfter(parsedDate, currentDate);
-          });
-        }
-        break;
-      }
-      case '@pet/DELETE': {
-        const { pet } = action.payload;
-        draft.data.map(item => {
-          if (item.petID === pet) {
-            Notification.cancelNotification(item.id);
+        const currentDate = new Date();
+        draft.data = notList.filter(item => {
+          const validDate = isValid(item.date);
+          if (validDate) {
+            return isAfter(item.date, currentDate);
           }
+          const parsedDate = parseISO(item.date);
+          return isAfter(parsedDate, currentDate);
         });
-
-        let findIndex = draft.data.findIndex(item => item.petID === pet);
-
-        while (findIndex >= 0) {
-          draft.data.splice(findIndex, 1);
-          findIndex = draft.data.findIndex(item => item.petID === pet);
-        }
-
         break;
       }
       default:
