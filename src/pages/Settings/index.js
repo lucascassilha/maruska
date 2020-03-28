@@ -18,8 +18,8 @@ export default function Settings() {
 
   const handleAlert = () => {
     Alert.alert(
-      'These people supported our project!',
-      `Pet Menu icons from FlatIcon \nProject assets from romannurik`
+      'These people help build our project!',
+      `Pet Menu icons from FlatIcon \nProject assets from romannurik \nBear animation from Bryan Seah \nCat animation from Arun Sajeev \nNotification animation from Bryan Trang \nDog walking animation from XAV Motion`
     );
   };
 
@@ -37,8 +37,7 @@ export default function Settings() {
               title: 'Maruska - The app for your pets!',
               message:
                 'Check out this app: https://play.google.com/store/apps/details?id=com.lcdev.maruska',
-            })
-          }
+            })}
         >
           <Icon name="share" color="#fff" size={25} />
           <Label>Share the app</Label>
@@ -49,19 +48,18 @@ export default function Settings() {
         </Button>
         <Button
           onPress={() =>
-            Linking.openURL('market://details?id=com.lcdev.maruska')
-          }
+            Linking.openURL('market://details?id=com.lcdev.maruska')}
         >
           <Icon name="star" color="#fff" size={25} />
           <Label>Rate us</Label>
         </Button>
         <Button onPress={handleAlert}>
           <Icon name="account-multiple" color="#fff" size={25} />
-          <Label>Acknowledgments</Label>
+          <Label>Supporters</Label>
         </Button>
         <Button onPress={handleLink}>
           <Icon name="coffee" color="#fff" size={25} />
-          <Label>Buy me a coffee</Label>
+          <Label>Buy me a cup of coffee</Label>
         </Button>
         <Version>alpha 0.1.3</Version>
         <Version>LCdev - 2020</Version>
