@@ -4,6 +4,7 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import PropTypes from 'prop-types';
 import { TouchableOpacity, Alert } from 'react-native';
+import translate from '~/locales';
 
 import Home from '~/pages/Home/index';
 import Profile from '~/pages/Pet/Profile/index';
@@ -58,7 +59,7 @@ function Pet() {
         name="Avatar"
         component={Avatar}
         options={() => ({
-          title: 'Choose a picture!',
+          title: translate('pictureTitle'),
           headerStyle: {
             backgroundColor: '#eb3349',
           },
@@ -80,7 +81,7 @@ function Pet() {
         name="Health"
         component={Health}
         options={() => ({
-          title: 'Pet Health',
+          title: translate('healthTitle'),
           headerStyle: {
             backgroundColor: '#eb3349',
           },
@@ -119,7 +120,7 @@ function Pet() {
         name="DocAdd"
         component={DocAdd}
         options={() => ({
-          title: `New Vet`,
+          title: translate('addDoc'),
           headerStyle: {
             backgroundColor: '#eb3349',
           },
@@ -158,7 +159,7 @@ function Pet() {
         name="AppointAdd"
         component={AppointAdd}
         options={({ route }) => ({
-          title: `New Appointment`,
+          title: translate('addApp'),
           headerStyle: {
             backgroundColor: '#eb3349',
           },
@@ -180,7 +181,7 @@ function Pet() {
         name="SurgeryAdd"
         component={SurgeryAdd}
         options={() => ({
-          title: `Register Surgery`,
+          title: translate('addSurg'),
           headerStyle: {
             backgroundColor: '#eb3349',
           },
@@ -202,7 +203,7 @@ function Pet() {
         name="ProblemAdd"
         component={ProblemAdd}
         options={() => ({
-          title: `Register Problem`,
+          title: translate('addProblem'),
           headerStyle: {
             backgroundColor: '#eb3349',
           },
@@ -224,7 +225,7 @@ function Pet() {
         name="Weight"
         component={Weight}
         options={() => ({
-          title: 'Weight Control',
+          title: translate('weightTitle'),
           headerStyle: {
             backgroundColor: '#eb3349',
           },
@@ -263,7 +264,7 @@ function Pet() {
         name="Vaccines"
         component={Vaccines}
         options={() => ({
-          title: 'Vaccination Card',
+          title: translate('vacTitle'),
           headerStyle: {
             backgroundColor: '#eb3349',
           },
@@ -302,7 +303,7 @@ function Pet() {
         name="Medications"
         component={Medications}
         options={() => ({
-          title: 'Medications',
+          title: translate('medTitle'),
           headerStyle: {
             backgroundColor: '#eb3349',
           },
@@ -341,7 +342,7 @@ function Pet() {
         name="LostPet"
         component={LostPet}
         options={() => ({
-          title: 'Contact Information',
+          title: translate('contact'),
           headerStyle: {
             backgroundColor: '#eb3349',
           },
@@ -387,7 +388,7 @@ export default function Routes() {
         }}
       />
       <Tab.Screen
-        name="Places"
+        name={translate('places')}
         component={Places}
         options={{
           titleStyle: {
@@ -399,7 +400,7 @@ export default function Routes() {
         }}
       />
       <Tab.Screen
-        name="Notifications"
+        name={translate('not')}
         component={Notifications}
         options={{
           titleStyle: {
@@ -411,7 +412,7 @@ export default function Routes() {
         }}
       />
       <Tab.Screen
-        name="Settings"
+        name={translate('set')}
         component={Settings}
         options={{
           titleStyle: {

@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 import changeStatus from '~/store/modules/modalVisible/actions';
 import { editPet } from '~/store/modules/pets/actions';
 import Button from '~/components/Button/index';
+import translate, { locale } from '~/locales';
 
 import {
   Wrapper,
@@ -18,8 +19,6 @@ import {
   InputLabel,
   Input,
   CheckHolder,
-  Submit,
-  SubmitTitle,
   CancelHolder,
   CancelLabel,
   DateHolder,
@@ -92,14 +91,14 @@ export default function EditPet({ petInformation, navigation }) {
         <Box>
           <Scroll showsVerticalScrollIndicator={false}>
             <Title>Edit pet </Title>
-            <InputLabel>Change the birth date</InputLabel>
+            <InputLabel>{translate('selectBirth')}</InputLabel>
             <DateHolder disabled={undefDate}>
               <DatePicker
                 date={date}
                 onDateChange={setDate}
                 mode="date"
                 maximumDate={new Date()}
-                locale="en"
+                locale={locale}
               />
             </DateHolder>
             <CheckHolder>
@@ -109,12 +108,12 @@ export default function EditPet({ petInformation, navigation }) {
                 color="#eb3349"
                 uncheckedColor="#eb3349"
               />
-              <InputLabel>I do not know the exact date</InputLabel>
+              <InputLabel>{translate('undefDate')}</InputLabel>
             </CheckHolder>
             {undefDate ? (
               <>
-                <Instruction>Then please input an approximate date</Instruction>
-                <InputLabel>Years</InputLabel>
+                <Instruction>{translate('undefLabel')}</Instruction>
+                <InputLabel>{translate('addYears')}</InputLabel>
                 <Input
                   value={years}
                   keyboardType="number-pad"
@@ -123,7 +122,7 @@ export default function EditPet({ petInformation, navigation }) {
                   onSubmitEditing={() => monthRef.current.focus()}
                   returnKeyType="next"
                 />
-                <InputLabel>Months</InputLabel>
+                <InputLabel>{translate('addMonths')}</InputLabel>
                 <Input
                   value={months}
                   keyboardType="number-pad"
@@ -135,7 +134,7 @@ export default function EditPet({ petInformation, navigation }) {
                 />
               </>
             ) : null}
-            <InputLabel>Breed</InputLabel>
+            <InputLabel>{translate('infoBreed')}</InputLabel>
             <Input
               value={breed}
               onChangeText={setBreed}
@@ -144,7 +143,7 @@ export default function EditPet({ petInformation, navigation }) {
               onSubmitEditing={() => chipRef.current.focus()}
               maxLength={20}
             />
-            <InputLabel>Chip number</InputLabel>
+            <InputLabel>{translate('chip')}</InputLabel>
             <Input
               value={chip}
               onChangeText={setChip}
@@ -152,9 +151,9 @@ export default function EditPet({ petInformation, navigation }) {
               returnKeyType="send"
               onSubmitEditing={handleEditPet}
             />
-            <Button onPress={handleEditPet} title="Edit pet" />
+            <Button onPress={handleEditPet} title={translate('editLabel')} />
             <CancelHolder onPress={handleClose}>
-              <CancelLabel>Cancel</CancelLabel>
+              <CancelLabel>{translate('cancelButton')}</CancelLabel>
             </CancelHolder>
           </Scroll>
         </Box>

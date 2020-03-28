@@ -6,6 +6,7 @@ import changeStatus from '~/store/modules/modalVisible/actions';
 import EditModal from './EditModal';
 import Button from '~/components/Button/index';
 import { deletePet } from '~/store/modules/pets/actions';
+import translate from '~/locales';
 
 import {
   Container,
@@ -128,38 +129,38 @@ export default function Profile({ route, navigation }) {
         <InfoHolder>
           <TextLine>
             <InfoTextHolder>
-              <Label>Weight</Label>
+              <Label>{translate('infoWeight')}</Label>
               <Info>{`${weightData} kg`}</Info>
             </InfoTextHolder>
             <InfoTextHolder>
-              <Label>Kind</Label>
+              <Label>{translate('infoKind')}</Label>
               <Info>{pet.kind}</Info>
             </InfoTextHolder>
           </TextLine>
           <TextLine>
             <InfoTextHolder>
-              <Label>Last vaccine</Label>
+              <Label>{translate('infoVac')}</Label>
               <Info>{pet.lastVaccine || '--/--/--'}</Info>
             </InfoTextHolder>
             <InfoTextHolder>
-              <Label>Last appointment</Label>
+              <Label>{translate('infoApp')}</Label>
               <Info>{pet.lastAppoint || '--/--/--'}</Info>
             </InfoTextHolder>
           </TextLine>
           <TextLine>
             <InfoTextHolder>
-              <Label>Breed</Label>
-              <Info>{pet.breed || 'Not informed'}</Info>
+              <Label>{translate('infoBreed')}</Label>
+              <Info>{pet.breed || translate('notInformed')}</Info>
             </InfoTextHolder>
             <InfoTextHolder>
-              <Label>Sex</Label>
+              <Label>{translate('infoSex')}</Label>
               <Info>{pet.sex}</Info>
             </InfoTextHolder>
           </TextLine>
         </InfoHolder>
       </PetInfo>
       <PetMenu>
-        <MenuTitle>Pet Menu</MenuTitle>
+        <MenuTitle>{translate('petMenu')}</MenuTitle>
         <MenuHolder
           showsHorizontalScrollIndicator={false}
           horizontal
@@ -173,18 +174,17 @@ export default function Profile({ route, navigation }) {
             </ButtonHolder>
           )}
         />
-        <MenuTitle>Emergency Menu</MenuTitle>
+        <MenuTitle>{translate('emerMenu')}</MenuTitle>
         <EmergencyHolder>
           <Button
-            title="Lost my pet!"
+            title={translate('emerLabel')}
             onPress={() =>
-              navigation.navigate('LostPet', { changeInfo: false, pet })
-            }
+              navigation.navigate('LostPet', { changeInfo: false, pet })}
           />
         </EmergencyHolder>
-        <MenuTitle>Pet Options</MenuTitle>
+        <MenuTitle>{translate('optMenu')}</MenuTitle>
         <EmergencyHolder>
-          <Button title="Delete pet" onPress={handleDeletePet} />
+          <Button title={translate('optLabel')} onPress={handleDeletePet} />
         </EmergencyHolder>
       </PetMenu>
     </Container>

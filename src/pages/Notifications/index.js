@@ -16,7 +16,6 @@ import {
   InfoBox,
   InfoLabel,
   AnimationHolder,
-  AnimationLabel,
 } from './styles';
 
 export default function Notifications() {
