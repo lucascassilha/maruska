@@ -40,19 +40,23 @@ export default function notifications(state = INITIAL_STATE, action) {
         break;
       }
       case 'persist/REHYDRATE': {
-        const { notifications } = action.payload;
-        const notList = notifications.data;
+        const notificationPayload = action.payload
+          ? action.payload.notifications || null
+          : null;
+        if (notificationPayload) {
+          const notList = notificationPayload.data;
 
-        const currentDate = new Date();
-        draft.data = notList.filter(item => {
-          const validDate = isValid(item.date);
-          if (validDate) {
-            return isAfter(item.date, currentDate);
-          }
-          const parsedDate = parseISO(item.date);
-          return isAfter(parsedDate, currentDate);
-        });
-        break;
+          const currentDate = new Date();
+          draft.data = notList.filter(item => {
+            const validDate = isValid(item.date);
+            if (validDate) {
+              return isAfter(item.date, currentDate);
+            }
+            const parsedDate = parseISO(item.date);
+            return isAfter(parsedDate, currentDate);
+          });
+          break;
+        }
       }
       default:
     }
