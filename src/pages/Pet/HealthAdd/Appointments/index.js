@@ -6,10 +6,7 @@ import * as Yup from 'yup';
 import { format, subDays } from 'date-fns';
 import DatePicker from 'react-native-date-picker';
 import Button from '~/components/Button/index';
-import {
-  petAppointment,
-  petLastAppointment,
-} from '~/store/modules/pets/actions';
+import { petAppointment } from '~/store/modules/pets/actions';
 import { notificationAdd } from '~/store/modules/notifications/actions';
 
 import Notification from '~/config/NotificationService';
@@ -73,8 +70,6 @@ export default function AppointAdd({ route, navigation }) {
         petID
       )
     );
-
-    dispatch(petLastAppointment(petID, day));
     navigation.goBack();
   };
 

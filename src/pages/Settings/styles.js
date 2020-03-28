@@ -10,6 +10,7 @@ export const Container = styled.View`
 export const Box = styled.View`
   align-self: stretch;
   flex: 1;
+  justify-content: center;
 `;
 
 export const Button = styled.TouchableOpacity`
@@ -24,15 +25,13 @@ export const Button = styled.TouchableOpacity`
 export const Label = styled.Text`
   font-size: 18px;
   color: #fff;
-  font-family: 'OpenSans-Regular';
+  font-family: 'OpenSans-Bold';
   margin-left: 5px;
 `;
 
 export const Version = styled.Text`
-  font-size: 16px;
-  color: #000;
-  opacity: 0.5;
   text-align: center;
-  margin: 5px 0px;
+  margin-top: 10px;
+  font-size: 16px;
   font-family: 'OpenSans-Regular';
 `;

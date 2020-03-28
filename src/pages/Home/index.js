@@ -5,7 +5,6 @@ import { StatusBar } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { AdMobInterstitial } from 'react-native-admob';
-import LottieView from 'lottie-react-native';
 import Maruska from '~/components/MaruskaLogo/index';
 import changeStatus from '~/store/modules/modalVisible/actions';
 import Modal from './AddModal/index';
@@ -20,8 +19,6 @@ import {
   TextHolder,
   Name,
   Info,
-  AnimationHolder,
-  AnimationLabel,
 } from './styles';
 
 import logo from '~/assets/img/logo.png';
@@ -64,25 +61,6 @@ export default function Home({ navigation }) {
       <Modal />
       <FAB onPress={handleOpen} />
       <PetList
-        contentContainerStyle={{
-          padding: 20,
-          flexGrow: 1,
-        }}
-        ListEmptyComponent={() => (
-          <AnimationHolder>
-            <LottieView
-              style={{
-                width: '70%',
-                alignSelf: 'center',
-              }}
-              source={require('~/assets/animations/cat_waiting.json')}
-              autoPlay
-              loop
-            />
-            <AnimationLabel>No pets here yet</AnimationLabel>
-            <AnimationLabel>Click on the + button to add one!</AnimationLabel>
-          </AnimationHolder>
-        )}
         showsVerticalScrollIndicator={false}
         data={petDate}
         keyExtractor={item => item.name}

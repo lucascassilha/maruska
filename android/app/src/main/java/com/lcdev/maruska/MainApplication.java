@@ -4,8 +4,6 @@ import android.app.Application;
 import android.content.Context;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
-import com.microsoft.codepush.react.CodePush;
-import com.microsoft.codepush.react.CodePush;
 import com.sbugert.rnadmob.RNAdMobPackage;
 import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
@@ -36,10 +34,6 @@ public class MainApplication extends Application implements ReactApplication {
         @Override
         protected String getJSMainModuleName() {
           return "index";
-        }
-        @Override
-        protected String getJSBundleFile() {
-            return CodePush.getJSBundleFile();
         }
       };
 
