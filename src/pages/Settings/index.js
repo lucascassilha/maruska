@@ -63,7 +63,7 @@ export default function Settings() {
           <Icon name="coffee" color="#fff" size={25} />
           <Label>Buy me a coffee</Label>
         </Button>
-        <Version>v2.0.0</Version>
+        <Version>alpha 0.1.2</Version>
         <Version>LCdev - 2020</Version>
       </Box>
     </Container>

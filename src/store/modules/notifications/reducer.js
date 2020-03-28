@@ -1,6 +1,5 @@
 import { produce } from 'immer';
 import { parseISO, isAfter, isValid } from 'date-fns';
-import Notification from '~/config/NotificationService';
 
 const INITIAL_STATE = {
   data: [],
@@ -16,10 +15,8 @@ export default function notifications(state = INITIAL_STATE, action) {
         draft.data.push(notification);
 
         draft.data.sort(function(a, b) {
-          const aValid = isValid(a.date);
-          const bValid = isValid(b.date);
-          const parsedA = aValid ? a.date : parseISO(a.date);
-          const parsedB = bValid ? b.date : parseISO(b.date);
+          const parsedA = parseISO(a.date) || a.date;
+          const parsedB = parseISO(b.date) || b.date;
           console.log(!isAfter(parsedA, parsedB));
           return isAfter(parsedA, parsedB);
         });
@@ -43,7 +40,7 @@ export default function notifications(state = INITIAL_STATE, action) {
         const notificationPayload = action.payload
           ? action.payload.notifications || null
           : null;
-        if (notificationPayload) {
+        if (notificationPayload && notificationPayload[0]) {
           const notList = notificationPayload.data;
 
           const currentDate = new Date();

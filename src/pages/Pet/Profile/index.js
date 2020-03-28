@@ -164,7 +164,7 @@ export default function Profile({ route, navigation }) {
           showsHorizontalScrollIndicator={false}
           horizontal
           data={buttons}
-          keyExtractor={item => item.id}
+          keyExtractor={item => String(item.id)}
           renderItem={({ item }) => (
             <ButtonHolder onPress={item.onPress}>
               <Gradient colors={item.colors}>
@@ -178,7 +178,8 @@ export default function Profile({ route, navigation }) {
           <Button
             title="Lost my pet!"
             onPress={() =>
-              navigation.navigate('LostPet', { changeInfo: false, pet })}
+              navigation.navigate('LostPet', { changeInfo: false, pet })
+            }
           />
         </EmergencyHolder>
         <MenuTitle>Pet Options</MenuTitle>
