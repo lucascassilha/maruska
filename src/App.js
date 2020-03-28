@@ -9,7 +9,7 @@ import { store, persistor } from '~/store/index';
 
 import Routes from './routes';
 
-export default function App() {
+function App() {
   return (
     <Provider store={store}>
       <PersistGate persistor={persistor}>
@@ -20,3 +20,7 @@ export default function App() {
     </Provider>
   );
 }
+
+export default CodePush({
+  checkFrequency: CodePush.CheckFrequency.ON_APP_RESUME,
+})(App);
