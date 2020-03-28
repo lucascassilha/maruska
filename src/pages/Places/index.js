@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { Alert, Linking } from 'react-native';
+import LottieView from 'lottie-react-native';
 import changeStatus from '~/store/modules/modalVisible/actions';
 import Modal from './AddModal/index';
 import { deleteLocation } from '~/store/modules/places/actions';
@@ -16,6 +17,8 @@ import {
   ButtonHolder,
   Button,
   TextHolder,
+  AnimationHolder,
+  AnimationLabel,
 } from './styles';
 import Maruska from '~/components/MaruskaLogo/index';
 
@@ -61,6 +64,26 @@ export default function Places() {
       <FAB onPress={handleOpen} />
       <Modal />
       <PlaceList
+        contentContainerStyle={{
+          padding: 20,
+          flexGrow: 1,
+        }}
+        ListEmptyComponent={() => (
+          <AnimationHolder>
+            <LottieView
+              style={{
+                width: '70%',
+                alignSelf: 'center',
+                marginBottom: -40,
+              }}
+              source={require('~/assets/animations/bear_waiting.json')}
+              autoPlay
+              loop
+            />
+            <AnimationLabel>No places here yet</AnimationLabel>
+            <AnimationLabel>Click on the + button to add one!</AnimationLabel>
+          </AnimationHolder>
+        )}
         data={places}
         keyExtractor={item => item.name}
         renderItem={({ item }) => (
