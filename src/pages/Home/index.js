@@ -19,6 +19,7 @@ import {
   TextHolder,
   Name,
   Info,
+  TEST,
 } from './styles';
 
 import logo from '~/assets/img/logo.png';
@@ -61,6 +62,7 @@ export default function Home({ navigation }) {
       <Modal />
       <FAB onPress={handleOpen} />
       <PetList
+        ListEmptyComponent={() => <TEST>Oi</TEST>}
         showsVerticalScrollIndicator={false}
         data={petDate}
         keyExtractor={item => item.name}

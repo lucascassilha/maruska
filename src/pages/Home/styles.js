@@ -44,3 +44,7 @@ export const Info = styled.Text`
   color: #fff;
   font-family: 'OpenSans-Regular';
 `;
+
+export const TEST = styled.Text`
+  font-size: 34px;
+`;

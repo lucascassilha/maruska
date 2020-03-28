@@ -12,7 +12,7 @@ export default function Settings() {
     const currentDate = new Date();
     const formattedDate = format(currentDate, 'dd/MM/yyyy - HH:mm');
     Linking.openURL(
-      `mailto:support@example.com?subject=BugReport${formattedDate}`
+      `mailto:lcdevpetcare@gmail.com?subject=BugReport ${formattedDate}`
     );
   };
 
@@ -63,7 +63,7 @@ export default function Settings() {
           <Icon name="coffee" color="#fff" size={25} />
           <Label>Buy me a coffee</Label>
         </Button>
-        <Version>alpha 0.1.2</Version>
+        <Version>alpha 0.1.3</Version>
         <Version>LCdev - 2020</Version>
       </Box>
     </Container>
