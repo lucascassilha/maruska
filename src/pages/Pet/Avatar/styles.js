@@ -3,11 +3,12 @@ import LinearGradient from 'react-native-linear-gradient';
 
 export const Container = styled.View`
   flex: 1;
+  background-color: #fff;
   padding: 0px 30px;
 `;
 
 export const PictureBox = styled(LinearGradient).attrs({
-  colors: ['#ededed', '#e6e6e6'],
+  colors: ['#ffff', '#f2f2f2'],
 })`
   align-self: stretch;
   height: 100%;

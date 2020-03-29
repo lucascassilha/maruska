@@ -47,9 +47,3 @@ export const AnimationHolder = styled.View`
   justify-content: center;
   flex: 1;
 `;
-export const AnimationLabel = styled.Text`
-  font-size: 16px;
-  color: #000;
-  opacity: 0.5;
-  font-family: 'OpenSans-Regular';
-`;

@@ -6,9 +6,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { AdMobInterstitial } from 'react-native-admob';
 import LottieView from 'lottie-react-native';
+import { ptBR, enUS } from 'date-fns/locale';
 import Maruska from '~/components/MaruskaLogo/index';
 import changeStatus from '~/store/modules/modalVisible/actions';
 import Modal from './AddModal/index';
+import translate, { locale } from '~/locales';
 
 import FAB from '~/components/FAB/index';
 
@@ -46,10 +48,16 @@ export default function Home({ navigation }) {
       const list = produce(pets, draft => {
         draft.map(item => {
           const parsedDate = parseISO(item.originalDate);
+          const localeFNS = locale === 'pt_BR' ? ptBR : enUS;
+
           try {
-            item.date = formatDistanceStrict(parsedDate, currentDate);
+            item.date = formatDistanceStrict(parsedDate, currentDate, {
+              locale: localeFNS,
+            });
           } catch (err) {
-            item.date = formatDistanceStrict(item.originalDate, currentDate);
+            item.date = formatDistanceStrict(item.originalDate, currentDate, {
+              locale: localeFNS,
+            });
           }
         });
       });
@@ -79,8 +87,8 @@ export default function Home({ navigation }) {
               autoPlay
               loop
             />
-            <AnimationLabel>No pets here yet</AnimationLabel>
-            <AnimationLabel>Click on the + button to add one!</AnimationLabel>
+            <AnimationLabel>{translate('noPetsYet')}</AnimationLabel>
+            <AnimationLabel>{translate('clickToAddPet')}</AnimationLabel>
           </AnimationHolder>
         )}
         showsVerticalScrollIndicator={false}

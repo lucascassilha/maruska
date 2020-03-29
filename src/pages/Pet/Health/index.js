@@ -10,6 +10,7 @@ import {
   petDeleteProblem,
 } from '~/store/modules/pets/actions';
 import { notificationCancel } from '~/store/modules/notifications/actions';
+import translate from '~/locales';
 
 import Notification from '~/config/NotificationService';
 
@@ -96,7 +97,7 @@ export default function Health({ route, navigation }) {
   return (
     <Container>
       <TitleBox>
-        <Title>Doctors</Title>
+        <Title>{translate('healthDoc')}</Title>
         <ButtonBox>
           <IconHolder onPress={() => navigation.navigate('DocAdd', { petID })}>
             <Icon name="plus" color="#eb3349" size={20} />
@@ -132,7 +133,7 @@ export default function Health({ route, navigation }) {
         )}
       />
       <TitleBox>
-        <Title>Appointments</Title>
+        <Title>{translate('healthApp')}</Title>
         <ButtonBox>
           <IconHolder
             onPress={() => navigation.navigate('AppointAdd', { petID })}
@@ -165,8 +166,7 @@ export default function Health({ route, navigation }) {
               </IconHolder>
               <IconHolder
                 onPress={() =>
-                  handleDeleteAppointment(item.date, item.notificationID)
-                }
+                  handleDeleteAppointment(item.date, item.notificationID)}
               >
                 <Icon name="trash-alt" color="#fff" size={20} />
               </IconHolder>
@@ -175,7 +175,7 @@ export default function Health({ route, navigation }) {
         )}
       />
       <TitleBox>
-        <Title>Surgeries</Title>
+        <Title>{translate('healthSurg')}</Title>
         <ButtonBox>
           <IconHolder
             onPress={() => navigation.navigate('SurgeryAdd', { petID })}
@@ -207,7 +207,7 @@ export default function Health({ route, navigation }) {
         )}
       />
       <TitleBox>
-        <Title>Problems</Title>
+        <Title>{translate('healthProblems')}</Title>
         <ButtonBox>
           <IconHolder
             onPress={() => navigation.navigate('ProblemAdd', { petID })}

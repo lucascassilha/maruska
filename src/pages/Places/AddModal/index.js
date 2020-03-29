@@ -7,6 +7,7 @@ import * as Yup from 'yup';
 import changeStatus from '~/store/modules/modalVisible/actions';
 import { addLocation } from '~/store/modules/places/actions';
 import Button from '~/components/Button/index';
+import translate, { locale } from '~/locales';
 
 import {
   Wrapper,
@@ -57,16 +58,13 @@ export default function AddModal() {
     const location = { phone, address, city, kind, name };
 
     if (!(await schema.isValid(location))) {
-      return Alert.alert('Maruska', 'Invalid or missing information!');
+      return Alert.alert('Maruska', translate('missingInfo'));
     }
 
     const findIndex = locations.findIndex(item => item.name === name);
 
     if (findIndex >= 0) {
-      return Alert.alert(
-        'Maruksa',
-        'You have already registered this location!'
-      );
+      return Alert.alert('Maruksa', translate('doubleLocation'));
     }
 
     dispatch(addLocation(location));
@@ -111,8 +109,10 @@ export default function AddModal() {
                 <Checkbox
                   color="#eb3349"
                   uncheckedColor="#eb3349"
-                  status={kind === 'Clinic' ? 'checked' : 'unchecked'}
-                  onPress={() => setKind('Clinic')}
+                  status={
+                    kind === translate('clinic') ? 'checked' : 'unchecked'
+                  }
+                  onPress={() => setKind(translate('clinic'))}
                 />
                 <Icon
                   name="hospital"
@@ -120,17 +120,17 @@ export default function AddModal() {
                   size={25}
                   style={{ marginRight: 5 }}
                 />
-                <InputLabel>Clinic</InputLabel>
+                <InputLabel>{translate('clinic')}</InputLabel>
               </CheckHolder>
             </SelectorBox>
-            <InputLabel>Name</InputLabel>
+            <InputLabel>{translate('name')}</InputLabel>
             <Input
               onChangeText={setName}
               returnKeyType="next"
               onSubmitEditing={() => cityRef.current.focus()}
               maxLength={20}
             />
-            <InputLabel>City</InputLabel>
+            <InputLabel>{translate('city')}</InputLabel>
             <Input
               onChangeText={setCity}
               returnKeyType="next"
@@ -138,14 +138,14 @@ export default function AddModal() {
               onSubmitEditing={() => addressRef.current.focus()}
               maxLength={20}
             />
-            <InputLabel>Address</InputLabel>
+            <InputLabel>{translate('address')}</InputLabel>
             <Input
               onChangeText={setAddress}
               ref={addressRef}
               onSubmitEditing={() => phoneRef.current.focus()}
               returnKeyType="next"
             />
-            <InputLabel>Phone Number</InputLabel>
+            <InputLabel>{translate('phoneNumber')}</InputLabel>
             <Input
               onChangeText={setPhone}
               ref={phoneRef}
@@ -154,9 +154,12 @@ export default function AddModal() {
               returnKeyType="send"
               onSubmitEditing={handleAddLocation}
             />
-            <Button onPress={handleAddLocation} title="Add location" />
+            <Button
+              onPress={handleAddLocation}
+              title={translate('addLocation')}
+            />
             <CancelHolder onPress={handleClose}>
-              <CancelLabel>Cancel</CancelLabel>
+              <CancelLabel>{translate('cancelButton')}</CancelLabel>
             </CancelHolder>
           </Scroll>
         </Box>

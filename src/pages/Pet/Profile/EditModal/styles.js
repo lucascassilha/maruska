@@ -54,20 +54,6 @@ export const CheckHolder = styled.View`
   margin-bottom: 20px;
 `;
 
-export const Submit = styled.TouchableOpacity`
-  align-self: stretch;
-  background-color: #eb3349;
-  padding: 10px;
-  border-radius: 4px;
-  align-items: center;
-  margin: 10px 0px;
-`;
-export const SubmitTitle = styled.Text`
-  font-size: 16px;
-  font-weight: bold;
-  color: #fff;
-`;
-
 export const CancelHolder = styled.TouchableOpacity`
   align-self: stretch;
   align-items: center;

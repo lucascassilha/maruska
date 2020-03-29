@@ -9,8 +9,11 @@ import {
 import { Dimensions, Alert } from 'react-native';
 import { LineChart } from 'react-native-chart-kit';
 import { useSelector, useDispatch } from 'react-redux';
+import { ptBR, enUS } from 'date-fns/locale';
+import PropTypes from 'prop-types';
 import Button from '~/components/Button/index';
 import { petWeightAdd } from '~/store/modules/pets/actions';
+import translate, { locale } from '~/locales';
 
 import { Container, InputLabel, Input, ErrorLabel } from './styles';
 
@@ -21,36 +24,34 @@ import { notificationAdd } from '~/store/modules/notifications/actions';
 export default function Weight({ route, navigation }) {
   const { petID } = route.params;
 
+  const weightUnit = useSelector(state => state.weight);
+
   const pets = useSelector(state => state.pets.data);
 
-  const date = format(new Date(), 'MMMM');
+  const localeFNS = locale === 'pt_BR' ? ptBR : enUS;
+  const date = format(new Date(), 'MMMM', { locale: localeFNS });
   const dispatch = useDispatch();
 
   const [weight, setWeight] = useState(null);
-  const [labels, setLabels] = useState([
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-  ]);
-  const [data, setData] = useState([0, 0, 0, 0, 0, 0]);
+  const [labels, setLabels] = useState(['Jan']);
+  const [data, setData] = useState([0]);
   const [editable, setEditable] = useState(true);
 
   const handleAddWeight = () => {
     if (weight) {
       Alert.alert(
-        `${weight} kg`,
-        `Is this month (${date}) weight right? You can't change this later!`,
+        `${weight} ${locale === 'en_US' ? 'lbs' : 'kg'}`,
+        `${translate('thisMonth')} (${date}) ${translate('weightRight')}`,
         [
           {
-            text: "It's right",
+            text: translate('itsRight'),
             onPress: async () => {
               const currentDate = new Date();
               const notificationDate = addMonths(currentDate, 1);
-              const title = `It's time to weight ${petID}`;
-              const message = `Don't forget to register ${petID}'s weight this month!`;
+              const title = `${translate('timeToWeight')} ${petID}`;
+              const message = `${translate(
+                'dontForgetWeight'
+              )} ${petID}${translate('weightThisMonth')}`;
               const notificationID = await Notification.scheduleNotification(
                 notificationDate,
                 title,
@@ -70,7 +71,7 @@ export default function Weight({ route, navigation }) {
               navigation.goBack();
             },
           },
-          { text: 'Cancel' },
+          { text: translate('cancelButton') },
         ]
       );
     }
@@ -118,7 +119,7 @@ export default function Weight({ route, navigation }) {
         }}
         width={Dimensions.get('window').width - 60}
         height={220}
-        yAxisSuffix=" kg"
+        yAxisSuffix={locale === 'en_US' ? ' lbs' : ' kg'}
         chartConfig={{
           backgroundColor: '#fff',
           backgroundGradientFrom: '#eb3349',
@@ -133,7 +134,7 @@ export default function Weight({ route, navigation }) {
         }}
       />
       <InputLabel disabled={!editable}>
-        Please input this month weight (kg)
+        {`${translate('addWeightLabel')} (${weightUnit})`}
       </InputLabel>
       <Input
         disabled={!editable}
@@ -144,16 +145,18 @@ export default function Weight({ route, navigation }) {
         placeholder="35.5"
         onSubmitEditing={handleAddWeight}
       />
-      {!editable ? (
-        <ErrorLabel>
-          You have already registered a weight this month!
-        </ErrorLabel>
-      ) : null}
+      {!editable ? <ErrorLabel>{translate('weightAlready')}</ErrorLabel> : null}
       <Button
-        title="Register weight"
+        title={translate('registerLabel')}
         onPress={handleAddWeight}
         disabled={!editable}
       />
     </Container>
   );
 }
+
+Weight.propTypes = {
+  route: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
+  navigation: PropTypes.oneOfType([PropTypes.object, PropTypes.array])
+    .isRequired,
+};
