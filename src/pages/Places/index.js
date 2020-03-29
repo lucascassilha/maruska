@@ -7,6 +7,7 @@ import LottieView from 'lottie-react-native';
 import changeStatus from '~/store/modules/modalVisible/actions';
 import Modal from './AddModal/index';
 import { deleteLocation } from '~/store/modules/places/actions';
+import translate from '~/locales';
 
 import {
   Container,
@@ -80,8 +81,8 @@ export default function Places() {
               autoPlay
               loop
             />
-            <AnimationLabel>No places here yet</AnimationLabel>
-            <AnimationLabel>Click on the + button to add one!</AnimationLabel>
+            <AnimationLabel>{translate('noPlaces')}</AnimationLabel>
+            <AnimationLabel>{translate('clickToAddPet')}</AnimationLabel>
           </AnimationHolder>
         )}
         data={places}

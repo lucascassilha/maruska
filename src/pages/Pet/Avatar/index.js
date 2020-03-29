@@ -58,7 +58,7 @@ export default function Avatar({ route, navigation }) {
           <PictureButton onPress={handleSelectImage}>
             <PictureBox>
               <LottieView
-                source={require('~/assets/animations/dog_walking.json')}
+                source={require('~/assets/animations/camera.json')}
                 ref={animation => (animate = animation)}
                 loop
               />
@@ -76,7 +76,7 @@ export default function Avatar({ route, navigation }) {
           </PictureButton>
         </>
       )}
-      <Label>{!picture ? null : `${petID} looks great!`}</Label>
+      {!picture ? null : <Label>{`${petID} looks great!`}</Label>}
       <Button
         onPress={handlePictureUpload}
         title="Confirm picture"

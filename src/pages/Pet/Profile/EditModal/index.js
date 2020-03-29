@@ -30,17 +30,6 @@ export default function EditPet({ petInformation, navigation }) {
 
   const [breed, setBreed] = useState(petInformation.breed || null);
   const [chip, setChip] = useState(petInformation.chip || null);
-  const [date, setDate] = useState(petInformation.originalDate);
-  const [years, setYears] = useState(petInformation.originalYears || null);
-  const [months, setMonths] = useState(petInformation.originalMonths || null);
-
-  const [undefDate, setUndef] = useState(false);
-
-  useEffect(() => {
-    if (petInformation.originalYears) {
-      setUndef(true);
-    }
-  }, [years]);
 
   const dispatch = useDispatch();
 
@@ -52,31 +41,18 @@ export default function EditPet({ petInformation, navigation }) {
     const schema = Yup.object().shape({
       chip: Yup.string().nullable(),
       breed: Yup.string().nullable(),
-      years: Yup.number()
-        .positive()
-        .nullable(),
-      months: Yup.number()
-        .max(12)
-        .positive()
-        .nullable(),
-      date: Yup.string(),
     });
 
-    const pet = { breed, chip, date, years, months, name: petInformation.name };
+    const pet = { breed, chip, name: petInformation.name };
 
     if (!(await schema.isValid(pet))) {
-      return Alert.alert('Maruska', 'Invalid or missing information!');
+      return Alert.alert('Maruska', translate('missingInfo'));
     }
     dispatch(editPet(pet));
 
     handleClose();
-    Alert.alert(
-      'Maruska',
-      'Please open the pet screen again to see the changes!'
-    );
+    Alert.alert('Maruska', translate('reOpen'));
   };
-
-  const monthRef = useRef();
   const chipRef = useRef();
   const breedRef = useRef();
 
@@ -90,50 +66,7 @@ export default function EditPet({ petInformation, navigation }) {
       <Container>
         <Box>
           <Scroll showsVerticalScrollIndicator={false}>
-            <Title>Edit pet </Title>
-            <InputLabel>{translate('selectBirth')}</InputLabel>
-            <DateHolder disabled={undefDate}>
-              <DatePicker
-                date={date}
-                onDateChange={setDate}
-                mode="date"
-                maximumDate={new Date()}
-                locale={locale}
-              />
-            </DateHolder>
-            <CheckHolder>
-              <Checkbox
-                status={undefDate ? 'checked' : 'unchecked'}
-                onPress={() => setUndef(!undefDate)}
-                color="#eb3349"
-                uncheckedColor="#eb3349"
-              />
-              <InputLabel>{translate('undefDate')}</InputLabel>
-            </CheckHolder>
-            {undefDate ? (
-              <>
-                <Instruction>{translate('undefLabel')}</Instruction>
-                <InputLabel>{translate('addYears')}</InputLabel>
-                <Input
-                  value={years}
-                  keyboardType="number-pad"
-                  maxLength={2}
-                  onChangeText={setYears}
-                  onSubmitEditing={() => monthRef.current.focus()}
-                  returnKeyType="next"
-                />
-                <InputLabel>{translate('addMonths')}</InputLabel>
-                <Input
-                  value={months}
-                  keyboardType="number-pad"
-                  maxLength={2}
-                  ref={monthRef}
-                  onChangeText={setMonths}
-                  onSubmitEditing={() => breedRef.current.focus()}
-                  returnKeyType="next"
-                />
-              </>
-            ) : null}
+            <Title>{translate('editTitle')}</Title>
             <InputLabel>{translate('infoBreed')}</InputLabel>
             <Input
               value={breed}

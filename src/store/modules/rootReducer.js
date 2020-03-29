@@ -5,6 +5,7 @@ import places from './places/reducer';
 import notifications from './notifications/reducer';
 import modal from './modalVisible/reducer';
 import doctors from './doctors/reducer';
+import weight from './weight/reducer';
 
 export default combineReducers({
   pets,
@@ -12,4 +13,5 @@ export default combineReducers({
   notifications,
   modal,
   doctors,
+  weight,
 });

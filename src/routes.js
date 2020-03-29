@@ -94,23 +94,6 @@ function Pet() {
             fontSize: 20,
             fontFamily: 'OpenSans-Bold',
           },
-          headerRight: () => (
-            <TouchableOpacity
-              onPress={() => {
-                Alert.alert(
-                  'Maruska',
-                  'To add doctors and appointments, you need to add a clinic first!'
-                );
-              }}
-              style={{
-                alignItems: 'center',
-                justifyContent: 'center',
-                marginRight: 20,
-              }}
-            >
-              <Icon name="information" color="#fff" size={25} />
-            </TouchableOpacity>
-          ),
           headerBackImage: () => {
             return <Icon name="chevron-left" color="#fff" size={25} />;
           },
@@ -136,10 +119,7 @@ function Pet() {
           headerRight: () => (
             <TouchableOpacity
               onPress={() => {
-                Alert.alert(
-                  'Information',
-                  'To add a doctor, you first need to input a clinic!'
-                );
+                Alert.alert(translate('infoTitle'), translate('docAddInfo'));
               }}
               style={{
                 alignItems: 'center',
@@ -241,10 +221,7 @@ function Pet() {
           headerRight: () => (
             <TouchableOpacity
               onPress={() => {
-                Alert.alert(
-                  'Maruska',
-                  'You can only add a weight once a month! Also,if you wish to change to another unit system go to the settings page!'
-                );
+                Alert.alert(translate('infoTitle'), translate('weightAddInfo'));
               }}
               style={{
                 alignItems: 'center',
@@ -280,10 +257,7 @@ function Pet() {
           headerRight: () => (
             <TouchableOpacity
               onPress={() => {
-                Alert.alert(
-                  'Information',
-                  'To confirm a vaccine dose, click on the check button on the side of the delete button (trash)!'
-                );
+                Alert.alert(translate('infoTitle'), translate('vacAddInfo'));
               }}
               style={{
                 alignItems: 'center',
@@ -319,10 +293,7 @@ function Pet() {
           headerRight: () => (
             <TouchableOpacity
               onPress={() => {
-                Alert.alert(
-                  'Information',
-                  'To confirm a medication dose, click on the check button on the side of the delete button (trash)!'
-                );
+                Alert.alert(translate('infoTitle'), translate('medAddInfo'));
               }}
               style={{
                 alignItems: 'center',
@@ -372,8 +343,8 @@ export default function Routes() {
       shifting
       initialRouteName="Home"
       activeColor="#fff"
-      inactiveColor="#c91e33"
-      barStyle={{ backgroundColor: '#eb3349' }}
+      inactiveColor="#ad0c00"
+      barStyle={{ backgroundColor: '#d92316' }}
     >
       <Tab.Screen
         name="Pets"

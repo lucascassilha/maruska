@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Checkbox } from 'react-native-paper';
 import { useSelector, useDispatch } from 'react-redux';
-import { Alert } from 'react-native';
+import { Alert, Vibration } from 'react-native';
 import DatePicker from 'react-native-date-picker';
 import * as Yup from 'yup';
 import changeStatus from '~/store/modules/modalVisible/actions';
@@ -78,16 +78,15 @@ export default function AddModal() {
     const pet = { name, kind, sex, date, years, months, breed };
 
     if (!(await schema.isValid(pet))) {
-      return Alert.alert('Maruska', 'Invalid or missing information');
+      Vibration.vibrate();
+      return Alert.alert('Maruska', translate('missingInfo'));
     }
 
     const findOne = pets.findIndex(item => item.name === name);
 
     if (findOne >= 0) {
-      return Alert.alert(
-        'Maruska',
-        "You can't add a two pets with the same name"
-      );
+      Vibration.vibrate();
+      return Alert.alert('Maruska', translate('doublePet'));
     }
 
     dispatch(addPet({ ...pet, avatar: null }));

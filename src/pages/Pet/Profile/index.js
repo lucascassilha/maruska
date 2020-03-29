@@ -97,20 +97,16 @@ export default function Profile({ route, navigation }) {
   ];
 
   const handleDeletePet = () => {
-    Alert.alert(
-      'Are you sure you want to do this?',
-      'You will not get this pet information back!',
-      [
-        {
-          text: "I'm sure",
-          onPress: () => {
-            dispatch(deletePet(pet.name));
-            navigation.navigate('Home');
-          },
+    Alert.alert(translate('areYouSure'), translate('notGetBack'), [
+      {
+        text: translate('sure'),
+        onPress: () => {
+          dispatch(deletePet(pet.name));
+          navigation.navigate('Home');
         },
-        { text: 'Cancel' },
-      ]
-    );
+      },
+      { text: translate('cancelButton') },
+    ]);
   };
 
   return (
@@ -179,7 +175,8 @@ export default function Profile({ route, navigation }) {
           <Button
             title={translate('emerLabel')}
             onPress={() =>
-              navigation.navigate('LostPet', { changeInfo: false, pet })}
+              navigation.navigate('LostPet', { changeInfo: false, pet })
+            }
           />
         </EmergencyHolder>
         <MenuTitle>{translate('optMenu')}</MenuTitle>

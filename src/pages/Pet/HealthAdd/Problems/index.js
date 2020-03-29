@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef } from 'react';
 import { Alert } from 'react-native';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
@@ -7,6 +7,7 @@ import { format } from 'date-fns';
 import DatePicker from 'react-native-date-picker';
 import Button from '~/components/Button/index';
 import { petProblem } from '~/store/modules/pets/actions';
+import translate, { locale } from '~/locales';
 
 import { Container, InputLabel, DateHolder, Input } from './styles';
 
@@ -27,11 +28,14 @@ export default function ProblemAdd({ route, navigation }) {
     });
 
     if (!(await schema.isValid(surgery))) {
-      return Alert.alert('Maruska', 'Please enter valid information');
+      return Alert.alert('Maruska', translate('missingInfo'));
     }
 
-    const day = format(date, 'dd/MM/yyyy');
-    const time = format(date, 'HH:mm');
+    const timeString = locale === 'en_US' ? 'hh:mm aaaa' : 'HH:mm';
+    const dateString = locale === 'en_US' ? 'MM/dd/yyyy' : 'dd/MM/yyyy';
+
+    const day = format(date, dateString);
+    const time = format(date, timeString);
 
     dispatch(petProblem({ ...surgery, day, time }, petID));
     navigation.goBack();
@@ -39,28 +43,36 @@ export default function ProblemAdd({ route, navigation }) {
 
   const charactersLeft = useMemo(() => 150 - description.length, [description]);
 
+  const descriptionRef = useRef();
   return (
     <Container>
-      <InputLabel>Problem</InputLabel>
-      <Input maxLength={25} onChangeText={setTitle} />
-      <InputLabel>{`What happened?  (${charactersLeft})`}</InputLabel>
+      <InputLabel>{translate('problem')}</InputLabel>
+      <Input
+        maxLength={25}
+        onChangeText={setTitle}
+        onSubmitEditing={() => descriptionRef.current.focus()}
+      />
+      <InputLabel>
+        {`${translate('addDescription')} (${charactersLeft})`}
+      </InputLabel>
       <Input
         maxLength={150}
         multiline
         numberOfLines={4}
         textAlignVertical="top"
         onChangeText={setDescription}
+        ref={descriptionRef}
       />
-      <InputLabel>When did it happened?</InputLabel>
+      <InputLabel>{translate('addWhen')}</InputLabel>
       <DateHolder>
         <DatePicker
           date={date}
           onDateChange={setDate}
           mode="datetime"
-          locale="en"
+          locale={locale}
         />
       </DateHolder>
-      <Button title="Register" onPress={handleProblem} />
+      <Button title={translate('registerLabel')} onPress={handleProblem} />
     </Container>
   );
 }

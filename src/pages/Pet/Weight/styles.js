@@ -27,6 +27,6 @@ export const ErrorLabel = styled.Text`
   text-align: center;
   font-size: 14px;
   font-family: 'OpenSans-Bold';
-  color: #eb3349;
+  color: rgba(0, 0, 0, 0.3);
   margin-top: 10px;
 `;
