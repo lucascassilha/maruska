@@ -11,6 +11,7 @@ import {
   petLastAppointment,
 } from '~/store/modules/pets/actions';
 import { notificationAdd } from '~/store/modules/notifications/actions';
+import translate, { locale } from '~/locales';
 
 import Notification from '~/config/NotificationService';
 
@@ -35,7 +36,7 @@ export default function AppointAdd({ route, navigation }) {
     });
 
     if (!(await schema.isValid(appointment))) {
-      return Alert.alert('Maruska', 'Please enter valid information');
+      return Alert.alert('Maruska', translate('missingInfo'));
     }
 
     const clinicIndex = places.findIndex(item => item.name === clinic);
@@ -44,12 +45,17 @@ export default function AppointAdd({ route, navigation }) {
       phone = places[clinicIndex].phone;
     }
 
-    const time = format(date, 'HH:mm');
-    const day = format(date, 'dd/MM/yyyy');
+    const timeString = locale === 'en_US' ? 'hh:mm aaaa' : 'HH:mm';
+    const dateString = locale === 'en_US' ? 'MM/dd/yyyy' : 'dd/MM/yyyy';
+
+    const time = format(date, timeString);
+    const day = format(date, dateString);
 
     const notificationDate = subDays(date, 1);
-    const title = 'Appointment Tomorrow!';
-    const message = `Don't forget ${petID} has an appointment with ${selectedDoc} tomorrow at ${time}`;
+    const title = translate('appNotTitle');
+    const message = `${translate('appDontForget')} ${petID} ${translate(
+      'appTomorrow'
+    )} ${time}`;
 
     const notificationID = await Notification.scheduleNotification(
       notificationDate,
@@ -78,7 +84,7 @@ export default function AppointAdd({ route, navigation }) {
     navigation.goBack();
   };
 
-  const pickerPlaces = places.filter(item => item.kind === 'Clinic');
+  const pickerPlaces = places.filter(item => item.kind === translate('clinic'));
   const pickerDoctors = doctors.map(item => {
     if (item.pets.includes(petID)) {
       return item;
@@ -90,13 +96,13 @@ export default function AppointAdd({ route, navigation }) {
 
   return (
     <Container>
-      <InputLabel>Where is it?</InputLabel>
+      <InputLabel>{translate('appWhere')}</InputLabel>
       <Picker
         style={{ padding: 15 }}
         onValueChange={value => setClinic(value)}
         selectedValue={clinic}
       >
-        <Picker.Item label="Select a clinic" value={null} />
+        <Picker.Item label={translate('appClinicSelect')} value={null} />
         {pickerPlaces.map(item => (
           <Picker.Item
             label={`${item.name} - ${item.city}`}
@@ -104,29 +110,29 @@ export default function AppointAdd({ route, navigation }) {
           />
         ))}
       </Picker>
-      <InputLabel>With who? (optional)</InputLabel>
+      <InputLabel>{translate('appWho')}</InputLabel>
       <Picker
         style={{ padding: 15 }}
         onValueChange={value => setDoc(value)}
         selectedValue={selectedDoc || null}
       >
-        <Picker.Item label="Select a vet" value={null} />
+        <Picker.Item label={translate('appVetSelect')} value={null} />
         {pickerDoctors[0] &&
           pickerDoctors.map(item => (
             <Picker.Item label={`${item.name}`} value={item.name} />
           ))}
       </Picker>
-      <InputLabel>Please select the date and time</InputLabel>
+      <InputLabel>{translate('dateTime')}</InputLabel>
       <DateHolder>
         <DatePicker
           date={date}
           onDateChange={setDate}
           mode="datetime"
           minimumDate={new Date()}
-          locale="en"
+          locale={locale}
         />
       </DateHolder>
-      <Button title="Register" onPress={handleAppointment} />
+      <Button title={translate('registerLabel')} onPress={handleAppointment} />
     </Container>
   );
 }

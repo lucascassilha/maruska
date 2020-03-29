@@ -1,5 +1,6 @@
 import { produce } from 'immer';
 import { parseISO, isAfter, isValid } from 'date-fns';
+import Notification from '~/config/NotificationService';
 
 const INITIAL_STATE = {
   data: [],
@@ -15,10 +16,11 @@ export default function notifications(state = INITIAL_STATE, action) {
         draft.data.push(notification);
 
         draft.data.sort(function(a, b) {
-          const parsedA = parseISO(a.date) || a.date;
-          const parsedB = parseISO(b.date) || b.date;
-          console.log(!isAfter(parsedA, parsedB));
-          return isAfter(parsedA, parsedB);
+          const aValid = isValid(a.date);
+          const bValid = isValid(b.date);
+          const parsedA = !aValid ? parseISO(a.date) : a.date;
+          const parsedB = !bValid ? parseISO(b.date) : b.date;
+          return parsedA - parsedB;
         });
 
         break;
@@ -52,8 +54,25 @@ export default function notifications(state = INITIAL_STATE, action) {
             const parsedDate = parseISO(item.date);
             return isAfter(parsedDate, currentDate);
           });
-          break;
         }
+        break;
+      }
+      case '@pet/DELETE': {
+        const { pet } = action.payload;
+        draft.data.map(item => {
+          if (item.petID === pet) {
+            Notification.cancelNotification(item.id);
+          }
+        });
+
+        let findIndex = draft.data.findIndex(item => item.petID === pet);
+
+        while (findIndex >= 0) {
+          draft.data.splice(findIndex, 1);
+          findIndex = draft.data.findIndex(item => item.petID === pet);
+        }
+
+        break;
       }
       default:
     }

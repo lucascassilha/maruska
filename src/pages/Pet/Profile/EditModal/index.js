@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 import changeStatus from '~/store/modules/modalVisible/actions';
 import { editPet } from '~/store/modules/pets/actions';
 import Button from '~/components/Button/index';
+import translate, { locale } from '~/locales';
 
 import {
   Wrapper,
@@ -18,8 +19,6 @@ import {
   InputLabel,
   Input,
   CheckHolder,
-  Submit,
-  SubmitTitle,
   CancelHolder,
   CancelLabel,
   DateHolder,
@@ -31,17 +30,6 @@ export default function EditPet({ petInformation, navigation }) {
 
   const [breed, setBreed] = useState(petInformation.breed || null);
   const [chip, setChip] = useState(petInformation.chip || null);
-  const [date, setDate] = useState(petInformation.originalDate);
-  const [years, setYears] = useState(petInformation.originalYears || null);
-  const [months, setMonths] = useState(petInformation.originalMonths || null);
-
-  const [undefDate, setUndef] = useState(false);
-
-  useEffect(() => {
-    if (petInformation.originalYears) {
-      setUndef(true);
-    }
-  }, [years]);
 
   const dispatch = useDispatch();
 
@@ -53,31 +41,18 @@ export default function EditPet({ petInformation, navigation }) {
     const schema = Yup.object().shape({
       chip: Yup.string().nullable(),
       breed: Yup.string().nullable(),
-      years: Yup.number()
-        .positive()
-        .nullable(),
-      months: Yup.number()
-        .max(12)
-        .positive()
-        .nullable(),
-      date: Yup.string(),
     });
 
-    const pet = { breed, chip, date, years, months, name: petInformation.name };
+    const pet = { breed, chip, name: petInformation.name };
 
     if (!(await schema.isValid(pet))) {
-      return Alert.alert('Maruska', 'Invalid or missing information!');
+      return Alert.alert('Maruska', translate('missingInfo'));
     }
     dispatch(editPet(pet));
 
     handleClose();
-    Alert.alert(
-      'Maruska',
-      'Please open the pet screen again to see the changes!'
-    );
+    Alert.alert('Maruska', translate('reOpen'));
   };
-
-  const monthRef = useRef();
   const chipRef = useRef();
   const breedRef = useRef();
 
@@ -91,51 +66,8 @@ export default function EditPet({ petInformation, navigation }) {
       <Container>
         <Box>
           <Scroll showsVerticalScrollIndicator={false}>
-            <Title>Edit pet </Title>
-            <InputLabel>Change the birth date</InputLabel>
-            <DateHolder disabled={undefDate}>
-              <DatePicker
-                date={date}
-                onDateChange={setDate}
-                mode="date"
-                maximumDate={new Date()}
-                locale="en"
-              />
-            </DateHolder>
-            <CheckHolder>
-              <Checkbox
-                status={undefDate ? 'checked' : 'unchecked'}
-                onPress={() => setUndef(!undefDate)}
-                color="#eb3349"
-                uncheckedColor="#eb3349"
-              />
-              <InputLabel>I do not know the exact date</InputLabel>
-            </CheckHolder>
-            {undefDate ? (
-              <>
-                <Instruction>Then please input an approximate date</Instruction>
-                <InputLabel>Years</InputLabel>
-                <Input
-                  value={years}
-                  keyboardType="number-pad"
-                  maxLength={2}
-                  onChangeText={setYears}
-                  onSubmitEditing={() => monthRef.current.focus()}
-                  returnKeyType="next"
-                />
-                <InputLabel>Months</InputLabel>
-                <Input
-                  value={months}
-                  keyboardType="number-pad"
-                  maxLength={2}
-                  ref={monthRef}
-                  onChangeText={setMonths}
-                  onSubmitEditing={() => breedRef.current.focus()}
-                  returnKeyType="next"
-                />
-              </>
-            ) : null}
-            <InputLabel>Breed</InputLabel>
+            <Title>{translate('editTitle')}</Title>
+            <InputLabel>{translate('infoBreed')}</InputLabel>
             <Input
               value={breed}
               onChangeText={setBreed}
@@ -144,7 +76,7 @@ export default function EditPet({ petInformation, navigation }) {
               onSubmitEditing={() => chipRef.current.focus()}
               maxLength={20}
             />
-            <InputLabel>Chip number</InputLabel>
+            <InputLabel>{translate('chip')}</InputLabel>
             <Input
               value={chip}
               onChangeText={setChip}
@@ -152,9 +84,9 @@ export default function EditPet({ petInformation, navigation }) {
               returnKeyType="send"
               onSubmitEditing={handleEditPet}
             />
-            <Button onPress={handleEditPet} title="Edit pet" />
+            <Button onPress={handleEditPet} title={translate('editLabel')} />
             <CancelHolder onPress={handleClose}>
-              <CancelLabel>Cancel</CancelLabel>
+              <CancelLabel>{translate('cancelButton')}</CancelLabel>
             </CancelHolder>
           </Scroll>
         </Box>

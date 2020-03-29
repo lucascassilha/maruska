@@ -3,6 +3,7 @@ import { Alert } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import PropTypes from 'prop-types';
 import Button from '~/components/Button/index';
+import translate, { locale } from '~/locales';
 
 import {
   Container,
@@ -41,14 +42,11 @@ export default function LostPet({ route }) {
     if (contact) {
       setVisible(true);
       await AsyncStorage.setItem('@contact', contact);
-      return Alert.alert(
-        'Print this screen',
-        'After you do that, share the image with as many people as possible. This way more people can contact you if they find your pet!'
-      );
+      return Alert.alert(translate('print'), translate('afterYouDo'));
     }
     return Alert.alert(
-      'Your contact information is missing!',
-      'Please input a contact information!'
+      translate('missingContactTitle'),
+      translate('missingContactInfo')
     );
   };
 
@@ -62,26 +60,24 @@ export default function LostPet({ route }) {
     <Container>
       <LabelInput>
         {changeInfo
-          ? 'Please edit your contact information'
-          : 'First, we need a contact information'}
+          ? translate('editInformation')
+          : translate('firstInformation')}
       </LabelInput>
-      <LabelInput>(phone,email - whatever is the easier)</LabelInput>
+      <LabelInput>{translate('phoneInfo')}</LabelInput>
       <Input
         onChangeText={setContact}
         value={contact}
         maxLength={30}
         onSubmitEditing={() => regionRef.current.focus()}
       />
-      <LabelInput>
-        {`We also need to know in which region the pet got lost (optional - ${regionLength})`}
-      </LabelInput>
+      <LabelInput>{`${translate('regionInfo')} ${regionLength})`}</LabelInput>
       <Input
         onChangeText={setRegion}
         maxLength={40}
         ref={regionRef}
         onSubmitEditing={handleSaveInformation}
       />
-      <Button title="Save my information" onPress={handleSaveInformation} />
+      <Button title={translate('saveInfo')} onPress={handleSaveInformation} />
       <ModalHolder
         visible={modalVisible}
         onRequestClose={() => setVisible(false)}
@@ -93,16 +89,22 @@ export default function LostPet({ route }) {
             }
           />
           <ImportantInfo>{pet.name}</ImportantInfo>
-          <CompInfo>{`Age: ${pet.date}`}</CompInfo>
-          {pet.breed ? <CompInfo>{`Breed: ${pet.breed}`}</CompInfo> : null}
-          {pet.sex ? <CompInfo>{`Sex: ${pet.sex}`}</CompInfo> : null}
-          {pet.chip ? <CompInfo>{`Chip Number: ${pet.chip}`}</CompInfo> : null}
-          {lostRegion ? (
-            <CompInfo>{`Last seen: ${lostRegion}`}</CompInfo>
+          <CompInfo>{`${translate('age')}: ${pet.date}`}</CompInfo>
+          {pet.breed ? (
+            <CompInfo>{`${translate('infoBreed')}: ${pet.breed}`}</CompInfo>
           ) : null}
-          <ImportantInfo>{`Contact Information: ${contact}`}</ImportantInfo>
+          {pet.sex ? (
+            <CompInfo>{`${translate('infoSex')}: ${pet.sex}`}</CompInfo>
+          ) : null}
+          {pet.chip ? (
+            <CompInfo>{`${translate('chip')}: ${pet.chip}`}</CompInfo>
+          ) : null}
+          {lostRegion ? (
+            <CompInfo>{`${translate('lastSeen')}: ${lostRegion}`}</CompInfo>
+          ) : null}
+          <ImportantInfo>{`${translate('contact')}: ${contact}`}</ImportantInfo>
           <ImportantInfo>
-            {`Please, if you have seen ${pet.name}, contact me with the above information!`}
+            {`${translate('ifYouHave')} ${pet.name}, ${translate('contactMe')}`}
           </ImportantInfo>
         </ModalContainer>
       </ModalHolder>

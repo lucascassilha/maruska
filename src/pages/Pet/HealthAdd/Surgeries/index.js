@@ -3,11 +3,12 @@ import { Picker, Alert } from 'react-native';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import * as Yup from 'yup';
-import { format, isAfter } from 'date-fns';
+import { format } from 'date-fns';
 import DatePicker from 'react-native-date-picker';
 import Button from '~/components/Button/index';
 import { petSurgery } from '~/store/modules/pets/actions';
 import { Container, InputLabel, DateHolder, Input } from './styles';
+import translate, { locale } from '~/locales';
 
 export default function SurgeryAdd({ route, navigation }) {
   const { petID } = route.params;
@@ -27,28 +28,29 @@ export default function SurgeryAdd({ route, navigation }) {
     });
 
     if (!(await schema.isValid(surgery))) {
-      return Alert.alert('Maruska', 'Please enter valid information');
+      return Alert.alert('Maruska', translate('missingInfo'));
     }
 
-    const day = format(date, 'dd/MM/yyyy');
+    const dateString = locale === 'en_US' ? 'MM/dd/yyyy' : 'dd/MM/yyyy';
+    const day = format(date, dateString);
 
     dispatch(petSurgery({ ...surgery, day }, petID));
     navigation.goBack();
   };
 
-  const pickerPlaces = places.filter(item => item.kind === 'Clinic');
+  const pickerPlaces = places.filter(item => item.kind === translate('clinic'));
 
   return (
     <Container>
-      <InputLabel>Surgery Name</InputLabel>
+      <InputLabel>{translate('surgName')}</InputLabel>
       <Input maxLength={25} onChangeText={setName} />
-      <InputLabel>Clinic (optional)</InputLabel>
+      <InputLabel>{translate('surgClinic')}</InputLabel>
       <Picker
         style={{ padding: 15 }}
         onValueChange={value => setClinic(value)}
         selectedValue={clinic}
       >
-        <Picker.Item label="Select a clinic" value={null} />
+        <Picker.Item label={translate('appClinicSelect')} value={null} />
         {pickerPlaces.map(item => (
           <Picker.Item
             label={`${item.name} - ${item.city}`}
@@ -56,16 +58,16 @@ export default function SurgeryAdd({ route, navigation }) {
           />
         ))}
       </Picker>
-      <InputLabel>Please select the date</InputLabel>
+      <InputLabel>{translate('surgDate')}</InputLabel>
       <DateHolder>
         <DatePicker
           date={date}
           onDateChange={setDate}
           mode="date"
-          locale="en"
+          locale={locale}
         />
       </DateHolder>
-      <Button title="Register" onPress={handleSurgery} />
+      <Button title={translate('registerLabel')} onPress={handleSurgery} />
     </Container>
   );
 }

@@ -10,28 +10,39 @@ export const Container = styled.View`
 export const Box = styled.View`
   align-self: stretch;
   flex: 1;
-  justify-content: center;
 `;
 
 export const Button = styled.TouchableOpacity`
-  background-color: #eb3349;
+  background-color: #f4f4f4;
   border-radius: 4px;
   margin: 5px 0px;
-  padding: 20px 0px;
+  padding: 10px 0px;
   flex-direction: row;
   padding: 20px 10px;
+  align-items: center;
 `;
 
 export const Label = styled.Text`
   font-size: 18px;
-  color: #fff;
-  font-family: 'OpenSans-Bold';
-  margin-left: 5px;
+  color: #000;
+  font-family: 'OpenSans-Regular';
+  margin-left: 10px;
 `;
 
 export const Version = styled.Text`
-  text-align: center;
-  margin-top: 10px;
   font-size: 16px;
+  color: #000;
+  opacity: 0.5;
+  text-align: center;
+  margin: 5px 0px;
   font-family: 'OpenSans-Regular';
+`;
+
+export const IconHolder = styled.View`
+  height: 40px;
+  width: 40px;
+  border-radius: 30px;
+  align-items: center;
+  justify-content: center;
+  background-color: ${props => props.color};
 `;

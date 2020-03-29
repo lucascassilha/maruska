@@ -9,6 +9,7 @@ import {
   addDays,
   parseISO,
 } from 'date-fns';
+import translate, { locale } from '~/locales';
 
 const INITIAL_STATE = {
   data: [],
@@ -42,38 +43,13 @@ export default function pets(state = INITIAL_STATE, action) {
       }
       case '@pet/EDIT': {
         const { pet } = action.payload;
-        const { date, years, months, chip, breed, name } = pet;
+        const { chip, breed, name } = pet;
 
         const findIndex = draft.data.findIndex(item => item.name === name);
         if (findIndex >= 0) {
-          const currentDate = new Date();
-          let returnDate = null;
-
           const petData = draft.data[findIndex];
 
           let updatedInfo = {};
-
-          if (
-            years !== petData.originalYears &&
-            months !== petData.originalMonths
-          ) {
-            const auxDate = subYears(subMonths(currentDate, months), years);
-            returnDate = formatDistanceStrict(auxDate, currentDate);
-            updatedInfo = {
-              date: returnDate,
-              originalDate: new Date(),
-              originalYears: years,
-              originalMonths: months,
-            };
-          } else if (petData.originalDate !== date) {
-            returnDate = formatDistanceStrict(date, currentDate);
-            updatedInfo = {
-              date: returnDate,
-              originalDate: date,
-              originalYears: null,
-              originalMonths: null,
-            };
-          }
 
           if (chip !== petData.chip) {
             updatedInfo = { ...updatedInfo, chip };
@@ -266,11 +242,13 @@ export default function pets(state = INITIAL_STATE, action) {
 
             const currentDate = new Date();
 
+            const dateString =
+              locale === 'en_US'
+                ? 'MM/dd/yyyy - hh:mm aaaa'
+                : 'dd/MM/yyyy - HH:mm';
+
             medicationRef.lastDose = currentDate;
-            medicationRef.lastDoseString = format(
-              currentDate,
-              'dd/MM/yyyy - HH:mm'
-            );
+            medicationRef.lastDoseString = format(currentDate, dateString);
           }
           if (medicationRef.doses === 0) {
             medicationRef.nextDoseDate = undefined;
@@ -327,12 +305,13 @@ export default function pets(state = INITIAL_STATE, action) {
             medicationRef.notificationID = notificationInfo.id;
 
             const currentDate = new Date();
+            const dateString =
+              locale === 'en_US'
+                ? 'MM/dd/yyyy - hh:mm aaaa'
+                : 'dd/MM/yyyy - HH:mm';
 
             medicationRef.lastDose = currentDate;
-            medicationRef.lastDoseString = format(
-              currentDate,
-              'dd/MM/yyyy - HH:mm'
-            );
+            medicationRef.lastDoseString = format(currentDate, dateString);
           }
           if (medicationRef.doses === 0) {
             medicationRef.nextDoseDate = undefined;

@@ -5,11 +5,7 @@ export const Container = styled.View`
   background-color: #fff;
 `;
 
-export const PetList = styled.FlatList.attrs({
-  contentContainerStyle: {
-    padding: 20,
-  },
-})``;
+export const PetList = styled.FlatList.attrs({})``;
 
 export const Box = styled.TouchableOpacity`
   background-color: #eb3349;
@@ -42,5 +38,17 @@ export const Name = styled.Text`
 export const Info = styled.Text`
   font-size: 14px;
   color: #fff;
+  font-family: 'OpenSans-Regular';
+`;
+
+export const AnimationHolder = styled.View`
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+`;
+export const AnimationLabel = styled.Text`
+  font-size: 16px;
+  color: #000;
+  opacity: 0.5;
   font-family: 'OpenSans-Regular';
 `;

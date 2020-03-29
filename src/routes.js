@@ -4,6 +4,7 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import PropTypes from 'prop-types';
 import { TouchableOpacity, Alert } from 'react-native';
+import translate from '~/locales';
 
 import Home from '~/pages/Home/index';
 import Profile from '~/pages/Pet/Profile/index';
@@ -58,7 +59,7 @@ function Pet() {
         name="Avatar"
         component={Avatar}
         options={() => ({
-          title: 'Choose a picture!',
+          title: translate('pictureTitle'),
           headerStyle: {
             backgroundColor: '#eb3349',
           },
@@ -80,7 +81,7 @@ function Pet() {
         name="Health"
         component={Health}
         options={() => ({
-          title: 'Pet Health',
+          title: translate('healthTitle'),
           headerStyle: {
             backgroundColor: '#eb3349',
           },
@@ -93,23 +94,6 @@ function Pet() {
             fontSize: 20,
             fontFamily: 'OpenSans-Bold',
           },
-          headerRight: () => (
-            <TouchableOpacity
-              onPress={() => {
-                Alert.alert(
-                  'Maruska',
-                  'To add doctors and appointments, you need to add a clinic first!'
-                );
-              }}
-              style={{
-                alignItems: 'center',
-                justifyContent: 'center',
-                marginRight: 20,
-              }}
-            >
-              <Icon name="information" color="#fff" size={25} />
-            </TouchableOpacity>
-          ),
           headerBackImage: () => {
             return <Icon name="chevron-left" color="#fff" size={25} />;
           },
@@ -119,7 +103,7 @@ function Pet() {
         name="DocAdd"
         component={DocAdd}
         options={() => ({
-          title: `New Vet`,
+          title: translate('addDoc'),
           headerStyle: {
             backgroundColor: '#eb3349',
           },
@@ -135,10 +119,7 @@ function Pet() {
           headerRight: () => (
             <TouchableOpacity
               onPress={() => {
-                Alert.alert(
-                  'Information',
-                  'To add a doctor, you first need to input a clinic!'
-                );
+                Alert.alert(translate('infoTitle'), translate('docAddInfo'));
               }}
               style={{
                 alignItems: 'center',
@@ -158,7 +139,7 @@ function Pet() {
         name="AppointAdd"
         component={AppointAdd}
         options={({ route }) => ({
-          title: `New Appointment`,
+          title: translate('addApp'),
           headerStyle: {
             backgroundColor: '#eb3349',
           },
@@ -180,7 +161,7 @@ function Pet() {
         name="SurgeryAdd"
         component={SurgeryAdd}
         options={() => ({
-          title: `Register Surgery`,
+          title: translate('addSurg'),
           headerStyle: {
             backgroundColor: '#eb3349',
           },
@@ -202,7 +183,7 @@ function Pet() {
         name="ProblemAdd"
         component={ProblemAdd}
         options={() => ({
-          title: `Register Problem`,
+          title: translate('addProblem'),
           headerStyle: {
             backgroundColor: '#eb3349',
           },
@@ -224,7 +205,7 @@ function Pet() {
         name="Weight"
         component={Weight}
         options={() => ({
-          title: 'Weight Control',
+          title: translate('weightTitle'),
           headerStyle: {
             backgroundColor: '#eb3349',
           },
@@ -240,10 +221,7 @@ function Pet() {
           headerRight: () => (
             <TouchableOpacity
               onPress={() => {
-                Alert.alert(
-                  'Maruska',
-                  'You can only add a weight once a month! Also,if you wish to change to another unit system go to the settings page!'
-                );
+                Alert.alert(translate('infoTitle'), translate('weightAddInfo'));
               }}
               style={{
                 alignItems: 'center',
@@ -263,7 +241,7 @@ function Pet() {
         name="Vaccines"
         component={Vaccines}
         options={() => ({
-          title: 'Vaccination Card',
+          title: translate('vacTitle'),
           headerStyle: {
             backgroundColor: '#eb3349',
           },
@@ -279,10 +257,7 @@ function Pet() {
           headerRight: () => (
             <TouchableOpacity
               onPress={() => {
-                Alert.alert(
-                  'Information',
-                  'To confirm a vaccine dose, click on the check button on the side of the delete button (trash)!'
-                );
+                Alert.alert(translate('infoTitle'), translate('vacAddInfo'));
               }}
               style={{
                 alignItems: 'center',
@@ -302,7 +277,7 @@ function Pet() {
         name="Medications"
         component={Medications}
         options={() => ({
-          title: 'Medications',
+          title: translate('medTitle'),
           headerStyle: {
             backgroundColor: '#eb3349',
           },
@@ -318,10 +293,7 @@ function Pet() {
           headerRight: () => (
             <TouchableOpacity
               onPress={() => {
-                Alert.alert(
-                  'Information',
-                  'To confirm a medication dose, click on the check button on the side of the delete button (trash)!'
-                );
+                Alert.alert(translate('infoTitle'), translate('medAddInfo'));
               }}
               style={{
                 alignItems: 'center',
@@ -341,7 +313,7 @@ function Pet() {
         name="LostPet"
         component={LostPet}
         options={() => ({
-          title: 'Contact Information',
+          title: translate('contact'),
           headerStyle: {
             backgroundColor: '#eb3349',
           },
@@ -371,8 +343,8 @@ export default function Routes() {
       shifting
       initialRouteName="Home"
       activeColor="#fff"
-      inactiveColor="#c91e33"
-      barStyle={{ backgroundColor: '#eb3349' }}
+      inactiveColor="#ad0c00"
+      barStyle={{ backgroundColor: '#d92316' }}
     >
       <Tab.Screen
         name="Pets"
@@ -387,7 +359,7 @@ export default function Routes() {
         }}
       />
       <Tab.Screen
-        name="Places"
+        name={translate('places')}
         component={Places}
         options={{
           titleStyle: {
@@ -399,7 +371,7 @@ export default function Routes() {
         }}
       />
       <Tab.Screen
-        name="Notifications"
+        name={translate('not')}
         component={Notifications}
         options={{
           titleStyle: {
@@ -411,7 +383,7 @@ export default function Routes() {
         }}
       />
       <Tab.Screen
-        name="Settings"
+        name={translate('set')}
         component={Settings}
         options={{
           titleStyle: {

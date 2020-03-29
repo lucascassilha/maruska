@@ -4,7 +4,8 @@ import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import * as Yup from 'yup';
 import Button from '~/components/Button/index';
-import { addDoctor, deleteDoctor } from '~/store/modules/doctors/actions';
+import { addDoctor } from '~/store/modules/doctors/actions';
+import translate from '~/locales';
 
 import { Container, InputLabel, Input } from './styles';
 
@@ -30,19 +31,19 @@ export default function DocAdd({ route, navigation }) {
       });
 
       if (!(await schema.isValid(doc))) {
-        return Alert.alert('Maruska', 'Please enter valid information');
+        return Alert.alert('Maruska', translate('missingInfo'));
       }
     }
     const inputDoctorIndex = doctors.findIndex(item => item.name === name);
     if (inputDoctorIndex >= 0) {
-      return Alert.alert('Maruska', 'You already registered this vet!');
+      return Alert.alert('Maruska', translate('doubleVet'));
     }
 
     const pickerDoctorIndex = doctors.findIndex(
       item => item.name === selectedDoc
     );
     if (selectedDoc && pickerDoctorIndex === -1) {
-      return Alert.alert('Maruska', 'Please enter valid information');
+      return Alert.alert('Maruska', translate('missingInfo'));
     }
     if (pickerDoctorIndex >= 0) {
       doc = doctors[pickerDoctorIndex];
@@ -52,7 +53,7 @@ export default function DocAdd({ route, navigation }) {
     navigation.goBack();
   };
 
-  const pickerPlaces = places.filter(item => item.kind === 'Clinic');
+  const pickerPlaces = places.filter(item => item.kind === translate('clinic'));
   const pickerDoctors = doctors.map(item => {
     if (!item.pets.includes(petID)) {
       return item;
@@ -63,13 +64,13 @@ export default function DocAdd({ route, navigation }) {
 
   return (
     <Container>
-      <InputLabel>Name</InputLabel>
+      <InputLabel>{translate('name')}</InputLabel>
       <Input
         maxLength={20}
         onChangeText={setName}
         onSubmitEditing={() => phoneRef.current.focus()}
       />
-      <InputLabel>Phone Number</InputLabel>
+      <InputLabel>{translate('phoneNumber')}</InputLabel>
       <Input
         maxLength={20}
         keyboardType="number-pad"
@@ -81,7 +82,7 @@ export default function DocAdd({ route, navigation }) {
         onValueChange={value => setClinic(value)}
         selectedValue={clinic}
       >
-        <Picker.Item label="Select a clinic" value={null} />
+        <Picker.Item label={translate('appClinicSelect')} value={null} />
         {pickerPlaces.map(item => (
           <Picker.Item
             label={`${item.name} - ${item.city}`}
@@ -89,13 +90,13 @@ export default function DocAdd({ route, navigation }) {
           />
         ))}
       </Picker>
-      <InputLabel>Or select a already registered vet</InputLabel>
+      <InputLabel>{translate('alreadyRegistered')}</InputLabel>
       <Picker
         style={{ padding: 15 }}
         onValueChange={value => setDoc(value)}
         selectedValue={selectedDoc || null}
       >
-        <Picker.Item label="Select a vet" value={null} />
+        <Picker.Item label={translate('appVetSelect')} value={null} />
         {pickerDoctors[0] &&
           pickerDoctors.map(item => (
             <Picker.Item
@@ -104,7 +105,7 @@ export default function DocAdd({ route, navigation }) {
             />
           ))}
       </Picker>
-      <Button title="Register" onPress={handleAddDoctor} />
+      <Button title={translate('registerLabel')} onPress={handleAddDoctor} />
     </Container>
   );
 }

@@ -2,12 +2,13 @@ import React, { useState, useRef } from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Checkbox } from 'react-native-paper';
 import { useSelector, useDispatch } from 'react-redux';
-import { Alert } from 'react-native';
+import { Alert, Vibration } from 'react-native';
 import DatePicker from 'react-native-date-picker';
 import * as Yup from 'yup';
 import changeStatus from '~/store/modules/modalVisible/actions';
 import { addPet } from '~/store/modules/pets/actions';
 import Button from '~/components/Button/index';
+import translate, { locale } from '~/locales';
 
 import {
   Wrapper,
@@ -77,16 +78,15 @@ export default function AddModal() {
     const pet = { name, kind, sex, date, years, months, breed };
 
     if (!(await schema.isValid(pet))) {
-      return Alert.alert('Maruska', 'Invalid or missing information');
+      Vibration.vibrate();
+      return Alert.alert('Maruska', translate('missingInfo'));
     }
 
     const findOne = pets.findIndex(item => item.name === name);
 
     if (findOne >= 0) {
-      return Alert.alert(
-        'Maruska',
-        "You can't add a two pets with the same name"
-      );
+      Vibration.vibrate();
+      return Alert.alert('Maruska', translate('doublePet'));
     }
 
     dispatch(addPet({ ...pet, avatar: null }));
@@ -109,15 +109,17 @@ export default function AddModal() {
       <Container>
         <Box>
           <Scroll showsVerticalScrollIndicator={false}>
-            <Title>Add a pet </Title>
-            <InputLabel>Kind</InputLabel>
+            <Title>{translate('addPet')}</Title>
+            <InputLabel>{translate('addKind')}</InputLabel>
             <SelectorBox>
               <CheckHolder>
                 <Checkbox
-                  status={kind === 'Dog' ? 'checked' : 'unchecked'}
+                  status={
+                    kind === translate('dogKind') ? 'checked' : 'unchecked'
+                  }
                   color="#eb3349"
                   uncheckedColor="#eb3349"
-                  onPress={() => setKind('Dog')}
+                  onPress={() => setKind(translate('dogKind'))}
                 />
                 <Icon
                   name="dog"
@@ -125,14 +127,16 @@ export default function AddModal() {
                   size={25}
                   style={{ marginRight: 5 }}
                 />
-                <InputLabel>Dog</InputLabel>
+                <InputLabel>{translate('dogKind')}</InputLabel>
               </CheckHolder>
               <CheckHolder>
                 <Checkbox
                   color="#eb3349"
                   uncheckedColor="#eb3349"
-                  status={kind === 'Cat' ? 'checked' : 'unchecked'}
-                  onPress={() => setKind('Cat')}
+                  status={
+                    kind === translate('catKind') ? 'checked' : 'unchecked'
+                  }
+                  onPress={() => setKind(translate('catKind'))}
                 />
                 <Icon
                   name="cat"
@@ -140,14 +144,16 @@ export default function AddModal() {
                   size={25}
                   style={{ marginRight: 5 }}
                 />
-                <InputLabel>Cat</InputLabel>
+                <InputLabel>{translate('catKind')}</InputLabel>
               </CheckHolder>
               <CheckHolder>
                 <Checkbox
-                  status={kind === 'Other' ? 'checked' : 'unchecked'}
+                  status={
+                    kind === translate('otherKind') ? 'checked' : 'unchecked'
+                  }
                   color="#eb3349"
                   uncheckedColor="#eb3349"
-                  onPress={() => setKind('Other')}
+                  onPress={() => setKind(translate('otherKind'))}
                 />
                 <Icon
                   name="duck"
@@ -155,17 +161,19 @@ export default function AddModal() {
                   size={25}
                   style={{ marginRight: 5 }}
                 />
-                <InputLabel>Other</InputLabel>
+                <InputLabel>{translate('otherKind')}</InputLabel>
               </CheckHolder>
             </SelectorBox>
-            <InputLabel>Sex</InputLabel>
+            <InputLabel>{translate('addSex')}</InputLabel>
             <SelectorBox>
               <CheckHolder>
                 <Checkbox
-                  status={sex === 'Male' ? 'checked' : 'unchecked'}
+                  status={
+                    sex === translate('sexMale') ? 'checked' : 'unchecked'
+                  }
                   color="#eb3349"
                   uncheckedColor="#eb3349"
-                  onPress={() => setSex('Male')}
+                  onPress={() => setSex(translate('sexMale'))}
                 />
                 <Icon
                   name="gender-male"
@@ -173,14 +181,14 @@ export default function AddModal() {
                   size={25}
                   style={{ marginRight: 5 }}
                 />
-                <InputLabel>Male</InputLabel>
+                <InputLabel>{translate('sexMale')}</InputLabel>
               </CheckHolder>
               <CheckHolder>
                 <Checkbox
                   color="#eb3349"
                   uncheckedColor="#eb3349"
-                  status={sex === 'Female' ? 'checked' : 'unchecked'}
-                  onPress={() => setSex('Female')}
+                  status={sex === translate('sexFem') ? 'checked' : 'unchecked'}
+                  onPress={() => setSex(translate('sexFem'))}
                 />
                 <Icon
                   name="gender-female"
@@ -188,14 +196,16 @@ export default function AddModal() {
                   size={25}
                   style={{ marginRight: 5 }}
                 />
-                <InputLabel>Female</InputLabel>
+                <InputLabel>{translate('sexFem')}</InputLabel>
               </CheckHolder>
               <CheckHolder>
                 <Checkbox
-                  status={sex === 'Other' ? 'checked' : 'unchecked'}
+                  status={
+                    sex === translate('sexOther') ? 'checked' : 'unchecked'
+                  }
                   color="#eb3349"
                   uncheckedColor="#eb3349"
-                  onPress={() => setSex('Other')}
+                  onPress={() => setSex(translate('sexOther'))}
                 />
                 <Icon
                   name="gender-male-female"
@@ -203,17 +213,17 @@ export default function AddModal() {
                   size={25}
                   style={{ marginRight: 5 }}
                 />
-                <InputLabel>None of those</InputLabel>
+                <InputLabel>{translate('sexOther')}</InputLabel>
               </CheckHolder>
             </SelectorBox>
-            <InputLabel>Select the date of birth</InputLabel>
+            <InputLabel>{translate('selectBirth')}</InputLabel>
             <DateHolder disabled={undefDate}>
               <DatePicker
                 date={date}
                 onDateChange={setDate}
                 mode="date"
                 maximumDate={new Date()}
-                locale="en"
+                locale={locale}
               />
             </DateHolder>
             <CheckHolder>
@@ -223,12 +233,12 @@ export default function AddModal() {
                 color="#eb3349"
                 uncheckedColor="#eb3349"
               />
-              <InputLabel>I don't know the exact date</InputLabel>
+              <InputLabel>{translate('undefDate')}</InputLabel>
             </CheckHolder>
             {undefDate ? (
               <>
-                <Instruction>Then please input an aproximate Date</Instruction>
-                <InputLabel>Years</InputLabel>
+                <Instruction>{translate('undefLabel')}</Instruction>
+                <InputLabel>{translate('addYears')}</InputLabel>
                 <Input
                   keyboardType="number-pad"
                   maxLength={2}
@@ -236,7 +246,7 @@ export default function AddModal() {
                   onSubmitEditing={() => monthRef.current.focus()}
                   returnKeyType="next"
                 />
-                <InputLabel>Months</InputLabel>
+                <InputLabel>{translate('addMonths')}</InputLabel>
                 <Input
                   keyboardType="number-pad"
                   maxLength={2}
@@ -247,7 +257,7 @@ export default function AddModal() {
                 />
               </>
             ) : null}
-            <InputLabel>Name</InputLabel>
+            <InputLabel>{translate('addName')}</InputLabel>
             <Input
               onChangeText={setName}
               ref={nameRef}
@@ -255,7 +265,7 @@ export default function AddModal() {
               onSubmitEditing={() => breedRef.current.focus()}
               maxLength={20}
             />
-            <InputLabel>Breed (optional)</InputLabel>
+            <InputLabel>{translate('addBreed')}</InputLabel>
             <Input
               onChangeText={setBreed}
               ref={breedRef}
@@ -263,9 +273,9 @@ export default function AddModal() {
               returnKeyType="send"
               onSubmitEditing={handleAddPet}
             />
-            <Button title="Add pet" onPress={handleAddPet} />
+            <Button title={translate('addButton')} onPress={handleAddPet} />
             <CancelHolder onPress={handleClose}>
-              <CancelLabel>Cancel</CancelLabel>
+              <CancelLabel>{translate('cancelButton')}</CancelLabel>
             </CancelHolder>
           </Scroll>
         </Box>

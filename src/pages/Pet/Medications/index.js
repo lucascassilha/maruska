@@ -16,10 +16,12 @@ import {
   addHours,
 } from 'date-fns';
 import PropTypes from 'prop-types';
+import { ptBR, enUS } from 'date-fns/locale';
 import Button from '~/components/Button/index';
 import FAB from '~/components/FAB';
 
 import Notification from '~/config/NotificationService';
+import translate, { locale } from '~/locales';
 
 import {
   petMedication,
@@ -77,30 +79,37 @@ export default function Medications({ route }) {
       const returnable = produce(list, draft => {
         draft.map(item => {
           const currentDate = new Date();
+          const localeFNS = locale === 'pt_BR' ? ptBR : enUS;
           if (item.nextDoseDate) {
             if (isValid(item.nextDoseDate)) {
               if (isAfter(currentDate, item.nextDoseDate)) {
-                item.nextDoseString = 'Now!';
+                item.nextDoseString = translate('nowMed');
                 return 0;
               }
               item.nextDoseString = formatDistanceStrict(
                 item.nextDoseDate,
-                currentDate
+                currentDate,
+                {
+                  locale: localeFNS,
+                }
               );
             } else if (item.nextDoseDate !== undefined) {
               const parsedDate = parseISO(item.nextDoseDate);
               if (isAfter(currentDate, parsedDate)) {
-                item.nextDoseString = 'Now!';
+                item.nextDoseString = translate('nowMed');
                 return 0;
               }
               item.nextDoseString = formatDistanceStrict(
                 parsedDate,
-                currentDate
+                currentDate,
+                {
+                  locale: localeFNS,
+                }
               );
             }
           }
           if (item.doses === 0) {
-            item.nextDoseString = 'Finished!';
+            item.nextDoseString = translate('medFinished');
           }
         });
       });
@@ -128,10 +137,7 @@ export default function Medications({ route }) {
     if (
       !(await schema.isValid({ name, date, doses, interval, intervalValue }))
     ) {
-      return Alert.alert(
-        'Maruska',
-        'Please enter valid information! Check if any field is missing'
-      );
+      return Alert.alert('Maruska', translate('missingInfo'));
     }
 
     const petIndex = pets.findIndex(item => item.name === petID);
@@ -142,18 +148,15 @@ export default function Medications({ route }) {
       );
 
       if (medIndex >= 0) {
-        return Alert.alert(
-          'Error',
-          'You have already registered this medication!'
-        );
+        return Alert.alert(translate('error'), translate('doubleMed'));
       }
     }
 
     const currentDate = new Date();
     const nextDoseString = formatDistanceStrict(date, currentDate);
 
-    const title = 'Medication time!';
-    const message = `${petID} needs to take the first dose of ${name}!`;
+    const title = translate('medNotTitle');
+    const message = `${petID} ${translate('medFirstDose')} ${name}!`;
 
     const notificationID = await Notification.scheduleNotification(
       date,
@@ -217,8 +220,8 @@ export default function Medications({ route }) {
       if (intervalPeriod === 4) {
         nextDoseDate = addHours(currentDate, parseInt(intervalData, 10));
       }
-      const title = 'Medication time!';
-      const message = `${petID} needs to take ${medID}!`;
+      const title = translate('medNotTitle');
+      const message = `${petID} ${translate('medNeedsToTake')} ${medID}!`;
 
       reminderNotification = await Notification.scheduleNotification(
         nextDoseDate,
@@ -266,9 +269,13 @@ export default function Medications({ route }) {
           <Box>
             <TextBox>
               <Title>{item.name}</Title>
-              <SubTitle>{`Next dose: ${item.nextDoseString}`}</SubTitle>
-              <SubTitle>{`Last dose: ${item.lastDoseString}`}</SubTitle>
-              <SubTitle>{`Doses left: ${item.doses}`}</SubTitle>
+              <SubTitle>
+                {`${translate('nextDose')}: ${item.nextDoseString}`}
+              </SubTitle>
+              <SubTitle>
+                {`${translate('lastDose')}: ${item.lastDoseString}`}
+              </SubTitle>
+              <SubTitle>{`${translate('dosesLeft')}: ${item.doses}`}</SubTitle>
             </TextBox>
             <ButtonBox>
               <ButtonHolder
@@ -307,14 +314,14 @@ export default function Medications({ route }) {
         <ModalContainer>
           <ModalBox>
             <Scroll>
-              <Label>Register a medication</Label>
-              <InputLabel>Medication name</InputLabel>
+              <Label>{translate('medRegister')}</Label>
+              <InputLabel>{translate('medName')}</InputLabel>
               <Input
                 onChangeText={setName}
                 maxLength={20}
                 onSubmitEditing={() => dosesRef.current.focus()}
               />
-              <InputLabel>Number of doses</InputLabel>
+              <InputLabel>{translate('addDoses')}</InputLabel>
               <Input
                 placeholder="10"
                 maxLength={2}
@@ -325,7 +332,7 @@ export default function Medications({ route }) {
               />
               <IntervalBox>
                 <SubBox>
-                  <InputLabel>Interval between doses</InputLabel>
+                  <InputLabel>{translate('addInterval')}</InputLabel>
                   <Input
                     style={{ textAlign: 'right' }}
                     placeholder="10"
@@ -336,35 +343,38 @@ export default function Medications({ route }) {
                   />
                 </SubBox>
                 <SubBox>
-                  <InputLabel>Period</InputLabel>
+                  <InputLabel>{translate('addPeriod')}</InputLabel>
                   <Picker
                     style={{ padding: 15 }}
                     onValueChange={value => setInterval(value)}
                     selectedValue={interval || null}
                   >
                     <Picker.Item label="" value={null} />
-                    <Picker.Item label="Years" value={1} />
-                    <Picker.Item label="Months" value={2} />
-                    <Picker.Item label="Days" value={3} />
-                    <Picker.Item label="Hours" value={4} />
+                    <Picker.Item label={translate('addYears')} value={1} />
+                    <Picker.Item label={translate('addMonths')} value={2} />
+                    <Picker.Item label={translate('addDays')} value={3} />
+                    <Picker.Item label={translate('addHours')} value={4} />
                   </Picker>
                 </SubBox>
               </IntervalBox>
-              <InputLabel>Next dose</InputLabel>
+              <InputLabel>{translate('nextDose')}</InputLabel>
               <DateHolder>
                 <DatePicker
                   date={date}
                   onDateChange={setDate}
                   mode="datetime"
                   minimumDate={new Date()}
-                  locale="en"
+                  locale={locale}
                   textColor="#000000"
                   fadeToColor="none"
                 />
               </DateHolder>
-              <Button onPress={handleAddMedication} title="Register" />
+              <Button
+                onPress={handleAddMedication}
+                title={translate('registerLabel')}
+              />
               <CancelBox onPress={() => setVisible(false)}>
-                <Label>Cancel</Label>
+                <Label>{translate('cancelButton')}</Label>
               </CancelBox>
             </Scroll>
           </ModalBox>
