@@ -107,6 +107,7 @@ export default {
   appWho: 'Com quem? (optional)',
   appVetSelect: 'Selecione um vet',
   dateTime: 'Por favor selecione o dia e horário',
+  appNotTitle: 'Consulta amanhã!',
   appClinicSelect: 'Selecione a clínica',
   appDontForget: 'Não esqueça que',
   appTomorrow: 'tem uma consulta amanhã às',
@@ -148,7 +149,7 @@ export default {
   rateUs: 'Nos avalie',
   supporters: 'Apoiadores',
   changeUnit: 'Mudar a unidade de peso',
-  coffee: 'Me compre um café',
+  coffee: 'Apoie o projeto',
   supportersLabel: 'Essas pessoas ajudaram a construir o projeto!',
   supportersList: `Pet Menu icons de FlatIcon \nAssets do projeto de romannurik \nAnimação do urso de Bryan Seah \nAnimação de gato de Arun Sajeev \nAnimações de Camera e notificações de Bryan Trang`,
 };
