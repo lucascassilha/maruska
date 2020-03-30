@@ -7,9 +7,10 @@ export const Container = styled.View`
   align-items: center;
 `;
 
-export const Box = styled.View`
+export const Box = styled.ScrollView.attrs({
+  showsVerticalScrollIndicator: false,
+})`
   align-self: stretch;
-  flex: 1;
 `;
 
 export const Button = styled.TouchableOpacity`

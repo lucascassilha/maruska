@@ -45,12 +45,11 @@ export default function Settings() {
         <Button
           onPress={() =>
             Share.share({
-              title: `Maruska - ${translate('appForYoutPet')}`,
+              title: `Maruska - ${translate('appForYourPet')}`,
               message: `${translate(
                 'checkOut'
               )} app: https://play.google.com/store/apps/details?id=com.lcdev.maruska`,
-            })
-          }
+            })}
         >
           <IconHolder color="#eb3349">
             <Icon name="share" color="#fff" size={20} />
@@ -65,8 +64,7 @@ export default function Settings() {
         </Button>
         <Button
           onPress={() =>
-            Linking.openURL('market://details?id=com.lcdev.maruska')
-          }
+            Linking.openURL('market://details?id=com.lcdev.maruska')}
         >
           <IconHolder color="#33EBBF">
             <Icon name="star" color="#fff" size={20} />
