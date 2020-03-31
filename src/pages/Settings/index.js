@@ -16,7 +16,7 @@ export default function Settings() {
     const currentDate = new Date();
     const formattedDate = format(currentDate, 'dd/MM/yyyy - HH:mm');
     Linking.openURL(
-      `mailto:lcdevpetcare@gmail.com?subject=BugReport ${formattedDate}`
+      `mailto:help@maruskapp.com?subject=Bug Report ${formattedDate}`
     );
   };
 
@@ -25,7 +25,7 @@ export default function Settings() {
   };
 
   const handleLink = () => {
-    Linking.openURL('https://ko-fi.com/lcdev');
+    Linking.openURL('https://ko-fi.com/developlc');
   };
 
   const dispatch = useDispatch();
@@ -49,8 +49,7 @@ export default function Settings() {
               message: `${translate(
                 'checkOut'
               )} app: https://play.google.com/store/apps/details?id=com.lcdev.maruska`,
-            })
-          }
+            })}
         >
           <IconHolder color="#eb3349">
             <Icon name="share" color="#fff" size={20} />
@@ -65,8 +64,7 @@ export default function Settings() {
         </Button>
         <Button
           onPress={() =>
-            Linking.openURL('market://details?id=com.lcdev.maruska')
-          }
+            Linking.openURL('market://details?id=com.lcdev.maruska')}
         >
           <IconHolder color="#33EBBF">
             <Icon name="star" color="#fff" size={20} />
