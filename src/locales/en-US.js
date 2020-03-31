@@ -151,4 +151,8 @@ export default {
   coffee: 'Buy me a cup of coffee',
   supportersLabel: 'These people help build our project!',
   supportersList: `Pet Menu icons from FlatIcon \nProject assets from romannurik \nBear animation from Bryan Seah \nCat animation from Arun Sajeev \nNotification and Camera animation from Bryan Trang \nDog walking animation from XAV Motion`,
+  notGetInfoBack: 'You will not get this information back!',
+  addPlace: 'Add a location',
+  placeKind: 'Kind',
+  reopenApp: 'Please reopen the app to see the changes!',
 };

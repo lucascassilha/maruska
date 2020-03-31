@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import { StatusBar, Alert } from 'react-native';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
+import * as Animatable from 'react-native-animatable';
 import changeStatus from '~/store/modules/modalVisible/actions';
 import EditModal from './EditModal';
 import Button from '~/components/Button/index';
@@ -114,14 +115,16 @@ export default function Profile({ route, navigation }) {
       <StatusBar backgroundColor="#eb3349" barStyle="light-content" />
       <EditModal petInformation={pet} />
       <PetInfo>
-        <Header>
-          <Avatar
-            nullImage={pet.avatar}
-            source={
-              pet.avatar ? { uri: `data:image/*;base64,${pet.avatar}` } : null
-            }
-          />
-        </Header>
+        <Animatable.View animation="fadeInDown">
+          <Header>
+            <Avatar
+              nullImage={pet.avatar}
+              source={
+                pet.avatar ? { uri: `data:image/*;base64,${pet.avatar}` } : null
+              }
+            />
+          </Header>
+        </Animatable.View>
         <InfoHolder>
           <TextLine>
             <InfoTextHolder>
@@ -157,19 +160,21 @@ export default function Profile({ route, navigation }) {
       </PetInfo>
       <PetMenu>
         <MenuTitle>{translate('petMenu')}</MenuTitle>
-        <MenuHolder
-          showsHorizontalScrollIndicator={false}
-          horizontal
-          data={buttons}
-          keyExtractor={item => String(item.id)}
-          renderItem={({ item }) => (
-            <ButtonHolder onPress={item.onPress}>
-              <Gradient colors={item.colors}>
-                <ImageIcon source={item.image} />
-              </Gradient>
-            </ButtonHolder>
-          )}
-        />
+        <Animatable.View animation="slideInRight">
+          <MenuHolder
+            showsHorizontalScrollIndicator={false}
+            horizontal
+            data={buttons}
+            keyExtractor={item => String(item.id)}
+            renderItem={({ item }) => (
+              <ButtonHolder onPress={item.onPress}>
+                <Gradient colors={item.colors}>
+                  <ImageIcon source={item.image} />
+                </Gradient>
+              </ButtonHolder>
+            )}
+          />
+        </Animatable.View>
         <MenuTitle>{translate('emerMenu')}</MenuTitle>
         <EmergencyHolder>
           <Button

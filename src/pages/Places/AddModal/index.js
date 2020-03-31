@@ -2,12 +2,12 @@ import React, { useState, useRef } from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Checkbox } from 'react-native-paper';
 import { useSelector, useDispatch } from 'react-redux';
-import { Alert } from 'react-native';
+import { Alert, Vibration } from 'react-native';
 import * as Yup from 'yup';
 import changeStatus from '~/store/modules/modalVisible/actions';
 import { addLocation } from '~/store/modules/places/actions';
 import Button from '~/components/Button/index';
-import translate, { locale } from '~/locales';
+import translate from '~/locales';
 
 import {
   Wrapper,
@@ -58,12 +58,14 @@ export default function AddModal() {
     const location = { phone, address, city, kind, name };
 
     if (!(await schema.isValid(location))) {
+      Vibration.vibrate();
       return Alert.alert('Maruska', translate('missingInfo'));
     }
 
     const findIndex = locations.findIndex(item => item.name === name);
 
     if (findIndex >= 0) {
+      Vibration.vibrate();
       return Alert.alert('Maruksa', translate('doubleLocation'));
     }
 
@@ -87,8 +89,8 @@ export default function AddModal() {
       <Container>
         <Box>
           <Scroll showsVerticalScrollIndicator={false}>
-            <Title>Add a location </Title>
-            <InputLabel>Kind</InputLabel>
+            <Title>{translate('addPlace')}</Title>
+            <InputLabel>{translate('placeKind')}</InputLabel>
             <SelectorBox>
               <CheckHolder>
                 <Checkbox

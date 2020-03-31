@@ -8,7 +8,7 @@ export const Container = styled.View`
 `;
 
 export const LabelInput = styled.Text`
-  font-family: 'OpenSans-Bold';
+  font-family: 'OpenSans-Regular';
   font-size: 16px;
 `;
 
@@ -19,7 +19,7 @@ export const Input = styled.TextInput`
   margin: 10px 0px;
   padding: 10px;
   color: #fff;
-  font-size: 22px;
+  font-size: 18px;
 `;
 
 export const ModalHolder = styled.Modal``;
