@@ -115,16 +115,14 @@ export default function Profile({ route, navigation }) {
       <StatusBar backgroundColor="#eb3349" barStyle="light-content" />
       <EditModal petInformation={pet} />
       <PetInfo>
-        <Animatable.View animation="fadeInDown">
-          <Header>
-            <Avatar
-              nullImage={pet.avatar}
-              source={
-                pet.avatar ? { uri: `data:image/*;base64,${pet.avatar}` } : null
-              }
-            />
-          </Header>
-        </Animatable.View>
+        <Header>
+          <Avatar
+            nullImage={pet.avatar}
+            source={
+              pet.avatar ? { uri: `data:image/*;base64,${pet.avatar}` } : null
+            }
+          />
+        </Header>
         <InfoHolder>
           <TextLine>
             <InfoTextHolder>
@@ -180,8 +178,7 @@ export default function Profile({ route, navigation }) {
           <Button
             title={translate('emerLabel')}
             onPress={() =>
-              navigation.navigate('LostPet', { changeInfo: false, pet })
-            }
+              navigation.navigate('LostPet', { changeInfo: false, pet })}
           />
         </EmergencyHolder>
         <MenuTitle>{translate('optMenu')}</MenuTitle>

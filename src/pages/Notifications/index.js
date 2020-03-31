@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 
 import { produce } from 'immer';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { format, parseISO, isValid, isAfter } from 'date-fns';
 import LottieView from 'lottie-react-native';
 import * as Animatable from 'react-native-animatable';
+import { clearPastNotifications } from '~/store/modules/notifications/actions';
 import Maruska from '~/components/MaruskaLogo/index';
+import { locale } from '~/locales';
 import {
   Container,
   NotifList,
@@ -23,6 +25,11 @@ export default function Notifications() {
   const notifications = useSelector(state => state.notifications.data);
   const [notList, setList] = useState([]);
 
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(clearPastNotifications());
+  }, []);
+
   useEffect(() => {
     const currentDate = new Date();
     const list = produce(notifications, draft => {
@@ -32,8 +39,11 @@ export default function Notifications() {
           if (!isValid(item.date)) {
             auxDate = parseISO(item.date);
           }
-          const date = format(auxDate, 'dd/MM/yyyy');
-          const time = format(auxDate, 'HH:mm');
+          const dateString = locale === 'en_US' ? 'MM/dd/yyyy' : 'dd/MM/yyyy';
+          const timeString = locale === 'en_US' ? 'hh:mm aaaa' : 'HH:mm';
+
+          const date = format(auxDate, dateString);
+          const time = format(auxDate, timeString);
           const isPast = isAfter(currentDate, auxDate);
           item.isPast = isPast;
           item.dateString = date;

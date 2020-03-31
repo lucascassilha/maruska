@@ -14,6 +14,6 @@ export function notificationCancel(notificationID) {
 
 export function clearPastNotifications() {
   return {
-    type: '@notification/CLEAR',
+    type: '@notification/UPDATE',
   };
 }
