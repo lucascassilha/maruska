@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { Alert, Linking } from 'react-native';
 import LottieView from 'lottie-react-native';
+import * as Animatable from 'react-native-animatable';
 import changeStatus from '~/store/modules/modalVisible/actions';
 import Modal from './AddModal/index';
 import { deleteLocation } from '~/store/modules/places/actions';
@@ -44,19 +45,15 @@ export default function Places() {
   };
 
   const handleDelete = ID => {
-    Alert.alert(
-      'Are you sure you want to do this?',
-      'You will not get this information back!',
-      [
-        {
-          text: "I'm sure",
-          onPress: () => {
-            dispatch(deleteLocation(ID));
-          },
+    Alert.alert(translate('areYouSure'), translate('notGetInfoBack'), [
+      {
+        text: translate('sure'),
+        onPress: () => {
+          dispatch(deleteLocation(ID));
         },
-        { text: 'Cancel' },
-      ]
-    );
+      },
+      { text: translate('cancelButton') },
+    ]);
   };
 
   return (
@@ -88,24 +85,26 @@ export default function Places() {
         data={places}
         keyExtractor={item => item.name}
         renderItem={({ item }) => (
-          <Box>
-            <TextHolder>
-              <Name>{item.name}</Name>
-              <Info>{item.kind}</Info>
-              <Info>{item.city}</Info>
-            </TextHolder>
-            <ButtonHolder>
-              <Button onPress={() => handleCall(item.phone)}>
-                <Icon name="phone" size={28} color="#fff" />
-              </Button>
-              <Button onPress={() => handleMaps(item.address, item.city)}>
-                <Icon name="car" size={28} color="#fff" />
-              </Button>
-              <Button onPress={() => handleDelete(item.name)}>
-                <Icon name="trash-can" size={28} color="#fff" />
-              </Button>
-            </ButtonHolder>
-          </Box>
+          <Animatable.View animation="slideInLeft">
+            <Box>
+              <TextHolder>
+                <Name>{item.name}</Name>
+                <Info>{item.kind}</Info>
+                <Info>{item.city}</Info>
+              </TextHolder>
+              <ButtonHolder>
+                <Button onPress={() => handleCall(item.phone)}>
+                  <Icon name="phone" size={28} color="#fff" />
+                </Button>
+                <Button onPress={() => handleMaps(item.address, item.city)}>
+                  <Icon name="car" size={28} color="#fff" />
+                </Button>
+                <Button onPress={() => handleDelete(item.name)}>
+                  <Icon name="trash-can" size={28} color="#fff" />
+                </Button>
+              </ButtonHolder>
+            </Box>
+          </Animatable.View>
         )}
       />
     </Container>

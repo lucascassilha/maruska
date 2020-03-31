@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import { AdMobInterstitial } from 'react-native-admob';
 import LottieView from 'lottie-react-native';
 import { ptBR, enUS } from 'date-fns/locale';
+import * as Animatable from 'react-native-animatable';
 import Maruska from '~/components/MaruskaLogo/index';
 import changeStatus from '~/store/modules/modalVisible/actions';
 import Modal from './AddModal/index';
@@ -95,21 +96,23 @@ export default function Home({ navigation }) {
         data={petDate}
         keyExtractor={item => item.name}
         renderItem={({ item }) => (
-          <Box onPress={() => navigation.navigate('Pet', { pet: item })}>
-            <PetImage
-              nullImage={item.avatar}
-              source={
-                item.avatar
-                  ? { uri: `data:image/*;base64,${item.avatar}` }
-                  : null
-              }
-            />
-            <TextHolder>
-              <Name>{item.name}</Name>
-              <Info>{`${item.sex} ${item.breed ? item.breed : ''}`}</Info>
-              <Info>{item.date}</Info>
-            </TextHolder>
-          </Box>
+          <Animatable.View animation="slideInLeft">
+            <Box onPress={() => navigation.navigate('Pet', { pet: item })}>
+              <PetImage
+                nullImage={item.avatar}
+                source={
+                  item.avatar
+                    ? { uri: `data:image/*;base64,${item.avatar}` }
+                    : null
+                }
+              />
+              <TextHolder>
+                <Name>{item.name}</Name>
+                <Info>{`${item.sex} ${item.breed ? item.breed : ''}`}</Info>
+                <Info>{item.date}</Info>
+              </TextHolder>
+            </Box>
+          </Animatable.View>
         )}
       />
     </Container>

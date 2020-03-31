@@ -152,4 +152,8 @@ export default {
   coffee: 'Apoie o projeto',
   supportersLabel: 'Essas pessoas ajudaram a construir o projeto!',
   supportersList: `Pet Menu icons de FlatIcon \nAssets do projeto de romannurik \nAnimação do urso de Bryan Seah \nAnimação de gato de Arun Sajeev \nAnimações de Camera e notificações de Bryan Trang`,
+  notGetInfoBack: 'Você não conseguirá recuperar essa informação',
+  addPlace: 'Adicionar um local',
+  placeKind: 'Tipo',
+  reopenApp: 'Por favor, reabra o app para ver as alterações!',
 };

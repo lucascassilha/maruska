@@ -1,14 +1,6 @@
 import { produce } from 'immer';
-import {
-  formatDistanceStrict,
-  format,
-  subYears,
-  subMonths,
-  addYears,
-  addMonths,
-  addDays,
-  parseISO,
-} from 'date-fns';
+import { format, subYears, subMonths, addDays } from 'date-fns';
+import { Alert } from 'react-native';
 import translate, { locale } from '~/locales';
 
 const INITIAL_STATE = {
@@ -66,6 +58,9 @@ export default function pets(state = INITIAL_STATE, action) {
         const { pet } = action.payload;
 
         const findIndex = draft.data.findIndex(item => item.name === pet);
+        if (draft.data.length === 1) {
+          Alert.alert('Maruksa', translate('reopenApp'));
+        }
         if (findIndex >= 0) {
           draft.data.splice(findIndex, 1);
         }

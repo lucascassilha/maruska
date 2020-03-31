@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { format, parseISO, isValid, isAfter } from 'date-fns';
 import LottieView from 'lottie-react-native';
+import * as Animatable from 'react-native-animatable';
 import Maruska from '~/components/MaruskaLogo/index';
 import {
   Container,
@@ -65,20 +66,22 @@ export default function Notifications() {
         data={notList}
         keyExtractor={item => item.id}
         renderItem={({ item }) => (
-          <Box isPast={item.isPast}>
-            <PetTitle>{item.petID}</PetTitle>
-            <Description>{item.message}</Description>
-            <InfoHolder>
-              <InfoBox>
-                <Icon name="calendar" size={20} color="#fff" />
-                <InfoLabel>{item.dateString}</InfoLabel>
-              </InfoBox>
-              <InfoBox>
-                <Icon name="clock" size={20} color="#fff" />
-                <InfoLabel>{item.timeString}</InfoLabel>
-              </InfoBox>
-            </InfoHolder>
-          </Box>
+          <Animatable.View animation="slideInLeft">
+            <Box isPast={item.isPast}>
+              <PetTitle>{item.petID}</PetTitle>
+              <Description>{item.message}</Description>
+              <InfoHolder>
+                <InfoBox>
+                  <Icon name="calendar" size={20} color="#fff" />
+                  <InfoLabel>{item.dateString}</InfoLabel>
+                </InfoBox>
+                <InfoBox>
+                  <Icon name="clock" size={20} color="#fff" />
+                  <InfoLabel>{item.timeString}</InfoLabel>
+                </InfoBox>
+              </InfoHolder>
+            </Box>
+          </Animatable.View>
         )}
       />
     </Container>
