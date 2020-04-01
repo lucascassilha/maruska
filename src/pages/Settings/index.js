@@ -6,6 +6,7 @@ import { format } from 'date-fns';
 import { useSelector, useDispatch } from 'react-redux';
 import { Container, Box, Button, Label, Version, IconHolder } from './styles';
 import translate from '~/locales';
+import terms from './terms';
 
 import Maruska from '~/components/MaruskaLogo/index';
 
@@ -36,6 +37,14 @@ export default function Settings() {
       };
     };
     dispatch(changeUnit());
+  };
+
+  const handleTerms = () => {
+    Alert.alert('Terms & conditions', terms);
+  };
+
+  const handlePrivacy = () => {
+    Linking.openURL('https://lucascassilha.github.io/Maruska-Privacy-Policy/');
   };
 
   return (
@@ -89,8 +98,21 @@ export default function Settings() {
           </IconHolder>
           <Label>{translate('coffee')}</Label>
         </Button>
-        <Version>alpha 0.1.3</Version>
-        <Version>LCdev - 2020</Version>
+        <Button onPress={handlePrivacy}>
+          <IconHolder color="#eba833">
+            <Icon name="file-document-box-multiple" color="#fff" size={20} />
+          </IconHolder>
+          <Label>{translate('privacy')}</Label>
+        </Button>
+        <Button onPress={handleTerms}>
+          <IconHolder color="#42eb33">
+            <Icon name="file-document" color="#fff" size={20} />
+          </IconHolder>
+          <Label>{translate('terms')}</Label>
+        </Button>
+        <Version>{translate('byUsing')}</Version>
+        <Version>1.0</Version>
+        <Version>DevelopLC - 2020</Version>
       </Box>
     </Container>
   );

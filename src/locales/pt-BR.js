@@ -159,4 +159,7 @@ export default {
   saveLabel: 'Salvar',
   looksGreat: 'está linda!',
   wow: 'Essa foto de',
+  terms: 'Termos e condições (en)',
+  byUsing: 'Ao usar o app, você concorda com os termos e condições',
+  privacy: 'Política de privacidade (en)',
 };

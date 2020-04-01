@@ -2,7 +2,7 @@ import styled from 'styled-components/native';
 
 export const Wrapper = styled.TouchableOpacity`
   align-self: stretch;
-  background-color: ${props => (props.disabled ? '#f2f2f2' : '#eb3340')};
+  background-color: ${props => (props.disabled ? '#f2f2f2' : '#eb3349')};
   align-items: center;
   justify-content: center;
   padding: 15px;
