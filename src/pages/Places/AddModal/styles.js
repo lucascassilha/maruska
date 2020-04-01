@@ -14,8 +14,7 @@ export const Box = styled(LinearGradient).attrs({
   colors: ['#fff', '#EFEFEF'],
 })`
   margin: 30px;
-  border-radius: 10px;
-  border-radius: 10px;
+  border-radius: 4px;
   elevation: 2;
 `;
 

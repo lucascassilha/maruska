@@ -6,7 +6,7 @@ import {
   isValid,
   addMonths,
 } from 'date-fns';
-import { Dimensions, Alert } from 'react-native';
+import { Dimensions, Alert, Vibration } from 'react-native';
 import { LineChart } from 'react-native-chart-kit';
 import { useSelector, useDispatch } from 'react-redux';
 import { ptBR, enUS } from 'date-fns/locale';
@@ -74,6 +74,8 @@ export default function Weight({ route, navigation }) {
           { text: translate('cancelButton') },
         ]
       );
+    } else {
+      Vibration.vibrate();
     }
   };
 

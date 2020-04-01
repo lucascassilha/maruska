@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { StatusBar, Alert } from 'react-native';
 import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import * as Animatable from 'react-native-animatable';
 import changeStatus from '~/store/modules/modalVisible/actions';
 import EditModal from './EditModal';
@@ -37,6 +37,7 @@ import pencil from '~/assets/img/pencil.png';
 
 export default function Profile({ route, navigation }) {
   const { pet } = route.params;
+  const weightLabel = useSelector(state => state.weight);
 
   const dispatch = useDispatch();
   const handleOpen = () => {
@@ -115,21 +116,19 @@ export default function Profile({ route, navigation }) {
       <StatusBar backgroundColor="#eb3349" barStyle="light-content" />
       <EditModal petInformation={pet} />
       <PetInfo>
-        <Animatable.View animation="fadeInDown">
-          <Header>
-            <Avatar
-              nullImage={pet.avatar}
-              source={
-                pet.avatar ? { uri: `data:image/*;base64,${pet.avatar}` } : null
-              }
-            />
-          </Header>
-        </Animatable.View>
+        <Header>
+          <Avatar
+            nullImage={pet.avatar}
+            source={
+              pet.avatar ? { uri: `data:image/*;base64,${pet.avatar}` } : null
+            }
+          />
+        </Header>
         <InfoHolder>
           <TextLine>
             <InfoTextHolder>
               <Label>{translate('infoWeight')}</Label>
-              <Info>{`${weightData} kg`}</Info>
+              <Info>{`${weightData} ${weightLabel}`}</Info>
             </InfoTextHolder>
             <InfoTextHolder>
               <Label>{translate('infoKind')}</Label>

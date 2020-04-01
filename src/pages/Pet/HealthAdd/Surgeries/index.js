@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Picker, Alert } from 'react-native';
+import { Picker, Alert, Vibration } from 'react-native';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import * as Yup from 'yup';
@@ -28,6 +28,7 @@ export default function SurgeryAdd({ route, navigation }) {
     });
 
     if (!(await schema.isValid(surgery))) {
+      Vibration.vibrate();
       return Alert.alert('Maruska', translate('missingInfo'));
     }
 

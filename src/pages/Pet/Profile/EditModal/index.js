@@ -1,14 +1,12 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Checkbox } from 'react-native-paper';
+import React, { useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Alert } from 'react-native';
-import DatePicker from 'react-native-date-picker';
+import { Alert, Vibration } from 'react-native';
 import * as Yup from 'yup';
 import PropTypes from 'prop-types';
 import changeStatus from '~/store/modules/modalVisible/actions';
 import { editPet } from '~/store/modules/pets/actions';
 import Button from '~/components/Button/index';
-import translate, { locale } from '~/locales';
+import translate from '~/locales';
 
 import {
   Wrapper,
@@ -18,14 +16,11 @@ import {
   Title,
   InputLabel,
   Input,
-  CheckHolder,
   CancelHolder,
   CancelLabel,
-  DateHolder,
-  Instruction,
 } from './styles';
 
-export default function EditPet({ petInformation, navigation }) {
+export default function EditPet({ petInformation }) {
   const visible = useSelector(state => state.modal);
 
   const [breed, setBreed] = useState(petInformation.breed || null);
@@ -46,6 +41,7 @@ export default function EditPet({ petInformation, navigation }) {
     const pet = { breed, chip, name: petInformation.name };
 
     if (!(await schema.isValid(pet))) {
+      Vibration.vibrate();
       return Alert.alert('Maruska', translate('missingInfo'));
     }
     dispatch(editPet(pet));

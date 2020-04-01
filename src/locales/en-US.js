@@ -155,4 +155,10 @@ export default {
   addPlace: 'Add a location',
   placeKind: 'Kind',
   reopenApp: 'Please reopen the app to see the changes!',
+  saveLabel: 'Save',
+  looksGreat: 'looks great!',
+  wow: 'Wow!',
+  terms: 'Terms and conditions (en)',
+  byUsing: 'By using the app you agree to our terms and conditions',
+  privacy: 'Privacy policy (en)',
 };

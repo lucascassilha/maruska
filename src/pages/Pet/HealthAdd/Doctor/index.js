@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Picker, Alert } from 'react-native';
+import { Picker, Alert, Vibration } from 'react-native';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import * as Yup from 'yup';
@@ -31,6 +31,7 @@ export default function DocAdd({ route, navigation }) {
       });
 
       if (!(await schema.isValid(doc))) {
+        Vibration.vibrate();
         return Alert.alert('Maruska', translate('missingInfo'));
       }
     }
@@ -43,6 +44,7 @@ export default function DocAdd({ route, navigation }) {
       item => item.name === selectedDoc
     );
     if (selectedDoc && pickerDoctorIndex === -1) {
+      Vibration.vibrate();
       return Alert.alert('Maruska', translate('missingInfo'));
     }
     if (pickerDoctorIndex >= 0) {

@@ -38,7 +38,7 @@ export default function notifications(state = INITIAL_STATE, action) {
 
         break;
       }
-      case 'persist/REHYDRATE': {
+      case '@notification/UPDATE': {
         const notificationPayload = action.payload
           ? action.payload.notifications || null
           : null;

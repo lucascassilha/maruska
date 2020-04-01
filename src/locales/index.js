@@ -19,20 +19,23 @@ I18n.translations = {
 };
 
 const setLanguageToI18n = () => {
+  I18n.defaultLocale = 'en_US';
   const language = getLanguageByDevice();
   const translateNormalize = normalizeTranslate[language];
   const iHaveThisLanguage = I18n.translations.hasOwnProperty(
     translateNormalize
   );
-  iHaveThisLanguage
-    ? (I18n.locale = translateNormalize)
-    : (I18n.defaultLocale = 'en_US');
+  if (iHaveThisLanguage) {
+    I18n.locale = translateNormalize;
+  } else {
+    I18n.locale = 'en_US';
+  }
 };
 
 setLanguageToI18n();
 
 const translate = key => I18n.t(key);
 
-export const locale = NativeModules.I18nManager.localeIdentifier;
+export const locale = getLanguageByDevice();
 
 export default translate;
