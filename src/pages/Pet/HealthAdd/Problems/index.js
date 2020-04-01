@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useRef } from 'react';
-import { Alert } from 'react-native';
+import { Alert, Vibration } from 'react-native';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import * as Yup from 'yup';
@@ -28,6 +28,7 @@ export default function ProblemAdd({ route, navigation }) {
     });
 
     if (!(await schema.isValid(surgery))) {
+      Vibration.vibrate();
       return Alert.alert('Maruska', translate('missingInfo'));
     }
 

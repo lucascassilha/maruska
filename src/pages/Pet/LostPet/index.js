@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useRef, useMemo } from 'react';
-import { Alert } from 'react-native';
+import { Alert, Vibration } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import PropTypes from 'prop-types';
 import Button from '~/components/Button/index';
-import translate, { locale } from '~/locales';
+import translate from '~/locales';
 
 import {
   Container,
@@ -44,6 +44,7 @@ export default function LostPet({ route }) {
       await AsyncStorage.setItem('@contact', contact);
       return Alert.alert(translate('print'), translate('afterYouDo'));
     }
+    Vibration.vibrate();
     return Alert.alert(
       translate('missingContactTitle'),
       translate('missingContactInfo')
