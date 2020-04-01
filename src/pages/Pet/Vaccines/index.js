@@ -32,7 +32,6 @@ import {
   petVaccine,
   petCheckVaccine,
   petDeleteVaccine,
-  petLastVaccine,
 } from '~/store/modules/pets/actions';
 
 import {
@@ -241,7 +240,6 @@ export default function Vaccines({ route }) {
     };
 
     dispatch(petCheckVaccine(vacID, petID, notificationData));
-    dispatch(petLastVaccine(petID));
   };
 
   const handleDeleteVaccine = (ID, notificationID) => {

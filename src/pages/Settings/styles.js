@@ -31,11 +31,9 @@ export const Label = styled.Text`
 `;
 
 export const Version = styled.Text`
-  font-size: 16px;
-  color: #000;
-  opacity: 0.5;
   text-align: center;
-  margin: 5px 0px;
+  margin-top: 10px;
+  font-size: 16px;
   font-family: 'OpenSans-Regular';
 `;
 

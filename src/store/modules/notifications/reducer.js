@@ -18,9 +18,10 @@ export default function notifications(state = INITIAL_STATE, action) {
         draft.data.sort(function(a, b) {
           const aValid = isValid(a.date);
           const bValid = isValid(b.date);
-          const parsedA = !aValid ? parseISO(a.date) : a.date;
-          const parsedB = !bValid ? parseISO(b.date) : b.date;
-          return parsedA - parsedB;
+          const parsedA = aValid ? a.date : parseISO(a.date);
+          const parsedB = bValid ? b.date : parseISO(b.date);
+          console.log(!isAfter(parsedA, parsedB));
+          return isAfter(parsedA, parsedB);
         });
 
         break;
@@ -63,15 +64,9 @@ export default function notifications(state = INITIAL_STATE, action) {
           if (item.petID === pet) {
             Notification.cancelNotification(item.id);
           }
+          const parsedDate = parseISO(item.date);
+          return isAfter(parsedDate, currentDate);
         });
-
-        let findIndex = draft.data.findIndex(item => item.petID === pet);
-
-        while (findIndex >= 0) {
-          draft.data.splice(findIndex, 1);
-          findIndex = draft.data.findIndex(item => item.petID === pet);
-        }
-
         break;
       }
       default:

@@ -1,3 +1,4 @@
+
 import React from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useSelector, useDispatch } from 'react-redux';
@@ -19,8 +20,6 @@ import {
   ButtonHolder,
   Button,
   TextHolder,
-  AnimationHolder,
-  AnimationLabel,
 } from './styles';
 import Maruska from '~/components/MaruskaLogo/index';
 

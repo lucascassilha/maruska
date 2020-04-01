@@ -59,20 +59,6 @@ export default function Notifications() {
     <Container>
       <Maruska />
       <NotifList
-        contentContainerStyle={{
-          padding: 20,
-          flexGrow: 1,
-        }}
-        ListEmptyComponent={() => (
-          <AnimationHolder>
-            <LottieView
-              style={{ width: '100%' }}
-              source={require('~/assets/animations/no_notifications.json')}
-              autoPlay
-              loop
-            />
-          </AnimationHolder>
-        )}
         data={notList}
         keyExtractor={item => item.id}
         renderItem={({ item }) => (

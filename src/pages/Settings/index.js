@@ -73,7 +73,8 @@ export default function Settings() {
         </Button>
         <Button
           onPress={() =>
-            Linking.openURL('market://details?id=com.lcdev.maruska')}
+            Linking.openURL('market://details?id=com.lcdev.maruska')
+          }
         >
           <IconHolder color="#33EBBF">
             <Icon name="star" color="#fff" size={20} />

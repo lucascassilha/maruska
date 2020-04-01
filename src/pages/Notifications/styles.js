@@ -5,7 +5,11 @@ export const Container = styled.View`
   background-color: #fff;
 `;
 
-export const NotifList = styled.FlatList.attrs({})``;
+export const NotifList = styled.FlatList.attrs({
+  contentContainerStyle: {
+    padding: 20,
+  },
+})``;
 
 export const Box = styled.View`
   background-color: #eb3349;

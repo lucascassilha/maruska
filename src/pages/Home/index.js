@@ -23,8 +23,6 @@ import {
   TextHolder,
   Name,
   Info,
-  AnimationHolder,
-  AnimationLabel,
 } from './styles';
 
 import logo from '~/assets/img/logo.png';
