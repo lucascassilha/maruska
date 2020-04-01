@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import Button from '~/components/Button/index';
 import { editPicture } from '~/store/modules/pets/actions';
+import translate from '~/locales';
 
 import {
   Container,
@@ -29,7 +30,6 @@ export default function Avatar({ route, navigation }) {
 
   const handleSelectImage = () => {
     const options = {
-      title: 'Select your pet Avatar',
       mediaType: 'photo',
       allowsEditing: true,
       maxWidth: 500,
@@ -76,10 +76,14 @@ export default function Avatar({ route, navigation }) {
           </PictureButton>
         </>
       )}
-      {!picture ? null : <Label>{`${petID} looks great!`}</Label>}
+      {!picture ? null : (
+        <Label>
+          {`${translate('wow')} ${petID} ${translate('looksGreat')}`}
+        </Label>
+      )}
       <Button
         onPress={handlePictureUpload}
-        title="Confirm picture"
+        title={translate('saveLabel')}
         disabled={!picture}
       />
     </Container>

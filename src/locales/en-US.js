@@ -155,4 +155,7 @@ export default {
   addPlace: 'Add a location',
   placeKind: 'Kind',
   reopenApp: 'Please reopen the app to see the changes!',
+  saveLabel: 'Save',
+  looksGreat: 'looks great!',
+  wow: 'Wow!',
 };

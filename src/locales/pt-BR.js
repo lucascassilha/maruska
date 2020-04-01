@@ -156,4 +156,7 @@ export default {
   addPlace: 'Adicionar um local',
   placeKind: 'Tipo',
   reopenApp: 'Por favor, reabra o app para ver as alterações!',
+  saveLabel: 'Salvar',
+  looksGreat: 'está linda!',
+  wow: 'Essa foto de',
 };
