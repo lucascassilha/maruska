@@ -108,7 +108,13 @@ export default function Home({ navigation }) {
               />
               <TextHolder>
                 <Name>{item.name}</Name>
-                <Info>{`${item.sex} ${item.breed ? item.breed : ''}`}</Info>
+                {item.sex === translate('sexOther') && !item.breed ? null : (
+                  <Info>
+                    {`${item.sex !== translate('sexOther') ? item.sex : ''} ${
+                      item.breed ? item.breed : ''
+                    }`}
+                  </Info>
+                )}
                 <Info>{item.date}</Info>
               </TextHolder>
             </Box>

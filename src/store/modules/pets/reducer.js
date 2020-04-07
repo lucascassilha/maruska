@@ -16,7 +16,7 @@ export default function pets(state = INITIAL_STATE, action) {
 
         const currentDate = new Date();
         let returnDate = null;
-        if (years) {
+        if (months !== '') {
           returnDate = subYears(subMonths(currentDate, months), years);
         } else {
           returnDate = date;

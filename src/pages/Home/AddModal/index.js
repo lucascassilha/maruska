@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Alert, Vibration } from 'react-native';
 import DatePicker from 'react-native-date-picker';
 import * as Yup from 'yup';
+import { Formik } from 'formik';
 import changeStatus from '~/store/modules/modalVisible/actions';
 import { addPet } from '~/store/modules/pets/actions';
 import Button from '~/components/Button/index';
@@ -24,63 +25,44 @@ import {
   Instruction,
   CancelLabel,
   DateHolder,
+  ErrorLabel,
 } from './styles';
+
+const schema = Yup.object().shape({
+  name: Yup.string().required(translate('mandatoryName')),
+  kind: Yup.string().required(translate('mandatoryKind')),
+  sex: Yup.string().required(translate('mandatorySex')),
+  breed: Yup.string().nullable(),
+  years: Yup.number()
+    .positive()
+    .nullable(),
+  months: Yup.number()
+    .max(12, translate('invalidMonth'))
+    .positive()
+    .nullable()
+    .when('years', (value, field) =>
+      value ? field.required(translate('mandatoryDate')) : field
+    ),
+  date: Yup.string().when('years', (value, field) =>
+    value ? field : field.required()
+  ),
+});
+
+const currentDate = new Date();
 
 export default function AddModal() {
   const visible = useSelector(state => state.modal);
   const pets = useSelector(state => state.pets.data);
   const [undefDate, setUndef] = useState(false);
 
-  const [date, setDate] = useState(new Date());
-  const [kind, setKind] = useState(null);
-  const [sex, setSex] = useState(null);
-  const [name, setName] = useState(null);
-  const [breed, setBreed] = useState(null);
-  const [years, setYears] = useState(null);
-  const [months, setMonths] = useState(null);
-
   const dispatch = useDispatch();
 
-  const resetStates = () => {
-    setDate(new Date());
-    setSex(null);
-    setKind(null);
-    setName(null);
-    setBreed(null);
-    setMonths(null);
-    setYears(null);
-    setUndef(false);
-  };
   const handleClose = () => {
-    resetStates();
     dispatch(changeStatus(0));
   };
 
-  const handleAddPet = async () => {
-    const schema = Yup.object().shape({
-      name: Yup.string().required(),
-      kind: Yup.string().required(),
-      sex: Yup.string().required(),
-      breed: Yup.string().nullable(),
-      years: Yup.number()
-        .positive()
-        .nullable(),
-      months: Yup.number()
-        .max(12)
-        .positive()
-        .nullable()
-        .when('years', (value, field) => (value ? field.required() : field)),
-      date: Yup.string().when('years', (value, field) =>
-        value ? field : field.required()
-      ),
-    });
-
-    const pet = { name, kind, sex, date, years, months, breed };
-
-    if (!(await schema.isValid(pet))) {
-      Vibration.vibrate();
-      return Alert.alert('Maruska', translate('missingInfo'));
-    }
+  const handleAddPet = async values => {
+    const { name } = values;
 
     const findOne = pets.findIndex(item => item.name === name);
 
@@ -89,10 +71,9 @@ export default function AddModal() {
       return Alert.alert('Maruska', translate('doublePet'));
     }
 
-    dispatch(addPet({ ...pet, avatar: null }));
+    dispatch(addPet({ ...values, avatar: null }));
 
     handleClose();
-    resetStates();
   };
 
   const monthRef = useRef();
@@ -108,176 +89,225 @@ export default function AddModal() {
     >
       <Container>
         <Box>
-          <Scroll showsVerticalScrollIndicator={false}>
-            <Title>{translate('addPet')}</Title>
-            <InputLabel>{translate('addKind')}</InputLabel>
-            <SelectorBox>
-              <CheckHolder>
-                <Checkbox
-                  status={
-                    kind === translate('dogKind') ? 'checked' : 'unchecked'
-                  }
-                  color="#eb3349"
-                  uncheckedColor="#eb3349"
-                  onPress={() => setKind(translate('dogKind'))}
-                />
-                <Icon
-                  name="dog"
-                  color="#eb3349"
-                  size={25}
-                  style={{ marginRight: 5 }}
-                />
-                <InputLabel>{translate('dogKind')}</InputLabel>
-              </CheckHolder>
-              <CheckHolder>
-                <Checkbox
-                  color="#eb3349"
-                  uncheckedColor="#eb3349"
-                  status={
-                    kind === translate('catKind') ? 'checked' : 'unchecked'
-                  }
-                  onPress={() => setKind(translate('catKind'))}
-                />
-                <Icon
-                  name="cat"
-                  color="#eb3349"
-                  size={25}
-                  style={{ marginRight: 5 }}
-                />
-                <InputLabel>{translate('catKind')}</InputLabel>
-              </CheckHolder>
-              <CheckHolder>
-                <Checkbox
-                  status={
-                    kind === translate('otherKind') ? 'checked' : 'unchecked'
-                  }
-                  color="#eb3349"
-                  uncheckedColor="#eb3349"
-                  onPress={() => setKind(translate('otherKind'))}
-                />
-                <Icon
-                  name="duck"
-                  color="#eb3349"
-                  size={25}
-                  style={{ marginRight: 5 }}
-                />
-                <InputLabel>{translate('otherKind')}</InputLabel>
-              </CheckHolder>
-            </SelectorBox>
-            <InputLabel>{translate('addSex')}</InputLabel>
-            <SelectorBox>
-              <CheckHolder>
-                <Checkbox
-                  status={
-                    sex === translate('sexMale') ? 'checked' : 'unchecked'
-                  }
-                  color="#eb3349"
-                  uncheckedColor="#eb3349"
-                  onPress={() => setSex(translate('sexMale'))}
-                />
-                <Icon
-                  name="gender-male"
-                  color="#eb3349"
-                  size={25}
-                  style={{ marginRight: 5 }}
-                />
-                <InputLabel>{translate('sexMale')}</InputLabel>
-              </CheckHolder>
-              <CheckHolder>
-                <Checkbox
-                  color="#eb3349"
-                  uncheckedColor="#eb3349"
-                  status={sex === translate('sexFem') ? 'checked' : 'unchecked'}
-                  onPress={() => setSex(translate('sexFem'))}
-                />
-                <Icon
-                  name="gender-female"
-                  color="#eb3349"
-                  size={25}
-                  style={{ marginRight: 5 }}
-                />
-                <InputLabel>{translate('sexFem')}</InputLabel>
-              </CheckHolder>
-              <CheckHolder>
-                <Checkbox
-                  status={
-                    sex === translate('sexOther') ? 'checked' : 'unchecked'
-                  }
-                  color="#eb3349"
-                  uncheckedColor="#eb3349"
-                  onPress={() => setSex(translate('sexOther'))}
-                />
-                <Icon
-                  name="gender-male-female"
-                  color="#eb3349"
-                  size={25}
-                  style={{ marginRight: 5 }}
-                />
-                <InputLabel>{translate('sexOther')}</InputLabel>
-              </CheckHolder>
-            </SelectorBox>
-            <InputLabel>{translate('selectBirth')}</InputLabel>
-            <DateHolder disabled={undefDate}>
-              <DatePicker
-                date={date}
-                onDateChange={setDate}
-                mode="date"
-                maximumDate={new Date()}
-                locale={locale}
-              />
-            </DateHolder>
-            <CheckHolder>
-              <Checkbox
-                status={undefDate ? 'checked' : 'unchecked'}
-                onPress={() => setUndef(!undefDate)}
-                color="#eb3349"
-                uncheckedColor="#eb3349"
-              />
-              <InputLabel>{translate('undefDate')}</InputLabel>
-            </CheckHolder>
-            {undefDate ? (
-              <>
-                <Instruction>{translate('undefLabel')}</Instruction>
-                <InputLabel>{translate('addYears')}</InputLabel>
+          <Formik
+            onSubmit={values => handleAddPet(values)}
+            initialValues={{
+              kind: '',
+              sex: '',
+              date: currentDate,
+              years: '',
+              months: '',
+              name: '',
+              breed: null,
+            }}
+            validationSchema={schema}
+            validateOnChange={false}
+          >
+            {({
+              handleChange,
+              handleSubmit,
+              values,
+              setFieldValue,
+              errors,
+            }) => (
+              <Scroll showsVerticalScrollIndicator={false}>
+                <Title>{translate('addPet')}</Title>
+                <InputLabel>{translate('addKind')}</InputLabel>
+                <SelectorBox>
+                  <CheckHolder>
+                    <Checkbox
+                      status={
+                        values.kind === translate('dogKind')
+                          ? 'checked'
+                          : 'unchecked'
+                      }
+                      color="#eb3349"
+                      uncheckedColor="#eb3349"
+                      value={values.kind}
+                      onPress={() =>
+                        setFieldValue('kind', translate('dogKind'))}
+                    />
+                    <Icon
+                      name="dog"
+                      color="#eb3349"
+                      size={25}
+                      style={{ marginRight: 5 }}
+                    />
+                    <InputLabel>{translate('dogKind')}</InputLabel>
+                  </CheckHolder>
+                  <CheckHolder>
+                    <Checkbox
+                      color="#eb3349"
+                      uncheckedColor="#eb3349"
+                      status={
+                        values.kind === translate('catKind')
+                          ? 'checked'
+                          : 'unchecked'
+                      }
+                      onPress={() =>
+                        setFieldValue('kind', translate('catKind'))
+                      }
+                    />
+                    <Icon
+                      name="cat"
+                      color="#eb3349"
+                      size={25}
+                      style={{ marginRight: 5 }}
+                    />
+                    <InputLabel>{translate('catKind')}</InputLabel>
+                  </CheckHolder>
+                  <CheckHolder>
+                    <Checkbox
+                      status={
+                        values.kind === translate('otherKind')
+                          ? 'checked'
+                          : 'unchecked'
+                      }
+                      color="#eb3349"
+                      uncheckedColor="#eb3349"
+                      onPress={() =>
+                        setFieldValue('kind', translate('otherKind'))}
+                    />
+                    <Icon
+                      name="duck"
+                      color="#eb3349"
+                      size={25}
+                      style={{ marginRight: 5 }}
+                    />
+                    <InputLabel>{translate('otherKind')}</InputLabel>
+                  </CheckHolder>
+                </SelectorBox>
+                {errors.kind && <ErrorLabel>{errors.kind}</ErrorLabel>}
+                <InputLabel>{translate('addSex')}</InputLabel>
+                <SelectorBox>
+                  <CheckHolder>
+                    <Checkbox
+                      status={
+                        values.sex === translate('sexMale')
+                          ? 'checked'
+                          : 'unchecked'
+                      }
+                      color="#eb3349"
+                      uncheckedColor="#eb3349"
+                      onPress={() => setFieldValue('sex', translate('sexMale'))}
+                    />
+                    <Icon
+                      name="gender-male"
+                      color="#eb3349"
+                      size={25}
+                      style={{ marginRight: 5 }}
+                    />
+                    <InputLabel>{translate('sexMale')}</InputLabel>
+                  </CheckHolder>
+                  <CheckHolder>
+                    <Checkbox
+                      color="#eb3349"
+                      uncheckedColor="#eb3349"
+                      status={
+                        values.sex === translate('sexFem')
+                          ? 'checked'
+                          : 'unchecked'
+                      }
+                      onPress={() => setFieldValue('sex', translate('sexFem'))}
+                    />
+                    <Icon
+                      name="gender-female"
+                      color="#eb3349"
+                      size={25}
+                      style={{ marginRight: 5 }}
+                    />
+                    <InputLabel>{translate('sexFem')}</InputLabel>
+                  </CheckHolder>
+                  <CheckHolder>
+                    <Checkbox
+                      status={
+                        values.sex === translate('sexOther')
+                          ? 'checked'
+                          : 'unchecked'
+                      }
+                      color="#eb3349"
+                      uncheckedColor="#eb3349"
+                      onPress={() =>
+                        setFieldValue('sex', translate('sexOther'))
+                      }
+                    />
+                    <Icon
+                      name="gender-male-female"
+                      color="#eb3349"
+                      size={25}
+                      style={{ marginRight: 5 }}
+                    />
+                    <InputLabel>{translate('sexOther')}</InputLabel>
+                  </CheckHolder>
+                </SelectorBox>
+                {errors.sex && <ErrorLabel>{errors.sex}</ErrorLabel>}
+                <InputLabel>{translate('selectBirth')}</InputLabel>
+                <DateHolder disabled={undefDate}>
+                  <DatePicker
+                    date={values.date}
+                    onDateChange={value => setFieldValue('date', value)}
+                    mode="date"
+                    maximumDate={new Date()}
+                    locale={locale}
+                  />
+                </DateHolder>
+                {errors.date && <ErrorLabel>{errors.date}</ErrorLabel>}
+                <CheckHolder>
+                  <Checkbox
+                    status={undefDate ? 'checked' : 'unchecked'}
+                    onPress={() => setUndef(!undefDate)}
+                    color="#eb3349"
+                    uncheckedColor="#eb3349"
+                  />
+                  <InputLabel>{translate('undefDate')}</InputLabel>
+                </CheckHolder>
+                {undefDate ? (
+                  <>
+                    <Instruction>{translate('undefLabel')}</Instruction>
+                    <InputLabel>{translate('addYears')}</InputLabel>
+                    <Input
+                      keyboardType="number-pad"
+                      maxLength={2}
+                      onChangeText={handleChange('years')}
+                      onSubmitEditing={() => monthRef.current.focus()}
+                      returnKeyType="next"
+                    />
+                    <InputLabel>{translate('addMonths')}</InputLabel>
+                    <Input
+                      keyboardType="number-pad"
+                      maxLength={2}
+                      ref={monthRef}
+                      onSubmitEditing={() => nameRef.current.focus()}
+                      onChangeText={handleChange('months')}
+                      returnKeyType="next"
+                    />
+                    {errors.months && <ErrorLabel>{errors.months}</ErrorLabel>}
+                  </>
+                ) : null}
+                <InputLabel>{translate('addName')}</InputLabel>
                 <Input
-                  keyboardType="number-pad"
-                  maxLength={2}
-                  onChangeText={setYears}
-                  onSubmitEditing={() => monthRef.current.focus()}
+                  onChangeText={handleChange('name')}
+                  ref={nameRef}
                   returnKeyType="next"
+                  onSubmitEditing={() => breedRef.current.focus()}
+                  maxLength={20}
                 />
-                <InputLabel>{translate('addMonths')}</InputLabel>
+                {errors.name && <ErrorLabel>{errors.name}</ErrorLabel>}
+                <InputLabel>{translate('addBreed')}</InputLabel>
                 <Input
-                  keyboardType="number-pad"
-                  maxLength={2}
-                  ref={monthRef}
-                  onSubmitEditing={() => nameRef.current.focus()}
-                  onChangeText={setMonths}
-                  returnKeyType="next"
+                  onChangeText={handleChange('breed')}
+                  ref={breedRef}
+                  maxLength={20}
+                  returnKeyType="send"
+                  onSubmitEditing={handleSubmit}
                 />
-              </>
-            ) : null}
-            <InputLabel>{translate('addName')}</InputLabel>
-            <Input
-              onChangeText={setName}
-              ref={nameRef}
-              returnKeyType="next"
-              onSubmitEditing={() => breedRef.current.focus()}
-              maxLength={20}
-            />
-            <InputLabel>{translate('addBreed')}</InputLabel>
-            <Input
-              onChangeText={setBreed}
-              ref={breedRef}
-              maxLength={20}
-              returnKeyType="send"
-              onSubmitEditing={handleAddPet}
-            />
-            <Button title={translate('addButton')} onPress={handleAddPet} />
-            <CancelHolder onPress={handleClose}>
-              <CancelLabel>{translate('cancelButton')}</CancelLabel>
-            </CancelHolder>
-          </Scroll>
+                <Button title={translate('addButton')} onPress={handleSubmit} />
+                <CancelHolder onPress={handleClose}>
+                  <CancelLabel>{translate('cancelButton')}</CancelLabel>
+                </CancelHolder>
+              </Scroll>
+            )}
+          </Formik>
         </Box>
       </Container>
     </Wrapper>
