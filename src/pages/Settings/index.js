@@ -49,8 +49,20 @@ export default function Settings() {
 
   return (
     <Container>
-      <Maruska />
       <Box>
+        <Maruska />
+        <Button onPress={handlePrivacy}>
+          <IconHolder color="#eba833">
+            <Icon name="file-document-box-multiple" color="#fff" size={20} />
+          </IconHolder>
+          <Label>{translate('privacy')}</Label>
+        </Button>
+        <Button onPress={handleTerms}>
+          <IconHolder color="#42eb33">
+            <Icon name="file-document" color="#fff" size={20} />
+          </IconHolder>
+          <Label>{translate('terms')}</Label>
+        </Button>
         <Button
           onPress={() =>
             Share.share({
@@ -58,12 +70,23 @@ export default function Settings() {
               message: `${translate(
                 'checkOut'
               )} app: https://play.google.com/store/apps/details?id=com.lcdev.maruska`,
-            })}
+            })
+          }
         >
           <IconHolder color="#eb3349">
             <Icon name="share" color="#fff" size={20} />
           </IconHolder>
           <Label>{translate('shareTheApp')}</Label>
+        </Button>
+        <Button
+          onPress={() =>
+            Linking.openURL('market://details?id=com.lcdev.maruska')
+          }
+        >
+          <IconHolder color="#33EBBF">
+            <Icon name="star" color="#fff" size={20} />
+          </IconHolder>
+          <Label>{translate('rateUs')}</Label>
         </Button>
         <Button onPress={handleEmail}>
           <IconHolder color="#6E33EB">
@@ -71,14 +94,11 @@ export default function Settings() {
           </IconHolder>
           <Label>{translate('reportBug')}</Label>
         </Button>
-        <Button
-          onPress={() =>
-            Linking.openURL('market://details?id=com.lcdev.maruska')}
-        >
-          <IconHolder color="#33EBBF">
-            <Icon name="star" color="#fff" size={20} />
+        <Button onPress={handleLink}>
+          <IconHolder color="#33BFEB">
+            <Icon name="coffee" color="#fff" size={20} />
           </IconHolder>
-          <Label>{translate('rateUs')}</Label>
+          <Label>{translate('coffee')}</Label>
         </Button>
         <Button onPress={handleAlert}>
           <IconHolder color="#EBE433">
@@ -92,27 +112,9 @@ export default function Settings() {
           </IconHolder>
           <Label>{`${translate('changeUnit')} - ${weight} `}</Label>
         </Button>
-        <Button onPress={handleLink}>
-          <IconHolder color="#33BFEB">
-            <Icon name="coffee" color="#fff" size={20} />
-          </IconHolder>
-          <Label>{translate('coffee')}</Label>
-        </Button>
-        <Button onPress={handlePrivacy}>
-          <IconHolder color="#eba833">
-            <Icon name="file-document-box-multiple" color="#fff" size={20} />
-          </IconHolder>
-          <Label>{translate('privacy')}</Label>
-        </Button>
-        <Button onPress={handleTerms}>
-          <IconHolder color="#42eb33">
-            <Icon name="file-document" color="#fff" size={20} />
-          </IconHolder>
-          <Label>{translate('terms')}</Label>
-        </Button>
-        <Version>{translate('byUsing')}</Version>
-        <Version>1.0</Version>
+        <Version>v1.0.1</Version>
         <Version>DevelopLC - 2020</Version>
+        <Version>{translate('byUsing')}</Version>
       </Box>
     </Container>
   );
