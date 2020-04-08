@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import DatePicker from 'react-native-date-picker';
 import * as Yup from 'yup';
-import { Alert, Picker, Vibration } from 'react-native';
+import { Alert, Picker } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { produce } from 'immer';
 import PropTypes from 'prop-types';
@@ -17,6 +17,7 @@ import {
   addDays,
 } from 'date-fns';
 import { ptBR, enUS } from 'date-fns/locale';
+import { Formik } from 'formik';
 import Button from '~/components/Button/index';
 import FAB from '~/components/FAB';
 import translate, { locale } from '~/locales';
@@ -55,7 +56,29 @@ import {
   IntervalBox,
   SubBox,
   CancelBox,
+  ErrorLabel,
 } from './styles';
+
+const schema = Yup.object().shape({
+  intervalValue: Yup.number()
+    .typeError(translate('validIntervalValue'))
+    .min(0, translate('biggerThan'))
+    .required(translate('mandatoryIntervalValue')),
+  interval: Yup.number()
+    .typeError(translate('mandatoryPeriod'))
+    .min(1, translate('mandatoryPeriod'))
+    .max(3, translate('mandatoryPeriod'))
+    .required(translate('mandatoryPeriod')),
+  date: Yup.date().required(),
+  name: Yup.string().required(translate('mandatoryVaccineName')),
+  doses: Yup.number()
+    .typeError(translate('validValue'))
+    .min(0, translate('biggerThan'))
+    .max(99, translate('smallerThan'))
+    .required(translate('mandatoryInterval')),
+});
+
+const now = new Date();
 
 export default function Vaccines({ route }) {
   const { petID } = route.params;
@@ -64,11 +87,6 @@ export default function Vaccines({ route }) {
   const [modalVisible, setVisible] = useState(false);
 
   const [vaccines, setVaccines] = useState([]);
-  const [date, setDate] = useState(new Date());
-  const [name, setName] = useState(null);
-  const [doses, setDoses] = useState(null);
-  const [interval, setInterval] = useState(null);
-  const [intervalValue, setIntervalValue] = useState(null);
 
   const dispatch = useDispatch();
 
@@ -102,30 +120,8 @@ export default function Vaccines({ route }) {
     }
   }, [pets]);
 
-  const handleAddVaccine = async () => {
-    const schema = Yup.object().shape({
-      intervalValue: Yup.number()
-        .min(0)
-        .required(),
-      interval: Yup.number()
-        .min(1)
-        .max(3)
-        .required(),
-      date: Yup.date().required(),
-      name: Yup.string().required(),
-      doses: Yup.number()
-        .min(0)
-        .max(99)
-        .required(),
-    });
-
-    if (
-      !(await schema.isValid({ name, date, doses, interval, intervalValue }))
-    ) {
-      Vibration.vibrate();
-      return Alert.alert('Maruska', translate('missingInfo'));
-    }
-
+  const handleAddVaccine = async values => {
+    const { name, date, interval, intervalValue, doses } = values;
     const petIndex = pets.findIndex(item => item.name === petID);
 
     if (pets[petIndex].vaccines) {
@@ -137,8 +133,7 @@ export default function Vaccines({ route }) {
       }
     }
 
-    const currentDate = new Date();
-    const nextDoseString = formatDistanceStrict(date, currentDate);
+    const nextDoseString = formatDistanceStrict(date, now);
 
     const notificationDate = subDays(date, 1);
     const title = translate('vacNotTitle');
@@ -169,7 +164,7 @@ export default function Vaccines({ route }) {
           notificationID,
           doses,
           nextDoseDate: date,
-          created_at: currentDate,
+          created_at: now,
           interval,
           intervalValue,
           lastDose: null,
@@ -318,69 +313,99 @@ export default function Vaccines({ route }) {
       >
         <ModalContainer>
           <ModalBox>
-            <Scroll>
-              <Label>{translate('registerVaccine')}</Label>
-              <InputLabel>{translate('addVacName')}</InputLabel>
-              <Input
-                onChangeText={setName}
-                maxLength={20}
-                onSubmitEditing={() => dosesRef.current.focus()}
-              />
-              <InputLabel>{translate('addDoses')}</InputLabel>
-              <Input
-                placeholder="10"
-                maxLength={2}
-                keyboardType="number-pad"
-                ref={dosesRef}
-                onChangeText={setDoses}
-                onSubmitEditing={() => intervalRef.current.focus()}
-              />
-              <IntervalBox>
-                <SubBox>
-                  <InputLabel>{translate('addInterval')}</InputLabel>
+            <Formik
+              onSubmit={values => handleAddVaccine(values)}
+              initialValues={{
+                name: '',
+                doses: '',
+                interval: null,
+                intervalValue: '',
+                date: now,
+              }}
+              validationSchema={schema}
+              validateOnChange={false}
+            >
+              {({
+                handleChange,
+                handleSubmit,
+                values,
+                setFieldValue,
+                errors,
+              }) => (
+                <Scroll>
+                  <Label>{translate('registerVaccine')}</Label>
+                  <InputLabel>{translate('addVacName')}</InputLabel>
                   <Input
-                    style={{ textAlign: 'right' }}
+                    onChangeText={handleChange('name')}
+                    maxLength={20}
+                    onSubmitEditing={() => dosesRef.current.focus()}
+                  />
+                  {errors.name && <ErrorLabel>{errors.name}</ErrorLabel>}
+                  <InputLabel>{translate('addDoses')}</InputLabel>
+                  <Input
                     placeholder="10"
                     maxLength={2}
                     keyboardType="number-pad"
-                    ref={intervalRef}
-                    onChangeText={setIntervalValue}
+                    ref={dosesRef}
+                    onChangeText={handleChange('doses')}
+                    onSubmitEditing={() => intervalRef.current.focus()}
                   />
-                </SubBox>
-                <SubBox>
-                  <InputLabel>{translate('addPeriod')}</InputLabel>
-                  <Picker
-                    style={{ padding: 15 }}
-                    onValueChange={value => setInterval(value)}
-                    selectedValue={interval || null}
-                  >
-                    <Picker.Item label="" value={null} />
-                    <Picker.Item label={translate('addYears')} value={1} />
-                    <Picker.Item label={translate('addMonths')} value={2} />
-                    <Picker.Item label={translate('addDays')} value={3} />
-                  </Picker>
-                </SubBox>
-              </IntervalBox>
-              <InputLabel>{translate('nextDose')}</InputLabel>
-              <DateHolder>
-                <DatePicker
-                  date={date}
-                  onDateChange={setDate}
-                  mode="datetime"
-                  minimumDate={new Date()}
-                  locale={locale}
-                  textColor="#000000"
-                  fadeToColor="none"
-                />
-              </DateHolder>
-              <Button
-                onPress={handleAddVaccine}
-                title={translate('registerLabel')}
-              />
-              <CancelBox onPress={() => setVisible(false)}>
-                <Label>{translate('cancelButton')}</Label>
-              </CancelBox>
-            </Scroll>
+                  {errors.doses && <ErrorLabel>{errors.doses}</ErrorLabel>}
+                  <IntervalBox>
+                    <SubBox>
+                      <InputLabel>{translate('addInterval')}</InputLabel>
+                      <Input
+                        style={{ textAlign: 'right' }}
+                        placeholder="10"
+                        maxLength={2}
+                        keyboardType="number-pad"
+                        ref={intervalRef}
+                        onChangeText={handleChange('intervalValue')}
+                      />
+                    </SubBox>
+                    <SubBox>
+                      <InputLabel>{translate('addPeriod')}</InputLabel>
+                      <Picker
+                        style={{ padding: 15 }}
+                        onValueChange={value =>
+                          setFieldValue('interval', value)}
+                        selectedValue={values.interval || null}
+                      >
+                        <Picker.Item label="" value={null} />
+                        <Picker.Item label={translate('addYears')} value={1} />
+                        <Picker.Item label={translate('addMonths')} value={2} />
+                        <Picker.Item label={translate('addDays')} value={3} />
+                      </Picker>
+                    </SubBox>
+                  </IntervalBox>
+                  {errors.interval && (
+                    <ErrorLabel>{errors.interval}</ErrorLabel>
+                  )}
+                  {errors.intervalValue && (
+                    <ErrorLabel>{errors.intervalValue}</ErrorLabel>
+                  )}
+                  <InputLabel>{translate('nextDose')}</InputLabel>
+                  <DateHolder>
+                    <DatePicker
+                      date={values.date}
+                      onDateChange={value => setFieldValue('date', value)}
+                      mode="datetime"
+                      minimumDate={now}
+                      locale={locale}
+                      textColor="#000000"
+                      fadeToColor="none"
+                    />
+                  </DateHolder>
+                  <Button
+                    onPress={handleSubmit}
+                    title={translate('registerLabel')}
+                  />
+                  <CancelBox onPress={() => setVisible(false)}>
+                    <Label>{translate('cancelButton')}</Label>
+                  </CancelBox>
+                </Scroll>
+              )}
+            </Formik>
           </ModalBox>
         </ModalContainer>
       </ModalHolder>
@@ -390,6 +415,4 @@ export default function Vaccines({ route }) {
 
 Vaccines.propTypes = {
   route: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
-  navigation: PropTypes.oneOfType([PropTypes.object, PropTypes.array])
-    .isRequired,
 };
