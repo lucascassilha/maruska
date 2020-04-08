@@ -30,7 +30,7 @@ export default function Weight({ route, navigation }) {
   const handleAddWeight = () => {
     if (weight) {
       Alert.alert(
-        `${weight} ${locale === 'en_US' ? 'lbs' : 'kg'}`,
+        `${weight} ${weightUnit}`,
         `${translate('thisMonth')} (${date}) ${translate('weightRight')}`,
         [
           {
@@ -72,9 +72,9 @@ export default function Weight({ route, navigation }) {
           : parseISO(item.created_at);
         return differenceInDays(parsedDate, currentDate) === 0;
       });
-      /* if (dayRegistered === 0) {
+      if (dayRegistered === 0) {
         setEditable(false);
-      } */
+      }
     }
   }, []);
 
