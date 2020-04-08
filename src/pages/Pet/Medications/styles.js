@@ -30,7 +30,7 @@ export const Input = styled.TextInput`
   background-color: #eb3349;
   padding: 5px 10px;
   border-radius: 4px;
-  margin: 5px 0px;
+  margin-bottom: 10px;
   color: #fff;
 `;
 
@@ -122,3 +122,12 @@ export const SubBox = styled.View`
 `;
 
 export const CancelBox = styled.TouchableOpacity``;
+
+export const ErrorLabel = styled.Text`
+  font-size: 12px;
+  color: #120369;
+  font-family: 'OpenSans-Regular';
+  text-align: left;
+  margin-top: -10px;
+  margin-bottom: 10px;
+`;

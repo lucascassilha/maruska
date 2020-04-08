@@ -37,7 +37,7 @@ export default function AppointAdd({ route, navigation }) {
 
     if (!(await schema.isValid(appointment))) {
       Vibration.vibrate();
-      return Alert.alert('Maruska', translate('missingInfo'));
+      return Alert.alert('Maruska', translate('helpInfo'));
     }
 
     const clinicIndex = places.findIndex(item => item.name === clinic);

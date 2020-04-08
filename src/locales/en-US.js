@@ -166,4 +166,21 @@ export default {
   mandatorySex: "*You need to inform the pet's sex",
   invalidMonth: '*Invalid month value',
   mandatoryDate: '*Please input an date',
+  mandatoryPhone: '*Phone number is required',
+  mandatoryAddress:
+    '*Address is mandatory (if you do not know, just type the location name)',
+  mandatoryCity: '*City is mandatory',
+  mandatoryPlaceKind: '*Location kind is mandatory',
+  mandatoryPlaceName: '*Location name is mandatory',
+  validIntervalValue: '*Please type a valid interval value',
+  biggerThan: '*Please type a number bigger than 0',
+  mandatoryIntervalValue: '*Please input an interval',
+  mandatoryPeriod: '*Please choose a period',
+  mandatoryVaccineName: '*Vaccine name is required',
+  validValue: '*Please type in a valid value',
+  smallerThan: '*Please type a number smaller than 100',
+  mandatoryInterval: '*Please type an interval between doses',
+  mandatoryMedicineName: '*Medicine name is mandatory',
+  helpInfo:
+    'Invalid or missing information!\nPlease note that you need to add a clinic in the location page to register this item.',
 };

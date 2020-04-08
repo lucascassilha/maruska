@@ -167,4 +167,21 @@ export default {
   mandatorySex: '*Você precisa informar o sexo do pet',
   invalidMonth: '*Valor de meses inválido',
   mandatoryDate: '*Por favor, informe uma data aproximada',
+  mandatoryPhone: '*Telefone é obrigatório',
+  mandatoryAddress:
+    '*Endereço é obrigatório (se não souber insira somente o nome do local)',
+  mandatoryCity: '*Cidade é obrigatório',
+  mandatoryPlaceKind: '*Tipo do local é obrigatório',
+  mandatoryPlaceName: '*Nome do local é obrigatório',
+  validIntervalValue: '*Por favor, insira um valor de intervalo válido',
+  biggerThan: '*Insira um valor maior que zero',
+  mandatoryIntervalValue: '*Por favor, insira um intervalo',
+  mandatoryPeriod: '*Por favor, escolha um período',
+  mandatoryVaccineName: '*O nome da vacina é obrigatório',
+  validValue: '*Por favor, insira um valor válido',
+  smallerThan: '*Insira um valor menor que 100',
+  mandatoryInterval: '*Por favor, insira um valor de intervalo entre doses',
+  mandatoryMedicineName: '*O nome da medicação é obrigatório',
+  helpInfo:
+    'Informações faltando ou inválidas!\nLembrando que você precisa adicionar uma clínica na página de lugare para realizar essa ação',
 };

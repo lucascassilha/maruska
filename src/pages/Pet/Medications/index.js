@@ -17,6 +17,7 @@ import {
 } from 'date-fns';
 import PropTypes from 'prop-types';
 import { ptBR, enUS } from 'date-fns/locale';
+import { Formik } from 'formik';
 import Button from '~/components/Button/index';
 import FAB from '~/components/FAB';
 
@@ -53,10 +54,31 @@ import {
   IntervalBox,
   SubBox,
   CancelBox,
+  ErrorLabel,
 } from './styles';
 
 console.disableYellowBox = true;
 
+const schema = Yup.object().shape({
+  intervalValue: Yup.number()
+    .typeError(translate('validIntervalValue'))
+    .min(0, translate('biggerThan'))
+    .required(translate('mandatoryIntervalValue')),
+  interval: Yup.number()
+    .typeError(translate('mandatoryPeriod'))
+    .min(1, translate('mandatoryPeriod'))
+    .max(4, translate('mandatoryPeriod'))
+    .required(translate('mandatoryPeriod')),
+  date: Yup.date().required(),
+  name: Yup.string().required(translate('mandatoryMedicineName')),
+  doses: Yup.number()
+    .typeError(translate('validValue'))
+    .min(0, translate('biggerThan'))
+    .max(99, translate('smallerThan'))
+    .required(translate('mandatoryInterval')),
+});
+
+const now = new Date();
 export default function Medications({ route }) {
   const { petID } = route.params;
   const pets = useSelector(state => state.pets.data);
@@ -117,23 +139,7 @@ export default function Medications({ route }) {
     }
   }, [pets]);
 
-  const handleAddMedication = async () => {
-    const schema = Yup.object().shape({
-      intervalValue: Yup.number()
-        .min(0)
-        .required(),
-      interval: Yup.number()
-        .min(1)
-        .max(4)
-        .required(),
-      date: Yup.date().required(),
-      name: Yup.string().required(),
-      doses: Yup.number()
-        .min(0)
-        .max(99)
-        .required(),
-    });
-
+  const handleAddMedication = async values => {
     if (
       !(await schema.isValid({ name, date, doses, interval, intervalValue }))
     ) {
@@ -313,70 +319,100 @@ export default function Medications({ route }) {
       >
         <ModalContainer>
           <ModalBox>
-            <Scroll>
-              <Label>{translate('medRegister')}</Label>
-              <InputLabel>{translate('medName')}</InputLabel>
-              <Input
-                onChangeText={setName}
-                maxLength={20}
-                onSubmitEditing={() => dosesRef.current.focus()}
-              />
-              <InputLabel>{translate('addDoses')}</InputLabel>
-              <Input
-                placeholder="10"
-                maxLength={2}
-                keyboardType="number-pad"
-                ref={dosesRef}
-                onChangeText={setDoses}
-                onSubmitEditing={() => intervalRef.current.focus()}
-              />
-              <IntervalBox>
-                <SubBox>
-                  <InputLabel>{translate('addInterval')}</InputLabel>
+            <Formik
+              onSubmit={values => handleAddVaccine(values)}
+              initialValues={{
+                name: '',
+                doses: '',
+                interval: null,
+                intervalValue: '',
+                date: now,
+              }}
+              validationSchema={schema}
+              validateOnChange={false}
+            >
+              {({
+                handleChange,
+                handleSubmit,
+                values,
+                setFieldValue,
+                errors,
+              }) => (
+                <Scroll>
+                  <Label>{translate('medRegister')}</Label>
+                  <InputLabel>{translate('medName')}</InputLabel>
                   <Input
-                    style={{ textAlign: 'right' }}
+                    onChangeText={handleChange('name')}
+                    maxLength={20}
+                    onSubmitEditing={() => dosesRef.current.focus()}
+                  />
+                  {errors.name && <ErrorLabel>{errors.name}</ErrorLabel>}
+                  <InputLabel>{translate('addDoses')}</InputLabel>
+                  <Input
                     placeholder="10"
                     maxLength={2}
                     keyboardType="number-pad"
-                    ref={intervalRef}
-                    onChangeText={setIntervalValue}
+                    ref={dosesRef}
+                    onChangeText={handleChange('doses')}
+                    onSubmitEditing={() => intervalRef.current.focus()}
                   />
-                </SubBox>
-                <SubBox>
-                  <InputLabel>{translate('addPeriod')}</InputLabel>
-                  <Picker
-                    style={{ padding: 15 }}
-                    onValueChange={value => setInterval(value)}
-                    selectedValue={interval || null}
-                  >
-                    <Picker.Item label="" value={null} />
-                    <Picker.Item label={translate('addYears')} value={1} />
-                    <Picker.Item label={translate('addMonths')} value={2} />
-                    <Picker.Item label={translate('addDays')} value={3} />
-                    <Picker.Item label={translate('addHours')} value={4} />
-                  </Picker>
-                </SubBox>
-              </IntervalBox>
-              <InputLabel>{translate('nextDose')}</InputLabel>
-              <DateHolder>
-                <DatePicker
-                  date={date}
-                  onDateChange={setDate}
-                  mode="datetime"
-                  minimumDate={new Date()}
-                  locale={locale}
-                  textColor="#000000"
-                  fadeToColor="none"
-                />
-              </DateHolder>
-              <Button
-                onPress={handleAddMedication}
-                title={translate('registerLabel')}
-              />
-              <CancelBox onPress={() => setVisible(false)}>
-                <Label>{translate('cancelButton')}</Label>
-              </CancelBox>
-            </Scroll>
+                  {errors.doses && <ErrorLabel>{errors.doses}</ErrorLabel>}
+                  <IntervalBox>
+                    <SubBox>
+                      <InputLabel>{translate('addInterval')}</InputLabel>
+                      <Input
+                        style={{ textAlign: 'right' }}
+                        placeholder="10"
+                        maxLength={2}
+                        keyboardType="number-pad"
+                        ref={intervalRef}
+                        onChangeText={handleChange('intervalValue')}
+                      />
+                    </SubBox>
+                    <SubBox>
+                      <InputLabel>{translate('addPeriod')}</InputLabel>
+                      <Picker
+                        style={{ padding: 15 }}
+                        onValueChange={value =>
+                          setFieldValue('interval', value)
+                        }
+                        selectedValue={values.interval || null}
+                      >
+                        <Picker.Item label="" value={null} />
+                        <Picker.Item label={translate('addYears')} value={1} />
+                        <Picker.Item label={translate('addMonths')} value={2} />
+                        <Picker.Item label={translate('addDays')} value={3} />
+                      </Picker>
+                    </SubBox>
+                  </IntervalBox>
+                  {errors.interval && (
+                    <ErrorLabel>{errors.interval}</ErrorLabel>
+                  )}
+                  {errors.intervalValue && (
+                    <ErrorLabel>{errors.intervalValue}</ErrorLabel>
+                  )}
+                  <InputLabel>{translate('nextDose')}</InputLabel>
+                  <DateHolder>
+                    <DatePicker
+                      date={values.date}
+                      onDateChange={value => setFieldValue('date', value)}
+                      mode="datetime"
+                      minimumDate={now}
+                      locale={locale}
+                      textColor="#000000"
+                      fadeToColor="none"
+                    />
+                  </DateHolder>
+                  <Button
+                    onPress={handleSubmit}
+                    title={translate('registerLabel')}
+                  />
+                  <CancelBox onPress={() => setVisible(false)}>
+                    <Label>{translate('cancelButton')}</Label>
+                  </CancelBox>
+                </Scroll>
+              )}
+            </Formik>
           </ModalBox>
         </ModalContainer>
       </ModalHolder>
