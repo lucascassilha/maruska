@@ -6433,6 +6433,13 @@ react-native-masked-text@^1.13.0:
     date-and-time "0.9.0"
     tinymask "1.0.2"
 
+react-native-onesignal@^3.7.1:
+  version "3.7.1"
+  resolved "https://registry.yarnpkg.com/react-native-onesignal/-/react-native-onesignal-3.7.1.tgz#a0bb209dcfb4f66796dd7a57f3d2cdcde5d0cea4"
+  integrity sha512-GGQoCMox1M1NkQn4+vPk8oDgUqJ2faryg4sj13NkntX1kG8KXkg6/NRksj2Qeuq025rvUu7mmjY7/gvPmyT2jQ==
+  dependencies:
+    invariant "^2.2.2"
+
 react-native-paper@^3.6.0:
   version "3.6.0"
   resolved "https://registry.yarnpkg.com/react-native-paper/-/react-native-paper-3.6.0.tgz#9f8452387bc6e6dae84db90c9c4715af5c7bd142"

@@ -67,7 +67,7 @@ export default {
   infoTitle: 'Information',
   docAddInfo: 'To add a doctor, you first need to input a clinic!',
   weightAddInfo:
-    'You can only add a weight once a month! Also,if you wish to change to another unit system go to the settings page!',
+    'You can only add a weight once a day! \nAlso,if you wish to change to another unit system go to the settings page!\nOnly the last 8 weight data will be recorded',
   medAddInfo:
     'To confirm a medication dose, click on the check button on the side of the delete button (trash)!',
   vacAddInfo:
@@ -93,14 +93,14 @@ export default {
   medNotTitle: 'Medication time!',
   medFirstDose: 'needs to take the first dose of',
   medNeedsToTake: 'needs to take',
-  thisMonth: `Is this month`,
+  thisMonth: `Is this date's`,
   weightRight: "weight right? You can't change this later!",
   itsRight: "It's right",
-  addWeightLabel: 'Please input this month weight',
+  addWeightLabel: 'Please input the weight registered today',
   timeToWeight: "It's time to weight",
   dontForgetWeight: "Don't forget to register",
   weightThisMonth: "'s weight this month!",
-  weightAlready: 'You have already registered a weight this month!',
+  weightAlready: 'You have already registered a weight today!',
   notGetBack: 'You will not get this pet information back!',
   appWhere: 'Where is it?',
   appWho: 'With who? (optional)',
