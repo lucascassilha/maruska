@@ -68,7 +68,7 @@ export default {
   docAddInfo:
     'Para adicionar um vet, é preciso primeiro adicionar uma clínica no menu principal!',
   weightAddInfo:
-    'Você só pode registar o peso do seu pet uma vez por mês. Além disso, caso queira mudar a unidade de peso, acesse as configurações.',
+    'Você só pode registar o peso do seu pet uma vez por dia. \nAlém disso, caso queira mudar a unidade de peso, acesse as configurações.\nApenas os oito últimos registros de pesos serão salvos!',
   medAddInfo:
     'Para confirmar uma dose da medicação, clique no botão de confirmar, que está ao lado do de deletar (lixo).',
   vacAddInfo:
@@ -94,7 +94,7 @@ export default {
   medNotTitle: 'Hora de tomar remédio!',
   medFirstDose: 'precisa tomar a primeira dose de',
   medNeedsToTake: 'precisa tomar',
-  thisMonth: `O peso deste mês`,
+  thisMonth: `O peso de hoje`,
   weightRight: 'está certo? Você não poderá mudar isso depois!',
   itsRight: 'Está certo',
   addWeightLabel: 'Por favor, insira o peso do pet nesse mês',
