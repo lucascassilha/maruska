@@ -32,7 +32,7 @@ export default function DocAdd({ route, navigation }) {
 
       if (!(await schema.isValid(doc))) {
         Vibration.vibrate();
-        return Alert.alert('Maruska', translate('missingInfo'));
+        return Alert.alert('Maruska', translate('helpInfo'));
       }
     }
     const inputDoctorIndex = doctors.findIndex(item => item.name === name);
@@ -45,7 +45,7 @@ export default function DocAdd({ route, navigation }) {
     );
     if (selectedDoc && pickerDoctorIndex === -1) {
       Vibration.vibrate();
-      return Alert.alert('Maruska', translate('missingInfo'));
+      return Alert.alert('Maruska', translate('helpInfo'));
     }
     if (pickerDoctorIndex >= 0) {
       doc = doctors[pickerDoctorIndex];

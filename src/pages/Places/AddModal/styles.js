@@ -81,3 +81,12 @@ export const CancelLabel = styled.Text`
   font-family: 'OpenSans-Bold';
   text-decoration: underline;
 `;
+
+export const ErrorLabel = styled.Text`
+  font-size: 12px;
+  color: #120369;
+  font-family: 'OpenSans-Regular';
+  text-align: left;
+  margin-top: -10px;
+  margin-bottom: 10px;
+`;

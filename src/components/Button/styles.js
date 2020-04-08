@@ -1,8 +1,10 @@
+/* eslint-disable no-nested-ternary */
 import styled from 'styled-components/native';
 
 export const Wrapper = styled.TouchableOpacity`
   align-self: stretch;
-  background-color: ${props => (props.disabled ? '#f2f2f2' : '#eb3349')};
+  background-color: ${props =>
+    props.disabled ? '#f2f2f2' : props.secondary ? '#eb3349' : '#a3263f'};
   align-items: center;
   justify-content: center;
   padding: 15px;
