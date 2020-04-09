@@ -61,7 +61,7 @@ export const Input = styled.TextInput`
 export const CheckHolder = styled.View`
   align-items: center;
   flex-direction: row;
-  margin-bottom: 20px;
+  margin-bottom: 5px;
 `;
 
 export const CancelHolder = styled.TouchableOpacity`

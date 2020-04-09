@@ -104,7 +104,7 @@ export default {
   weightAlready: 'Você já registrou o peso hoje!',
   notGetBack: 'Você não conseguirá recuperar essa informação!',
   appWhere: 'Aonde é?',
-  appWho: 'Com quem? (optional)',
+  appWho: 'Com quem? (opcional)',
   appVetSelect: 'Selecione um vet',
   dateTime: 'Por favor selecione o dia e horário',
   appNotTitle: 'Consulta amanhã!',
@@ -182,6 +182,7 @@ export default {
   smallerThan: '*Insira um valor menor que 100',
   mandatoryInterval: '*Por favor, insira um valor de intervalo entre doses',
   mandatoryMedicineName: '*O nome da medicação é obrigatório',
+  vetPhoneNumber: 'Telefone (opcional)',
   helpInfo:
-    'Informações faltando ou inválidas!\nLembrando que você precisa adicionar uma clínica na página de lugare para realizar essa ação',
+    'Informações faltando ou inválidas!\nLembrando que você precisa adicionar uma clínica na página de lugares para realizar essa ação',
 };

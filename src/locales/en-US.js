@@ -181,6 +181,7 @@ export default {
   smallerThan: '*Please type a number smaller than 100',
   mandatoryInterval: '*Please type an interval between doses',
   mandatoryMedicineName: '*Medicine name is mandatory',
+  vetPhoneNumber: 'Phone number (optional)',
   helpInfo:
     'Invalid or missing information!\nPlease note that you need to add a clinic in the location page to register this item.',
 };

@@ -114,13 +114,15 @@ export default function Health({ route, navigation }) {
               <LabelSubtitle>{item.clinic}</LabelSubtitle>
             </TextBox>
             <ButtonBox>
-              <IconHolder
-                onPress={() => {
-                  Linking.openURL(`tel://${item.phone}`);
-                }}
-              >
-                <Icon name="phone" color="#fff" size={20} />
-              </IconHolder>
+              {item.phone ? (
+                <IconHolder
+                  onPress={() => {
+                    Linking.openURL(`tel://${item.phone}`);
+                  }}
+                >
+                  <Icon name="phone" color="#fff" size={20} />
+                </IconHolder>
+              ) : null}
               <IconHolder
                 onPress={() => {
                   handleDeleteDoctors(item.name);
@@ -166,7 +168,8 @@ export default function Health({ route, navigation }) {
               </IconHolder>
               <IconHolder
                 onPress={() =>
-                  handleDeleteAppointment(item.date, item.notificationID)}
+                  handleDeleteAppointment(item.date, item.notificationID)
+                }
               >
                 <Icon name="trash-alt" color="#fff" size={20} />
               </IconHolder>
