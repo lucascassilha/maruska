@@ -6,7 +6,6 @@ import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
 import com.geektime.rnonesignalandroid.ReactNativeOneSignalPackage;
 import com.microsoft.codepush.react.CodePush;
-import com.microsoft.codepush.react.CodePush;
 import com.sbugert.rnadmob.RNAdMobPackage;
 import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
 import com.oblador.vectoricons.VectorIconsPackage;

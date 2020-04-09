@@ -88,7 +88,7 @@ export default function pets(state = INITIAL_STATE, action) {
             draft.data[petIndex].doctors = [doctor.name];
           }
         }
-        console.tron.log(draft.data[petIndex].doctors);
+
         break;
       }
       case '@pet/APPOINTMENT': {
