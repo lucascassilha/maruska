@@ -25,7 +25,7 @@ export default function DocAdd({ route, navigation }) {
     if (!selectedDoc) {
       const schema = Yup.object().shape({
         name: Yup.string().required(),
-        phone: Yup.string().required(),
+        phone: Yup.string().nullable(),
         clinic: Yup.string().required(),
         pets: Yup.array().required(),
       });
@@ -51,7 +51,7 @@ export default function DocAdd({ route, navigation }) {
       doc = doctors[pickerDoctorIndex];
     }
 
-    dispatch(addDoctor(doc, petID));
+    await dispatch(addDoctor(doc, petID));
     navigation.goBack();
   };
 
@@ -72,7 +72,7 @@ export default function DocAdd({ route, navigation }) {
         onChangeText={setName}
         onSubmitEditing={() => phoneRef.current.focus()}
       />
-      <InputLabel>{translate('phoneNumber')}</InputLabel>
+      <InputLabel>{translate('vetPhoneNumber')}</InputLabel>
       <Input
         maxLength={20}
         keyboardType="number-pad"
