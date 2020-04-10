@@ -6,9 +6,9 @@ export const Container = styled.View`
   padding: 0px 30px;
 `;
 
-export const List = styled.FlatList`
-  height: 50%;
-`;
+export const List = styled.FlatList.attrs({
+  showsVerticalScrollIndicator: false,
+})``;
 
 export const Label = styled.Text`
   color: #eb3349;
@@ -72,6 +72,7 @@ export const Box = styled.View`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  opacity: ${props => (props.finished ? 0.7 : 1)};
 `;
 
 export const TextBox = styled.View``;

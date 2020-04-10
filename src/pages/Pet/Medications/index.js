@@ -57,8 +57,6 @@ import {
   ErrorLabel,
 } from './styles';
 
-console.disableYellowBox = true;
-
 const schema = Yup.object().shape({
   intervalValue: Yup.number()
     .typeError(translate('validIntervalValue'))
@@ -86,12 +84,6 @@ export default function Medications({ route }) {
   const [modalVisible, setVisible] = useState(false);
 
   const [medications, setMedications] = useState([]);
-  const [date, setDate] = useState(new Date());
-  const [name, setName] = useState(null);
-  const [doses, setDoses] = useState(null);
-  const [interval, setInterval] = useState(null);
-  const [intervalValue, setIntervalValue] = useState(null);
-
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -131,8 +123,17 @@ export default function Medications({ route }) {
             }
           }
           if (item.doses === 0) {
+            item.nextDoseDate = addYears(new Date(), 100);
             item.nextDoseString = translate('medFinished');
+            item.finished = true;
           }
+        });
+        draft.sort(function(a, b) {
+          const aValid = isValid(a.nextDoseDate);
+          const bValid = isValid(b.nextDoseDate);
+          const parsedA = !aValid ? parseISO(a.nextDoseDate) : a.nextDoseDate;
+          const parsedB = !bValid ? parseISO(b.nextDoseDate) : b.nextDoseDate;
+          return parsedA - parsedB;
         });
       });
       setMedications(returnable);
@@ -140,9 +141,8 @@ export default function Medications({ route }) {
   }, [pets]);
 
   const handleAddMedication = async values => {
-    if (
-      !(await schema.isValid({ name, date, doses, interval, intervalValue }))
-    ) {
+    const { name, date, interval, intervalValue, doses } = values;
+    if (!(await schema.isValid(values))) {
       return Alert.alert('Maruska', translate('missingInfo'));
     }
 
@@ -272,7 +272,7 @@ export default function Medications({ route }) {
         data={medications}
         keyExtractor={item => item.name}
         renderItem={({ item }) => (
-          <Box>
+          <Box finished={item.finished}>
             <TextBox>
               <Title>{item.name}</Title>
               <SubTitle>
@@ -320,7 +320,7 @@ export default function Medications({ route }) {
         <ModalContainer>
           <ModalBox>
             <Formik
-              onSubmit={values => handleAddVaccine(values)}
+              onSubmit={values => handleAddMedication(values)}
               initialValues={{
                 name: '',
                 doses: '',
@@ -382,6 +382,7 @@ export default function Medications({ route }) {
                         <Picker.Item label={translate('addYears')} value={1} />
                         <Picker.Item label={translate('addMonths')} value={2} />
                         <Picker.Item label={translate('addDays')} value={3} />
+                        <Picker.Item label={translate('addHours')} value={4} />
                       </Picker>
                     </SubBox>
                   </IntervalBox>

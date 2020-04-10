@@ -3,6 +3,8 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import { useSelector, useDispatch } from 'react-redux';
 import { Linking } from 'react-native';
 import PropTypes from 'prop-types';
+import { isPast, parseISO, isValid, addYears } from 'date-fns';
+import { produce } from 'immer';
 import { deleteDoctor } from '~/store/modules/doctors/actions';
 import {
   petDeleteAppointment,
@@ -56,7 +58,29 @@ export default function Health({ route, navigation }) {
   useEffect(() => {
     const petIndex = pets.findIndex(item => item.name === petID);
     if (pets[petIndex].appointments && pets[petIndex].appointments[0]) {
-      setAppointments(pets[petIndex].appointments);
+      const list = pets[petIndex].appointments;
+      const data = produce(list, draft => {
+        draft.map(item => {
+          if (isValid(item.date)) {
+            item.isPast = isPast(item.date);
+          } else {
+            const parsed = parseISO(item.date);
+            item.isPast = isPast(parsed);
+          }
+          if (item.isPast) {
+            item.date = addYears(new Date(), 100);
+          }
+        });
+        draft.sort(function(a, b) {
+          const aValid = isValid(a.date);
+          const bValid = isValid(b.date);
+          const parsedA = !aValid ? parseISO(a.date) : a.date;
+          const parsedB = !bValid ? parseISO(b.date) : b.date;
+          return parsedA - parsedB;
+        });
+      });
+
+      setAppointments(data);
     }
     if (pets[petIndex].surgeries && pets[petIndex].surgeries[0]) {
       setSurgeries(pets[petIndex].surgeries);
@@ -148,7 +172,7 @@ export default function Health({ route, navigation }) {
         data={appointments}
         keyExtractor={item => item.date}
         renderItem={({ item }) => (
-          <Box>
+          <Box isPast={item.isPast}>
             <TextBox>
               <LabelTitle>{item.clinic}</LabelTitle>
               {item.doctor ? (

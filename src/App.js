@@ -10,6 +10,8 @@ import { store, persistor } from '~/store/index';
 
 import Routes from './routes';
 
+console.disableYellowBox = true;
+
 function App() {
   OneSignal.init('3a5cc85d-1eb6-4169-bfee-920ecfd410d0', {
     kOSSettingsKeyAutoPrompt: true,
