@@ -65,7 +65,8 @@ export default {
   addPeriod: 'Period',
   registerLabel: 'Register',
   infoTitle: 'Information',
-  docAddInfo: 'To add a doctor, you first need to input a clinic!',
+  docAddInfo:
+    'To add a doctor, you first need to register a clinic in the places menu!',
   weightAddInfo:
     'You can only add a weight once a day! \nAlso,if you wish to change to another unit system go to the settings page!\nOnly the last 8 weight data will be recorded',
   medAddInfo:
@@ -100,8 +101,8 @@ export default {
   timeToWeight: "It's time to weight",
   dontForgetWeight: "Don't forget to register",
   weightThisMonth: "'s weight this month!",
-  weightAlready: 'You have already registered a weight today!',
-  notGetBack: 'You will not get this pet information back!',
+  weightAlready: 'You have already registered the weight today!',
+  notGetBack: "You will not get this pet's information back!",
   appWhere: 'Where is it?',
   appWho: 'With who? (optional)',
   appVetSelect: 'Select a vet',
@@ -184,4 +185,5 @@ export default {
   vetPhoneNumber: 'Phone number (optional)',
   helpInfo:
     'Invalid or missing information!\nPlease note that you need to add a clinic in the location page to register this item.',
+  late: 'Late dose',
 };

@@ -15,6 +15,7 @@ import {
   addYears,
   addMonths,
   addDays,
+  isPast,
 } from 'date-fns';
 import { ptBR, enUS } from 'date-fns/locale';
 import { Formik } from 'formik';
@@ -99,12 +100,20 @@ export default function Vaccines({ route }) {
           const currentDate = new Date();
           const localeFNS = locale === 'pt_BR' ? ptBR : enUS;
           if (isValid(item.nextDoseDate)) {
+            if (isPast(item.nextDoseDate)) {
+              item.nextDoseString = translate('late');
+              return 0;
+            }
             item.nextDoseString = formatDistanceStrict(
               item.nextDoseDate,
               currentDate,
               { locale: localeFNS }
             );
           } else if (item.nextDoseDate !== undefined) {
+            if (isPast(parseISO(item.nextDoseDate))) {
+              item.nextDoseString = translate('late');
+              return 0;
+            }
             const parsedDate = parseISO(item.nextDoseDate);
             item.nextDoseString = formatDistanceStrict(
               parsedDate,
@@ -112,8 +121,17 @@ export default function Vaccines({ route }) {
               { locale: localeFNS }
             );
           } else {
+            item.nextDoseDate = addYears(new Date(), 100);
             item.nextDoseString = translate('vacDone');
+            item.vaccinated = true;
           }
+        });
+        draft.sort(function(a, b) {
+          const aValid = isValid(a.nextDoseDate);
+          const bValid = isValid(b.nextDoseDate);
+          const parsedA = !aValid ? parseISO(a.nextDoseDate) : a.nextDoseDate;
+          const parsedB = !bValid ? parseISO(b.nextDoseDate) : b.nextDoseDate;
+          return parsedA - parsedB;
         });
       });
       setVaccines(returnable);
@@ -266,7 +284,7 @@ export default function Vaccines({ route }) {
         data={vaccines}
         keyExtractor={item => item.name}
         renderItem={({ item }) => (
-          <Box>
+          <Box vaccinated={item.vaccinated}>
             <TextBox>
               <Title>{item.name}</Title>
               <SubTitle>

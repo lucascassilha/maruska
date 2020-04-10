@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { PersistGate } from 'redux-persist/integration/react';
 import { Provider } from 'react-redux';
@@ -9,6 +9,8 @@ import OneSignal from 'react-native-onesignal';
 import { store, persistor } from '~/store/index';
 
 import Routes from './routes';
+
+console.disableYellowBox = true;
 
 function App() {
   OneSignal.init('3a5cc85d-1eb6-4169-bfee-920ecfd410d0', {
