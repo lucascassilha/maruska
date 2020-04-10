@@ -200,66 +200,82 @@ export default function Medications({ route }) {
     notificationDate,
     notificationInfo
   ) => {
-    const currentDate = new Date();
+    Alert.alert(translate('justConfirming'), '', [
+      {
+        text: translate('yes'),
+        onPress: async () => {
+          const currentDate = new Date();
 
-    dispatch(notificationCancel(notificationID));
-    Notification.cancelNotification(notificationID);
+          dispatch(notificationCancel(notificationID));
+          Notification.cancelNotification(notificationID);
 
-    const dosesLeft = notificationInfo.doses;
-    const intervalPeriod = notificationInfo.interval;
-    const intervalData = notificationInfo.intervalValue;
+          const dosesLeft = notificationInfo.doses;
+          const intervalPeriod = notificationInfo.interval;
+          const intervalData = notificationInfo.intervalValue;
 
-    let notificationData = {};
+          let notificationData = {};
 
-    let nextDoseDate = null;
-    let reminderNotification = -1;
-    if (parseInt(dosesLeft, 10) > 1) {
-      if (intervalPeriod === 1) {
-        nextDoseDate = addYears(currentDate, parseInt(intervalData, 10));
-      }
-      if (intervalPeriod === 2) {
-        nextDoseDate = addMonths(currentDate, parseInt(intervalData, 10));
-      }
-      if (intervalPeriod === 3) {
-        nextDoseDate = addDays(currentDate, parseInt(intervalData, 10));
-      }
-      if (intervalPeriod === 4) {
-        nextDoseDate = addHours(currentDate, parseInt(intervalData, 10));
-      }
-      const title = translate('medNotTitle');
-      const message = `${petID} ${translate('medNeedsToTake')} ${medID}!`;
+          let nextDoseDate = null;
+          let reminderNotification = -1;
+          if (parseInt(dosesLeft, 10) > 1) {
+            if (intervalPeriod === 1) {
+              nextDoseDate = addYears(currentDate, parseInt(intervalData, 10));
+            }
+            if (intervalPeriod === 2) {
+              nextDoseDate = addMonths(currentDate, parseInt(intervalData, 10));
+            }
+            if (intervalPeriod === 3) {
+              nextDoseDate = addDays(currentDate, parseInt(intervalData, 10));
+            }
+            if (intervalPeriod === 4) {
+              nextDoseDate = addHours(currentDate, parseInt(intervalData, 10));
+            }
+            const title = translate('medNotTitle');
+            const message = `${petID} ${translate('medNeedsToTake')} ${medID}!`;
 
-      reminderNotification = await Notification.scheduleNotification(
-        nextDoseDate,
-        title,
-        message
-      );
-      notificationData = {
-        title,
-        message,
-        date: nextDoseDate,
-        id: reminderNotification,
-        petID,
-      };
+            reminderNotification = await Notification.scheduleNotification(
+              nextDoseDate,
+              title,
+              message
+            );
+            notificationData = {
+              title,
+              message,
+              date: nextDoseDate,
+              id: reminderNotification,
+              petID,
+            };
 
-      dispatch(notificationAdd(notificationData));
-    }
+            dispatch(notificationAdd(notificationData));
+          }
 
-    notificationData = {
-      id: reminderNotification,
-      date: nextDoseDate,
-    };
+          notificationData = {
+            id: reminderNotification,
+            date: nextDoseDate,
+          };
 
-    dispatch(petCheckMedication(medID, petID, notificationData));
+          dispatch(petCheckMedication(medID, petID, notificationData));
+        },
+      },
+      { text: translate('cancelButton') },
+    ]);
   };
 
   const handleDeleteMedication = async (medID, notificationID) => {
-    if (medications.length === 1) {
-      setMedications([]);
-    }
-    Notification.cancelNotification(notificationID);
-    dispatch(notificationCancel(notificationID));
-    dispatch(petDeleteMedication(medID, petID));
+    Alert.alert(translate('areYouSure'), translate('notGetInfoBack'), [
+      {
+        text: translate('sure'),
+        onPress: () => {
+          if (medications.length === 1) {
+            setMedications([]);
+          }
+          Notification.cancelNotification(notificationID);
+          dispatch(notificationCancel(notificationID));
+          dispatch(petDeleteMedication(medID, petID));
+        },
+      },
+      { text: translate('cancelButton') },
+    ]);
   };
 
   const dosesRef = useRef();
@@ -284,23 +300,25 @@ export default function Medications({ route }) {
               <SubTitle>{`${translate('dosesLeft')}: ${item.doses}`}</SubTitle>
             </TextBox>
             <ButtonBox>
-              <ButtonHolder
-                onPress={() => {
-                  const notificationInfo = {
-                    doses: item.doses,
-                    interval: item.interval,
-                    intervalValue: item.intervalValue,
-                  };
-                  handleCheckMedication(
-                    item.name,
-                    item.notificationID,
-                    item.nextDoseDate,
-                    notificationInfo
-                  );
-                }}
-              >
-                <Icon name="clipboard-check" color="#fff" size={20} />
-              </ButtonHolder>
+              {item.finished ? null : (
+                <ButtonHolder
+                  onPress={() => {
+                    const notificationInfo = {
+                      doses: item.doses,
+                      interval: item.interval,
+                      intervalValue: item.intervalValue,
+                    };
+                    handleCheckMedication(
+                      item.name,
+                      item.notificationID,
+                      item.nextDoseDate,
+                      notificationInfo
+                    );
+                  }}
+                >
+                  <Icon name="clipboard-check" color="#fff" size={20} />
+                </ButtonHolder>
+              )}
               <ButtonHolder
                 onPress={() =>
                   handleDeleteMedication(item.name, item.notificationID)}

@@ -1,5 +1,5 @@
 import { produce } from 'immer';
-import { parseISO, isAfter, isValid } from 'date-fns';
+import { parseISO, isPast, isValid } from 'date-fns';
 import Notification from '~/config/NotificationService';
 
 const INITIAL_STATE = {
@@ -39,22 +39,15 @@ export default function notifications(state = INITIAL_STATE, action) {
         break;
       }
       case '@notification/UPDATE': {
-        const notificationPayload = action.payload
-          ? action.payload.notifications || null
-          : null;
-        if (notificationPayload && notificationPayload[0]) {
-          const notList = notificationPayload.data;
-
-          const currentDate = new Date();
-          draft.data = notList.filter(item => {
-            const validDate = isValid(item.date);
-            if (validDate) {
-              return isAfter(item.date, currentDate);
-            }
-            const parsedDate = parseISO(item.date);
-            return isAfter(parsedDate, currentDate);
-          });
-        }
+        const array = draft.data.filter(function(item) {
+          const validDate = isValid(item.date);
+          if (validDate) {
+            return !isPast(item.date);
+          }
+          const parsedDate = parseISO(item.date);
+          return !isPast(parsedDate);
+        });
+        draft.data = array;
         break;
       }
       case '@pet/DELETE': {

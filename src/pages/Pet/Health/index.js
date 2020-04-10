@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { useSelector, useDispatch } from 'react-redux';
-import { Linking } from 'react-native';
+import { Linking, Alert } from 'react-native';
 import PropTypes from 'prop-types';
 import { isPast, parseISO, isValid, addYears } from 'date-fns';
 import { produce } from 'immer';
@@ -91,31 +91,71 @@ export default function Health({ route, navigation }) {
   }, [pets]);
 
   const handleDeleteDoctors = doctor => {
-    dispatch(deleteDoctor(doctor, petID));
-    if (docList.length === 1) {
-      setDocList([]);
-    }
+    Alert.alert(translate('areYouSure'), translate('notGetInfoBack'), [
+      {
+        text: translate('sure'),
+        onPress: () => {
+          dispatch(deleteDoctor(doctor, petID));
+          if (docList.length === 1) {
+            setDocList([]);
+          }
+        },
+      },
+      {
+        text: translate('cancelButton'),
+      },
+    ]);
   };
   const handleDeleteAppointment = async (date, notificationID) => {
-    await Notification.cancelNotification(notificationID);
-    dispatch(notificationCancel(notificationID));
+    Alert.alert(translate('areYouSure'), translate('notGetInfoBack'), [
+      {
+        text: translate('sure'),
+        onPress: async () => {
+          await Notification.cancelNotification(notificationID);
+          dispatch(notificationCancel(notificationID));
 
-    dispatch(petDeleteAppointment(date, petID));
-    if (appointments.length === 1) {
-      setAppointments([]);
-    }
+          dispatch(petDeleteAppointment(date, petID));
+          if (appointments.length === 1) {
+            setAppointments([]);
+          }
+        },
+      },
+      {
+        text: translate('cancelButton'),
+      },
+    ]);
   };
   const handleDeleteSurgery = surgery => {
-    dispatch(petDeleteSurgery(surgery, petID));
-    if (surgeries.length === 1) {
-      setSurgeries([]);
-    }
+    Alert.alert(translate('areYouSure'), translate('notGetInfoBack'), [
+      {
+        text: translate('sure'),
+        onPress: () => {
+          dispatch(petDeleteSurgery(surgery, petID));
+          if (surgeries.length === 1) {
+            setSurgeries([]);
+          }
+        },
+      },
+      {
+        text: translate('cancelButton'),
+      },
+    ]);
   };
   const handleDeleteProblem = problem => {
-    dispatch(petDeleteProblem(problem, petID));
-    if (problems.length === 1) {
-      setProblems([]);
-    }
+    Alert.alert(translate('areYouSure'), translate('notGetInfoBack'), [
+      {
+        text: translate('sure'),
+        onPress: () => {
+          dispatch(petDeleteProblem(problem, petID));
+          if (problems.length === 1) {
+            setProblems([]);
+          }
+        },
+      },
+      {
+        text: translate('cancelButton'),
+      },
+    ]);
   };
 
   return (
