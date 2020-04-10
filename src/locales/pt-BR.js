@@ -186,4 +186,6 @@ export default {
   helpInfo:
     'Informações faltando ou inválidas!\nLembrando que você precisa adicionar uma clínica na página de lugares para realizar essa ação',
   late: 'Dose atrasada',
+  justConfirming: 'Você quer confirmar essa dose, né?',
+  yes: 'Sim',
 };

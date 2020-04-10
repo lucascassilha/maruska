@@ -201,60 +201,68 @@ export default function Vaccines({ route }) {
     notificationDate,
     notificationInfo
   ) => {
-    const currentDate = new Date();
+    Alert.alert(translate('justConfirming'), '', [
+      {
+        text: translate('yes'),
+        onPress: async () => {
+          const currentDate = new Date();
 
-    dispatch(notificationCancel(notificationID));
-    Notification.cancelNotification(notificationID);
+          dispatch(notificationCancel(notificationID));
+          Notification.cancelNotification(notificationID);
 
-    const dosesLeft = notificationInfo.doses;
-    const intervalPeriod = notificationInfo.interval;
-    const intervalData = notificationInfo.intervalValue;
+          const dosesLeft = notificationInfo.doses;
+          const intervalPeriod = notificationInfo.interval;
+          const intervalData = notificationInfo.intervalValue;
 
-    let notificationData = {};
+          let notificationData = {};
 
-    let nextDoseDate = null;
-    let reminderNotification = -1;
-    if (parseInt(dosesLeft, 10) > 1) {
-      if (intervalPeriod === 1) {
-        nextDoseDate = addYears(currentDate, parseInt(intervalData, 10));
-      }
-      if (intervalPeriod === 2) {
-        nextDoseDate = addMonths(currentDate, parseInt(intervalData, 10));
-      }
-      if (intervalPeriod === 3) {
-        nextDoseDate = addDays(currentDate, parseInt(intervalData, 10));
-      }
-      const title = translate('vacNotTitle');
-      const hourString = locale === 'en_US' ? 'hh:mm aaaa' : 'HH:mm';
-      const time = format(nextDoseDate, hourString);
-      const message = `${petID} ${translate(
-        'needsToTake'
-      )} ${vacID} ${translate('tomorrowAt')} ${time}!`;
-      nextDoseDate = subDays(nextDoseDate, 1);
+          let nextDoseDate = null;
+          let reminderNotification = -1;
+          if (parseInt(dosesLeft, 10) > 1) {
+            if (intervalPeriod === 1) {
+              nextDoseDate = addYears(currentDate, parseInt(intervalData, 10));
+            }
+            if (intervalPeriod === 2) {
+              nextDoseDate = addMonths(currentDate, parseInt(intervalData, 10));
+            }
+            if (intervalPeriod === 3) {
+              nextDoseDate = addDays(currentDate, parseInt(intervalData, 10));
+            }
+            const title = translate('vacNotTitle');
+            const hourString = locale === 'en_US' ? 'hh:mm aaaa' : 'HH:mm';
+            const time = format(nextDoseDate, hourString);
+            const message = `${petID} ${translate(
+              'needsToTake'
+            )} ${vacID} ${translate('tomorrowAt')} ${time}!`;
+            nextDoseDate = subDays(nextDoseDate, 1);
 
-      reminderNotification = await Notification.scheduleNotification(
-        nextDoseDate,
-        title,
-        message
-      );
-      notificationData = {
-        title,
-        message,
-        date: nextDoseDate,
-        id: reminderNotification,
-        petID,
-      };
+            reminderNotification = await Notification.scheduleNotification(
+              nextDoseDate,
+              title,
+              message
+            );
+            notificationData = {
+              title,
+              message,
+              date: nextDoseDate,
+              id: reminderNotification,
+              petID,
+            };
 
-      dispatch(notificationAdd(notificationData));
-    }
+            dispatch(notificationAdd(notificationData));
+          }
 
-    notificationData = {
-      id: reminderNotification,
-      date: nextDoseDate,
-    };
+          notificationData = {
+            id: reminderNotification,
+            date: nextDoseDate,
+          };
 
-    dispatch(petCheckVaccine(vacID, petID, notificationData));
-    dispatch(petLastVaccine(petID));
+          dispatch(petCheckVaccine(vacID, petID, notificationData));
+          dispatch(petLastVaccine(petID));
+        },
+      },
+      { text: translate('cancelButton') },
+    ]);
   };
 
   const handleDeleteVaccine = (ID, notificationID) => {
@@ -315,7 +323,8 @@ export default function Vaccines({ route }) {
               </ButtonHolder>
               <ButtonHolder
                 onPress={() =>
-                  handleDeleteVaccine(item.name, item.notificationID)}
+                  handleDeleteVaccine(item.name, item.notificationID)
+                }
               >
                 <Icon name="trash-alt" color="#fff" size={20} />
               </ButtonHolder>
@@ -386,7 +395,8 @@ export default function Vaccines({ route }) {
                       <Picker
                         style={{ padding: 15 }}
                         onValueChange={value =>
-                          setFieldValue('interval', value)}
+                          setFieldValue('interval', value)
+                        }
                         selectedValue={values.interval || null}
                       >
                         <Picker.Item label="" value={null} />

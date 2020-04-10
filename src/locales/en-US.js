@@ -186,4 +186,6 @@ export default {
   helpInfo:
     'Invalid or missing information!\nPlease note that you need to add a clinic in the location page to register this item.',
   late: 'Late dose',
+  justConfirming: 'You want to check a dose right?',
+  yes: 'Yes',
 };
