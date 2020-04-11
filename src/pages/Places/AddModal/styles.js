@@ -53,7 +53,7 @@ export const Input = styled.TextInput`
 export const CheckHolder = styled.View`
   align-items: center;
   flex-direction: row;
-  margin-bottom: 20px;
+  margin-bottom: 5px;
 `;
 
 export const Submit = styled.TouchableOpacity`
@@ -80,4 +80,13 @@ export const CancelLabel = styled.Text`
   color: #eb3349;
   font-family: 'OpenSans-Bold';
   text-decoration: underline;
+`;
+
+export const ErrorLabel = styled.Text`
+  font-size: 12px;
+  color: #120369;
+  font-family: 'OpenSans-Regular';
+  text-align: left;
+  margin-top: -10px;
+  margin-bottom: 10px;
 `;

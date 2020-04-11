@@ -1,11 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-  format,
-  differenceInMonths,
-  parseISO,
-  isValid,
-  addMonths,
-} from 'date-fns';
+import { format, differenceInDays, parseISO, isValid } from 'date-fns';
 import { Dimensions, Alert, Vibration } from 'react-native';
 import { LineChart } from 'react-native-chart-kit';
 import { useSelector, useDispatch } from 'react-redux';
@@ -15,11 +9,7 @@ import Button from '~/components/Button/index';
 import { petWeightAdd } from '~/store/modules/pets/actions';
 import translate, { locale } from '~/locales';
 
-import { Container, InputLabel, Input, ErrorLabel } from './styles';
-
-import Notification from '~/config/NotificationService';
-
-import { notificationAdd } from '~/store/modules/notifications/actions';
+import { Container, Holder, InputLabel, Input, ErrorLabel } from './styles';
 
 export default function Weight({ route, navigation }) {
   const { petID } = route.params;
@@ -29,7 +19,7 @@ export default function Weight({ route, navigation }) {
   const pets = useSelector(state => state.pets.data);
 
   const localeFNS = locale === 'pt_BR' ? ptBR : enUS;
-  const date = format(new Date(), 'MMMM', { locale: localeFNS });
+  const date = format(new Date(), 'dd MMMM', { locale: localeFNS });
   const dispatch = useDispatch();
 
   const [weight, setWeight] = useState(null);
@@ -40,31 +30,13 @@ export default function Weight({ route, navigation }) {
   const handleAddWeight = () => {
     if (weight) {
       Alert.alert(
-        `${weight} ${locale === 'en_US' ? 'lbs' : 'kg'}`,
+        `${weight} ${weightUnit}`,
         `${translate('thisMonth')} (${date}) ${translate('weightRight')}`,
         [
           {
             text: translate('itsRight'),
             onPress: async () => {
               const currentDate = new Date();
-              const notificationDate = addMonths(currentDate, 1);
-              const title = `${translate('timeToWeight')} ${petID}`;
-              const message = `${translate(
-                'dontForgetWeight'
-              )} ${petID}${translate('weightThisMonth')}`;
-              const notificationID = await Notification.scheduleNotification(
-                notificationDate,
-                title,
-                message
-              );
-              const notification = {
-                title,
-                message,
-                id: notificationID,
-                petID,
-                date: notificationDate,
-              };
-              dispatch(notificationAdd(notification));
 
               const weightData = { weight, date, created_at: currentDate };
               dispatch(petWeightAdd(weightData, petID));
@@ -93,15 +65,14 @@ export default function Weight({ route, navigation }) {
 
       const currentDate = new Date();
 
-      const monthRegistered = weightData.findIndex(item => {
+      const dayRegistered = weightData.findIndex(item => {
         const dateValid = isValid(item.created_at);
         const parsedDate = dateValid
           ? item.created_at
           : parseISO(item.created_at);
-        return differenceInMonths(parsedDate, currentDate) === 0;
+        return differenceInDays(parsedDate, currentDate) === 0;
       });
-      console.log(monthRegistered);
-      if (monthRegistered === 0) {
+      if (dayRegistered === 0) {
         setEditable(false);
       }
     }
@@ -119,15 +90,13 @@ export default function Weight({ route, navigation }) {
             },
           ],
         }}
-        width={Dimensions.get('window').width - 60}
+        width={Dimensions.get('window').width}
         height={220}
-        yAxisSuffix={locale === 'en_US' ? ' lbs' : ' kg'}
+        yAxisSuffix={weightUnit}
         chartConfig={{
           backgroundColor: '#fff',
-          backgroundGradientFrom: '#eb3349',
-          backgroundGradientTo: '#eb3349',
-          color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-          labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+          backgroundGradientFrom: '#fff',
+          color: (opacity = 0.7) => `rgba(0, 0, 0, ${opacity})`,
           propsForDots: {
             r: '4',
             strokeWidth: '2',
@@ -135,24 +104,28 @@ export default function Weight({ route, navigation }) {
           },
         }}
       />
-      <InputLabel disabled={!editable}>
-        {`${translate('addWeightLabel')} (${weightUnit})`}
-      </InputLabel>
-      <Input
-        disabled={!editable}
-        onChangeText={setWeight}
-        maxLength={5}
-        value={weight}
-        keyboardType="number-pad"
-        placeholder="35.5"
-        onSubmitEditing={handleAddWeight}
-      />
-      {!editable ? <ErrorLabel>{translate('weightAlready')}</ErrorLabel> : null}
-      <Button
-        title={translate('registerLabel')}
-        onPress={handleAddWeight}
-        disabled={!editable}
-      />
+      <Holder>
+        <InputLabel disabled={!editable}>
+          {`${translate('addWeightLabel')} (${weightUnit})`}
+        </InputLabel>
+        <Input
+          disabled={!editable}
+          onChangeText={setWeight}
+          maxLength={5}
+          value={weight}
+          keyboardType="number-pad"
+          placeholder="35.5"
+          onSubmitEditing={handleAddWeight}
+        />
+        {!editable ? (
+          <ErrorLabel>{translate('weightAlready')}</ErrorLabel>
+        ) : null}
+        <Button
+          title={translate('registerLabel')}
+          onPress={handleAddWeight}
+          disabled={!editable}
+        />
+      </Holder>
     </Container>
   );
 }

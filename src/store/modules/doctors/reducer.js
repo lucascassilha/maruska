@@ -10,10 +10,9 @@ export default function doctors(state = INITIAL_STATE, action) {
     switch (action.type) {
       case '@doctor/ADD': {
         const { doctor, petID } = action.payload;
-        console.log(doctor);
 
         const findIndex = draft.data.findIndex(
-          item => (item.name = doctor.name)
+          item => item.name === doctor.name
         );
 
         if (findIndex >= 0) {
@@ -34,7 +33,7 @@ export default function doctors(state = INITIAL_STATE, action) {
       case '@doctor/DELETE': {
         const { doctor, petID } = action.payload;
 
-        const findIndex = draft.data.findIndex(item => (item.name = doctor));
+        const findIndex = draft.data.findIndex(item => item.name === doctor);
 
         if (findIndex >= 0) {
           const docPets = draft.data[findIndex].pets;

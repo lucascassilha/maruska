@@ -6,9 +6,9 @@ export const Container = styled.View`
   padding: 0px 30px;
 `;
 
-export const List = styled.FlatList`
-  height: 50%;
-`;
+export const List = styled.FlatList.attrs({
+  showsVerticalScrollIndicator: false,
+})``;
 
 export const Label = styled.Text`
   color: #eb3349;
@@ -30,7 +30,7 @@ export const Input = styled.TextInput`
   background-color: #eb3349;
   padding: 5px 10px;
   border-radius: 4px;
-  margin: 5px 0px;
+  margin-bottom: 10px;
   color: #fff;
 `;
 
@@ -72,6 +72,7 @@ export const Box = styled.View`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  opacity: ${props => (props.vaccinated ? 0.7 : 1)};
 `;
 
 export const TextBox = styled.View``;
@@ -122,3 +123,12 @@ export const SubBox = styled.View`
 `;
 
 export const CancelBox = styled.TouchableOpacity``;
+
+export const ErrorLabel = styled.Text`
+  font-size: 12px;
+  color: #120369;
+  font-family: 'OpenSans-Regular';
+  text-align: left;
+  margin-top: -10px;
+  margin-bottom: 10px;
+`;

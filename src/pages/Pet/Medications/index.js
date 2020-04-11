@@ -17,6 +17,7 @@ import {
 } from 'date-fns';
 import PropTypes from 'prop-types';
 import { ptBR, enUS } from 'date-fns/locale';
+import { Formik } from 'formik';
 import Button from '~/components/Button/index';
 import FAB from '~/components/FAB';
 
@@ -53,10 +54,29 @@ import {
   IntervalBox,
   SubBox,
   CancelBox,
+  ErrorLabel,
 } from './styles';
 
-console.disableYellowBox = true;
+const schema = Yup.object().shape({
+  intervalValue: Yup.number()
+    .typeError(translate('validIntervalValue'))
+    .min(0, translate('biggerThan'))
+    .required(translate('mandatoryIntervalValue')),
+  interval: Yup.number()
+    .typeError(translate('mandatoryPeriod'))
+    .min(1, translate('mandatoryPeriod'))
+    .max(4, translate('mandatoryPeriod'))
+    .required(translate('mandatoryPeriod')),
+  date: Yup.date().required(),
+  name: Yup.string().required(translate('mandatoryMedicineName')),
+  doses: Yup.number()
+    .typeError(translate('validValue'))
+    .min(0, translate('biggerThan'))
+    .max(99, translate('smallerThan'))
+    .required(translate('mandatoryInterval')),
+});
 
+const now = new Date();
 export default function Medications({ route }) {
   const { petID } = route.params;
   const pets = useSelector(state => state.pets.data);
@@ -64,12 +84,6 @@ export default function Medications({ route }) {
   const [modalVisible, setVisible] = useState(false);
 
   const [medications, setMedications] = useState([]);
-  const [date, setDate] = useState(new Date());
-  const [name, setName] = useState(null);
-  const [doses, setDoses] = useState(null);
-  const [interval, setInterval] = useState(null);
-  const [intervalValue, setIntervalValue] = useState(null);
-
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -109,34 +123,26 @@ export default function Medications({ route }) {
             }
           }
           if (item.doses === 0) {
+            item.nextDoseDate = addYears(new Date(), 100);
             item.nextDoseString = translate('medFinished');
+            item.finished = true;
           }
+        });
+        draft.sort(function(a, b) {
+          const aValid = isValid(a.nextDoseDate);
+          const bValid = isValid(b.nextDoseDate);
+          const parsedA = !aValid ? parseISO(a.nextDoseDate) : a.nextDoseDate;
+          const parsedB = !bValid ? parseISO(b.nextDoseDate) : b.nextDoseDate;
+          return parsedA - parsedB;
         });
       });
       setMedications(returnable);
     }
   }, [pets]);
 
-  const handleAddMedication = async () => {
-    const schema = Yup.object().shape({
-      intervalValue: Yup.number()
-        .min(0)
-        .required(),
-      interval: Yup.number()
-        .min(1)
-        .max(4)
-        .required(),
-      date: Yup.date().required(),
-      name: Yup.string().required(),
-      doses: Yup.number()
-        .min(0)
-        .max(99)
-        .required(),
-    });
-
-    if (
-      !(await schema.isValid({ name, date, doses, interval, intervalValue }))
-    ) {
+  const handleAddMedication = async values => {
+    const { name, date, interval, intervalValue, doses } = values;
+    if (!(await schema.isValid(values))) {
       return Alert.alert('Maruska', translate('missingInfo'));
     }
 
@@ -194,66 +200,82 @@ export default function Medications({ route }) {
     notificationDate,
     notificationInfo
   ) => {
-    const currentDate = new Date();
+    Alert.alert(translate('justConfirming'), '', [
+      {
+        text: translate('yes'),
+        onPress: async () => {
+          const currentDate = new Date();
 
-    dispatch(notificationCancel(notificationID));
-    Notification.cancelNotification(notificationID);
+          dispatch(notificationCancel(notificationID));
+          Notification.cancelNotification(notificationID);
 
-    const dosesLeft = notificationInfo.doses;
-    const intervalPeriod = notificationInfo.interval;
-    const intervalData = notificationInfo.intervalValue;
+          const dosesLeft = notificationInfo.doses;
+          const intervalPeriod = notificationInfo.interval;
+          const intervalData = notificationInfo.intervalValue;
 
-    let notificationData = {};
+          let notificationData = {};
 
-    let nextDoseDate = null;
-    let reminderNotification = -1;
-    if (parseInt(dosesLeft, 10) > 1) {
-      if (intervalPeriod === 1) {
-        nextDoseDate = addYears(currentDate, parseInt(intervalData, 10));
-      }
-      if (intervalPeriod === 2) {
-        nextDoseDate = addMonths(currentDate, parseInt(intervalData, 10));
-      }
-      if (intervalPeriod === 3) {
-        nextDoseDate = addDays(currentDate, parseInt(intervalData, 10));
-      }
-      if (intervalPeriod === 4) {
-        nextDoseDate = addHours(currentDate, parseInt(intervalData, 10));
-      }
-      const title = translate('medNotTitle');
-      const message = `${petID} ${translate('medNeedsToTake')} ${medID}!`;
+          let nextDoseDate = null;
+          let reminderNotification = -1;
+          if (parseInt(dosesLeft, 10) > 1) {
+            if (intervalPeriod === 1) {
+              nextDoseDate = addYears(currentDate, parseInt(intervalData, 10));
+            }
+            if (intervalPeriod === 2) {
+              nextDoseDate = addMonths(currentDate, parseInt(intervalData, 10));
+            }
+            if (intervalPeriod === 3) {
+              nextDoseDate = addDays(currentDate, parseInt(intervalData, 10));
+            }
+            if (intervalPeriod === 4) {
+              nextDoseDate = addHours(currentDate, parseInt(intervalData, 10));
+            }
+            const title = translate('medNotTitle');
+            const message = `${petID} ${translate('medNeedsToTake')} ${medID}!`;
 
-      reminderNotification = await Notification.scheduleNotification(
-        nextDoseDate,
-        title,
-        message
-      );
-      notificationData = {
-        title,
-        message,
-        date: nextDoseDate,
-        id: reminderNotification,
-        petID,
-      };
+            reminderNotification = await Notification.scheduleNotification(
+              nextDoseDate,
+              title,
+              message
+            );
+            notificationData = {
+              title,
+              message,
+              date: nextDoseDate,
+              id: reminderNotification,
+              petID,
+            };
 
-      dispatch(notificationAdd(notificationData));
-    }
+            dispatch(notificationAdd(notificationData));
+          }
 
-    notificationData = {
-      id: reminderNotification,
-      date: nextDoseDate,
-    };
+          notificationData = {
+            id: reminderNotification,
+            date: nextDoseDate,
+          };
 
-    dispatch(petCheckMedication(medID, petID, notificationData));
+          dispatch(petCheckMedication(medID, petID, notificationData));
+        },
+      },
+      { text: translate('cancelButton') },
+    ]);
   };
 
   const handleDeleteMedication = async (medID, notificationID) => {
-    if (medications.length === 1) {
-      setMedications([]);
-    }
-    Notification.cancelNotification(notificationID);
-    dispatch(notificationCancel(notificationID));
-    dispatch(petDeleteMedication(medID, petID));
+    Alert.alert(translate('areYouSure'), translate('notGetInfoBack'), [
+      {
+        text: translate('sure'),
+        onPress: () => {
+          if (medications.length === 1) {
+            setMedications([]);
+          }
+          Notification.cancelNotification(notificationID);
+          dispatch(notificationCancel(notificationID));
+          dispatch(petDeleteMedication(medID, petID));
+        },
+      },
+      { text: translate('cancelButton') },
+    ]);
   };
 
   const dosesRef = useRef();
@@ -266,7 +288,7 @@ export default function Medications({ route }) {
         data={medications}
         keyExtractor={item => item.name}
         renderItem={({ item }) => (
-          <Box>
+          <Box finished={item.finished}>
             <TextBox>
               <Title>{item.name}</Title>
               <SubTitle>
@@ -278,23 +300,25 @@ export default function Medications({ route }) {
               <SubTitle>{`${translate('dosesLeft')}: ${item.doses}`}</SubTitle>
             </TextBox>
             <ButtonBox>
-              <ButtonHolder
-                onPress={() => {
-                  const notificationInfo = {
-                    doses: item.doses,
-                    interval: item.interval,
-                    intervalValue: item.intervalValue,
-                  };
-                  handleCheckMedication(
-                    item.name,
-                    item.notificationID,
-                    item.nextDoseDate,
-                    notificationInfo
-                  );
-                }}
-              >
-                <Icon name="clipboard-check" color="#fff" size={20} />
-              </ButtonHolder>
+              {item.finished ? null : (
+                <ButtonHolder
+                  onPress={() => {
+                    const notificationInfo = {
+                      doses: item.doses,
+                      interval: item.interval,
+                      intervalValue: item.intervalValue,
+                    };
+                    handleCheckMedication(
+                      item.name,
+                      item.notificationID,
+                      item.nextDoseDate,
+                      notificationInfo
+                    );
+                  }}
+                >
+                  <Icon name="clipboard-check" color="#fff" size={20} />
+                </ButtonHolder>
+              )}
               <ButtonHolder
                 onPress={() =>
                   handleDeleteMedication(item.name, item.notificationID)}
@@ -313,70 +337,101 @@ export default function Medications({ route }) {
       >
         <ModalContainer>
           <ModalBox>
-            <Scroll>
-              <Label>{translate('medRegister')}</Label>
-              <InputLabel>{translate('medName')}</InputLabel>
-              <Input
-                onChangeText={setName}
-                maxLength={20}
-                onSubmitEditing={() => dosesRef.current.focus()}
-              />
-              <InputLabel>{translate('addDoses')}</InputLabel>
-              <Input
-                placeholder="10"
-                maxLength={2}
-                keyboardType="number-pad"
-                ref={dosesRef}
-                onChangeText={setDoses}
-                onSubmitEditing={() => intervalRef.current.focus()}
-              />
-              <IntervalBox>
-                <SubBox>
-                  <InputLabel>{translate('addInterval')}</InputLabel>
+            <Formik
+              onSubmit={values => handleAddMedication(values)}
+              initialValues={{
+                name: '',
+                doses: '',
+                interval: null,
+                intervalValue: '',
+                date: now,
+              }}
+              validationSchema={schema}
+              validateOnChange={false}
+            >
+              {({
+                handleChange,
+                handleSubmit,
+                values,
+                setFieldValue,
+                errors,
+              }) => (
+                <Scroll>
+                  <Label>{translate('medRegister')}</Label>
+                  <InputLabel>{translate('medName')}</InputLabel>
                   <Input
-                    style={{ textAlign: 'right' }}
+                    onChangeText={handleChange('name')}
+                    maxLength={20}
+                    onSubmitEditing={() => dosesRef.current.focus()}
+                  />
+                  {errors.name && <ErrorLabel>{errors.name}</ErrorLabel>}
+                  <InputLabel>{translate('addDoses')}</InputLabel>
+                  <Input
                     placeholder="10"
                     maxLength={2}
                     keyboardType="number-pad"
-                    ref={intervalRef}
-                    onChangeText={setIntervalValue}
+                    ref={dosesRef}
+                    onChangeText={handleChange('doses')}
+                    onSubmitEditing={() => intervalRef.current.focus()}
                   />
-                </SubBox>
-                <SubBox>
-                  <InputLabel>{translate('addPeriod')}</InputLabel>
-                  <Picker
-                    style={{ padding: 15 }}
-                    onValueChange={value => setInterval(value)}
-                    selectedValue={interval || null}
-                  >
-                    <Picker.Item label="" value={null} />
-                    <Picker.Item label={translate('addYears')} value={1} />
-                    <Picker.Item label={translate('addMonths')} value={2} />
-                    <Picker.Item label={translate('addDays')} value={3} />
-                    <Picker.Item label={translate('addHours')} value={4} />
-                  </Picker>
-                </SubBox>
-              </IntervalBox>
-              <InputLabel>{translate('nextDose')}</InputLabel>
-              <DateHolder>
-                <DatePicker
-                  date={date}
-                  onDateChange={setDate}
-                  mode="datetime"
-                  minimumDate={new Date()}
-                  locale={locale}
-                  textColor="#000000"
-                  fadeToColor="none"
-                />
-              </DateHolder>
-              <Button
-                onPress={handleAddMedication}
-                title={translate('registerLabel')}
-              />
-              <CancelBox onPress={() => setVisible(false)}>
-                <Label>{translate('cancelButton')}</Label>
-              </CancelBox>
-            </Scroll>
+                  {errors.doses && <ErrorLabel>{errors.doses}</ErrorLabel>}
+                  <IntervalBox>
+                    <SubBox>
+                      <InputLabel>{translate('addInterval')}</InputLabel>
+                      <Input
+                        style={{ textAlign: 'right' }}
+                        placeholder="10"
+                        maxLength={2}
+                        keyboardType="number-pad"
+                        ref={intervalRef}
+                        onChangeText={handleChange('intervalValue')}
+                      />
+                    </SubBox>
+                    <SubBox>
+                      <InputLabel>{translate('addPeriod')}</InputLabel>
+                      <Picker
+                        style={{ padding: 15 }}
+                        onValueChange={value =>
+                          setFieldValue('interval', value)
+                        }
+                        selectedValue={values.interval || null}
+                      >
+                        <Picker.Item label="" value={null} />
+                        <Picker.Item label={translate('addYears')} value={1} />
+                        <Picker.Item label={translate('addMonths')} value={2} />
+                        <Picker.Item label={translate('addDays')} value={3} />
+                        <Picker.Item label={translate('addHours')} value={4} />
+                      </Picker>
+                    </SubBox>
+                  </IntervalBox>
+                  {errors.interval && (
+                    <ErrorLabel>{errors.interval}</ErrorLabel>
+                  )}
+                  {errors.intervalValue && (
+                    <ErrorLabel>{errors.intervalValue}</ErrorLabel>
+                  )}
+                  <InputLabel>{translate('nextDose')}</InputLabel>
+                  <DateHolder>
+                    <DatePicker
+                      date={values.date}
+                      onDateChange={value => setFieldValue('date', value)}
+                      mode="datetime"
+                      minimumDate={now}
+                      locale={locale}
+                      textColor="#000000"
+                      fadeToColor="none"
+                    />
+                  </DateHolder>
+                  <Button
+                    onPress={handleSubmit}
+                    title={translate('registerLabel')}
+                  />
+                  <CancelBox onPress={() => setVisible(false)}>
+                    <Label>{translate('cancelButton')}</Label>
+                  </CancelBox>
+                </Scroll>
+              )}
+            </Formik>
           </ModalBox>
         </ModalContainer>
       </ModalHolder>

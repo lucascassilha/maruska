@@ -177,6 +177,7 @@ export default function Profile({ route, navigation }) {
         <MenuTitle>{translate('emerMenu')}</MenuTitle>
         <EmergencyHolder>
           <Button
+            secondary
             title={translate('emerLabel')}
             onPress={() =>
               navigation.navigate('LostPet', { changeInfo: false, pet })
@@ -185,7 +186,11 @@ export default function Profile({ route, navigation }) {
         </EmergencyHolder>
         <MenuTitle>{translate('optMenu')}</MenuTitle>
         <EmergencyHolder>
-          <Button title={translate('optLabel')} onPress={handleDeletePet} />
+          <Button
+            secondary
+            title={translate('optLabel')}
+            onPress={handleDeletePet}
+          />
         </EmergencyHolder>
       </PetMenu>
     </Container>

@@ -45,7 +45,6 @@ export default function Notifications() {
           const date = format(auxDate, dateString);
           const time = format(auxDate, timeString);
           const isPast = isAfter(currentDate, auxDate);
-          item.isPast = isPast;
           item.dateString = date;
           item.timeString = time;
         }

@@ -34,6 +34,7 @@ export const Box = styled.View`
   margin: 0px 10px;
   padding: 20px 15px;
   flex-direction: row;
+  opacity: ${props => (props.isPast ? 0.6 : 1)};
 `;
 
 export const TextBox = styled.View`

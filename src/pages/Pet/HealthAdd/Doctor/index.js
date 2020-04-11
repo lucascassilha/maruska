@@ -25,14 +25,14 @@ export default function DocAdd({ route, navigation }) {
     if (!selectedDoc) {
       const schema = Yup.object().shape({
         name: Yup.string().required(),
-        phone: Yup.string().required(),
+        phone: Yup.string().nullable(),
         clinic: Yup.string().required(),
         pets: Yup.array().required(),
       });
 
       if (!(await schema.isValid(doc))) {
         Vibration.vibrate();
-        return Alert.alert('Maruska', translate('missingInfo'));
+        return Alert.alert('Maruska', translate('helpInfo'));
       }
     }
     const inputDoctorIndex = doctors.findIndex(item => item.name === name);
@@ -45,13 +45,13 @@ export default function DocAdd({ route, navigation }) {
     );
     if (selectedDoc && pickerDoctorIndex === -1) {
       Vibration.vibrate();
-      return Alert.alert('Maruska', translate('missingInfo'));
+      return Alert.alert('Maruska', translate('helpInfo'));
     }
     if (pickerDoctorIndex >= 0) {
       doc = doctors[pickerDoctorIndex];
     }
 
-    dispatch(addDoctor(doc, petID));
+    await dispatch(addDoctor(doc, petID));
     navigation.goBack();
   };
 
@@ -72,7 +72,7 @@ export default function DocAdd({ route, navigation }) {
         onChangeText={setName}
         onSubmitEditing={() => phoneRef.current.focus()}
       />
-      <InputLabel>{translate('phoneNumber')}</InputLabel>
+      <InputLabel>{translate('vetPhoneNumber')}</InputLabel>
       <Input
         maxLength={20}
         keyboardType="number-pad"

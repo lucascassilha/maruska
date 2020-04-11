@@ -2,11 +2,14 @@ import styled from 'styled-components/native';
 
 export const Container = styled.View`
   flex: 1;
+  padding: 10px 0px;
+`;
+
+export const Holder = styled.View`
   padding: 10px 30px;
 `;
 
 export const InputLabel = styled.Text`
-  margin-top: 10px;
   color: #eb3349;
   font-family: 'OpenSans-Regular';
   font-size: 16px;

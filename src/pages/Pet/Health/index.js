@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { useSelector, useDispatch } from 'react-redux';
-import { Linking } from 'react-native';
+import { Linking, Alert } from 'react-native';
 import PropTypes from 'prop-types';
+import { isPast, parseISO, isValid, addYears } from 'date-fns';
+import { produce } from 'immer';
 import { deleteDoctor } from '~/store/modules/doctors/actions';
 import {
   petDeleteAppointment,
@@ -56,7 +58,29 @@ export default function Health({ route, navigation }) {
   useEffect(() => {
     const petIndex = pets.findIndex(item => item.name === petID);
     if (pets[petIndex].appointments && pets[petIndex].appointments[0]) {
-      setAppointments(pets[petIndex].appointments);
+      const list = pets[petIndex].appointments;
+      const data = produce(list, draft => {
+        draft.map(item => {
+          if (isValid(item.date)) {
+            item.isPast = isPast(item.date);
+          } else {
+            const parsed = parseISO(item.date);
+            item.isPast = isPast(parsed);
+          }
+          if (item.isPast) {
+            item.date = addYears(new Date(), 100);
+          }
+        });
+        draft.sort(function(a, b) {
+          const aValid = isValid(a.date);
+          const bValid = isValid(b.date);
+          const parsedA = !aValid ? parseISO(a.date) : a.date;
+          const parsedB = !bValid ? parseISO(b.date) : b.date;
+          return parsedA - parsedB;
+        });
+      });
+
+      setAppointments(data);
     }
     if (pets[petIndex].surgeries && pets[petIndex].surgeries[0]) {
       setSurgeries(pets[petIndex].surgeries);
@@ -67,31 +91,71 @@ export default function Health({ route, navigation }) {
   }, [pets]);
 
   const handleDeleteDoctors = doctor => {
-    dispatch(deleteDoctor(doctor, petID));
-    if (docList.length === 1) {
-      setDocList([]);
-    }
+    Alert.alert(translate('areYouSure'), translate('notGetInfoBack'), [
+      {
+        text: translate('sure'),
+        onPress: () => {
+          dispatch(deleteDoctor(doctor, petID));
+          if (docList.length === 1) {
+            setDocList([]);
+          }
+        },
+      },
+      {
+        text: translate('cancelButton'),
+      },
+    ]);
   };
   const handleDeleteAppointment = async (date, notificationID) => {
-    await Notification.cancelNotification(notificationID);
-    dispatch(notificationCancel(notificationID));
+    Alert.alert(translate('areYouSure'), translate('notGetInfoBack'), [
+      {
+        text: translate('sure'),
+        onPress: async () => {
+          await Notification.cancelNotification(notificationID);
+          dispatch(notificationCancel(notificationID));
 
-    dispatch(petDeleteAppointment(date, petID));
-    if (appointments.length === 1) {
-      setAppointments([]);
-    }
+          dispatch(petDeleteAppointment(date, petID));
+          if (appointments.length === 1) {
+            setAppointments([]);
+          }
+        },
+      },
+      {
+        text: translate('cancelButton'),
+      },
+    ]);
   };
   const handleDeleteSurgery = surgery => {
-    dispatch(petDeleteSurgery(surgery, petID));
-    if (surgeries.length === 1) {
-      setSurgeries([]);
-    }
+    Alert.alert(translate('areYouSure'), translate('notGetInfoBack'), [
+      {
+        text: translate('sure'),
+        onPress: () => {
+          dispatch(petDeleteSurgery(surgery, petID));
+          if (surgeries.length === 1) {
+            setSurgeries([]);
+          }
+        },
+      },
+      {
+        text: translate('cancelButton'),
+      },
+    ]);
   };
   const handleDeleteProblem = problem => {
-    dispatch(petDeleteProblem(problem, petID));
-    if (problems.length === 1) {
-      setProblems([]);
-    }
+    Alert.alert(translate('areYouSure'), translate('notGetInfoBack'), [
+      {
+        text: translate('sure'),
+        onPress: () => {
+          dispatch(petDeleteProblem(problem, petID));
+          if (problems.length === 1) {
+            setProblems([]);
+          }
+        },
+      },
+      {
+        text: translate('cancelButton'),
+      },
+    ]);
   };
 
   return (
@@ -114,13 +178,15 @@ export default function Health({ route, navigation }) {
               <LabelSubtitle>{item.clinic}</LabelSubtitle>
             </TextBox>
             <ButtonBox>
-              <IconHolder
-                onPress={() => {
-                  Linking.openURL(`tel://${item.phone}`);
-                }}
-              >
-                <Icon name="phone" color="#fff" size={20} />
-              </IconHolder>
+              {item.phone ? (
+                <IconHolder
+                  onPress={() => {
+                    Linking.openURL(`tel://${item.phone}`);
+                  }}
+                >
+                  <Icon name="phone" color="#fff" size={20} />
+                </IconHolder>
+              ) : null}
               <IconHolder
                 onPress={() => {
                   handleDeleteDoctors(item.name);
@@ -146,7 +212,7 @@ export default function Health({ route, navigation }) {
         data={appointments}
         keyExtractor={item => item.date}
         renderItem={({ item }) => (
-          <Box>
+          <Box isPast={item.isPast}>
             <TextBox>
               <LabelTitle>{item.clinic}</LabelTitle>
               {item.doctor ? (
@@ -166,7 +232,8 @@ export default function Health({ route, navigation }) {
               </IconHolder>
               <IconHolder
                 onPress={() =>
-                  handleDeleteAppointment(item.date, item.notificationID)}
+                  handleDeleteAppointment(item.date, item.notificationID)
+                }
               >
                 <Icon name="trash-alt" color="#fff" size={20} />
               </IconHolder>

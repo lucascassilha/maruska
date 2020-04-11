@@ -16,7 +16,7 @@ export default function pets(state = INITIAL_STATE, action) {
 
         const currentDate = new Date();
         let returnDate = null;
-        if (years) {
+        if (months !== '') {
           returnDate = subYears(subMonths(currentDate, months), years);
         } else {
           returnDate = date;
@@ -88,6 +88,7 @@ export default function pets(state = INITIAL_STATE, action) {
             draft.data[petIndex].doctors = [doctor.name];
           }
         }
+
         break;
       }
       case '@pet/APPOINTMENT': {
@@ -193,7 +194,7 @@ export default function pets(state = INITIAL_STATE, action) {
         const petIndex = petData.findIndex(item => item.name === petID);
         if (petIndex >= 0) {
           if (petData[petIndex].weight && petData[petIndex].weight.length > 0) {
-            if (petData[petIndex].weight.length >= 6) {
+            if (petData[petIndex].weight.length >= 8) {
               petData[petIndex].weight.shift();
             }
             petData[petIndex].weight.push(weightData);

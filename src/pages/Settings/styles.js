@@ -28,6 +28,7 @@ export const Label = styled.Text`
   color: #000;
   font-family: 'OpenSans-Regular';
   margin-left: 10px;
+  width: 80%;
 `;
 
 export const Version = styled.Text`
