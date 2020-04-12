@@ -4,7 +4,6 @@ import { formatDistanceStrict, parseISO } from 'date-fns';
 import { StatusBar } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-import { AdMobInterstitial } from 'react-native-admob';
 import LottieView from 'lottie-react-native';
 import { ptBR, enUS } from 'date-fns/locale';
 import * as Animatable from 'react-native-animatable';
@@ -37,11 +36,6 @@ export default function Home({ navigation }) {
   const handleOpen = async () => {
     dispatch(changeStatus(0));
   };
-
-  useEffect(() => {
-    AdMobInterstitial.setAdUnitID('ca-app-pub-7615541994083029/3957454243');
-    AdMobInterstitial.requestAd().then(() => AdMobInterstitial.showAd());
-  }, []);
 
   useEffect(() => {
     const currentDate = new Date();
