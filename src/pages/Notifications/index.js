@@ -6,6 +6,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { format, parseISO, isValid, isAfter } from 'date-fns';
 import LottieView from 'lottie-react-native';
 import * as Animatable from 'react-native-animatable';
+import { AdMobBanner } from 'react-native-admob';
 import { clearPastNotifications } from '~/store/modules/notifications/actions';
 import Maruska from '~/components/MaruskaLogo/index';
 import { locale } from '~/locales';
@@ -92,6 +93,11 @@ export default function Notifications() {
             </Box>
           </Animatable.View>
         )}
+      />
+      <AdMobBanner
+        adSize="fullBanner"
+        adUnitID="ca-app-pub-7615541994083029/1276434098"
+        onAdFailedToLoad={error => console.error(error)}
       />
     </Container>
   );
