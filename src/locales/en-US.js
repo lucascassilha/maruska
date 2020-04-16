@@ -188,4 +188,6 @@ export default {
   late: 'Late dose',
   justConfirming: 'You want to check a dose right?',
   yes: 'Yes',
+  shareButton: 'Share',
+  close: 'Close',
 };

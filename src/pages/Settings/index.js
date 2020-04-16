@@ -47,6 +47,10 @@ export default function Settings() {
     Linking.openURL('https://lucascassilha.github.io/Maruska-Privacy-Policy/');
   };
 
+  const handleResearch = () => {
+    alert('Oi');
+  };
+
   return (
     <Container>
       <Box>
@@ -112,7 +116,13 @@ export default function Settings() {
           </IconHolder>
           <Label>{`${translate('changeUnit')} - ${weight} `}</Label>
         </Button>
-        <Version>v1.0.1</Version>
+        <Button onPress={handleResearch}>
+          <IconHolder color="#000">
+            <Icon name="alarm-light-outline" color="#fff" size={20} />
+          </IconHolder>
+          <Label>Help us improve</Label>
+        </Button>
+        <Version>v1.0.2</Version>
         <Version>DevelopLC - 2020</Version>
         <Version>{translate('byUsing')}</Version>
       </Box>

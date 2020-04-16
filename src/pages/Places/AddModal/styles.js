@@ -37,6 +37,7 @@ export const InputLabel = styled.Text`
   font-size: 14px;
   text-align: left;
   font-family: 'OpenSans-Regular';
+  margin-top: 5px;
 `;
 
 export const SelectorBox = styled.View``;

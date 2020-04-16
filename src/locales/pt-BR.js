@@ -188,4 +188,6 @@ export default {
   late: 'Dose atrasada',
   justConfirming: 'Você quer confirmar essa dose, né?',
   yes: 'Sim',
+  shareButton: 'Compartilhar',
+  close: 'Fechar',
 };

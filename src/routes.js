@@ -331,6 +331,28 @@ function Pet() {
           },
         })}
       />
+      <Stack.Screen
+        name="Notifications"
+        component={Notifications}
+        options={() => ({
+          title: translate('not'),
+          headerStyle: {
+            backgroundColor: '#eb3349',
+          },
+          headerBackTitleStyle: null,
+          headerTintColor: '#fff',
+          headerTitleAlign: 'center',
+          resetOnBlur: true,
+          headerTitleStyle: {
+            color: '#fff',
+            fontSize: 20,
+            fontFamily: 'OpenSans-Bold',
+          },
+          headerBackImage: () => {
+            return <Icon name="chevron-left" color="#fff" size={25} />;
+          },
+        })}
+      />
     </Stack.Navigator>
   );
 }
@@ -367,18 +389,6 @@ export default function Routes() {
           },
           tabBarIcon: ({ color }) => (
             <Icon name="home" size={25} color={color} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name={translate('not')}
-        component={Notifications}
-        options={{
-          titleStyle: {
-            fontFamily: 'OpenSans-Regular',
-          },
-          tabBarIcon: ({ color }) => (
-            <Icon name="bell" size={25} color={color} />
           ),
         }}
       />

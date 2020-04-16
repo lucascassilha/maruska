@@ -8,6 +8,7 @@ import LottieView from 'lottie-react-native';
 import { ptBR, enUS } from 'date-fns/locale';
 import * as Animatable from 'react-native-animatable';
 import { AdMobBanner } from 'react-native-admob';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Maruska from '~/components/MaruskaLogo/index';
 import changeStatus from '~/store/modules/modalVisible/actions';
 import Modal from './AddModal/index';
@@ -25,18 +26,31 @@ import {
   Info,
   AnimationHolder,
   AnimationLabel,
+  Not,
+  Ball,
 } from './styles';
 
 import logo from '~/assets/img/logo.png';
 
 export default function Home({ navigation }) {
   const pets = useSelector(state => state.pets.data);
-  const [petDate, setPetData] = useState([]);
+  const notifications = useSelector(state => state.notifications.data.length);
+  const [petData, setPetData] = useState([]);
+  const [notEmpty, setEmpty] = useState(true);
 
   const dispatch = useDispatch();
   const handleOpen = async () => {
     dispatch(changeStatus(0));
   };
+
+  useEffect(() => {
+    console.log(notifications);
+    if (notifications > 0) {
+      setEmpty(false);
+    } else if (notifications === 0) {
+      setEmpty(true);
+    }
+  }, [notifications]);
 
   useEffect(() => {
     const currentDate = new Date();
@@ -67,6 +81,10 @@ export default function Home({ navigation }) {
       <Maruska source={logo} />
       <Modal />
       <FAB onPress={handleOpen} />
+      <Not onPress={() => navigation.navigate('Notifications')}>
+        <Ball empty={notEmpty} />
+        <Icon name="bell" size={25} color="#8e1120" />
+      </Not>
       <PetList
         contentContainerStyle={{
           padding: 20,
@@ -88,7 +106,7 @@ export default function Home({ navigation }) {
           </AnimationHolder>
         )}
         showsVerticalScrollIndicator={false}
-        data={petDate}
+        data={petData}
         keyExtractor={item => item.name}
         renderItem={({ item }) => (
           <Animatable.View animation="slideInLeft">
