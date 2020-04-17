@@ -10,7 +10,7 @@ export const PetList = styled.FlatList.attrs({})``;
 export const Box = styled.TouchableOpacity`
   background-color: #eb3349;
   margin: 5px 0px;
-  padding: 20px;
+  padding: 15px;
   border-radius: 4px;
   flex-direction: row;
   align-items: center;
@@ -19,7 +19,7 @@ export const Box = styled.TouchableOpacity`
 export const PetImage = styled.Image`
   height: 100px;
   width: 100px;
-  border-radius: 10px;
+  border-radius: 4px;
   background-color: #fff;
   opacity: ${props => (props.nullImage ? 1 : 0.3)};
 `;

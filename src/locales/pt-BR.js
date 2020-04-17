@@ -190,4 +190,6 @@ export default {
   yes: 'Sim',
   shareButton: 'Compartilhar',
   close: 'Fechar',
+  openMap: 'Abrir no mapa',
+  typeCity: 'Por favor, insira o nome e a cidade para abrir o mapa',
 };

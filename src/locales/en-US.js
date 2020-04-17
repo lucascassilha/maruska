@@ -190,4 +190,6 @@ export default {
   yes: 'Yes',
   shareButton: 'Share',
   close: 'Close',
+  openMap: 'Open map',
+  typeCity: 'Please type in the name and the city to open map',
 };

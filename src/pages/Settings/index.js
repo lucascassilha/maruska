@@ -74,8 +74,7 @@ export default function Settings() {
               message: `${translate(
                 'checkOut'
               )} app: https://play.google.com/store/apps/details?id=com.lcdev.maruska`,
-            })
-          }
+            })}
         >
           <IconHolder color="#eb3349">
             <Icon name="share" color="#fff" size={20} />
@@ -84,8 +83,7 @@ export default function Settings() {
         </Button>
         <Button
           onPress={() =>
-            Linking.openURL('market://details?id=com.lcdev.maruska')
-          }
+            Linking.openURL('market://details?id=com.lcdev.maruska')}
         >
           <IconHolder color="#33EBBF">
             <Icon name="star" color="#fff" size={20} />
@@ -115,12 +113,6 @@ export default function Settings() {
             <Icon name="weight" color="#fff" size={20} />
           </IconHolder>
           <Label>{`${translate('changeUnit')} - ${weight} `}</Label>
-        </Button>
-        <Button onPress={handleResearch}>
-          <IconHolder color="#000">
-            <Icon name="alarm-light-outline" color="#fff" size={20} />
-          </IconHolder>
-          <Label>Help us improve</Label>
         </Button>
         <Version>v1.0.2</Version>
         <Version>DevelopLC - 2020</Version>

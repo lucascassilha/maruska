@@ -36,10 +36,17 @@ export const InputLabel = styled.Text`
   color: #eb3349;
   font-size: 14px;
   text-align: left;
-  font-family: 'OpenSans-Regular';
+  font-family: 'OpenSans-Bold';
   margin-top: 5px;
 `;
 
+export const PickerLabel = styled.Text`
+  color: #eb3349;
+  font-size: 16px;
+  text-align: left;
+  font-family: 'OpenSans-Regular';
+  margin-top: 5px;
+`;
 export const SelectorBox = styled.View``;
 
 export const Input = styled.TextInput`
@@ -90,4 +97,17 @@ export const ErrorLabel = styled.Text`
   text-align: left;
   margin-top: -10px;
   margin-bottom: 10px;
+`;
+
+export const ButtonHolder = styled.TouchableOpacity`
+  align-self: stretch;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const ButtonLabel = styled.Text`
+  font-family: 'OpenSans-Regular';
+  font-size: 16px;
+  margin-left: 10px;
 `;
