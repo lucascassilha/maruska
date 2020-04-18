@@ -16,6 +16,7 @@ export const PetInfo = styled.View`
 
 export const PetMenu = styled.ScrollView`
   flex: 2;
+  background-color: #fafafa;
 `;
 
 export const Header = styled.View`
@@ -75,11 +76,11 @@ export const MenuHolder = styled.FlatList``;
 export const ButtonHolder = styled.TouchableOpacity`
   height: 120px;
   width: 120px;
-  margin: 10px;
+  margin: 5px 10px;
 `;
 
 export const Gradient = styled(LinearGradient)`
-  border-radius: 20px;
+  border-radius: 10px;
   height: 100%;
   width: 100%;
   align-items: center;
@@ -89,4 +90,15 @@ export const Gradient = styled(LinearGradient)`
 export const ImageIcon = styled.Image`
   height: 80px;
   width: 80px;
+`;
+
+export const Dot = styled.View`
+  height: 12px;
+  width: 12px;
+  border-radius: 6px;
+  background-color: #f5cb42;
+  position: absolute;
+  z-index: 1;
+  right: 0;
+  elevation: 1;
 `;

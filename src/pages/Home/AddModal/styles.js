@@ -34,6 +34,13 @@ export const Title = styled.Text`
 
 export const InputLabel = styled.Text`
   color: #eb3349;
+  font-size: 16px;
+  text-align: left;
+  font-family: 'OpenSans-Regular';
+`;
+
+export const Label = styled.Text`
+  color: #eb3349;
   font-size: 14px;
   text-align: left;
   font-family: 'OpenSans-Bold';

@@ -19,3 +19,17 @@ export const DateHolder = styled.View`
   justify-content: center;
   margin: 10px;
 `;
+
+export const ButtonHolder = styled.TouchableOpacity`
+  align-self: stretch;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin: 10px 0px;
+`;
+
+export const ButtonLabel = styled.Text`
+  font-family: 'OpenSans-Regular';
+  margin-left: 10px;
+  font-size: 16px;
+`;

@@ -2,7 +2,7 @@ import styled from 'styled-components/native';
 
 export const Container = styled.View`
   flex: 1;
-  background-color: #fff;
+  background-color: #fafafa;
 `;
 
 export const PetList = styled.FlatList.attrs({})``;
@@ -10,7 +10,7 @@ export const PetList = styled.FlatList.attrs({})``;
 export const Box = styled.TouchableOpacity`
   background-color: #eb3349;
   margin: 5px 0px;
-  padding: 20px;
+  padding: 15px;
   border-radius: 4px;
   flex-direction: row;
   align-items: center;
@@ -19,7 +19,7 @@ export const Box = styled.TouchableOpacity`
 export const PetImage = styled.Image`
   height: 100px;
   width: 100px;
-  border-radius: 10px;
+  border-radius: 4px;
   background-color: #fff;
   opacity: ${props => (props.nullImage ? 1 : 0.3)};
 `;
@@ -51,4 +51,25 @@ export const AnimationLabel = styled.Text`
   color: #000;
   opacity: 0.5;
   font-family: 'OpenSans-Regular';
+`;
+
+export const Not = styled.TouchableOpacity`
+  position: absolute;
+  right: 0;
+  top: 0;
+  margin-top: 10px;
+  margin-right: 20px;
+`;
+
+export const Ball = styled.View`
+  height: 8px;
+  width: 8px;
+  border-radius: 4px;
+  background-color: #f5cb42;
+  position: absolute;
+  right: 0;
+  margin-right: 3px;
+  margin-top: 3px;
+  z-index: 1;
+  opacity: ${props => (props.empty ? 0 : 1)};
 `;

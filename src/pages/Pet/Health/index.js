@@ -5,6 +5,7 @@ import { Linking, Alert } from 'react-native';
 import PropTypes from 'prop-types';
 import { isPast, parseISO, isValid, addYears } from 'date-fns';
 import { produce } from 'immer';
+import RNCalendarEvents from 'react-native-calendar-events';
 import { deleteDoctor } from '~/store/modules/doctors/actions';
 import {
   petDeleteAppointment,
@@ -106,14 +107,16 @@ export default function Health({ route, navigation }) {
       },
     ]);
   };
-  const handleDeleteAppointment = async (date, notificationID) => {
+  const handleDeleteAppointment = async (date, notificationID, calendarID) => {
     Alert.alert(translate('areYouSure'), translate('notGetInfoBack'), [
       {
         text: translate('sure'),
         onPress: async () => {
           await Notification.cancelNotification(notificationID);
+          if (calendarID) {
+            RNCalendarEvents.removeEvent(calendarID);
+          }
           dispatch(notificationCancel(notificationID));
-
           dispatch(petDeleteAppointment(date, petID));
           if (appointments.length === 1) {
             setAppointments([]);
@@ -232,7 +235,11 @@ export default function Health({ route, navigation }) {
               </IconHolder>
               <IconHolder
                 onPress={() =>
-                  handleDeleteAppointment(item.date, item.notificationID)
+                  handleDeleteAppointment(
+                    item.date,
+                    item.notificationID,
+                    item.calendarID ? item.calendarID : null
+                  )
                 }
               >
                 <Icon name="trash-alt" color="#fff" size={20} />

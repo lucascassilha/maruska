@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Checkbox } from 'react-native-paper';
 import { useSelector, useDispatch } from 'react-redux';
-import { Alert, Vibration } from 'react-native';
+import { Alert, Vibration, Linking } from 'react-native';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
 import changeStatus from '~/store/modules/modalVisible/actions';
@@ -17,12 +17,15 @@ import {
   Scroll,
   Title,
   InputLabel,
+  PickerLabel,
   SelectorBox,
   Input,
   CheckHolder,
   CancelHolder,
   CancelLabel,
   ErrorLabel,
+  ButtonHolder,
+  ButtonLabel,
 } from './styles';
 
 const schema = Yup.object().shape({
@@ -56,6 +59,15 @@ export default function AddModal() {
     dispatch(addLocation(values));
 
     handleClose();
+  };
+
+  const handleMaps = values => {
+    if (values.name !== '' && values.city !== '') {
+      const url = `geo://0,0?q=${values.name} - ${values.city}`;
+      Linking.openURL(url);
+    } else {
+      Alert.alert(translate('error'), translate('typeCity'));
+    }
   };
 
   const cityRef = useRef();
@@ -109,7 +121,7 @@ export default function AddModal() {
                       size={25}
                       style={{ marginRight: 5 }}
                     />
-                    <InputLabel>Pet Shop</InputLabel>
+                    <PickerLabel>Pet Shop</PickerLabel>
                   </CheckHolder>
                   <CheckHolder>
                     <Checkbox
@@ -128,7 +140,7 @@ export default function AddModal() {
                       size={25}
                       style={{ marginRight: 5 }}
                     />
-                    <InputLabel>{translate('clinic')}</InputLabel>
+                    <PickerLabel>{translate('clinic')}</PickerLabel>
                   </CheckHolder>
                 </SelectorBox>
                 {errors.kind && <ErrorLabel>{errors.kind}</ErrorLabel>}
@@ -149,6 +161,10 @@ export default function AddModal() {
                   maxLength={20}
                 />
                 {errors.city && <ErrorLabel>{errors.city}</ErrorLabel>}
+                <ButtonHolder onPress={() => handleMaps(values)}>
+                  <Icon name="map-search" size={25} />
+                  <ButtonLabel>{translate('openMap')}</ButtonLabel>
+                </ButtonHolder>
                 <InputLabel>{translate('address')}</InputLabel>
                 <Input
                   onChangeText={handleChange('address')}

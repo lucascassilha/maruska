@@ -47,6 +47,10 @@ export default function Settings() {
     Linking.openURL('https://lucascassilha.github.io/Maruska-Privacy-Policy/');
   };
 
+  const handleResearch = () => {
+    alert('Oi');
+  };
+
   return (
     <Container>
       <Box>
@@ -70,8 +74,7 @@ export default function Settings() {
               message: `${translate(
                 'checkOut'
               )} app: https://play.google.com/store/apps/details?id=com.lcdev.maruska`,
-            })
-          }
+            })}
         >
           <IconHolder color="#eb3349">
             <Icon name="share" color="#fff" size={20} />
@@ -80,8 +83,7 @@ export default function Settings() {
         </Button>
         <Button
           onPress={() =>
-            Linking.openURL('market://details?id=com.lcdev.maruska')
-          }
+            Linking.openURL('market://details?id=com.lcdev.maruska')}
         >
           <IconHolder color="#33EBBF">
             <Icon name="star" color="#fff" size={20} />
@@ -112,7 +114,7 @@ export default function Settings() {
           </IconHolder>
           <Label>{`${translate('changeUnit')} - ${weight} `}</Label>
         </Button>
-        <Version>v1.0.1</Version>
+        <Version>v1.0.2</Version>
         <Version>DevelopLC - 2020</Version>
         <Version>{translate('byUsing')}</Version>
       </Box>
