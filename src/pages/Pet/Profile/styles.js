@@ -16,6 +16,7 @@ export const PetInfo = styled.View`
 
 export const PetMenu = styled.ScrollView`
   flex: 2;
+  background-color: #fafafa;
 `;
 
 export const Header = styled.View`
@@ -79,7 +80,7 @@ export const ButtonHolder = styled.TouchableOpacity`
 `;
 
 export const Gradient = styled(LinearGradient)`
-  border-radius: 20px;
+  border-radius: 10px;
   height: 100%;
   width: 100%;
   align-items: center;

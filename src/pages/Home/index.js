@@ -44,7 +44,6 @@ export default function Home({ navigation }) {
   };
 
   useEffect(() => {
-    console.log(notifications);
     if (notifications > 0) {
       setEmpty(false);
     } else if (notifications === 0) {
@@ -77,7 +76,7 @@ export default function Home({ navigation }) {
 
   return (
     <Container>
-      <StatusBar backgroundColor="#fff" barStyle="dark-content" />
+      <StatusBar backgroundColor="#fafafa" barStyle="dark-content" />
       <Maruska source={logo} />
       <Modal />
       <FAB onPress={handleOpen} />
