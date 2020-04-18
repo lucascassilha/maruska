@@ -26,6 +26,7 @@ import {
   ButtonHolder,
   Gradient,
   ImageIcon,
+  Dot,
 } from './styles';
 
 import vaccine from '~/assets/img/vaccine.png';

@@ -18,6 +18,7 @@ import {
   Scroll,
   Title,
   InputLabel,
+  Label,
   SelectorBox,
   Input,
   CheckHolder,
@@ -112,7 +113,7 @@ export default function AddModal() {
             }) => (
               <Scroll showsVerticalScrollIndicator={false}>
                 <Title>{translate('addPet')}</Title>
-                <InputLabel>{translate('addKind')}</InputLabel>
+                <Label>{translate('addKind')}</Label>
                 <SelectorBox>
                   <CheckHolder>
                     <Checkbox
@@ -125,7 +126,8 @@ export default function AddModal() {
                       uncheckedColor="#eb3349"
                       value={values.kind}
                       onPress={() =>
-                        setFieldValue('kind', translate('dogKind'))}
+                        setFieldValue('kind', translate('dogKind'))
+                      }
                     />
                     <Icon
                       name="dog"
@@ -145,8 +147,7 @@ export default function AddModal() {
                           : 'unchecked'
                       }
                       onPress={() =>
-                        setFieldValue('kind', translate('catKind'))
-                      }
+                        setFieldValue('kind', translate('catKind'))}
                     />
                     <Icon
                       name="cat"
@@ -166,7 +167,8 @@ export default function AddModal() {
                       color="#eb3349"
                       uncheckedColor="#eb3349"
                       onPress={() =>
-                        setFieldValue('kind', translate('otherKind'))}
+                        setFieldValue('kind', translate('otherKind'))
+                      }
                     />
                     <Icon
                       name="duck"
@@ -178,7 +180,7 @@ export default function AddModal() {
                   </CheckHolder>
                 </SelectorBox>
                 {errors.kind && <ErrorLabel>{errors.kind}</ErrorLabel>}
-                <InputLabel>{translate('addSex')}</InputLabel>
+                <Label>{translate('addSex')}</Label>
                 <SelectorBox>
                   <CheckHolder>
                     <Checkbox
@@ -228,8 +230,7 @@ export default function AddModal() {
                       color="#eb3349"
                       uncheckedColor="#eb3349"
                       onPress={() =>
-                        setFieldValue('sex', translate('sexOther'))
-                      }
+                        setFieldValue('sex', translate('sexOther'))}
                     />
                     <Icon
                       name="gender-male-female"
@@ -241,7 +242,7 @@ export default function AddModal() {
                   </CheckHolder>
                 </SelectorBox>
                 {errors.sex && <ErrorLabel>{errors.sex}</ErrorLabel>}
-                <InputLabel>{translate('selectBirth')}</InputLabel>
+                <Label>{translate('selectBirth')}</Label>
                 <DateHolder disabled={undefDate}>
                   <DatePicker
                     date={values.date}
@@ -264,7 +265,7 @@ export default function AddModal() {
                 {undefDate ? (
                   <>
                     <Instruction>{translate('undefLabel')}</Instruction>
-                    <InputLabel>{translate('addYears')}</InputLabel>
+                    <Label>{translate('addYears')}</Label>
                     <Input
                       keyboardType="number-pad"
                       maxLength={2}
@@ -272,7 +273,7 @@ export default function AddModal() {
                       onSubmitEditing={() => monthRef.current.focus()}
                       returnKeyType="next"
                     />
-                    <InputLabel>{translate('addMonths')}</InputLabel>
+                    <Label>{translate('addMonths')}</Label>
                     <Input
                       keyboardType="number-pad"
                       maxLength={2}
@@ -284,7 +285,7 @@ export default function AddModal() {
                     {errors.months && <ErrorLabel>{errors.months}</ErrorLabel>}
                   </>
                 ) : null}
-                <InputLabel>{translate('addName')}</InputLabel>
+                <Label>{translate('addName')}</Label>
                 <Input
                   onChangeText={handleChange('name')}
                   ref={nameRef}
@@ -293,7 +294,7 @@ export default function AddModal() {
                   maxLength={20}
                 />
                 {errors.name && <ErrorLabel>{errors.name}</ErrorLabel>}
-                <InputLabel>{translate('addBreed')}</InputLabel>
+                <Label>{translate('addBreed')}</Label>
                 <Input
                   onChangeText={handleChange('breed')}
                   ref={breedRef}

@@ -1,4 +1,5 @@
 export default {
+  appointment: '- consulta',
   places: 'Lugares',
   not: 'Notificações',
   set: 'Ajustes',
@@ -188,4 +189,11 @@ export default {
   late: 'Dose atrasada',
   justConfirming: 'Você quer confirmar essa dose, né?',
   yes: 'Sim',
+  shareButton: 'Compartilhar',
+  close: 'Fechar',
+  openMap: 'Abrir no mapa',
+  typeCity: 'Por favor, insira o nome e a cidade para abrir o mapa',
+  addToCalendar: 'Adicionar ao meu calendário',
+  calendarError: 'Por favor, isira uma data e a clínica!',
+  addedToCalendar: 'O evento foi adicionado ao seu calendário!',
 };
