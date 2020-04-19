@@ -114,7 +114,7 @@ export default function Settings() {
           </IconHolder>
           <Label>{`${translate('changeUnit')} - ${weight} `}</Label>
         </Button>
-        <Version>v1.0.2</Version>
+        <Version>v1.0.3</Version>
         <Version>DevelopLC - 2020</Version>
         <Version>{translate('byUsing')}</Version>
       </Box>
