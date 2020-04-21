@@ -1,6 +1,5 @@
 import PushNotification from 'react-native-push-notification';
-import { Alert, Share } from 'react-native';
-import translate from '~/locales';
+import { Alert } from 'react-native';
 
 class NotificationService {
   constructor(onNotification) {
@@ -67,19 +66,7 @@ class NotificationService {
 }
 
 const onNotification = notification => {
-  Alert.alert(notification.title, notification.message, [
-    {
-      text: translate('shareButton'),
-      onPress: () =>
-        Share.share({
-          title: notification.title,
-          message: notification.message,
-        }),
-    },
-    {
-      text: translate('close'),
-    },
-  ]);
+  Alert.alert(notification.title, notification.message);
 };
 
 const Notification = new NotificationService(onNotification);

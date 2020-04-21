@@ -8,7 +8,7 @@ const Button = styled.TouchableOpacity`
   margin: 10px;
   right: 0;
   bottom: 0;
-  background-color: #8e1120;
+  background-color: #a32658;
   elevation: 2;
   align-items: center;
   justify-content: center;
