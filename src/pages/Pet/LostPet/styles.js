@@ -3,7 +3,8 @@ import styled from 'styled-components/native';
 export const Container = styled.View`
   flex: 1;
   background-color: #fff;
-  padding: 10px 30px;
+  justify-content: center;
+  padding: 0px 30px;
 `;
 
 export const LabelInput = styled.Text`

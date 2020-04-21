@@ -1,5 +1,4 @@
 export default {
-  appointment: '- appointment',
   places: 'Places',
   not: 'Notifications',
   set: 'Settings',
@@ -189,11 +188,4 @@ export default {
   late: 'Late dose',
   justConfirming: 'You want to check a dose right?',
   yes: 'Yes',
-  shareButton: 'Share',
-  close: 'Close',
-  openMap: 'Open map',
-  typeCity: 'Please type in the name and the city to open map',
-  addToCalendar: 'Add to calendar',
-  calendarError: 'Please type the date and clinic!',
-  addedToCalendar: 'The event has been registered in your calendar',
 };
