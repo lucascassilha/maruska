@@ -4,7 +4,6 @@ import android.app.Application;
 import android.content.Context;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
-import com.calendarevents.CalendarEventsPackage;
 import com.geektime.rnonesignalandroid.ReactNativeOneSignalPackage;
 import com.microsoft.codepush.react.CodePush;
 import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
@@ -14,7 +13,6 @@ import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
-import com.calendarevents.CalendarEventsPackage;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -42,7 +40,6 @@ public class MainApplication extends Application implements ReactApplication {
         protected String getJSBundleFile() {
             return CodePush.getJSBundleFile();
         }
-
       };
 
   @Override

@@ -4,7 +4,7 @@ import styled from 'styled-components/native';
 export const Wrapper = styled.TouchableOpacity`
   align-self: stretch;
   background-color: ${props =>
-    props.disabled ? '#f2f2f2' : props.secondary ? '#eb3349' : '#bc1529'};
+    props.disabled ? '#f2f2f2' : props.secondary ? '#eb3349' : '#a3263f'};
   align-items: center;
   justify-content: center;
   padding: 15px;

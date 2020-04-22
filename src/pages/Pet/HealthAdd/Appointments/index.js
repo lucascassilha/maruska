@@ -17,13 +17,7 @@ import translate, { locale } from '~/locales';
 
 import Notification from '~/config/NotificationService';
 
-import {
-  Container,
-  InputLabel,
-  DateHolder,
-  ButtonHolder,
-  ButtonLabel,
-} from './styles';
+import { Container, InputLabel, DateHolder } from './styles';
 
 export default function AppointAdd({ route, navigation }) {
   const { petID } = route.params;
@@ -33,7 +27,6 @@ export default function AppointAdd({ route, navigation }) {
   const [clinic, setClinic] = useState(null);
   const [date, setDate] = useState(new Date());
   const [selectedDoc, setDoc] = useState(null);
-  const [calendarID, setCalendar] = useState(null);
   const dispatch = useDispatch();
 
   const handleAppointment = async () => {
@@ -85,7 +78,7 @@ export default function AppointAdd({ route, navigation }) {
 
     dispatch(
       petAppointment(
-        { ...appointment, time, day, phone, notificationID, calendarID },
+        { ...appointment, time, day, phone, notificationID },
         petID
       )
     );
@@ -163,10 +156,6 @@ export default function AppointAdd({ route, navigation }) {
           locale={locale}
         />
       </DateHolder>
-      <ButtonHolder onPress={handleCalendar}>
-        <Icon name="calendar" size={25} />
-        <ButtonLabel>{translate('addToCalendar')}</ButtonLabel>
-      </ButtonHolder>
       <Button title={translate('registerLabel')} onPress={handleAppointment} />
     </Container>
   );

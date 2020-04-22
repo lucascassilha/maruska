@@ -25,30 +25,18 @@ import {
   Info,
   AnimationHolder,
   AnimationLabel,
-  Not,
-  Ball,
 } from './styles';
 
 import logo from '~/assets/img/logo.png';
 
 export default function Home({ navigation }) {
   const pets = useSelector(state => state.pets.data);
-  const notifications = useSelector(state => state.notifications.data.length);
-  const [petData, setPetData] = useState([]);
-  const [notEmpty, setEmpty] = useState(true);
+  const [petDate, setPetData] = useState([]);
 
   const dispatch = useDispatch();
   const handleOpen = async () => {
     dispatch(changeStatus(0));
   };
-
-  useEffect(() => {
-    if (notifications > 0) {
-      setEmpty(false);
-    } else if (notifications === 0) {
-      setEmpty(true);
-    }
-  }, [notifications]);
 
   useEffect(() => {
     const currentDate = new Date();
@@ -75,14 +63,10 @@ export default function Home({ navigation }) {
 
   return (
     <Container>
-      <StatusBar backgroundColor="#fafafa" barStyle="dark-content" />
+      <StatusBar backgroundColor="#fff" barStyle="dark-content" />
       <Maruska source={logo} />
       <Modal />
       <FAB onPress={handleOpen} />
-      <Not onPress={() => navigation.navigate('Notifications')}>
-        <Ball empty={notEmpty} />
-        <Icon name="bell" size={25} color="#8e1120" />
-      </Not>
       <PetList
         contentContainerStyle={{
           padding: 20,
@@ -104,7 +88,7 @@ export default function Home({ navigation }) {
           </AnimationHolder>
         )}
         showsVerticalScrollIndicator={false}
-        data={petData}
+        data={petDate}
         keyExtractor={item => item.name}
         renderItem={({ item }) => (
           <Animatable.View animation="slideInLeft">

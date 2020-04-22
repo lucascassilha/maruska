@@ -6364,11 +6364,6 @@ react-native-animatable@^1.3.3:
   dependencies:
     prop-types "^15.7.2"
 
-react-native-calendar-events@^1.7.3:
-  version "1.7.3"
-  resolved "https://registry.yarnpkg.com/react-native-calendar-events/-/react-native-calendar-events-1.7.3.tgz#1c9f9989bfec5ae7c3a3c72572f0d68d43de0d41"
-  integrity sha512-IbtfPDpD6PLx6XQQK0X5f9gIt12iyItoSlMbPgfalz646KUqppU2L0xo4v7kZFy1D2tVDX0gpuPlwJMT2dTeNg==
-
 react-native-chart-kit@^5.2.0:
   version "5.2.0"
   resolved "https://registry.yarnpkg.com/react-native-chart-kit/-/react-native-chart-kit-5.2.0.tgz#90ed2c62bcf6cfd3a9e4f6c3b43ac7b100aec20c"
