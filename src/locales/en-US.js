@@ -196,4 +196,5 @@ export default {
   addToCalendar: 'Add to calendar',
   calendarError: 'Please type the date and clinic!',
   addedToCalendar: 'The event has been registered in your calendar',
+  developer: 'The developer',
 };

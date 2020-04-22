@@ -36,13 +36,11 @@ target 'Maruska' do
 
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
-  pod 'react-native-admob', :path => '../node_modules/react-native-admob'
 
 
 
   pod 'react-native-onesignal', :path => '../node_modules/react-native-onesignal'
 
-  pod 'react-native-calendar-events', :path => '../node_modules/react-native-calendar-events'
 
   target 'MaruskaTests' do
     inherit! :search_paths

@@ -5,9 +5,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import * as Yup from 'yup';
 import { format, subDays } from 'date-fns';
 import DatePicker from 'react-native-date-picker';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import RNCalendarEvents from 'react-native-calendar-events';
-import analytics from '@react-native-firebase/analytics';
 import Button from '~/components/Button/index';
 import {
   petAppointment,
@@ -18,13 +15,7 @@ import translate, { locale } from '~/locales';
 
 import Notification from '~/config/NotificationService';
 
-import {
-  Container,
-  InputLabel,
-  DateHolder,
-  ButtonHolder,
-  ButtonLabel,
-} from './styles';
+import { Container, InputLabel, DateHolder } from './styles';
 
 export default function AppointAdd({ route, navigation }) {
   const { petID } = route.params;
@@ -34,7 +25,6 @@ export default function AppointAdd({ route, navigation }) {
   const [clinic, setClinic] = useState(null);
   const [date, setDate] = useState(new Date());
   const [selectedDoc, setDoc] = useState(null);
-  const [calendarID, setCalendar] = useState(null);
   const dispatch = useDispatch();
 
   const handleAppointment = async () => {
@@ -102,35 +92,6 @@ export default function AppointAdd({ route, navigation }) {
     }
   });
 
-  const handleCalendar = () => {
-    if (clinic && date) {
-      RNCalendarEvents.authorizationStatus();
-      RNCalendarEvents.authorizeEventStore();
-
-      const id = `${Math.floor(
-        Math.random() * 10000
-      )}${new Date().getMilliseconds()}`;
-      setCalendar(id);
-      const a = RNCalendarEvents.saveEvent(
-        `${petID} ${translate('appointment')}`,
-        {
-          id,
-          startDate: date,
-          endDate: date,
-          allDay: false,
-          location: clinic,
-        }
-      );
-
-      analytics().logEvent('add_to_calendar');
-      Alert.alert('Maruska', translate('addedToCalendar'));
-      console.log(a);
-    } else {
-      Alert.alert('Maruska', translate('calendarError'));
-      Vibration.vibrate();
-    }
-  };
-
   return (
     <Container>
       <InputLabel>{translate('appWhere')}</InputLabel>
@@ -169,10 +130,6 @@ export default function AppointAdd({ route, navigation }) {
           locale={locale}
         />
       </DateHolder>
-      <ButtonHolder onPress={handleCalendar}>
-        <Icon name="calendar" size={25} />
-        <ButtonLabel>{translate('addToCalendar')}</ButtonLabel>
-      </ButtonHolder>
       <Button title={translate('registerLabel')} onPress={handleAppointment} />
     </Container>
   );

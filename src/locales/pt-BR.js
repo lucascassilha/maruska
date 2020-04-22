@@ -194,6 +194,7 @@ export default {
   openMap: 'Abrir no mapa',
   typeCity: 'Por favor, insira o nome e a cidade para abrir o mapa',
   addToCalendar: 'Adicionar ao meu calendário',
-  calendarError: 'Por favor, isira uma data e a clínica!',
+  calendarError: 'Por favor, insira uma data e a clínica!',
   addedToCalendar: 'O evento foi adicionado ao seu calendário!',
+  developer: 'O desenvolvedor',
 };

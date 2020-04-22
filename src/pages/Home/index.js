@@ -7,7 +7,6 @@ import PropTypes from 'prop-types';
 import LottieView from 'lottie-react-native';
 import { ptBR, enUS } from 'date-fns/locale';
 import * as Animatable from 'react-native-animatable';
-import { AdMobBanner } from 'react-native-admob';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Maruska from '~/components/MaruskaLogo/index';
 import changeStatus from '~/store/modules/modalVisible/actions';
@@ -132,11 +131,6 @@ export default function Home({ navigation }) {
             </Box>
           </Animatable.View>
         )}
-      />
-      <AdMobBanner
-        adSize="fullBanner"
-        adUnitID="ca-app-pub-7615541994083029/1276434098"
-        onAdFailedToLoad={error => console.error(error)}
       />
     </Container>
   );
