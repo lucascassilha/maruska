@@ -174,7 +174,6 @@ android {
         releaseStaging {
             resValue "string", "CodePushDeploymentKey", '"zIqOz6Qsg2Jv0c8Q4flhz5S0SKAuCFEUng419"'
             matchingFallbacks = ['release']
-            signingConfig signingConfigs.debug
         }
         release {
             resValue "string", "CodePushDeploymentKey", '"7t_87MA4jXhbBTyN5dHY2ytShdg67He6gbz0H"'
