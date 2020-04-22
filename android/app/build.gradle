@@ -200,7 +200,6 @@ android {
 dependencies {
     implementation project(':react-native-calendar-events')
     implementation project(':react-native-onesignal')
-    implementation project(':react-native-admob')
     implementation project(':react-native-push-notification')
     implementation project(':react-native-vector-icons')
     implementation 'androidx.appcompat:appcompat:1.1.0-rc01'
@@ -227,4 +226,3 @@ task copyDownloadableDepsToLibs(type: Copy) {
 }
 
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)
-apply plugin: 'com.google.gms.google-services'

@@ -5,7 +5,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Alert, Linking } from 'react-native';
 import LottieView from 'lottie-react-native';
 import * as Animatable from 'react-native-animatable';
-import { AdMobBanner } from 'react-native-admob';
 import changeStatus from '~/store/modules/modalVisible/actions';
 import Modal from './AddModal/index';
 import { deleteLocation } from '~/store/modules/places/actions';
@@ -107,11 +106,6 @@ export default function Places() {
             </Box>
           </Animatable.View>
         )}
-      />
-      <AdMobBanner
-        adSize="fullBanner"
-        adUnitID="ca-app-pub-7615541994083029/1276434098"
-        onAdFailedToLoad={error => console.error(error)}
       />
     </Container>
   );

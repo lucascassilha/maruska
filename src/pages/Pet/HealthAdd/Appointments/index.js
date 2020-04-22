@@ -7,7 +7,6 @@ import { format, subDays } from 'date-fns';
 import DatePicker from 'react-native-date-picker';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import RNCalendarEvents from 'react-native-calendar-events';
-import analytics from '@react-native-firebase/analytics';
 import Button from '~/components/Button/index';
 import {
   petAppointment,
@@ -111,20 +110,15 @@ export default function AppointAdd({ route, navigation }) {
         Math.random() * 10000
       )}${new Date().getMilliseconds()}`;
       setCalendar(id);
-      const a = RNCalendarEvents.saveEvent(
-        `${petID} ${translate('appointment')}`,
-        {
-          id,
-          startDate: date,
-          endDate: date,
-          allDay: false,
-          location: clinic,
-        }
-      );
+      RNCalendarEvents.saveEvent(`${petID} ${translate('appointment')}`, {
+        id,
+        startDate: date,
+        endDate: date,
+        allDay: false,
+        location: clinic,
+      });
 
-      analytics().logEvent('add_to_calendar');
       Alert.alert('Maruska', translate('addedToCalendar'));
-      console.log(a);
     } else {
       Alert.alert('Maruska', translate('calendarError'));
       Vibration.vibrate();

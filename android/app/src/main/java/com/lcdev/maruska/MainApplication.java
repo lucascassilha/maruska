@@ -7,7 +7,6 @@ import com.facebook.react.ReactApplication;
 import com.calendarevents.CalendarEventsPackage;
 import com.geektime.rnonesignalandroid.ReactNativeOneSignalPackage;
 import com.microsoft.codepush.react.CodePush;
-import com.sbugert.rnadmob.RNAdMobPackage;
 import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.facebook.react.ReactNativeHost;
