@@ -96,12 +96,6 @@ export default function Settings() {
           </IconHolder>
           <Label>{translate('reportBug')}</Label>
         </Button>
-        <Button onPress={handleLink}>
-          <IconHolder color="#33BFEB">
-            <Icon name="coffee" color="#fff" size={20} />
-          </IconHolder>
-          <Label>{translate('coffee')}</Label>
-        </Button>
         <Button onPress={handleAlert}>
           <IconHolder color="#EBE433">
             <Icon name="account-multiple" color="#fff" size={20} />
@@ -113,6 +107,12 @@ export default function Settings() {
             <Icon name="weight" color="#fff" size={20} />
           </IconHolder>
           <Label>{`${translate('changeUnit')} - ${weight} `}</Label>
+        </Button>
+        <Button onPress={() => Linking.openURL('https://lucascassilha.xyz/')}>
+          <IconHolder color="#000">
+            <Icon name="code-tags" color="#fff" size={20} />
+          </IconHolder>
+          <Label>{translate('developer')}</Label>
         </Button>
         <Version>v1.0.2</Version>
         <Version>DevelopLC - 2020</Version>
