@@ -175,7 +175,6 @@ android {
             matchingFallbacks = ['release']
         }
         release {
-            resValue "string", "CodePushDeploymentKey", '"7t_87MA4jXhbBTyN5dHY2ytShdg67He6gbz0H"'
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
