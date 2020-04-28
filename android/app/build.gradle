@@ -172,7 +172,6 @@ android {
         }
 
         releaseStaging {
-            resValue "string", "CodePushDeploymentKey", '"zIqOz6Qsg2Jv0c8Q4flhz5S0SKAuCFEUng419"'
             matchingFallbacks = ['release']
         }
         release {

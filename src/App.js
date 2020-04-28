@@ -5,13 +5,14 @@ import { Provider } from 'react-redux';
 import './config/ReactotronConfig';
 import CodePush from 'react-native-code-push';
 import OneSignal from 'react-native-onesignal';
+import { ONE_SIGNAL_ID } from 'react-native-dotenv';
 
 import { store, persistor } from '~/store/index';
 
 import Routes from './routes';
 
 function App() {
-  OneSignal.init('3a5cc85d-1eb6-4169-bfee-920ecfd410d0', {
+  OneSignal.init(ONE_SIGNAL_ID, {
     kOSSettingsKeyAutoPrompt: true,
   });
 
