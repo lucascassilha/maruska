@@ -76,7 +76,7 @@ export default function AppointAdd({ route, navigation }) {
 
     dispatch(
       petAppointment(
-        { ...appointment, time, day, phone, notificationID, calendarID },
+        { ...appointment, time, day, phone, notificationID },
         petID
       )
     );

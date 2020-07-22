@@ -7,11 +7,15 @@ buildscript {
     }
 }
 
+
 apply plugin: 'com.onesignal.androidsdk.onesignal-gradle-plugin'
 
 apply plugin: "com.android.application"
 
 import com.android.build.OutputFile
+
+apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
+
 
 
 
@@ -146,7 +150,7 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 2
-        versionName "1.0.2"
+        versionName "1.0.3"
         multiDexEnabled true
     }
     splits {
@@ -168,15 +172,16 @@ android {
     buildTypes {
         debug {
             signingConfig signingConfigs.debug
-            resValue "string", "CodePushDeploymentKey", '""'
         }
 
         releaseStaging {
             matchingFallbacks = ['release']
+            resValue "string", "CodePushDeploymentKey", project.env.get("CODE_PUSH_STAGING")
         }
         release {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            resValue "string", "CodePushDeploymentKey", project.env.get("CODE_PUSH_RELEASE")
         }
     }
     // applicationVariants are e.g. debug, release

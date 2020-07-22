@@ -48,3 +48,12 @@ export const IconHolder = styled.View`
   justify-content: center;
   background-color: ${props => props.color};
 `;
+
+export const Comment = styled.Text`
+  font-size: 12px;
+  color: #000;
+  opacity: 0.5;
+  text-align: center;
+  margin: 5px 0px;
+  font-family: 'OpenSans-Regular';
+`;
