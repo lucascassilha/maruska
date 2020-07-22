@@ -4,7 +4,15 @@ import { Alert, Linking, Share } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { format } from 'date-fns';
 import { useSelector, useDispatch } from 'react-redux';
-import { Container, Box, Button, Label, Version, IconHolder } from './styles';
+import {
+  Container,
+  Box,
+  Button,
+  Label,
+  Version,
+  IconHolder,
+  Comment,
+} from './styles';
 import translate from '~/locales';
 import terms from './terms';
 
@@ -74,7 +82,8 @@ export default function Settings() {
               message: `${translate(
                 'checkOut'
               )} app: https://play.google.com/store/apps/details?id=com.lcdev.maruska`,
-            })}
+            })
+          }
         >
           <IconHolder color="#eb3349">
             <Icon name="share" color="#fff" size={20} />
@@ -83,7 +92,8 @@ export default function Settings() {
         </Button>
         <Button
           onPress={() =>
-            Linking.openURL('market://details?id=com.lcdev.maruska')}
+            Linking.openURL('market://details?id=com.lcdev.maruska')
+          }
         >
           <IconHolder color="#33EBBF">
             <Icon name="star" color="#fff" size={20} />
@@ -114,9 +124,9 @@ export default function Settings() {
           </IconHolder>
           <Label>{translate('developer')}</Label>
         </Button>
-        <Version>v1.0.2</Version>
+        <Version>v1.0.3</Version>
         <Version>DevelopLC - 2020</Version>
-        <Version>{translate('byUsing')}</Version>
+        <Comment>{translate('byUsing')}</Comment>
       </Box>
     </Container>
   );
