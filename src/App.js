@@ -12,7 +12,7 @@ import { store, persistor } from '~/store/index';
 import Routes from './routes';
 
 function App() {
-  OneSignal.init(Config.RN_ONE_SIGNAL_ID, {
+  OneSignal.init(Config.ONE_SIGNAL_ID, {
     kOSSettingsKeyAutoPrompt: true,
   });
 

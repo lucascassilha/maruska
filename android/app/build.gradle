@@ -176,12 +176,12 @@ android {
 
         releaseStaging {
             matchingFallbacks = ['release']
-            resValue "string", "CodePushDeploymentKey", project.env.get("RN_CODE_PUSH_STAGING")
+            resValue "string", "CodePushDeploymentKey", project.env.get("CODE_PUSH_STAGING")
         }
         release {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
-            resValue "string", "CodePushDeploymentKey", project.env.get("RN_CODE_PUSH_RELEASE")
+            resValue "string", "CodePushDeploymentKey", project.env.get("CODE_PUSH_RELEASE")
         }
     }
     // applicationVariants are e.g. debug, release
