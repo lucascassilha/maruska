@@ -52,24 +52,3 @@ export const AnimationLabel = styled.Text`
   opacity: 0.5;
   font-family: 'OpenSans-Regular';
 `;
-
-export const Not = styled.TouchableOpacity`
-  position: absolute;
-  right: 0;
-  top: 0;
-  margin-top: 10px;
-  margin-right: 20px;
-`;
-
-export const Ball = styled.View`
-  height: 8px;
-  width: 8px;
-  border-radius: 4px;
-  background-color: #f5cb42;
-  position: absolute;
-  right: 0;
-  margin-right: 3px;
-  margin-top: 3px;
-  z-index: 1;
-  opacity: ${props => (props.empty ? 0 : 1)};
-`;

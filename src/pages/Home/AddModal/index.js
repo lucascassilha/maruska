@@ -11,11 +11,15 @@ import { addPet } from '~/store/modules/pets/actions';
 import Button from '~/components/Button/index';
 import translate, { locale } from '~/locales';
 
+import { TouchableOpacity } from 'react-native';
+
 import {
   Wrapper,
   Container,
   Box,
   Scroll,
+  TitleBox,
+  TitleImage,
   Title,
   InputLabel,
   Label,
@@ -112,7 +116,13 @@ export default function AddModal() {
               errors,
             }) => (
               <Scroll showsVerticalScrollIndicator={false}>
-                <Title>{translate('addPet')}</Title>
+                <TitleBox>
+                  <TouchableOpacity onPress={handleClose}>
+                    <Icon name="chevron-left" color="#000" size={25} />
+                  </TouchableOpacity>
+                  <Title>{translate('addPet')}</Title>
+                  <TitleImage source={require('~/assets/img/addpet.png')} />
+                </TitleBox>
                 <Label>{translate('addKind')}</Label>
                 <SelectorBox>
                   <CheckHolder>
@@ -122,8 +132,8 @@ export default function AddModal() {
                           ? 'checked'
                           : 'unchecked'
                       }
-                      color="#eb3349"
-                      uncheckedColor="#eb3349"
+                      color="#470000"
+                      uncheckedColor="#470000"
                       value={values.kind}
                       onPress={() =>
                         setFieldValue('kind', translate('dogKind'))
@@ -131,7 +141,7 @@ export default function AddModal() {
                     />
                     <Icon
                       name="dog"
-                      color="#eb3349"
+                      color="#4287f5"
                       size={25}
                       style={{ marginRight: 5 }}
                     />
@@ -139,19 +149,20 @@ export default function AddModal() {
                   </CheckHolder>
                   <CheckHolder>
                     <Checkbox
-                      color="#eb3349"
-                      uncheckedColor="#eb3349"
+                      color="#470000"
+                      uncheckedColor="#470000"
                       status={
                         values.kind === translate('catKind')
                           ? 'checked'
                           : 'unchecked'
                       }
                       onPress={() =>
-                        setFieldValue('kind', translate('catKind'))}
+                        setFieldValue('kind', translate('catKind'))
+                      }
                     />
                     <Icon
                       name="cat"
-                      color="#eb3349"
+                      color="#42f54b"
                       size={25}
                       style={{ marginRight: 5 }}
                     />
@@ -164,15 +175,15 @@ export default function AddModal() {
                           ? 'checked'
                           : 'unchecked'
                       }
-                      color="#eb3349"
-                      uncheckedColor="#eb3349"
+                      color="#470000"
+                      uncheckedColor="#470000"
                       onPress={() =>
                         setFieldValue('kind', translate('otherKind'))
                       }
                     />
                     <Icon
                       name="duck"
-                      color="#eb3349"
+                      color="#f5ec42"
                       size={25}
                       style={{ marginRight: 5 }}
                     />
@@ -189,13 +200,13 @@ export default function AddModal() {
                           ? 'checked'
                           : 'unchecked'
                       }
-                      color="#eb3349"
-                      uncheckedColor="#eb3349"
+                      color="#470000"
+                      uncheckedColor="#470000"
                       onPress={() => setFieldValue('sex', translate('sexMale'))}
                     />
                     <Icon
                       name="gender-male"
-                      color="#eb3349"
+                      color="#470000"
                       size={25}
                       style={{ marginRight: 5 }}
                     />
@@ -203,8 +214,8 @@ export default function AddModal() {
                   </CheckHolder>
                   <CheckHolder>
                     <Checkbox
-                      color="#eb3349"
-                      uncheckedColor="#eb3349"
+                      color="#470000"
+                      uncheckedColor="#470000"
                       status={
                         values.sex === translate('sexFem')
                           ? 'checked'
@@ -214,7 +225,7 @@ export default function AddModal() {
                     />
                     <Icon
                       name="gender-female"
-                      color="#eb3349"
+                      color="#470000"
                       size={25}
                       style={{ marginRight: 5 }}
                     />
@@ -227,14 +238,15 @@ export default function AddModal() {
                           ? 'checked'
                           : 'unchecked'
                       }
-                      color="#eb3349"
-                      uncheckedColor="#eb3349"
+                      color="#470000"
+                      uncheckedColor="#470000"
                       onPress={() =>
-                        setFieldValue('sex', translate('sexOther'))}
+                        setFieldValue('sex', translate('sexOther'))
+                      }
                     />
                     <Icon
                       name="gender-male-female"
-                      color="#eb3349"
+                      color="#470000"
                       size={25}
                       style={{ marginRight: 5 }}
                     />
@@ -257,8 +269,8 @@ export default function AddModal() {
                   <Checkbox
                     status={undefDate ? 'checked' : 'unchecked'}
                     onPress={() => setUndef(!undefDate)}
-                    color="#eb3349"
-                    uncheckedColor="#eb3349"
+                    color="#470000"
+                    uncheckedColor="#470000"
                   />
                   <InputLabel>{translate('undefDate')}</InputLabel>
                 </CheckHolder>
@@ -302,10 +314,10 @@ export default function AddModal() {
                   returnKeyType="send"
                   onSubmitEditing={handleSubmit}
                 />
-                <Button title={translate('addButton')} onPress={handleSubmit} />
-                <CancelHolder onPress={handleClose}>
-                  <CancelLabel>{translate('cancelButton')}</CancelLabel>
-                </CancelHolder>
+                <Button
+                  title={translate('registerPet')}
+                  onPress={handleSubmit}
+                />
               </Scroll>
             )}
           </Formik>

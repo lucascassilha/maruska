@@ -7,13 +7,13 @@ import PropTypes from 'prop-types';
 import LottieView from 'lottie-react-native';
 import { ptBR, enUS } from 'date-fns/locale';
 import * as Animatable from 'react-native-animatable';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import Maruska from '~/components/MaruskaLogo/index';
 import changeStatus from '~/store/modules/modalVisible/actions';
 import Modal from './AddModal/index';
 import translate, { locale } from '~/locales';
 
-import FAB from '~/components/FAB/index';
+import FAB from '~/components/FAB';
+
+import Header from '~/components/Header';
 
 import {
   Container,
@@ -25,30 +25,16 @@ import {
   Info,
   AnimationHolder,
   AnimationLabel,
-  Not,
-  Ball,
 } from './styles';
-
-import logo from '~/assets/img/logo.png';
 
 export default function Home({ navigation }) {
   const pets = useSelector(state => state.pets.data);
-  const notifications = useSelector(state => state.notifications.data.length);
   const [petData, setPetData] = useState([]);
-  const [notEmpty, setEmpty] = useState(true);
 
   const dispatch = useDispatch();
   const handleOpen = async () => {
     dispatch(changeStatus(0));
   };
-
-  useEffect(() => {
-    if (notifications > 0) {
-      setEmpty(false);
-    } else if (notifications === 0) {
-      setEmpty(true);
-    }
-  }, [notifications]);
 
   useEffect(() => {
     const currentDate = new Date();
@@ -76,13 +62,9 @@ export default function Home({ navigation }) {
   return (
     <Container>
       <StatusBar backgroundColor="#fafafa" barStyle="dark-content" />
-      <Maruska source={logo} />
       <Modal />
       <FAB onPress={handleOpen} />
-      <Not onPress={() => navigation.navigate('Notifications')}>
-        <Ball empty={notEmpty} />
-        <Icon name="bell" size={25} color="#8e1120" />
-      </Not>
+      <Header navigation={navigation} />
       <PetList
         contentContainerStyle={{
           padding: 20,
