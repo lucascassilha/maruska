@@ -21,9 +21,8 @@ import {
   TextHolder,
   AnimationHolder,
   AnimationLabel,
+  Title,
 } from './styles';
-import Maruska from '~/components/MaruskaLogo/index';
-
 import FAB from '~/components/FAB/index';
 
 export default function Places() {
@@ -58,9 +57,9 @@ export default function Places() {
 
   return (
     <Container>
-      <Maruska />
       <FAB onPress={handleOpen} />
       <Modal />
+      <Title>Places</Title>
       <PlaceList
         contentContainerStyle={{
           padding: 20,

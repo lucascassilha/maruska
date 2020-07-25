@@ -114,7 +114,6 @@ export default function Profile({ route, navigation }) {
 
   return (
     <Container>
-      <StatusBar backgroundColor="#eb3349" barStyle="light-content" />
       <EditModal petInformation={pet} />
       <PetInfo>
         <Header>

@@ -3,6 +3,7 @@ import styled from 'styled-components/native';
 export const Container = styled.View`
   flex: 1;
   background-color: #fafafa;
+  padding-top: 20px;
 `;
 
 export const PetList = styled.FlatList.attrs({})``;

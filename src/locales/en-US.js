@@ -198,4 +198,5 @@ export default {
   addedToCalendar: 'The event has been registered in your calendar',
   developer: 'The developer',
   registerPet: 'Register pet',
+  config: 'Settings',
 };

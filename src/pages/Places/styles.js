@@ -3,13 +3,13 @@ import styled from 'styled-components/native';
 export const Container = styled.View`
   background-color: #fff;
   flex: 1;
+  padding-top: 20px;
 `;
 
 export const PlaceList = styled.FlatList``;
 
 export const Box = styled.View`
   background-color: #eb3349;
-  margin: 10px 0px;
   padding: 20px;
   border-radius: 4px;
   align-items: center;
@@ -55,4 +55,13 @@ export const AnimationLabel = styled.Text`
   opacity: 0.5;
   text-align: center;
   font-family: 'OpenSans-Regular';
+`;
+
+export const Title = styled.Text`
+  font-family: 'OpenSans-BoldItalic';
+  font-size: 18px;
+  color: #000;
+  margin: 10px;
+  margin-left: 20px;
+  margin-bottom: -10px;
 `;

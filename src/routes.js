@@ -25,355 +25,23 @@ import LostPet from '~/pages/Pet/LostPet/index';
 
 const Stack = createStackNavigator();
 
-function Pet() {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="Home"
-        component={Home}
-        options={{ headerShown: false, headerMode: 'screen' }}
-      />
-      <Stack.Screen
-        name="Pet"
-        component={Profile}
-        options={({ route }) => ({
-          title: route.params.pet.name,
-          headerStyle: {
-            backgroundColor: '#eb3349',
-          },
-          headerBackTitleStyle: null,
-          headerTintColor: '#fff',
-          headerTitleAlign: 'center',
-          resetOnBlur: true,
-          headerTitleStyle: {
-            color: '#fff',
-            fontSize: 20,
-            fontFamily: 'OpenSans-Bold',
-          },
-          headerBackImage: () => {
-            return <Icon name="chevron-left" color="#fff" size={25} />;
-          },
-        })}
-      />
-      <Stack.Screen
-        name="Avatar"
-        component={Avatar}
-        options={() => ({
-          title: translate('pictureTitle'),
-          headerStyle: {
-            backgroundColor: '#eb3349',
-          },
-          headerBackTitleStyle: null,
-          headerTintColor: '#fff',
-          headerTitleAlign: 'center',
-          resetOnBlur: true,
-          headerTitleStyle: {
-            color: '#fff',
-            fontSize: 20,
-            fontFamily: 'OpenSans-Bold',
-          },
-          headerBackImage: () => {
-            return <Icon name="chevron-left" color="#fff" size={25} />;
-          },
-        })}
-      />
-      <Stack.Screen
-        name="Health"
-        component={Health}
-        options={() => ({
-          title: translate('healthTitle'),
-          headerStyle: {
-            backgroundColor: '#eb3349',
-          },
-          headerBackTitleStyle: null,
-          headerTintColor: '#fff',
-          headerTitleAlign: 'center',
-          resetOnBlur: true,
-          headerTitleStyle: {
-            color: '#fff',
-            fontSize: 20,
-            fontFamily: 'OpenSans-Bold',
-          },
-          headerBackImage: () => {
-            return <Icon name="chevron-left" color="#fff" size={25} />;
-          },
-        })}
-      />
-      <Stack.Screen
-        name="DocAdd"
-        component={DocAdd}
-        options={() => ({
-          title: translate('addDoc'),
-          headerStyle: {
-            backgroundColor: '#eb3349',
-          },
-          headerBackTitleStyle: null,
-          headerTintColor: '#fff',
-          headerTitleAlign: 'center',
-          resetOnBlur: true,
-          headerTitleStyle: {
-            color: '#fff',
-            fontSize: 20,
-            fontFamily: 'OpenSans-Bold',
-          },
-          headerRight: () => (
-            <TouchableOpacity
-              onPress={() => {
-                Alert.alert(translate('infoTitle'), translate('docAddInfo'));
-              }}
-              style={{
-                alignItems: 'center',
-                justifyContent: 'center',
-                marginRight: 20,
-              }}
-            >
-              <Icon name="information" color="#fff" size={25} />
-            </TouchableOpacity>
-          ),
-          headerBackImage: () => {
-            return <Icon name="chevron-left" color="#fff" size={25} />;
-          },
-        })}
-      />
-      <Stack.Screen
-        name="AppointAdd"
-        component={AppointAdd}
-        options={({ route }) => ({
-          title: translate('addApp'),
-          headerStyle: {
-            backgroundColor: '#eb3349',
-          },
-          headerBackTitleStyle: null,
-          headerTintColor: '#fff',
-          headerTitleAlign: 'center',
-          resetOnBlur: true,
-          headerTitleStyle: {
-            color: '#fff',
-            fontSize: 20,
-            fontFamily: 'OpenSans-Bold',
-          },
-          headerBackImage: () => {
-            return <Icon name="chevron-left" color="#fff" size={25} />;
-          },
-        })}
-      />
-      <Stack.Screen
-        name="SurgeryAdd"
-        component={SurgeryAdd}
-        options={() => ({
-          title: translate('addSurg'),
-          headerStyle: {
-            backgroundColor: '#eb3349',
-          },
-          headerBackTitleStyle: null,
-          headerTintColor: '#fff',
-          headerTitleAlign: 'center',
-          resetOnBlur: true,
-          headerTitleStyle: {
-            color: '#fff',
-            fontSize: 20,
-            fontFamily: 'OpenSans-Bold',
-          },
-          headerBackImage: () => {
-            return <Icon name="chevron-left" color="#fff" size={25} />;
-          },
-        })}
-      />
-      <Stack.Screen
-        name="ProblemAdd"
-        component={ProblemAdd}
-        options={() => ({
-          title: translate('addProblem'),
-          headerStyle: {
-            backgroundColor: '#eb3349',
-          },
-          headerBackTitleStyle: null,
-          headerTintColor: '#fff',
-          headerTitleAlign: 'center',
-          resetOnBlur: true,
-          headerTitleStyle: {
-            color: '#fff',
-            fontSize: 20,
-            fontFamily: 'OpenSans-Bold',
-          },
-          headerBackImage: () => {
-            return <Icon name="chevron-left" color="#fff" size={25} />;
-          },
-        })}
-      />
-      <Stack.Screen
-        name="Weight"
-        component={Weight}
-        options={() => ({
-          title: translate('weightTitle'),
-          headerStyle: {
-            backgroundColor: '#eb3349',
-          },
-          headerBackTitleStyle: null,
-          headerTintColor: '#fff',
-          headerTitleAlign: 'center',
-          resetOnBlur: true,
-          headerTitleStyle: {
-            color: '#fff',
-            fontSize: 20,
-            fontFamily: 'OpenSans-Bold',
-          },
-          headerRight: () => (
-            <TouchableOpacity
-              onPress={() => {
-                Alert.alert(translate('infoTitle'), translate('weightAddInfo'));
-              }}
-              style={{
-                alignItems: 'center',
-                justifyContent: 'center',
-                marginRight: 30,
-              }}
-            >
-              <Icon name="information" color="#fff" size={25} />
-            </TouchableOpacity>
-          ),
-          headerBackImage: () => {
-            return <Icon name="chevron-left" color="#fff" size={25} />;
-          },
-        })}
-      />
-      <Stack.Screen
-        name="Vaccines"
-        component={Vaccines}
-        options={() => ({
-          title: translate('vacTitle'),
-          headerStyle: {
-            backgroundColor: '#eb3349',
-          },
-          headerBackTitleStyle: null,
-          headerTintColor: '#fff',
-          headerTitleAlign: 'center',
-          resetOnBlur: true,
-          headerTitleStyle: {
-            color: '#fff',
-            fontSize: 20,
-            fontFamily: 'OpenSans-Bold',
-          },
-          headerRight: () => (
-            <TouchableOpacity
-              onPress={() => {
-                Alert.alert(translate('infoTitle'), translate('vacAddInfo'));
-              }}
-              style={{
-                alignItems: 'center',
-                justifyContent: 'center',
-                marginRight: 20,
-              }}
-            >
-              <Icon name="information" color="#fff" size={25} />
-            </TouchableOpacity>
-          ),
-          headerBackImage: () => {
-            return <Icon name="chevron-left" color="#fff" size={25} />;
-          },
-        })}
-      />
-      <Stack.Screen
-        name="Medications"
-        component={Medications}
-        options={() => ({
-          title: translate('medTitle'),
-          headerStyle: {
-            backgroundColor: '#eb3349',
-          },
-          headerBackTitleStyle: null,
-          headerTintColor: '#fff',
-          headerTitleAlign: 'center',
-          resetOnBlur: true,
-          headerTitleStyle: {
-            color: '#fff',
-            fontSize: 20,
-            fontFamily: 'OpenSans-Bold',
-          },
-          headerRight: () => (
-            <TouchableOpacity
-              onPress={() => {
-                Alert.alert(translate('infoTitle'), translate('medAddInfo'));
-              }}
-              style={{
-                alignItems: 'center',
-                justifyContent: 'center',
-                marginRight: 20,
-              }}
-            >
-              <Icon name="information" color="#fff" size={25} />
-            </TouchableOpacity>
-          ),
-          headerBackImage: () => {
-            return <Icon name="chevron-left" color="#fff" size={25} />;
-          },
-        })}
-      />
-      <Stack.Screen
-        name="LostPet"
-        component={LostPet}
-        options={() => ({
-          title: translate('contact'),
-          headerStyle: {
-            backgroundColor: '#eb3349',
-          },
-          headerBackTitleStyle: null,
-          headerTintColor: '#fff',
-          headerTitleAlign: 'center',
-          resetOnBlur: true,
-          headerTitleStyle: {
-            color: '#fff',
-            fontSize: 20,
-            fontFamily: 'OpenSans-Bold',
-          },
-          headerBackImage: () => {
-            return <Icon name="chevron-left" color="#fff" size={25} />;
-          },
-        })}
-      />
-      <Stack.Screen
-        name="Notifications"
-        component={Notifications}
-        options={() => ({
-          title: translate('not'),
-          headerStyle: {
-            backgroundColor: '#eb3349',
-          },
-          headerBackTitleStyle: null,
-          headerTintColor: '#fff',
-          headerTitleAlign: 'center',
-          resetOnBlur: true,
-          headerTitleStyle: {
-            color: '#fff',
-            fontSize: 20,
-            fontFamily: 'OpenSans-Bold',
-          },
-          headerBackImage: () => {
-            return <Icon name="chevron-left" color="#fff" size={25} />;
-          },
-        })}
-      />
-    </Stack.Navigator>
-  );
-}
-
 const Tab = createMaterialBottomTabNavigator();
 
-export default function Routes() {
+function Tabs() {
   return (
     <Tab.Navigator
       shifting
       initialRouteName="Home"
       activeColor="#fff"
       inactiveColor="#ad0c00"
-      barStyle={{ backgroundColor: '#d92316' }}
+      barStyle={{ backgroundColor: '#470000' }}
     >
       <Tab.Screen
         name="Pets"
-        component={Pet}
+        component={Home}
         options={{
           titleStyle: {
-            fontFamily: 'OpenSans-Regular',
+            fontFamily: 'OpenSans-Bold',
           },
           tabBarIcon: ({ color }) => (
             <Icon name="paw" size={25} color={color} />
@@ -408,10 +76,112 @@ export default function Routes() {
   );
 }
 
-Routes.propTypes = {
+export default function Routes() {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerBackImage: () => {
+          return <Icon name="chevron-left" color="#000" size={25} />;
+        },
+      }}
+    >
+      <Stack.Screen
+        name="Home"
+        component={Tabs}
+        options={{ headerShown: false, headerMode: 'screen' }}
+      />
+      <Stack.Screen
+        name="Pet"
+        component={Profile}
+        options={({ route }) => ({
+          title: route.params.pet.name,
+        })}
+      />
+      <Stack.Screen
+        name="Avatar"
+        component={Avatar}
+        options={() => ({
+          title: translate('pictureTitle'),
+        })}
+      />
+      <Stack.Screen
+        name="Health"
+        component={Health}
+        options={() => ({
+          title: translate('healthTitle'),
+        })}
+      />
+      <Stack.Screen
+        name="DocAdd"
+        component={DocAdd}
+        options={() => ({
+          title: translate('addDoc'),
+        })}
+      />
+      <Stack.Screen
+        name="AppointAdd"
+        component={AppointAdd}
+        options={({ route }) => ({
+          title: translate('addApp'),
+        })}
+      />
+      <Stack.Screen
+        name="SurgeryAdd"
+        component={SurgeryAdd}
+        options={() => ({
+          title: translate('addSurg'),
+        })}
+      />
+      <Stack.Screen
+        name="ProblemAdd"
+        component={ProblemAdd}
+        options={() => ({
+          title: translate('addProblem'),
+        })}
+      />
+      <Stack.Screen
+        name="Weight"
+        component={Weight}
+        options={() => ({
+          title: translate('weightTitle'),
+        })}
+      />
+      <Stack.Screen
+        name="Vaccines"
+        component={Vaccines}
+        options={() => ({
+          title: translate('vacTitle'),
+        })}
+      />
+      <Stack.Screen
+        name="Medications"
+        component={Medications}
+        options={() => ({
+          title: translate('medTitle'),
+        })}
+      />
+      <Stack.Screen
+        name="LostPet"
+        component={LostPet}
+        options={() => ({
+          title: translate('contact'),
+        })}
+      />
+      <Stack.Screen
+        name="Notifications"
+        component={Notifications}
+        options={() => ({
+          title: translate('not'),
+        })}
+      />
+    </Stack.Navigator>
+  );
+}
+
+Tabs.propTypes = {
   color: PropTypes.string,
 };
 
-Routes.defaultProps = {
+Tabs.defaultProps = {
   color: '#fff',
 };

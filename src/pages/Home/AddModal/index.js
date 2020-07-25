@@ -141,7 +141,7 @@ export default function AddModal() {
                     />
                     <Icon
                       name="dog"
-                      color="#4287f5"
+                      color="#000"
                       size={25}
                       style={{ marginRight: 5 }}
                     />
@@ -162,7 +162,7 @@ export default function AddModal() {
                     />
                     <Icon
                       name="cat"
-                      color="#42f54b"
+                      color="#000"
                       size={25}
                       style={{ marginRight: 5 }}
                     />
@@ -183,7 +183,7 @@ export default function AddModal() {
                     />
                     <Icon
                       name="duck"
-                      color="#f5ec42"
+                      color="#000"
                       size={25}
                       style={{ marginRight: 5 }}
                     />

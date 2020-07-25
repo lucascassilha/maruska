@@ -61,7 +61,11 @@ export default function Home({ navigation }) {
 
   return (
     <Container>
-      <StatusBar backgroundColor="#fafafa" barStyle="dark-content" />
+      <StatusBar
+        backgroundColor="transparent"
+        translucent
+        barStyle="dark-content"
+      />
       <Modal />
       <FAB onPress={handleOpen} />
       <Header navigation={navigation} />
