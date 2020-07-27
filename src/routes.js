@@ -80,6 +80,15 @@ export default function Routes() {
   return (
     <Stack.Navigator
       screenOptions={{
+        headerTitleStyle: {
+          fontFamily: 'OpenSans-BoldItalic',
+          marginLeft: -25,
+        },
+        headerStyle: {
+          elevation: 0,
+          shadowOpacity: 0,
+          borderBottomWidth: 0,
+        },
         headerBackImage: () => {
           return <Icon name="chevron-left" color="#000" size={25} />;
         },
@@ -93,9 +102,7 @@ export default function Routes() {
       <Stack.Screen
         name="Pet"
         component={Profile}
-        options={({ route }) => ({
-          title: route.params.pet.name,
-        })}
+        options={{ headerShown: false, headerMode: 'screen' }}
       />
       <Stack.Screen
         name="Avatar"

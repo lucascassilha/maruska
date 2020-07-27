@@ -9,15 +9,19 @@ import Button from '~/components/Button/index';
 import { deletePet } from '~/store/modules/pets/actions';
 import translate from '~/locales';
 
+import PageHeader from '~/components/PageHeader';
+
 import {
   Container,
+  Box,
+  Title,
   PetInfo,
   PetMenu,
   Header,
   Avatar,
   InfoHolder,
   InfoTextHolder,
-  TextLine,
+  TextColumn,
   Label,
   Info,
   MenuTitle,
@@ -26,7 +30,6 @@ import {
   ButtonHolder,
   Gradient,
   ImageIcon,
-  Dot,
 } from './styles';
 
 import vaccine from '~/assets/img/vaccine.png';
@@ -37,7 +40,7 @@ import camera from '~/assets/img/camera.png';
 import pencil from '~/assets/img/pencil.png';
 
 export default function Profile({ route, navigation }) {
-  const { pet } = route.params;
+  const { pet, title } = route.params;
   const weightLabel = useSelector(state => state.weight);
 
   const dispatch = useDispatch();
@@ -113,87 +116,47 @@ export default function Profile({ route, navigation }) {
   };
 
   return (
-    <Container>
-      <EditModal petInformation={pet} />
-      <PetInfo>
-        <Header>
-          <Avatar
-            nullImage={pet.avatar}
-            source={
-              pet.avatar ? { uri: `data:image/*;base64,${pet.avatar}` } : null
-            }
-          />
-        </Header>
-        <InfoHolder>
-          <TextLine>
-            <InfoTextHolder>
-              <Label>{translate('infoWeight')}</Label>
-              <Info>{`${weightData} ${weightLabel}`}</Info>
-            </InfoTextHolder>
-            <InfoTextHolder>
-              <Label>{translate('infoKind')}</Label>
-              <Info>{pet.kind}</Info>
-            </InfoTextHolder>
-          </TextLine>
-          <TextLine>
-            <InfoTextHolder>
-              <Label>{translate('infoVac')}</Label>
-              <Info>{pet.lastVaccine || '--/--/--'}</Info>
-            </InfoTextHolder>
-            <InfoTextHolder>
-              <Label>{translate('infoApp')}</Label>
-              <Info>{pet.lastAppoint || '--/--/--'}</Info>
-            </InfoTextHolder>
-          </TextLine>
-          <TextLine>
-            <InfoTextHolder>
-              <Label>{translate('infoBreed')}</Label>
-              <Info>{pet.breed || translate('notInformed')}</Info>
-            </InfoTextHolder>
-            <InfoTextHolder>
-              <Label>{translate('infoSex')}</Label>
-              <Info>{pet.sex}</Info>
-            </InfoTextHolder>
-          </TextLine>
-        </InfoHolder>
-      </PetInfo>
-      <PetMenu>
-        <MenuTitle>{translate('petMenu')}</MenuTitle>
-        <Animatable.View animation="slideInRight">
-          <MenuHolder
-            showsHorizontalScrollIndicator={false}
-            horizontal
-            data={buttons}
-            keyExtractor={item => String(item.id)}
-            renderItem={({ item }) => (
-              <ButtonHolder onPress={item.onPress}>
-                <Gradient colors={item.colors}>
-                  <ImageIcon source={item.image} />
-                </Gradient>
-              </ButtonHolder>
-            )}
-          />
-        </Animatable.View>
-        <MenuTitle>{translate('emerMenu')}</MenuTitle>
-        <EmergencyHolder>
-          <Button
-            secondary
-            title={translate('emerLabel')}
-            onPress={() =>
-              navigation.navigate('LostPet', { changeInfo: false, pet })
-            }
-          />
-        </EmergencyHolder>
-        <MenuTitle>{translate('optMenu')}</MenuTitle>
-        <EmergencyHolder>
-          <Button
-            secondary
-            title={translate('optLabel')}
-            onPress={handleDeletePet}
-          />
-        </EmergencyHolder>
-      </PetMenu>
-    </Container>
+    <>
+      <PageHeader
+        title={pet.name}
+        source={pet.image ? pet.image : undefined}
+        icons
+        navigation={navigation}
+        onDelete={handleDeletePet}
+        onEdit={handleOpen}
+      />
+      <Container>
+        <EditModal petInformation={pet} />
+        <Box>
+          <Title>Pet Menu</Title>
+        </Box>
+        <Box>
+          <Title>{translate('informations')}</Title>
+          <InfoHolder>
+            <TextColumn>
+              <InfoTextHolder>
+                <Label>{translate('infoWeight')}</Label>
+                <Info>{`${weightData} ${weightLabel}`}</Info>
+              </InfoTextHolder>
+              <InfoTextHolder>
+                <Label>{translate('infoKind')}</Label>
+                <Info>{pet.kind}</Info>
+              </InfoTextHolder>
+            </TextColumn>
+            <TextColumn>
+              <InfoTextHolder>
+                <Label>{translate('infoBreed')}</Label>
+                <Info>{pet.breed || translate('notInformed')}</Info>
+              </InfoTextHolder>
+              <InfoTextHolder>
+                <Label>{translate('infoSex')}</Label>
+                <Info>{pet.sex}</Info>
+              </InfoTextHolder>
+            </TextColumn>
+          </InfoHolder>
+        </Box>
+      </Container>
+    </>
   );
 }
 

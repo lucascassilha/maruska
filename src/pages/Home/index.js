@@ -13,7 +13,7 @@ import translate, { locale } from '~/locales';
 
 import FAB from '~/components/FAB';
 
-import Header from '~/components/Header';
+import HomeHeader from '~/components/HomeHeader';
 
 import {
   Container,
@@ -68,7 +68,7 @@ export default function Home({ navigation }) {
       />
       <Modal />
       <FAB onPress={handleOpen} />
-      <Header navigation={navigation} />
+      <HomeHeader navigation={navigation} />
       <PetList
         contentContainerStyle={{
           padding: 20,
@@ -96,11 +96,10 @@ export default function Home({ navigation }) {
           <Animatable.View animation="slideInLeft">
             <Box onPress={() => navigation.navigate('Pet', { pet: item })}>
               <PetImage
-                nullImage={item.avatar}
                 source={
                   item.avatar
                     ? { uri: `data:image/*;base64,${item.avatar}` }
-                    : null
+                    : require('~/assets/img/icon.png')
                 }
               />
               <TextHolder>

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { View } from 'react-native';
 import { useSelector } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 

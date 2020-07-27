@@ -199,4 +199,5 @@ export default {
   developer: 'The developer',
   registerPet: 'Register pet',
   config: 'Settings',
+  informations: 'Informations',
 };

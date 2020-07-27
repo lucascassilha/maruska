@@ -4,6 +4,20 @@ import LinearGradient from 'react-native-linear-gradient';
 export const Container = styled.ScrollView`
   background-color: #fff;
   flex: 1;
+  padding: 0px 20px;
+`;
+
+export const Title = styled.Text`
+  font-size: 18px;
+  font-family: 'OpenSans-BoldItalic';
+  color: #000;
+`;
+export const Box = styled.View`
+  background-color: #f8f8f8;
+  border-radius: 5px;
+  padding: 20px;
+  justify-content: center;
+  margin-bottom: 10px;
 `;
 
 export const PetInfo = styled.View`
@@ -16,7 +30,7 @@ export const PetInfo = styled.View`
 
 export const PetMenu = styled.ScrollView`
   flex: 2;
-  background-color: #fafafa;
+  background-color: #fff;
 `;
 
 export const Header = styled.View`
@@ -44,17 +58,17 @@ export const InfoHolder = styled.View`
 
 export const InfoTextHolder = styled.View``;
 
-export const TextLine = styled.View``;
+export const TextColumn = styled.View``;
 
 export const Label = styled.Text`
-  color: #fff;
-  font-family: 'OpenSans-Regular';
+  color: #000;
+  font-family: 'OpenSans-Italic';
   font-size: 12px;
 `;
 
 export const Info = styled.Text`
   font-size: 16px;
-  color: #fff;
+  color: #000;
   font-family: 'OpenSans-Bold';
 `;
 

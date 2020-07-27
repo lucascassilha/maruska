@@ -198,4 +198,5 @@ export default {
   addedToCalendar: 'O evento foi adicionado ao seu calendário!',
   developer: 'O desenvolvedor',
   config: 'Configurações',
+  informations: 'Informações',
 };
