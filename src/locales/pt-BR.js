@@ -199,4 +199,5 @@ export default {
   developer: 'O desenvolvedor',
   config: 'Configurações',
   informations: 'Informações',
+  picture: 'Foto do perfil',
 };

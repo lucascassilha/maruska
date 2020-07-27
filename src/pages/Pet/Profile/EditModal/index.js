@@ -1,11 +1,14 @@
 import React, { useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Alert, Vibration } from 'react-native';
+import { Alert, Vibration, TouchableOpacity } from 'react-native';
 import * as Yup from 'yup';
 import PropTypes from 'prop-types';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+
 import changeStatus from '~/store/modules/modalVisible/actions';
 import { editPet } from '~/store/modules/pets/actions';
-import Button from '~/components/Button/index';
+import Button from '~/components/Button';
+import MenuButton from '~/components/MenuButton';
 import translate from '~/locales';
 
 import {
@@ -14,10 +17,10 @@ import {
   Box,
   Scroll,
   Title,
+  TitleBox,
+  TitleImage,
   InputLabel,
   Input,
-  CancelHolder,
-  CancelLabel,
 } from './styles';
 
 export default function EditPet({ petInformation }) {
@@ -62,7 +65,13 @@ export default function EditPet({ petInformation }) {
       <Container>
         <Box>
           <Scroll showsVerticalScrollIndicator={false}>
-            <Title>{translate('editTitle')}</Title>
+            <TitleBox>
+              <TouchableOpacity onPress={handleClose}>
+                <Icon name="chevron-left" color="#000" size={25} />
+              </TouchableOpacity>
+              <Title>{translate('editTitle')}</Title>
+              <TitleImage source={require('~/assets/img/editpet.png')} />
+            </TitleBox>
             <InputLabel>{translate('infoBreed')}</InputLabel>
             <Input
               value={breed}
@@ -81,9 +90,6 @@ export default function EditPet({ petInformation }) {
               onSubmitEditing={handleEditPet}
             />
             <Button onPress={handleEditPet} title={translate('editLabel')} />
-            <CancelHolder onPress={handleClose}>
-              <CancelLabel>{translate('cancelButton')}</CancelLabel>
-            </CancelHolder>
           </Scroll>
         </Box>
       </Container>

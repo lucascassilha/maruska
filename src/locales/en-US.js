@@ -200,4 +200,5 @@ export default {
   registerPet: 'Register pet',
   config: 'Settings',
   informations: 'Informations',
+  picture: 'Picture',
 };

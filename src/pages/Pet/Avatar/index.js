@@ -59,7 +59,7 @@ export default function Avatar({ route, navigation }) {
             <PictureBox>
               <LottieView
                 source={require('~/assets/animations/camera.json')}
-                ref={animation => (animate = animation)}
+                autoPlay
                 loop
               />
             </PictureBox>

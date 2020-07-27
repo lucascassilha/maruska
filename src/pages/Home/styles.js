@@ -1,4 +1,5 @@
 import styled from 'styled-components/native';
+import { RectButton } from 'react-native-gesture-handler';
 
 export const Container = styled.View`
   flex: 1;
@@ -8,7 +9,7 @@ export const Container = styled.View`
 
 export const PetList = styled.FlatList.attrs({})``;
 
-export const Box = styled.TouchableOpacity`
+export const Box = styled(RectButton)`
   background-color: #eb3349;
   margin: 5px 0px;
   padding: 15px;

@@ -3,7 +3,6 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import PropTypes from 'prop-types';
-import { TouchableOpacity, Alert } from 'react-native';
 import translate from '~/locales';
 
 import Home from '~/pages/Home/index';
