@@ -3,7 +3,7 @@ import styled from 'styled-components/native';
 export const Container = styled.View`
   flex: 1;
   background-color: #fff;
-  padding: 0px 30px;
+  padding: 0px 20px;
 `;
 
 export const List = styled.FlatList.attrs({
@@ -11,7 +11,7 @@ export const List = styled.FlatList.attrs({
 })``;
 
 export const Label = styled.Text`
-  color: #eb3349;
+  color: #000;
   font-family: 'OpenSans-Bold';
   font-size: 18px;
   margin: 10px 0px;
@@ -27,18 +27,19 @@ export const InputBox = styled.View`
 `;
 
 export const Input = styled.TextInput`
-  background-color: #eb3349;
+  background-color: #f8f8f8;
   padding: 5px 10px;
   border-radius: 4px;
   margin-bottom: 10px;
-  color: #fff;
+  color: #000;
+  font-family: 'OpenSans-Regular';
 `;
 
 export const InputLabel = styled.Text`
-  color: #eb3349;
+  color: #000;
   margin-top: 5px;
-  font-size: 16px;
-  font-family: 'OpenSans-Regular';
+  font-size: 12px;
+  font-family: 'OpenSans-Italic';
 `;
 
 export const DateHolder = styled.View`
@@ -65,7 +66,7 @@ export const ButtonLabel = styled.Text`
 `;
 
 export const Box = styled.View`
-  background-color: #eb3349;
+  background-color: #084c61;
   margin: 10px 0px;
   border-radius: 4px;
   padding: 15px;

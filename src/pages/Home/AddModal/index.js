@@ -6,9 +6,11 @@ import { Alert, Vibration, TouchableOpacity, View } from 'react-native';
 import DatePicker from 'react-native-date-picker';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
+
 import changeStatus from '~/store/modules/modalVisible/actions';
 import { addPet } from '~/store/modules/pets/actions';
-import Button from '~/components/Button/index';
+import Button from '~/components/Button';
+import ModalHeader from '~/components/ModalHeader';
 import translate, { locale } from '~/locales';
 
 import {
@@ -115,15 +117,11 @@ export default function AddModal() {
               errors,
             }) => (
               <Scroll showsVerticalScrollIndicator={false}>
-                <TitleBox>
-                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    <TouchableOpacity onPress={handleClose}>
-                      <Icon name="chevron-left" color="#000" size={25} />
-                    </TouchableOpacity>
-                    <Title>{translate('addPet')}</Title>
-                  </View>
-                  <TitleImage source={require('~/assets/img/addpet.png')} />
-                </TitleBox>
+                <ModalHeader
+                  title={translate('addPet')}
+                  onPress={handleClose}
+                  source={require('~/assets/img/addpet.png')}
+                />
                 <Label>{translate('addKind')}</Label>
                 <CategoryPicker
                   selectedValue={values.kind}

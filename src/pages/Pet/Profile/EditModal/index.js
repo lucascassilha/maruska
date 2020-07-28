@@ -8,7 +8,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import changeStatus from '~/store/modules/modalVisible/actions';
 import { editPet } from '~/store/modules/pets/actions';
 import Button from '~/components/Button';
-import MenuButton from '~/components/MenuButton';
+import ModalHeader from '~/components/ModalHeader';
 import translate from '~/locales';
 
 import {
@@ -65,13 +65,11 @@ export default function EditPet({ petInformation }) {
       <Container>
         <Box>
           <Scroll showsVerticalScrollIndicator={false}>
-            <TitleBox>
-              <TouchableOpacity onPress={handleClose}>
-                <Icon name="chevron-left" color="#000" size={25} />
-              </TouchableOpacity>
-              <Title>{translate('editTitle')}</Title>
-              <TitleImage source={require('~/assets/img/editpet.png')} />
-            </TitleBox>
+            <ModalHeader
+              title={translate('editTitle')}
+              onPress={handleClose}
+              source={require('~/assets/img/editpet.png')}
+            />
             <InputLabel>{translate('infoBreed')}</InputLabel>
             <Input
               value={breed}
