@@ -107,7 +107,7 @@ export default function Settings() {
           <IconHolder color="#E733EB">
             <Icon name="weight" color="#fff" size={20} />
           </IconHolder>
-          <Label>{`${translate('changeUnit')} - ${weight} `}</Label>
+          <Label>{`${translate('changeUnit')} (${weight}) `}</Label>
         </Button>
         <Button onPress={() => Linking.openURL('https://lucascassilha.xyz/')}>
           <IconHolder color="#000">

@@ -4,7 +4,7 @@ export default {
   not: 'Notifications',
   set: 'Settings',
   pictureTitle: 'Choose a picture',
-  healthTitle: 'Pet Health',
+  healthTitle: 'Medical Center',
   weightTitle: 'Weight control',
   medTitle: 'Medications',
   vacTitle: 'Vaccination card',

@@ -1,6 +1,6 @@
 import styled from 'styled-components/native';
 import * as Animatable from 'react-native-animatable';
-import LinearGradient from 'react-native-linear-gradient';
+import { Picker } from '@react-native-community/picker';
 
 export const Wrapper = styled.Modal``;
 
@@ -10,63 +10,58 @@ export const Container = styled(Animatable.View)`
   justify-content: center;
 `;
 
-export const Box = styled(LinearGradient).attrs({
-  colors: ['#fff', '#EFEFEF'],
-})`
-  margin: 30px;
-  border-radius: 4px;
-  elevation: 2;
+export const Box = styled.View`
+  background-color: #fff;
+  flex: 1;
 `;
 
 export const Scroll = styled.ScrollView.attrs({
   contentContainerStyle: {
-    padding: 30,
+    padding: 20,
   },
 })``;
 
+export const TitleBox = styled.View`
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 20px;
+  justify-content: space-between;
+`;
+
+export const TitleImage = styled.Image`
+  height: 40px;
+  width: 40px;
+`;
+
 export const Title = styled.Text`
   font-size: 24px;
-  color: #eb3349;
-  margin-bottom: 20px;
-  text-align: center;
-  font-family: 'OpenSans-Bold';
+  color: #000000;
+  font-family: 'OpenSans-BoldItalic';
+  margin-left: 10px;
+  margin-right: 10px;
 `;
 
 export const InputLabel = styled.Text`
-  color: #eb3349;
+  color: #000;
   font-size: 14px;
   text-align: left;
   font-family: 'OpenSans-Bold';
   margin-top: 5px;
 `;
 
-export const PickerLabel = styled.Text`
-  color: #eb3349;
-  font-size: 16px;
-  text-align: left;
-  font-family: 'OpenSans-Regular';
-  margin-top: 5px;
-`;
-export const SelectorBox = styled.View``;
-
 export const Input = styled.TextInput`
   align-self: stretch;
-  background-color: #eb3349;
+  background-color: #f8f8f8;
   border-radius: 4px;
   margin-bottom: 20px;
   padding: 8px 15px;
-  color: #fff;
-`;
-
-export const CheckHolder = styled.View`
-  align-items: center;
-  flex-direction: row;
-  margin-bottom: 5px;
+  color: #000;
+  font-family: 'OpenSans-Regular';
 `;
 
 export const Submit = styled.TouchableOpacity`
   align-self: stretch;
-  background-color: #eb3349;
+  background-color: #000;
   padding: 10px;
   border-radius: 4px;
   align-items: center;
@@ -78,21 +73,9 @@ export const SubmitTitle = styled.Text`
   color: #fff;
 `;
 
-export const CancelHolder = styled.TouchableOpacity`
-  align-self: stretch;
-  align-items: center;
-  margin-top: 20px;
-`;
-
-export const CancelLabel = styled.Text`
-  color: #eb3349;
-  font-family: 'OpenSans-Bold';
-  text-decoration: underline;
-`;
-
 export const ErrorLabel = styled.Text`
   font-size: 12px;
-  color: #120369;
+  color: #eb3349;
   font-family: 'OpenSans-Regular';
   text-align: left;
   margin-top: -10px;
@@ -111,3 +94,5 @@ export const ButtonLabel = styled.Text`
   font-size: 16px;
   margin-left: 10px;
 `;
+
+export const CategoryPicker = styled(Picker)``;

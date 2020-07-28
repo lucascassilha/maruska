@@ -3,16 +3,14 @@ import { Alert, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Animatable from 'react-native-animatable';
-import changeStatus from '~/store/modules/modalVisible/actions';
-import EditModal from './EditModal';
-import { deletePet } from '~/store/modules/pets/actions';
-import translate from '~/locales';
-
 import LottieView from 'lottie-react-native';
 
+import changeStatus from '~/store/modules/modalVisible/actions';
+import { deletePet } from '~/store/modules/pets/actions';
+import translate from '~/locales';
 import MenuButton from '~/components/MenuButton';
-
 import PageHeader from '~/components/PageHeader';
+import EditModal from './EditModal';
 
 import {
   Container,

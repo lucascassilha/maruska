@@ -9,10 +9,12 @@ import { Wrapper, Container, Title, HolderView, HeaderImage } from './styles';
 
 const PageHeader = ({ navigation, title, icons, source, onDelete, onEdit }) => {
   let imageSource = '';
-  if (source) {
+  if (source && icons) {
     imageSource = {
       uri: source,
     };
+  } else if (source && !icons) {
+    imageSource = source;
   } else {
     imageSource = require('~/assets/img/icon.png');
   }

@@ -3,6 +3,7 @@ import styled from 'styled-components/native';
 export const Container = styled.View`
   flex: 1;
   background-color: #fff;
+  margin-top: -30px;
 `;
 
 export const NotifList = styled.FlatList.attrs({})``;

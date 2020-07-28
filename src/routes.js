@@ -113,9 +113,7 @@ export default function Routes() {
       <Stack.Screen
         name="Health"
         component={Health}
-        options={() => ({
-          title: translate('healthTitle'),
-        })}
+        options={{ headerShown: false, headerMode: 'screen' }}
       />
       <Stack.Screen
         name="DocAdd"
@@ -155,16 +153,12 @@ export default function Routes() {
       <Stack.Screen
         name="Vaccines"
         component={Vaccines}
-        options={() => ({
-          title: translate('vacTitle'),
-        })}
+        options={{ headerShown: false, headerMode: 'screen' }}
       />
       <Stack.Screen
         name="Medications"
         component={Medications}
-        options={() => ({
-          title: translate('medTitle'),
-        })}
+        options={{ headerShown: false, headerMode: 'screen' }}
       />
       <Stack.Screen
         name="LostPet"

@@ -18,12 +18,12 @@ import {
 import PropTypes from 'prop-types';
 import { ptBR, enUS } from 'date-fns/locale';
 import { Formik } from 'formik';
+
+import PageHeader from '~/components/PageHeader';
 import Button from '~/components/Button/index';
 import FAB from '~/components/FAB';
-
 import Notification from '~/config/NotificationService';
 import translate, { locale } from '~/locales';
-
 import {
   petMedication,
   petCheckMedication,
@@ -77,7 +77,7 @@ const schema = Yup.object().shape({
 });
 
 const now = new Date();
-export default function Medications({ route }) {
+export default function Medications({ route, navigation }) {
   const { petID } = route.params;
   const pets = useSelector(state => state.pets.data);
 
@@ -282,160 +282,179 @@ export default function Medications({ route }) {
   const intervalRef = useRef();
 
   return (
-    <Container>
-      <FAB onPress={() => setVisible(true)} />
-      <List
-        data={medications}
-        keyExtractor={item => item.name}
-        renderItem={({ item }) => (
-          <Box finished={item.finished}>
-            <TextBox>
-              <Title>{item.name}</Title>
-              <SubTitle>
-                {`${translate('nextDose')}: ${item.nextDoseString}`}
-              </SubTitle>
-              <SubTitle>
-                {`${translate('lastDose')}: ${item.lastDoseString}`}
-              </SubTitle>
-              <SubTitle>{`${translate('dosesLeft')}: ${item.doses}`}</SubTitle>
-            </TextBox>
-            <ButtonBox>
-              {item.finished ? null : (
-                <ButtonHolder
-                  onPress={() => {
-                    const notificationInfo = {
-                      doses: item.doses,
-                      interval: item.interval,
-                      intervalValue: item.intervalValue,
-                    };
-                    handleCheckMedication(
-                      item.name,
-                      item.notificationID,
-                      item.nextDoseDate,
-                      notificationInfo
-                    );
-                  }}
-                >
-                  <Icon name="clipboard-check" color="#fff" size={20} />
-                </ButtonHolder>
-              )}
-              <ButtonHolder
-                onPress={() =>
-                  handleDeleteMedication(item.name, item.notificationID)}
-              >
-                <Icon name="trash-alt" color="#fff" size={20} />
-              </ButtonHolder>
-            </ButtonBox>
-          </Box>
-        )}
+    <>
+      <PageHeader
+        title={translate('medTitle')}
+        navigation={navigation}
+        source={require('~/assets/img/pills.png')}
       />
-      <ModalHolder
-        visible={modalVisible}
-        transparent
-        animationType="slide"
-        onRequestClose={() => setVisible(false)}
-      >
-        <ModalContainer>
-          <ModalBox>
-            <Formik
-              onSubmit={values => handleAddMedication(values)}
-              initialValues={{
-                name: '',
-                doses: '',
-                interval: null,
-                intervalValue: '',
-                date: now,
-              }}
-              validationSchema={schema}
-              validateOnChange={false}
-            >
-              {({
-                handleChange,
-                handleSubmit,
-                values,
-                setFieldValue,
-                errors,
-              }) => (
-                <Scroll>
-                  <Label>{translate('medRegister')}</Label>
-                  <InputLabel>{translate('medName')}</InputLabel>
-                  <Input
-                    onChangeText={handleChange('name')}
-                    maxLength={20}
-                    onSubmitEditing={() => dosesRef.current.focus()}
-                  />
-                  {errors.name && <ErrorLabel>{errors.name}</ErrorLabel>}
-                  <InputLabel>{translate('addDoses')}</InputLabel>
-                  <Input
-                    placeholder="10"
-                    maxLength={2}
-                    keyboardType="number-pad"
-                    ref={dosesRef}
-                    onChangeText={handleChange('doses')}
-                    onSubmitEditing={() => intervalRef.current.focus()}
-                  />
-                  {errors.doses && <ErrorLabel>{errors.doses}</ErrorLabel>}
-                  <IntervalBox>
-                    <SubBox>
-                      <InputLabel>{translate('addInterval')}</InputLabel>
-                      <Input
-                        style={{ textAlign: 'right' }}
-                        placeholder="10"
-                        maxLength={2}
-                        keyboardType="number-pad"
-                        ref={intervalRef}
-                        onChangeText={handleChange('intervalValue')}
-                      />
-                    </SubBox>
-                    <SubBox>
-                      <InputLabel>{translate('addPeriod')}</InputLabel>
-                      <Picker
-                        style={{ padding: 15 }}
-                        onValueChange={value =>
-                          setFieldValue('interval', value)
-                        }
-                        selectedValue={values.interval || null}
-                      >
-                        <Picker.Item label="" value={null} />
-                        <Picker.Item label={translate('addYears')} value={1} />
-                        <Picker.Item label={translate('addMonths')} value={2} />
-                        <Picker.Item label={translate('addDays')} value={3} />
-                        <Picker.Item label={translate('addHours')} value={4} />
-                      </Picker>
-                    </SubBox>
-                  </IntervalBox>
-                  {errors.interval && (
-                    <ErrorLabel>{errors.interval}</ErrorLabel>
-                  )}
-                  {errors.intervalValue && (
-                    <ErrorLabel>{errors.intervalValue}</ErrorLabel>
-                  )}
-                  <InputLabel>{translate('nextDose')}</InputLabel>
-                  <DateHolder>
-                    <DatePicker
-                      date={values.date}
-                      onDateChange={value => setFieldValue('date', value)}
-                      mode="datetime"
-                      minimumDate={now}
-                      locale={locale}
-                      textColor="#000000"
-                      fadeToColor="none"
+      <Container>
+        <FAB onPress={() => setVisible(true)} />
+        <List
+          data={medications}
+          keyExtractor={item => item.name}
+          renderItem={({ item }) => (
+            <Box finished={item.finished}>
+              <TextBox>
+                <Title>{item.name}</Title>
+                <SubTitle>
+                  {`${translate('nextDose')}: ${item.nextDoseString}`}
+                </SubTitle>
+                <SubTitle>
+                  {`${translate('lastDose')}: ${item.lastDoseString}`}
+                </SubTitle>
+                <SubTitle>{`${translate('dosesLeft')}: ${
+                  item.doses
+                }`}</SubTitle>
+              </TextBox>
+              <ButtonBox>
+                {item.finished ? null : (
+                  <ButtonHolder
+                    onPress={() => {
+                      const notificationInfo = {
+                        doses: item.doses,
+                        interval: item.interval,
+                        intervalValue: item.intervalValue,
+                      };
+                      handleCheckMedication(
+                        item.name,
+                        item.notificationID,
+                        item.nextDoseDate,
+                        notificationInfo
+                      );
+                    }}
+                  >
+                    <Icon name="clipboard-check" color="#fff" size={20} />
+                  </ButtonHolder>
+                )}
+                <ButtonHolder
+                  onPress={() =>
+                    handleDeleteMedication(item.name, item.notificationID)
+                  }
+                >
+                  <Icon name="trash-alt" color="#fff" size={20} />
+                </ButtonHolder>
+              </ButtonBox>
+            </Box>
+          )}
+        />
+        <ModalHolder
+          visible={modalVisible}
+          transparent
+          animationType="slide"
+          onRequestClose={() => setVisible(false)}
+        >
+          <ModalContainer>
+            <ModalBox>
+              <Formik
+                onSubmit={values => handleAddMedication(values)}
+                initialValues={{
+                  name: '',
+                  doses: '',
+                  interval: null,
+                  intervalValue: '',
+                  date: now,
+                }}
+                validationSchema={schema}
+                validateOnChange={false}
+              >
+                {({
+                  handleChange,
+                  handleSubmit,
+                  values,
+                  setFieldValue,
+                  errors,
+                }) => (
+                  <Scroll>
+                    <Label>{translate('medRegister')}</Label>
+                    <InputLabel>{translate('medName')}</InputLabel>
+                    <Input
+                      onChangeText={handleChange('name')}
+                      maxLength={20}
+                      onSubmitEditing={() => dosesRef.current.focus()}
                     />
-                  </DateHolder>
-                  <Button
-                    onPress={handleSubmit}
-                    title={translate('registerLabel')}
-                  />
-                  <CancelBox onPress={() => setVisible(false)}>
-                    <Label>{translate('cancelButton')}</Label>
-                  </CancelBox>
-                </Scroll>
-              )}
-            </Formik>
-          </ModalBox>
-        </ModalContainer>
-      </ModalHolder>
-    </Container>
+                    {errors.name && <ErrorLabel>{errors.name}</ErrorLabel>}
+                    <InputLabel>{translate('addDoses')}</InputLabel>
+                    <Input
+                      placeholder="10"
+                      maxLength={2}
+                      keyboardType="number-pad"
+                      ref={dosesRef}
+                      onChangeText={handleChange('doses')}
+                      onSubmitEditing={() => intervalRef.current.focus()}
+                    />
+                    {errors.doses && <ErrorLabel>{errors.doses}</ErrorLabel>}
+                    <IntervalBox>
+                      <SubBox>
+                        <InputLabel>{translate('addInterval')}</InputLabel>
+                        <Input
+                          style={{ textAlign: 'right' }}
+                          placeholder="10"
+                          maxLength={2}
+                          keyboardType="number-pad"
+                          ref={intervalRef}
+                          onChangeText={handleChange('intervalValue')}
+                        />
+                      </SubBox>
+                      <SubBox>
+                        <InputLabel>{translate('addPeriod')}</InputLabel>
+                        <Picker
+                          style={{ padding: 15 }}
+                          onValueChange={value =>
+                            setFieldValue('interval', value)
+                          }
+                          selectedValue={values.interval || null}
+                        >
+                          <Picker.Item label="" value={null} />
+                          <Picker.Item
+                            label={translate('addYears')}
+                            value={1}
+                          />
+                          <Picker.Item
+                            label={translate('addMonths')}
+                            value={2}
+                          />
+                          <Picker.Item label={translate('addDays')} value={3} />
+                          <Picker.Item
+                            label={translate('addHours')}
+                            value={4}
+                          />
+                        </Picker>
+                      </SubBox>
+                    </IntervalBox>
+                    {errors.interval && (
+                      <ErrorLabel>{errors.interval}</ErrorLabel>
+                    )}
+                    {errors.intervalValue && (
+                      <ErrorLabel>{errors.intervalValue}</ErrorLabel>
+                    )}
+                    <InputLabel>{translate('nextDose')}</InputLabel>
+                    <DateHolder>
+                      <DatePicker
+                        date={values.date}
+                        onDateChange={value => setFieldValue('date', value)}
+                        mode="datetime"
+                        minimumDate={now}
+                        locale={locale}
+                        textColor="#000000"
+                        fadeToColor="none"
+                      />
+                    </DateHolder>
+                    <Button
+                      onPress={handleSubmit}
+                      title={translate('registerLabel')}
+                    />
+                    <CancelBox onPress={() => setVisible(false)}>
+                      <Label>{translate('cancelButton')}</Label>
+                    </CancelBox>
+                  </Scroll>
+                )}
+              </Formik>
+            </ModalBox>
+          </ModalContainer>
+        </ModalHolder>
+      </Container>
+    </>
   );
 }
 

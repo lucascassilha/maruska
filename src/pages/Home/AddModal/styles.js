@@ -1,5 +1,6 @@
 import styled from 'styled-components/native';
 import * as Animatable from 'react-native-animatable';
+import { Picker } from '@react-native-community/picker';
 
 export const Wrapper = styled.Modal``;
 
@@ -10,15 +11,13 @@ export const Container = styled(Animatable.View)`
 `;
 
 export const Box = styled.View`
-  margin: 10px 20px;
-  border-radius: 4px;
-  elevation: 2;
   background-color: #fff;
+  flex: 1;
 `;
 
 export const Scroll = styled.ScrollView.attrs({
   contentContainerStyle: {
-    padding: 30,
+    padding: 20,
   },
 })``;
 
@@ -26,6 +25,7 @@ export const TitleBox = styled.View`
   flex-direction: row;
   align-items: center;
   margin-bottom: 20px;
+  justify-content: space-between;
 `;
 
 export const TitleImage = styled.Image`
@@ -88,17 +88,11 @@ export const CancelHolder = styled.TouchableOpacity`
 `;
 
 export const Instruction = styled.Text`
-  color: #eb3349;
+  color: #000;
   text-align: center;
-  font-family: 'OpenSans-Bold';
+  font-family: 'OpenSans-BoldItalic';
   font-size: 16px;
   margin: 10px 0px;
-`;
-
-export const CancelLabel = styled.Text`
-  color: #eb3349;
-  font-family: 'OpenSans-Bold';
-  text-decoration: underline;
 `;
 
 export const ErrorLabel = styled.Text`
@@ -109,3 +103,5 @@ export const ErrorLabel = styled.Text`
   margin-top: -10px;
   margin-bottom: 10px;
 `;
+
+export const CategoryPicker = styled(Picker)``;

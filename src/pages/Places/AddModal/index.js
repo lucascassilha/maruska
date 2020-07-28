@@ -2,7 +2,13 @@ import React, { useRef } from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Checkbox } from 'react-native-paper';
 import { useSelector, useDispatch } from 'react-redux';
-import { Alert, Vibration, Linking } from 'react-native';
+import {
+  Alert,
+  Vibration,
+  Linking,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
 import changeStatus from '~/store/modules/modalVisible/actions';
@@ -16,16 +22,14 @@ import {
   Box,
   Scroll,
   Title,
+  TitleBox,
+  TitleImage,
   InputLabel,
-  PickerLabel,
-  SelectorBox,
   Input,
-  CheckHolder,
-  CancelHolder,
-  CancelLabel,
   ErrorLabel,
   ButtonHolder,
   ButtonLabel,
+  CategoryPicker,
 } from './styles';
 
 const schema = Yup.object().shape({
@@ -88,7 +92,7 @@ export default function AddModal() {
             initialValues={{
               city: '',
               name: '',
-              kind: '',
+              kind: 'PetShop',
               phone: '',
               address: '',
             }}
@@ -103,46 +107,31 @@ export default function AddModal() {
               errors,
             }) => (
               <Scroll showsVerticalScrollIndicator={false}>
-                <Title>{translate('addPlace')}</Title>
+                <TitleBox>
+                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <TouchableOpacity onPress={handleClose}>
+                      <Icon name="chevron-left" color="#000" size={25} />
+                    </TouchableOpacity>
+                    <Title>{translate('addPlace')}</Title>
+                  </View>
+                  <TitleImage source={require('~/assets/img/addplace.png')} />
+                </TitleBox>
                 <InputLabel>{translate('placeKind')}</InputLabel>
-                <SelectorBox>
-                  <CheckHolder>
-                    <Checkbox
-                      status={
-                        values.kind === 'PetShop' ? 'checked' : 'unchecked'
-                      }
-                      color="#eb3349"
-                      uncheckedColor="#eb3349"
-                      onPress={() => setFieldValue('kind', 'PetShop')}
-                    />
-                    <Icon
-                      name="bone"
-                      color="#eb3349"
-                      size={25}
-                      style={{ marginRight: 5 }}
-                    />
-                    <PickerLabel>Pet Shop</PickerLabel>
-                  </CheckHolder>
-                  <CheckHolder>
-                    <Checkbox
-                      color="#eb3349"
-                      uncheckedColor="#eb3349"
-                      status={
-                        values.kind === translate('clinic')
-                          ? 'checked'
-                          : 'unchecked'
-                      }
-                      onPress={() => setFieldValue('kind', translate('clinic'))}
-                    />
-                    <Icon
-                      name="hospital"
-                      color="#eb3349"
-                      size={25}
-                      style={{ marginRight: 5 }}
-                    />
-                    <PickerLabel>{translate('clinic')}</PickerLabel>
-                  </CheckHolder>
-                </SelectorBox>
+                <CategoryPicker
+                  selectedValue={values.kind}
+                  onValueChange={category => setFieldValue('kind', category)}
+                >
+                  <CategoryPicker.Item
+                    label="🛍️ PetShop"
+                    value="PetShop"
+                    key={0}
+                  />
+                  <CategoryPicker.Item
+                    label={`🏥 ${translate('clinic')}`}
+                    value={translate('clinic')}
+                    key={1}
+                  />
+                </CategoryPicker>
                 {errors.kind && <ErrorLabel>{errors.kind}</ErrorLabel>}
                 <InputLabel>{translate('name')}</InputLabel>
                 <Input
@@ -187,9 +176,6 @@ export default function AddModal() {
                   onPress={handleSubmit}
                   title={translate('addLocation')}
                 />
-                <CancelHolder onPress={handleClose}>
-                  <CancelLabel>{translate('cancelButton')}</CancelLabel>
-                </CancelHolder>
               </Scroll>
             )}
           </Formik>
