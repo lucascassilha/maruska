@@ -8,18 +8,18 @@ export const Container = styled.ScrollView`
 
 export const InputLabel = styled.Text`
   margin-top: 10px;
-  color: #eb3349;
-  font-family: 'OpenSans-Regular';
-  font-size: 18px;
+  color: #000;
+  font-family: 'OpenSans-Italic';
+  font-size: 14px;
 `;
 
 export const Input = styled.TextInput`
   align-self: stretch;
-  background-color: #eb3349;
+  background-color: #f8f8f8;
   border-radius: 4px;
   padding: 10px 15px;
   font-family: 'OpenSans-Regular';
-  color: #f2f2f2;
+  color: #000;
 `;
 
 export const DateHolder = styled.View`

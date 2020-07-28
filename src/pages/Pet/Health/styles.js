@@ -2,7 +2,13 @@ import styled from 'styled-components/native';
 
 export const Container = styled.ScrollView.attrs({
   contentContainerStyle: {},
-})``;
+})`
+  background-color: #fff;
+`;
+
+export const ButtonHolder = styled.View`
+  padding: 0px 20px;
+`;
 
 export const TitleBox = styled.View`
   margin: 10px 20px;
@@ -13,9 +19,9 @@ export const TitleBox = styled.View`
 `;
 
 export const Title = styled.Text`
-  font-family: 'OpenSans-Regular';
-  font-size: 21px;
-  color: #eb3349;
+  font-family: 'OpenSans-Italic';
+  font-size: 14px;
+  color: #000;
   text-align: left;
 `;
 
@@ -27,7 +33,7 @@ export const List = styled.FlatList.attrs({
 `;
 
 export const Box = styled.View`
-  background-color: #eb3349;
+  background-color: #56a3a6;
   align-self: stretch;
   width: 300px;
   border-radius: 4px;

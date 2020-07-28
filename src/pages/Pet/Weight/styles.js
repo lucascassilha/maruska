@@ -3,6 +3,8 @@ import styled from 'styled-components/native';
 export const Container = styled.View`
   flex: 1;
   padding: 10px 0px;
+  flex: 1;
+  background-color: #fff;
 `;
 
 export const Holder = styled.View`
@@ -10,19 +12,19 @@ export const Holder = styled.View`
 `;
 
 export const InputLabel = styled.Text`
-  color: #eb3349;
-  font-family: 'OpenSans-Regular';
-  font-size: 16px;
+  color: #000;
+  font-family: 'OpenSans-Italic';
+  font-size: 12px;
   display: ${props => (props.disabled ? 'none' : 'flex')};
 `;
 
 export const Input = styled.TextInput`
   align-self: stretch;
-  background-color: #eb3349;
+  background-color: #f8f8f8;
   border-radius: 4px;
   padding: 10px 15px;
   font-family: 'OpenSans-Regular';
-  color: #f2f2f2;
+  color: #000;
   display: ${props => (props.disabled ? 'none' : 'flex')};
 `;
 

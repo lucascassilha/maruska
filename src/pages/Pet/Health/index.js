@@ -16,8 +16,10 @@ import { notificationCancel } from '~/store/modules/notifications/actions';
 import translate from '~/locales';
 import Notification from '~/config/NotificationService';
 import PageHeader from '~/components/PageHeader';
+import MenuButton from '~/components/MenuButton';
 import {
   Container,
+  ButtonHolder,
   Title,
   TitleBox,
   List,
@@ -165,13 +167,21 @@ export default function Health({ route, navigation }) {
         source={require('~/assets/img/hospital.png')}
       />
       <Container>
+        <ButtonHolder>
+          <MenuButton
+            title="Weight Control"
+            color="#56a3a6"
+            image={require('~/assets/img/weight.png')}
+            onPress={() => navigation.navigate('Weight', { petID: petID })}
+          />
+        </ButtonHolder>
         <TitleBox>
           <Title>{translate('healthDoc')}</Title>
           <ButtonBox>
             <IconHolder
               onPress={() => navigation.navigate('DocAdd', { petID })}
             >
-              <Icon name="plus" color="#eb3349" size={20} />
+              <Icon name="plus" color="#000" size={18} />
             </IconHolder>
           </ButtonBox>
         </TitleBox>
@@ -191,7 +201,7 @@ export default function Health({ route, navigation }) {
                       Linking.openURL(`tel://${item.phone}`);
                     }}
                   >
-                    <Icon name="phone" color="#fff" size={20} />
+                    <Icon name="phone" color="#fff" size={18} />
                   </IconHolder>
                 ) : null}
                 <IconHolder
@@ -199,7 +209,7 @@ export default function Health({ route, navigation }) {
                     handleDeleteDoctors(item.name);
                   }}
                 >
-                  <Icon name="trash-alt" color="#fff" size={20} />
+                  <Icon name="trash-alt" color="#fff" size={18} />
                 </IconHolder>
               </ButtonBox>
             </Box>
@@ -211,7 +221,7 @@ export default function Health({ route, navigation }) {
             <IconHolder
               onPress={() => navigation.navigate('AppointAdd', { petID })}
             >
-              <Icon name="plus" color="#eb3349" size={20} />
+              <Icon name="plus" color="#000" size={18} />
             </IconHolder>
           </ButtonBox>
         </TitleBox>
@@ -235,7 +245,7 @@ export default function Health({ route, navigation }) {
                     Linking.openURL(`tel://${item.phone}`);
                   }}
                 >
-                  <Icon name="phone" color="#fff" size={20} />
+                  <Icon name="phone" color="#fff" size={18} />
                 </IconHolder>
                 <IconHolder
                   onPress={() =>
@@ -246,7 +256,7 @@ export default function Health({ route, navigation }) {
                     )
                   }
                 >
-                  <Icon name="trash-alt" color="#fff" size={20} />
+                  <Icon name="trash-alt" color="#fff" size={18} />
                 </IconHolder>
               </ButtonBox>
             </Box>
@@ -258,7 +268,7 @@ export default function Health({ route, navigation }) {
             <IconHolder
               onPress={() => navigation.navigate('SurgeryAdd', { petID })}
             >
-              <Icon name="plus" color="#eb3349" size={20} />
+              <Icon name="plus" color="#000" size={20} />
             </IconHolder>
           </ButtonBox>
         </TitleBox>
@@ -290,7 +300,7 @@ export default function Health({ route, navigation }) {
             <IconHolder
               onPress={() => navigation.navigate('ProblemAdd', { petID })}
             >
-              <Icon name="plus" color="#eb3349" size={20} />
+              <Icon name="plus" color="#000" size={20} />
             </IconHolder>
           </ButtonBox>
         </TitleBox>

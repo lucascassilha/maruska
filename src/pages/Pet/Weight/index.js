@@ -93,14 +93,17 @@ export default function Weight({ route, navigation }) {
         width={Dimensions.get('window').width}
         height={220}
         yAxisSuffix={weightUnit}
+        withInnerLines={false}
+        withShadow={false}
         chartConfig={{
-          backgroundColor: '#fff',
-          backgroundGradientFrom: '#fff',
+          backgroundColor: '#ffffff',
+          backgroundGradientFrom: '#ffffff',
+          backgroundGradientTo: '#ffffff',
           color: (opacity = 0.7) => `rgba(0, 0, 0, ${opacity})`,
           propsForDots: {
             r: '4',
             strokeWidth: '2',
-            stroke: '#3f4b5e',
+            stroke: '#470000',
           },
         }}
       />

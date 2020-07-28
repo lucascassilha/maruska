@@ -8,9 +8,9 @@ export const Container = styled.ScrollView`
 
 export const InputLabel = styled.Text`
   margin-top: 10px;
-  color: #eb3349;
-  font-family: 'OpenSans-Regular';
-  font-size: 18px;
+  color: #000;
+  font-family: 'OpenSans-Italic';
+  font-size: 14px;
 `;
 
 export const DateHolder = styled.View`

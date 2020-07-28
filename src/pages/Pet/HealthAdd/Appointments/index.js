@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Picker, Alert, Vibration } from 'react-native';
+import { Alert, Vibration } from 'react-native';
+import { Picker } from '@react-native-community/picker';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import * as Yup from 'yup';
