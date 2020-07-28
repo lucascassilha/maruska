@@ -4,7 +4,7 @@ export default {
   not: 'Notifications',
   set: 'Settings',
   pictureTitle: 'Choose a picture',
-  healthTitle: 'Pet Health',
+  healthTitle: 'Medical Center',
   weightTitle: 'Weight control',
   medTitle: 'Medications',
   vacTitle: 'Vaccination card',
@@ -197,4 +197,8 @@ export default {
   calendarError: 'Please type the date and clinic!',
   addedToCalendar: 'The event has been registered in your calendar',
   developer: 'The developer',
+  registerPet: 'Register pet',
+  config: 'Settings',
+  informations: 'Informations',
+  picture: 'Picture',
 };

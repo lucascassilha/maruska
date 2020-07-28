@@ -1,10 +1,10 @@
 import React from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useSelector, useDispatch } from 'react-redux';
-
 import { Alert, Linking } from 'react-native';
 import LottieView from 'lottie-react-native';
 import * as Animatable from 'react-native-animatable';
+
 import changeStatus from '~/store/modules/modalVisible/actions';
 import Modal from './AddModal/index';
 import { deleteLocation } from '~/store/modules/places/actions';
@@ -21,12 +21,11 @@ import {
   TextHolder,
   AnimationHolder,
   AnimationLabel,
+  Title,
 } from './styles';
-import Maruska from '~/components/MaruskaLogo/index';
-
 import FAB from '~/components/FAB/index';
 
-export default function Places() {
+export default function Places({ navigation }) {
   const places = useSelector(state => state.places.data);
 
   const dispatch = useDispatch();
@@ -58,9 +57,9 @@ export default function Places() {
 
   return (
     <Container>
-      <Maruska />
       <FAB onPress={handleOpen} />
       <Modal />
+      <Title>Places</Title>
       <PlaceList
         contentContainerStyle={{
           padding: 20,

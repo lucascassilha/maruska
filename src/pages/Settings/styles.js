@@ -5,6 +5,7 @@ export const Container = styled.View`
   background-color: #fff;
   padding: 0px 20px;
   align-items: center;
+  padding-top: 20px;
 `;
 
 export const Box = styled.ScrollView.attrs({
@@ -56,4 +57,11 @@ export const Comment = styled.Text`
   text-align: center;
   margin: 5px 0px;
   font-family: 'OpenSans-Regular';
+`;
+
+export const Title = styled.Text`
+  font-family: 'OpenSans-BoldItalic';
+  font-size: 18px;
+  color: #000;
+  margin: 10px 0px;
 `;

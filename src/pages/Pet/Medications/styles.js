@@ -65,7 +65,7 @@ export const ButtonLabel = styled.Text`
 `;
 
 export const Box = styled.View`
-  background-color: #eb3349;
+  background-color: #4f6d7a;
   margin: 10px 0px;
   border-radius: 4px;
   padding: 15px;

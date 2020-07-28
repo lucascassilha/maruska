@@ -197,4 +197,7 @@ export default {
   calendarError: 'Por favor, insira uma data e a clínica!',
   addedToCalendar: 'O evento foi adicionado ao seu calendário!',
   developer: 'O desenvolvedor',
+  config: 'Configurações',
+  informations: 'Informações',
+  picture: 'Foto do perfil',
 };

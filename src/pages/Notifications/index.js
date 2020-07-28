@@ -32,7 +32,6 @@ export default function Notifications() {
   }, []);
 
   useEffect(() => {
-    const currentDate = new Date();
     const list = produce(notifications, draft => {
       draft.map(item => {
         if (item.date) {
@@ -45,7 +44,6 @@ export default function Notifications() {
 
           const date = format(auxDate, dateString);
           const time = format(auxDate, timeString);
-          const isPast = isAfter(currentDate, auxDate);
           item.dateString = date;
           item.timeString = time;
         }
@@ -57,7 +55,6 @@ export default function Notifications() {
 
   return (
     <Container>
-      <StatusBar backgroundColor="#eb3349" barStyle="light-content" />
       <NotifList
         contentContainerStyle={{
           padding: 20,

@@ -12,11 +12,10 @@ import {
   Version,
   IconHolder,
   Comment,
+  Title,
 } from './styles';
 import translate from '~/locales';
 import terms from './terms';
-
-import Maruska from '~/components/MaruskaLogo/index';
 
 export default function Settings() {
   const weight = useSelector(state => state.weight);
@@ -31,10 +30,6 @@ export default function Settings() {
 
   const handleAlert = () => {
     Alert.alert(translate('supportersLabel'), translate('supportersList'));
-  };
-
-  const handleLink = () => {
-    Linking.openURL('https://ko-fi.com/developlc');
   };
 
   const dispatch = useDispatch();
@@ -55,14 +50,10 @@ export default function Settings() {
     Linking.openURL('https://lucascassilha.github.io/Maruska-Privacy-Policy/');
   };
 
-  const handleResearch = () => {
-    alert('Oi');
-  };
-
   return (
     <Container>
       <Box>
-        <Maruska />
+        <Title>{translate('config')}</Title>
         <Button onPress={handlePrivacy}>
           <IconHolder color="#eba833">
             <Icon name="file-document-box-multiple" color="#fff" size={20} />
@@ -116,7 +107,7 @@ export default function Settings() {
           <IconHolder color="#E733EB">
             <Icon name="weight" color="#fff" size={20} />
           </IconHolder>
-          <Label>{`${translate('changeUnit')} - ${weight} `}</Label>
+          <Label>{`${translate('changeUnit')} (${weight}) `}</Label>
         </Button>
         <Button onPress={() => Linking.openURL('https://lucascassilha.xyz/')}>
           <IconHolder color="#000">
@@ -124,8 +115,8 @@ export default function Settings() {
           </IconHolder>
           <Label>{translate('developer')}</Label>
         </Button>
-        <Version>v1.0.3</Version>
-        <Version>DevelopLC - 2020</Version>
+        <Version>v2.0.0</Version>
+        <Version>NeakApps - 2020</Version>
         <Comment>{translate('byUsing')}</Comment>
       </Box>
     </Container>
