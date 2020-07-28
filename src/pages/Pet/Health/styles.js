@@ -11,7 +11,7 @@ export const ButtonHolder = styled.View`
 `;
 
 export const TitleBox = styled.View`
-  margin: 10px 20px;
+  margin: 0px 20px;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;

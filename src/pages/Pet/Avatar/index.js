@@ -16,17 +16,10 @@ import {
 } from './styles';
 
 export default function Avatar({ route, navigation }) {
-  let animate = null;
   const { petID } = route.params;
   const [picture, setPicture] = useState(null);
 
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (animate) {
-      animate.play();
-    }
-  }, []);
 
   const handleSelectImage = () => {
     const options = {

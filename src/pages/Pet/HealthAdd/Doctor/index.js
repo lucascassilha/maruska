@@ -17,7 +17,7 @@ export default function DocAdd({ route, navigation }) {
 
   const [name, setName] = useState(null);
   const [phone, setPhone] = useState(null);
-  const [clinic, setClinic] = useState(null);
+  const [clinic, setClinic] = useState(translate('none'));
   const [selectedDoc, setDoc] = useState(null);
   const dispatch = useDispatch();
 
@@ -27,7 +27,7 @@ export default function DocAdd({ route, navigation }) {
       const schema = Yup.object().shape({
         name: Yup.string().required(),
         phone: Yup.string().nullable(),
-        clinic: Yup.string().required(),
+        clinic: Yup.string(),
         pets: Yup.array().required(),
       });
 
@@ -52,7 +52,7 @@ export default function DocAdd({ route, navigation }) {
       doc = doctors[pickerDoctorIndex];
     }
 
-    await dispatch(addDoctor(doc, petID));
+    dispatch(addDoctor(doc, petID));
     navigation.goBack();
   };
 
@@ -85,7 +85,7 @@ export default function DocAdd({ route, navigation }) {
         onValueChange={value => setClinic(value)}
         selectedValue={clinic}
       >
-        <Picker.Item label={translate('appClinicSelect')} value={null} />
+        <Picker.Item label={translate('specify')} value={translate('none')} />
         {pickerPlaces.map(item => (
           <Picker.Item
             label={`${item.name} - ${item.city}`}

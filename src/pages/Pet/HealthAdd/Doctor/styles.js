@@ -19,5 +19,5 @@ export const Input = styled.TextInput`
   border-radius: 4px;
   padding: 10px 15px;
   font-family: 'OpenSans-Regular';
-  color: #f2f2f2;
+  color: #000;
 `;

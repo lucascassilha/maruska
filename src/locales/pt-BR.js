@@ -200,4 +200,7 @@ export default {
   config: 'Configurações',
   informations: 'Informações',
   picture: 'Foto do perfil',
+  registerPet: 'Registrar pet',
+  specify: 'Não especificar',
+  none: 'Clínica não especificada',
 };
