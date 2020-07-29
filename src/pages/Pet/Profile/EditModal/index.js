@@ -26,6 +26,7 @@ import {
 export default function EditPet({ petInformation }) {
   const visible = useSelector(state => state.modal);
 
+  const [name, setName] = useState(petInformation.name || null);
   const [breed, setBreed] = useState(petInformation.breed || null);
   const [chip, setChip] = useState(petInformation.chip || null);
 
@@ -41,7 +42,7 @@ export default function EditPet({ petInformation }) {
       breed: Yup.string().nullable(),
     });
 
-    const pet = { breed, chip, name: petInformation.name };
+    const pet = { breed, chip, name, previousName: petInformation.name };
 
     if (!(await schema.isValid(pet))) {
       Vibration.vibrate();
@@ -69,6 +70,14 @@ export default function EditPet({ petInformation }) {
               title={translate('editTitle')}
               onPress={handleClose}
               source={require('~/assets/img/editpet.png')}
+            />
+            <InputLabel>{translate('addName')}</InputLabel>
+            <Input
+              value={name}
+              onChangeText={setName}
+              returnKeyType="next"
+              onSubmitEditing={() => breedRef.current.focus()}
+              maxLength={20}
             />
             <InputLabel>{translate('infoBreed')}</InputLabel>
             <Input

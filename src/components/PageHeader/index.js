@@ -11,7 +11,7 @@ const PageHeader = ({ navigation, title, icons, source, onDelete, onEdit }) => {
   let imageSource = '';
   if (source && icons) {
     imageSource = {
-      uri: source,
+      uri: `data:image/*;base64,${source}`,
     };
   } else if (source && !icons) {
     imageSource = source;

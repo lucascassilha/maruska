@@ -2,6 +2,7 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
 import translate from '~/locales';
 
@@ -146,9 +147,7 @@ export default function Routes() {
       <Stack.Screen
         name="Weight"
         component={Weight}
-        options={() => ({
-          title: translate('weightTitle'),
-        })}
+        options={{ headerShown: false, headerMode: 'screen' }}
       />
       <Stack.Screen
         name="Vaccines"

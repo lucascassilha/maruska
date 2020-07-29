@@ -21,26 +21,6 @@ export const Scroll = styled.ScrollView.attrs({
   },
 })``;
 
-export const TitleBox = styled.View`
-  flex-direction: row;
-  align-items: center;
-  margin-bottom: 20px;
-  justify-content: space-between;
-`;
-
-export const TitleImage = styled.Image`
-  height: 40px;
-  width: 40px;
-`;
-
-export const Title = styled.Text`
-  font-size: 24px;
-  color: #000000;
-  font-family: 'OpenSans-BoldItalic';
-  margin-left: 10px;
-  margin-right: 10px;
-`;
-
 export const InputLabel = styled.Text`
   color: #000000;
   font-size: 14px;
@@ -79,12 +59,6 @@ export const CheckHolder = styled.View`
   align-items: center;
   flex-direction: row;
   margin-bottom: 5px;
-`;
-
-export const CancelHolder = styled.TouchableOpacity`
-  align-self: stretch;
-  align-items: center;
-  margin-top: 20px;
 `;
 
 export const Instruction = styled.Text`

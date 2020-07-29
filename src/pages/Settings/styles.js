@@ -55,7 +55,7 @@ export const Comment = styled.Text`
   color: #000;
   opacity: 0.5;
   text-align: center;
-  margin: 5px 0px;
+  margin-top: -5px;
   font-family: 'OpenSans-Regular';
 `;
 

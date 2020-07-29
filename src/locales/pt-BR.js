@@ -8,6 +8,7 @@ export default {
   weightTitle: 'Controle de peso',
   medTitle: 'Remédios',
   vacTitle: 'Vacinação',
+  vaccines: 'Vacinas',
   addDoc: 'Novo vet',
   addApp: 'Nova consulta',
   addSurg: 'Registrar cirurgia',
@@ -200,4 +201,13 @@ export default {
   config: 'Configurações',
   informations: 'Informações',
   picture: 'Foto do perfil',
+  registerPet: 'Registrar pet',
+  specify: 'Não especificar',
+  none: 'Clínica não especificada',
+  deletePetTitle: 'Tem certeza que quer deletar esse pet?',
+  deletePetDescription:
+    'Você não conseguirá recuperar nenhuma das informações guardadas!',
+  deletePetSnack: 'Pet deletado! Esperamos que esteja tudo bem 😟',
+  thk: 'Obrigado',
+  helpMenu: 'Menu de Ajuda',
 };

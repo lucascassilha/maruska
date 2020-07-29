@@ -23,7 +23,7 @@ export default function AppointAdd({ route, navigation }) {
   const places = useSelector(state => state.places.data);
   const doctors = useSelector(state => state.doctors.data);
 
-  const [clinic, setClinic] = useState(null);
+  const [clinic, setClinic] = useState(translate('none'));
   const [date, setDate] = useState(new Date());
   const [selectedDoc, setDoc] = useState(null);
   const dispatch = useDispatch();
@@ -101,7 +101,7 @@ export default function AppointAdd({ route, navigation }) {
         onValueChange={value => setClinic(value)}
         selectedValue={clinic}
       >
-        <Picker.Item label={translate('appClinicSelect')} value={null} />
+        <Picker.Item value={translate('none')} label={translate('specify')} />
         {pickerPlaces.map(item => (
           <Picker.Item
             label={`${item.name} - ${item.city}`}

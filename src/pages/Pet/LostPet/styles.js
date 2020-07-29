@@ -3,21 +3,23 @@ import styled from 'styled-components/native';
 export const Container = styled.View`
   flex: 1;
   background-color: #fff;
-  padding: 10px 30px;
+  padding: 10px 20px;
 `;
 
 export const LabelInput = styled.Text`
   font-family: 'OpenSans-Regular';
   font-size: 16px;
+  color: #000;
 `;
 
 export const Input = styled.TextInput`
-  background-color: #eb3349;
+  background-color: #f8f8f8;
   align-self: stretch;
   border-radius: 4px;
   margin: 10px 0px;
   padding: 10px;
-  color: #fff;
+  color: #000;
+  font-family: 'OpenSans-Regular'
   font-size: 18px;
 `;
 
@@ -39,7 +41,7 @@ export const Avatar = styled.Image`
 export const ImportantInfo = styled.Text`
   font-family: 'OpenSans-Bold';
   font-size: 22px;
-  color: #eb3349;
+  color: #000;
   margin: 8px 0px;
 `;
 

@@ -31,4 +31,5 @@ export const PetImage = styled.Image`
   height: 250px;
   width: 250px;
   border-radius: 10px;
+  align-self: center;
 `;

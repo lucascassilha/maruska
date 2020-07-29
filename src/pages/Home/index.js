@@ -57,6 +57,9 @@ export default function Home({ navigation }) {
       });
       setPetData(list);
     }
+    if (!pets[0]) {
+      setPetData([]);
+    }
   }, [pets]);
 
   return (
