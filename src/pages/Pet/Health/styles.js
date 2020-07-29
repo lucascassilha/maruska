@@ -20,7 +20,7 @@ export const TitleBox = styled.View`
 
 export const Title = styled.Text`
   font-family: 'OpenSans-Italic';
-  font-size: 14px;
+  font-size: 16px;
   color: #000;
   text-align: left;
 `;

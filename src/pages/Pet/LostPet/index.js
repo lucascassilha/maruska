@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef, useMemo } from 'react';
-import { Alert, Vibration } from 'react-native';
+import { Alert, Vibration, StatusBar } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import PropTypes from 'prop-types';
 import Button from '~/components/Button/index';
@@ -59,6 +59,7 @@ export default function LostPet({ route }) {
 
   return (
     <Container>
+      <StatusBar hidden />
       <LabelInput>
         {changeInfo
           ? translate('editInformation')

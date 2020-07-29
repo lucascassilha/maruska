@@ -204,4 +204,10 @@ export default {
   registerPet: 'Registrar pet',
   specify: 'Não especificar',
   none: 'Clínica não especificada',
+  deletePetTitle: 'Tem certeza que quer deletar esse pet?',
+  deletePetDescription:
+    'Você não conseguirá recuperar nenhuma das informações guardadas!',
+  deletePetSnack: 'Pet deletado! Esperamos que esteja tudo bem 😟',
+  thk: 'Obrigado',
+  helpMenu: 'Menu de Ajuda',
 };

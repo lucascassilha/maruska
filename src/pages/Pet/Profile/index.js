@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Animatable from 'react-native-animatable';
 import LottieView from 'lottie-react-native';
+import Snackbar from 'react-native-snackbar';
 
 import changeStatus from '~/store/modules/modalVisible/actions';
 import { deletePet } from '~/store/modules/pets/actions';
@@ -40,16 +41,28 @@ export default function Profile({ route, navigation }) {
   );
 
   const handleDeletePet = () => {
-    Alert.alert(translate('areYouSure'), translate('notGetBack'), [
-      {
-        text: translate('sure'),
-        onPress: () => {
-          dispatch(deletePet(pet.name));
-          navigation.navigate('Home');
+    Alert.alert(
+      translate('deletePetTitle'),
+      translate('deletePetDescription'),
+      [
+        {
+          text: translate('sure'),
+          onPress: () => {
+            dispatch(deletePet(pet.name));
+            navigation.navigate('Home');
+            Snackbar.show({
+              text: translate('deletePetSnack'),
+              duration: Snackbar.LENGTH_LONG,
+              action: {
+                text: translate('thk'),
+                textColor: 'green',
+              },
+            });
+          },
         },
-      },
-      { text: translate('cancelButton') },
-    ]);
+        { text: translate('cancelButton') },
+      ]
+    );
   };
 
   return (
@@ -66,7 +79,7 @@ export default function Profile({ route, navigation }) {
       <Container>
         <Animatable.View animation="slideInUp">
           <Box>
-            <Title>Pet Menu</Title>
+            <Title>{translate('petMenu')}</Title>
             <MenuButton
               color="#084C61"
               image={require('~/assets/img/vaccine.png')}
@@ -136,6 +149,17 @@ export default function Profile({ route, navigation }) {
                 </AnimationHolder>
               )}
             </TouchableOpacity>
+          </Box>
+          <Box>
+            <Title>{translate('helpMenu')}</Title>
+            <MenuButton
+              color="#eb3349"
+              image={require('~/assets/img/lostpet.png')}
+              title={translate('emerLabel')}
+              onPress={() => {
+                navigation.navigate('LostPet', { pet });
+              }}
+            />
           </Box>
         </Animatable.View>
       </Container>

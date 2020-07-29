@@ -204,4 +204,9 @@ export default {
   picture: 'Picture',
   specify: `Don't specify`,
   none: 'Clinic ',
+  deletePetTitle: 'Are you sure you want to delete this pet?',
+  deletePetDescription: 'You will not get any stored information back!',
+  deletePetSnack: 'Pet deleted! We hope everything is ok 😟',
+  thk: 'Thank you',
+  helpMenu: 'Help Menu',
 };
