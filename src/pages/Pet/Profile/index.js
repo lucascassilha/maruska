@@ -70,7 +70,7 @@ export default function Profile({ route, navigation }) {
             <MenuButton
               color="#084C61"
               image={require('~/assets/img/vaccine.png')}
-              title="Vaccines"
+              title={translate('vaccines')}
               onPress={() => {
                 navigation.navigate('Vaccines', { petID: pet.name });
               }}
@@ -78,7 +78,7 @@ export default function Profile({ route, navigation }) {
             <MenuButton
               color="#4F6D7A"
               image={require('~/assets/img/pills.png')}
-              title="Medications"
+              title={translate('medTitle')}
               onPress={() => {
                 navigation.navigate('Medications', { petID: pet.name });
               }}
@@ -86,7 +86,7 @@ export default function Profile({ route, navigation }) {
             <MenuButton
               color="#56A3A6"
               image={require('~/assets/img/hospital.png')}
-              title="Medical Center"
+              title={translate('healthTitle')}
               onPress={() => {
                 navigation.navigate('Health', { petID: pet.name });
               }}

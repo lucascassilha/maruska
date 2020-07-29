@@ -8,6 +8,7 @@ export default {
   weightTitle: 'Controle de peso',
   medTitle: 'Remédios',
   vacTitle: 'Vacinação',
+  vaccines: 'Vacinas',
   addDoc: 'Novo vet',
   addApp: 'Nova consulta',
   addSurg: 'Registrar cirurgia',

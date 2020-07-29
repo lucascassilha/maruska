@@ -147,9 +147,7 @@ export default function Routes() {
       <Stack.Screen
         name="Weight"
         component={Weight}
-        options={() => ({
-          title: translate('weightTitle'),
-        })}
+        options={{ headerShown: false, headerMode: 'screen' }}
       />
       <Stack.Screen
         name="Vaccines"

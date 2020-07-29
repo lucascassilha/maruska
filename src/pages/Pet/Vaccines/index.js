@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import DatePicker from 'react-native-date-picker';
 import * as Yup from 'yup';
+import * as Animatable from 'react-native-animatable';
 import { Alert, Picker } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { produce } from 'immer';
@@ -35,6 +36,8 @@ import {
   petDeleteVaccine,
   petLastVaccine,
 } from '~/store/modules/pets/actions';
+
+import ModalHeader from '~/components/ModalHeader';
 
 import {
   Container,
@@ -367,7 +370,11 @@ export default function Vaccines({ route, navigation }) {
                   errors,
                 }) => (
                   <Scroll>
-                    <Label>{translate('registerVaccine')}</Label>
+                    <ModalHeader
+                      title={translate('registerVaccine')}
+                      source={require('~/assets/img/vaccine.png')}
+                      onPress={() => setVisible(false)}
+                    />
                     <InputLabel>{translate('addVacName')}</InputLabel>
                     <Input
                       onChangeText={handleChange('name')}
@@ -441,9 +448,6 @@ export default function Vaccines({ route, navigation }) {
                       onPress={handleSubmit}
                       title={translate('registerLabel')}
                     />
-                    <CancelBox onPress={() => setVisible(false)}>
-                      <Label>{translate('cancelButton')}</Label>
-                    </CancelBox>
                   </Scroll>
                 )}
               </Formik>

@@ -109,9 +109,8 @@ export const Scroll = styled.ScrollView``;
 
 export const ModalBox = styled.View`
   background-color: #fff;
-  margin: 30px;
-  padding: 15px;
-  border-radius: 10px;
+  padding: 20px;
+  flex: 1;
 `;
 
 export const IntervalBox = styled.View`

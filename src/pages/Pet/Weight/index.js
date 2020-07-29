@@ -5,7 +5,9 @@ import { LineChart } from 'react-native-chart-kit';
 import { useSelector, useDispatch } from 'react-redux';
 import { ptBR, enUS } from 'date-fns/locale';
 import PropTypes from 'prop-types';
-import Button from '~/components/Button/index';
+
+import PageHeader from '~/components/PageHeader';
+import Button from '~/components/Button';
 import { petWeightAdd } from '~/store/modules/pets/actions';
 import translate, { locale } from '~/locales';
 
@@ -80,6 +82,11 @@ export default function Weight({ route, navigation }) {
 
   return (
     <Container style={{ flex: 1 }}>
+      <PageHeader
+        navigation={navigation}
+        source={require('~/assets/img/weight.png')}
+        title={translate('weightTitle')}
+      />
       <LineChart
         fromZero
         data={{

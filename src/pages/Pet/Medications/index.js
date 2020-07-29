@@ -20,6 +20,7 @@ import { ptBR, enUS } from 'date-fns/locale';
 import { Formik } from 'formik';
 
 import PageHeader from '~/components/PageHeader';
+import ModalHeader from '~/components/ModalHeader';
 import Button from '~/components/Button/index';
 import FAB from '~/components/FAB';
 import Notification from '~/config/NotificationService';
@@ -366,7 +367,11 @@ export default function Medications({ route, navigation }) {
                   errors,
                 }) => (
                   <Scroll>
-                    <Label>{translate('medRegister')}</Label>
+                    <ModalHeader
+                      title={translate('medRegister')}
+                      source={require('~/assets/img/pills.png')}
+                      onPress={() => setVisible(false)}
+                    />
                     <InputLabel>{translate('medName')}</InputLabel>
                     <Input
                       onChangeText={handleChange('name')}
@@ -444,9 +449,6 @@ export default function Medications({ route, navigation }) {
                       onPress={handleSubmit}
                       title={translate('registerLabel')}
                     />
-                    <CancelBox onPress={() => setVisible(false)}>
-                      <Label>{translate('cancelButton')}</Label>
-                    </CancelBox>
                   </Scroll>
                 )}
               </Formik>
