@@ -59,7 +59,7 @@ export default function Places({ navigation }) {
     <Container>
       <FAB onPress={handleOpen} />
       <Modal />
-      <Title>Places</Title>
+      <Title>{translate('places')}</Title>
       <PlaceList
         contentContainerStyle={{
           padding: 20,
