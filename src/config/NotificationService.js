@@ -15,25 +15,6 @@ class NotificationService {
     });
   }
 
-  async localNotification() {
-    const id = `${Math.floor(
-      Math.random() * 10000
-    )}${new Date().getMilliseconds()}`;
-
-    PushNotification.localNotification({
-      title: 'Local Notification',
-      message: 'My Notification Message',
-      playSound: false,
-      soundName: 'default',
-      actions: '["Yes", "No"]',
-      id,
-      largeIcon: 'ic_launcher',
-      smallIcon: 'ic_notification',
-      color: 'red',
-    });
-    return id;
-  }
-
   scheduleNotification(date, title, message) {
     const id = `${Math.floor(
       Math.random() * 10000
@@ -49,6 +30,7 @@ class NotificationService {
       largeIcon: 'ic_launcher',
       smallIcon: 'ic_notification',
       color: 'red',
+      priority: 'max',
     });
     return id;
   }

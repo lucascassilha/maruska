@@ -15,10 +15,10 @@ export default function DocAdd({ route, navigation }) {
   const places = useSelector(state => state.places.data);
   const doctors = useSelector(state => state.doctors.data);
 
-  const [name, setName] = useState(null);
+  const [name, setName] = useState('');
   const [phone, setPhone] = useState(null);
   const [clinic, setClinic] = useState(translate('none'));
-  const [selectedDoc, setDoc] = useState(null);
+  const [selectedDoc, setDoc] = useState(translate('noneDoc'));
   const dispatch = useDispatch();
 
   const handleAddDoctor = async () => {
