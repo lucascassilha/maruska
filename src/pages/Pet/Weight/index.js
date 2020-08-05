@@ -59,8 +59,8 @@ export default function Weight({ route, navigation }) {
             onPress: async () => {
               const currentDate = new Date();
 
-              const weightData = { weight, date, created_at: currentDate };
-              dispatch(petWeightAdd(weightData, petID));
+              const data = { weight, date, created_at: currentDate };
+              dispatch(petWeightAdd(data, petID));
               navigation.goBack();
             },
           },
@@ -99,16 +99,21 @@ export default function Weight({ route, navigation }) {
             }
           });
           if (monthIndex >= 0) {
+            const countValue = Number(finalArray[monthIndex].counter) + 1;
             const value = (
-              (Number(finalArray[monthIndex].weight) + Number(element.weight)) /
-              2
+              (Number(finalArray[monthIndex].weight) * countValue +
+                Number(element.weight)) /
+              countValue
             ).toFixed(2);
             finalArray[monthIndex].weight = Number(value);
+            finalArray[monthIndex].counter =
+              Number(finalArray[monthIndex].counter) + 1;
           } else {
             const elementValid = isValid(element.created_at);
             const data = {
               ...element,
               weight: parseFloat(element.weight),
+              counter: 1,
               formattedDate: format(
                 elementValid
                   ? element.created_at
@@ -128,7 +133,7 @@ export default function Weight({ route, navigation }) {
         const element = weightData[i];
         let monthIndex = -1;
         finalArray.map((item, index) => {
-          const itemValid = isValid(element.created_at);
+          const itemValid = isValid(item.created_at);
           const elementValid = isValid(element.created_at);
           if (
             isSameMonth(
@@ -140,16 +145,20 @@ export default function Weight({ route, navigation }) {
           }
         });
         if (monthIndex >= 0) {
+          const countValue = Number(finalArray[monthIndex].counter);
           const value = (
-            (Number(finalArray[monthIndex].weight) + Number(element.weight)) /
-            2
+            (Number(finalArray[monthIndex].weight) * countValue +
+              Number(element.weight)) /
+            (countValue + 1)
           ).toFixed(2);
           finalArray[monthIndex].weight = Number(value);
+          finalArray[monthIndex].counter += 1;
         } else {
           const elementValid = isValid(element.created_at);
           const data = {
             ...element,
             weight: parseFloat(element.weight),
+            counter: 1,
             formattedDate: format(
               elementValid ? element.created_at : parseISO(element.created_at),
               'MMMM yyyy',
@@ -162,7 +171,6 @@ export default function Weight({ route, navigation }) {
         }
         i++;
       }
-      console.log(finalArray);
 
       setMonthChart(finalArray);
       let alreadyRegistered = false;
@@ -175,13 +183,11 @@ export default function Weight({ route, navigation }) {
         return 0;
       });
       if (alreadyRegistered) {
-        setEditable(false);
+        setEditable(true);
       }
     }
     setLoading(false);
   }, []);
-
-  console.log(byMonth);
 
   return (
     <Container>
@@ -252,22 +258,26 @@ export default function Weight({ route, navigation }) {
           </VictoryChart>
         </ChartHolder>
         <RegularTitle>Weight registrations</RegularTitle>
-        {weightData[0] &&
-          weightData.map(item => (
-            <WeightHolder>
-              <WeightLabel>
-                {`${item.date} - ${item.weight}${weightUnit}`}
-              </WeightLabel>
-            </WeightHolder>
-          ))}
+        {weightData &&
+          weightData
+            .map(item => (
+              <WeightHolder>
+                <WeightLabel>
+                  {`${item.date} - ${item.weight}${weightUnit}`}
+                </WeightLabel>
+              </WeightHolder>
+            ))
+            .reverse()}
         {storedWeightData &&
-          storedWeightData.map(item => (
-            <WeightHolder>
-              <WeightLabel>
-                {`${item.date} - ${item.weight}${weightUnit}`}
-              </WeightLabel>
-            </WeightHolder>
-          ))}
+          storedWeightData.map(item =>
+            (
+              <WeightHolder>
+                <WeightLabel>
+                  {`${item.date} - ${item.weight}${weightUnit}`}
+                </WeightLabel>
+              </WeightHolder>
+            ).reverse()
+          )}
       </Scroll>
     </Container>
   );
