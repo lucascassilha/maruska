@@ -2,7 +2,7 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { TouchableOpacity } from 'react-native';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import translate from '~/locales';
 
@@ -28,13 +28,17 @@ const Stack = createStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
 
 function Tabs() {
+  const theme = !useSelector(state => state.account.darkMode);
+
   return (
     <Tab.Navigator
       shifting
       initialRouteName="Home"
       activeColor="#fff"
-      inactiveColor="#ad0c00"
-      barStyle={{ backgroundColor: '#470000' }}
+      inactiveColor={`${theme ? '#ad0c00' : '#544F4F'}`}
+      barStyle={{
+        backgroundColor: `${theme ? '#470000' : '#1D1C1C'}`,
+      }}
     >
       <Tab.Screen
         name="Pets"
@@ -77,20 +81,30 @@ function Tabs() {
 }
 
 export default function Routes() {
+  const theme = !useSelector(state => state.account.darkMode);
+
   return (
     <Stack.Navigator
       screenOptions={{
         headerTitleStyle: {
           fontFamily: 'OpenSans-BoldItalic',
           marginLeft: -25,
+          color: theme ? '#000' : '#fff',
         },
         headerStyle: {
           elevation: 0,
           shadowOpacity: 0,
           borderBottomWidth: 0,
+          backgroundColor: theme ? '#fff' : '#222327',
         },
         headerBackImage: () => {
-          return <Icon name="chevron-left" color="#000" size={25} />;
+          return (
+            <Icon
+              name="chevron-left"
+              color={theme ? '#000' : '#fff'}
+              size={25}
+            />
+          );
         },
       }}
     >

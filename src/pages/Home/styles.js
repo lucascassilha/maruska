@@ -3,14 +3,14 @@ import { RectButton } from 'react-native-gesture-handler';
 
 export const Container = styled.View`
   flex: 1;
-  background-color: #fafafa;
+  background-color: ${props => props.theme.main_background};
   padding-top: 30px;
 `;
 
 export const PetList = styled.FlatList.attrs({})``;
 
 export const Box = styled(RectButton)`
-  background-color: #eb3349;
+  background-color: ${props => props.theme.pet_button};
   margin: 5px 0px;
   padding: 15px;
   border-radius: 4px;
@@ -48,7 +48,7 @@ export const AnimationHolder = styled.View`
 `;
 export const AnimationLabel = styled.Text`
   font-size: 16px;
-  color: #000;
+  color: ${props => props.theme.general_label};
   opacity: 0.5;
   font-family: 'OpenSans-Regular';
 `;

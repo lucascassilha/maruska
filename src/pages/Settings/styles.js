@@ -2,7 +2,7 @@ import styled from 'styled-components/native';
 
 export const Container = styled.View`
   flex: 1;
-  background-color: #fff;
+  background-color: ${props => props.theme.main_background};
   padding: 0px 20px;
   align-items: center;
   padding-top: 20px;
@@ -15,7 +15,7 @@ export const Box = styled.ScrollView.attrs({
 `;
 
 export const Button = styled.TouchableOpacity`
-  background-color: #f4f4f4;
+  background-color: ${props => props.theme.settings_button};
   border-radius: 4px;
   margin: 5px 0px;
   padding: 10px 0px;
@@ -26,7 +26,7 @@ export const Button = styled.TouchableOpacity`
 
 export const Label = styled.Text`
   font-size: 18px;
-  color: #000;
+  color: ${props => props.theme.general_label};
   font-family: 'OpenSans-Regular';
   margin-left: 10px;
   width: 80%;
@@ -34,7 +34,7 @@ export const Label = styled.Text`
 
 export const Version = styled.Text`
   font-size: 16px;
-  color: #000;
+  color: ${props => props.theme.general_label};
   opacity: 0.5;
   text-align: center;
   margin: 5px 0px;
@@ -52,7 +52,7 @@ export const IconHolder = styled.View`
 
 export const Comment = styled.Text`
   font-size: 12px;
-  color: #000;
+  color: ${props => props.theme.general_label};
   opacity: 0.5;
   text-align: center;
   margin-top: -5px;
@@ -62,6 +62,6 @@ export const Comment = styled.Text`
 export const Title = styled.Text`
   font-family: 'OpenSans-BoldItalic';
   font-size: 18px;
-  color: #000;
+  color: ${props => props.theme.general_label};
   margin: 10px 0px;
 `;

@@ -28,6 +28,8 @@ import {
 
 export default function Profile({ route, navigation }) {
   const { pet } = route.params;
+
+  const theme = !useSelector(state => state.account.darkMode);
   const weightLabel = useSelector(state => state.weight);
 
   const dispatch = useDispatch();
@@ -81,7 +83,7 @@ export default function Profile({ route, navigation }) {
           <Box>
             <Title>{translate('petMenu')}</Title>
             <MenuButton
-              color="#084C61"
+              color={theme ? '#084C61' : '#37383A'}
               image={require('~/assets/img/vaccine.png')}
               title={translate('vaccines')}
               onPress={() => {
@@ -89,7 +91,7 @@ export default function Profile({ route, navigation }) {
               }}
             />
             <MenuButton
-              color="#4F6D7A"
+              color={theme ? '#4F6D7A' : '#37383A'}
               image={require('~/assets/img/pills.png')}
               title={translate('medTitle')}
               onPress={() => {
@@ -97,7 +99,7 @@ export default function Profile({ route, navigation }) {
               }}
             />
             <MenuButton
-              color="#56A3A6"
+              color={theme ? '#56A3A6' : '#37383A'}
               image={require('~/assets/img/hospital.png')}
               title={translate('healthTitle')}
               onPress={() => {

@@ -37,6 +37,8 @@ import {
 export default function Health({ route, navigation }) {
   const { petID } = route.params;
 
+  const theme = !useSelector(state => state.account.darkMode);
+
   const doctors = useSelector(state => state.doctors.data);
   const pets = useSelector(state => state.pets.data);
   const [appointments, setAppointments] = useState([]);
@@ -170,7 +172,7 @@ export default function Health({ route, navigation }) {
         <ButtonHolder>
           <MenuButton
             title="Weight Control"
-            color="#56a3a6"
+            color={theme ? '#56a3a6' : '#37383A'}
             image={require('~/assets/img/weight.png')}
             onPress={() => navigation.navigate('Weight', { petID: petID })}
           />
@@ -181,7 +183,7 @@ export default function Health({ route, navigation }) {
             <IconHolder
               onPress={() => navigation.navigate('DocAdd', { petID })}
             >
-              <Icon name="plus" color="#000" size={18} />
+              <Icon name="plus" color={theme ? '#000' : '#FFF'} size={18} />
             </IconHolder>
           </ButtonBox>
         </TitleBox>
@@ -221,7 +223,7 @@ export default function Health({ route, navigation }) {
             <IconHolder
               onPress={() => navigation.navigate('AppointAdd', { petID })}
             >
-              <Icon name="plus" color="#000" size={18} />
+              <Icon name="plus" color={theme ? '#000' : '#FFF'} size={18} />
             </IconHolder>
           </ButtonBox>
         </TitleBox>
@@ -268,7 +270,7 @@ export default function Health({ route, navigation }) {
             <IconHolder
               onPress={() => navigation.navigate('SurgeryAdd', { petID })}
             >
-              <Icon name="plus" color="#000" size={20} />
+              <Icon name="plus" color={theme ? '#000' : '#FFF'} size={20} />
             </IconHolder>
           </ButtonBox>
         </TitleBox>
@@ -300,7 +302,7 @@ export default function Health({ route, navigation }) {
             <IconHolder
               onPress={() => navigation.navigate('ProblemAdd', { petID })}
             >
-              <Icon name="plus" color="#000" size={20} />
+              <Icon name="plus" color={theme ? '#000' : '#FFF'} size={20} />
             </IconHolder>
           </ButtonBox>
         </TitleBox>

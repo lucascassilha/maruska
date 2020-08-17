@@ -59,7 +59,7 @@ export default function LostPet({ route }) {
 
   return (
     <Container>
-      <StatusBar hidden />
+      <StatusBar backgroundColor="#fff" barStyle="light-content" />
       <LabelInput>
         {changeInfo
           ? translate('editInformation')

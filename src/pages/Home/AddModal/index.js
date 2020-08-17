@@ -1,8 +1,7 @@
 import React, { useState, useRef } from 'react';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Checkbox } from 'react-native-paper';
 import { useSelector, useDispatch } from 'react-redux';
-import { Alert, Vibration, TouchableOpacity, View } from 'react-native';
+import { Alert, Vibration, useColorScheme } from 'react-native';
 import DatePicker from 'react-native-date-picker';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
@@ -52,6 +51,7 @@ const schema = Yup.object().shape({
 const currentDate = new Date();
 
 export default function AddModal() {
+  const theme = !useSelector(state => state.account.darkMode);
   const visible = useSelector(state => state.modal);
   const pets = useSelector(state => state.pets.data);
   const [undefDate, setUndef] = useState(false);
@@ -121,6 +121,7 @@ export default function AddModal() {
                 <CategoryPicker
                   selectedValue={values.kind}
                   onValueChange={category => setFieldValue('kind', category)}
+                  style={{ color: '#888282' }}
                 >
                   <CategoryPicker.Item
                     label={`🐕 ${translate('dogKind')}`}
@@ -144,6 +145,7 @@ export default function AddModal() {
                   <CategoryPicker
                     selectedValue={values.sex}
                     onValueChange={category => setFieldValue('sex', category)}
+                    style={{ color: '#888282' }}
                   >
                     <CategoryPicker.Item
                       label={`${translate('sexMale')}`}
@@ -171,6 +173,8 @@ export default function AddModal() {
                     mode="date"
                     maximumDate={new Date()}
                     locale={locale}
+                    fadeToColor="none"
+                    textColor="#888282"
                   />
                 </DateHolder>
                 {errors.date && <ErrorLabel>{errors.date}</ErrorLabel>}
@@ -178,8 +182,8 @@ export default function AddModal() {
                   <Checkbox
                     status={undefDate ? 'checked' : 'unchecked'}
                     onPress={() => setUndef(!undefDate)}
-                    color="#470000"
-                    uncheckedColor="#470000"
+                    color={theme ? '#470000' : '#888282'}
+                    uncheckedColor={theme ? '#470000' : '#888282'}
                   />
                   <InputLabel>{translate('undefDate')}</InputLabel>
                 </CheckHolder>

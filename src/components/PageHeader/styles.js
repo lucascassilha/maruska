@@ -1,7 +1,7 @@
 import styled from 'styled-components/native';
 
 export const Wrapper = styled.View`
-  background-color: #fff;
+  background-color: ${props => props.theme.main_background};
 `;
 
 export const Container = styled.View`
@@ -10,13 +10,13 @@ export const Container = styled.View`
   align-items: center;
   justify-content: space-between;
   padding-top: 40px;
-  background-color: #fff;
+  background-color: ${props => props.theme.main_background};
 `;
 
 export const Title = styled.Text`
   font-size: 20px;
   font-family: 'OpenSans-BoldItalic';
-  color: #000;
+  color: ${props => props.theme.general_label};
   margin-left: 5px;
 `;
 

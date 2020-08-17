@@ -29,6 +29,7 @@ export const ModalContainer = styled.View`
   flex: 1;
   padding: 10px 30px;
   justify-content: center;
+  background-color: #fff;
 `;
 
 export const Avatar = styled.Image`

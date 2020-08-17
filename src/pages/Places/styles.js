@@ -1,7 +1,7 @@
 import styled from 'styled-components/native';
 
 export const Container = styled.View`
-  background-color: #fff;
+  background-color: ${props => props.theme.main_background};
   flex: 1;
   padding-top: 20px;
 `;
@@ -9,7 +9,7 @@ export const Container = styled.View`
 export const Title = styled.Text`
   font-family: 'OpenSans-BoldItalic';
   font-size: 18px;
-  color: #000;
+  color: ${props => props.theme.general_label};
   margin: 10px;
   margin-left: 20px;
   margin-bottom: -20px;
@@ -18,7 +18,7 @@ export const Title = styled.Text`
 export const PlaceList = styled.FlatList``;
 
 export const Box = styled.View`
-  background-color: #eb3349;
+  background-color: ${props => props.theme.pet_button};
   margin: 5px 0px;
   padding: 20px;
   border-radius: 4px;
@@ -61,7 +61,7 @@ export const AnimationHolder = styled.View`
 
 export const AnimationLabel = styled.Text`
   font-size: 16px;
-  color: #000;
+  color: ${props => props.theme.general_label};
   opacity: 0.5;
   text-align: center;
   font-family: 'OpenSans-Regular';

@@ -11,7 +11,7 @@ export const Container = styled(Animatable.View)`
 `;
 
 export const Box = styled.View`
-  background-color: #fff;
+  background-color: ${props => props.theme.main_background};
   flex: 1;
 `;
 
@@ -22,14 +22,14 @@ export const Scroll = styled.ScrollView.attrs({
 })``;
 
 export const InputLabel = styled.Text`
-  color: #000000;
+  color: ${props => props.theme.general_label};
   font-size: 14px;
   text-align: left;
   font-family: 'OpenSans-Regular';
 `;
 
 export const Label = styled.Text`
-  color: #000000;
+  color: ${props => props.theme.general_label};
   font-size: 12px;
   text-align: left;
   font-family: 'OpenSans-Italic';
@@ -47,11 +47,11 @@ export const DateHolder = styled.View`
 `;
 export const Input = styled.TextInput`
   align-self: stretch;
-  background-color: #f8f8f8;
+  background-color: ${props => props.theme.secondary_background};
   border-radius: 4px;
   margin-bottom: 20px;
   padding: 8px 15px;
-  color: #000;
+  color: ${props => props.theme.general_label};
   font-family: 'OpenSans-Regular';
 `;
 
@@ -62,7 +62,7 @@ export const CheckHolder = styled.View`
 `;
 
 export const Instruction = styled.Text`
-  color: #000;
+  color: ${props => props.theme.general_label};
   text-align: center;
   font-family: 'OpenSans-BoldItalic';
   font-size: 16px;
@@ -71,7 +71,7 @@ export const Instruction = styled.Text`
 
 export const ErrorLabel = styled.Text`
   font-size: 12px;
-  color: #120369;
+  color: red;
   font-family: 'OpenSans-Regular';
   text-align: left;
   margin-top: -10px;

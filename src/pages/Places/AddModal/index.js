@@ -1,14 +1,7 @@
 import React, { useRef } from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { Checkbox } from 'react-native-paper';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  Alert,
-  Vibration,
-  Linking,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { Alert, Vibration, Linking, useColorScheme } from 'react-native';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
 
@@ -23,9 +16,6 @@ import {
   Container,
   Box,
   Scroll,
-  Title,
-  TitleBox,
-  TitleImage,
   InputLabel,
   Input,
   ErrorLabel,
@@ -43,6 +33,7 @@ const schema = Yup.object().shape({
 });
 
 export default function AddModal() {
+  const theme = !useSelector(state => state.account.darkMode);
   const visible = useSelector(state => state.modal);
   const locations = useSelector(state => state.places.data);
 
@@ -118,6 +109,7 @@ export default function AddModal() {
                 <CategoryPicker
                   selectedValue={values.kind}
                   onValueChange={category => setFieldValue('kind', category)}
+                  style={{ color: '#888282' }}
                 >
                   <CategoryPicker.Item
                     label="🛍️ PetShop"
@@ -149,7 +141,11 @@ export default function AddModal() {
                 />
                 {errors.city && <ErrorLabel>{errors.city}</ErrorLabel>}
                 <ButtonHolder onPress={() => handleMaps(values)}>
-                  <Icon name="map-search" size={25} />
+                  <Icon
+                    name="map-search"
+                    size={25}
+                    color={theme ? '#000' : '#fff'}
+                  />
                   <ButtonLabel>{translate('openMap')}</ButtonLabel>
                 </ButtonHolder>
                 <InputLabel>{translate('address')}</InputLabel>

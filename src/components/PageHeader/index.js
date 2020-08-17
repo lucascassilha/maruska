@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import PropTypes from 'prop-types';
@@ -8,6 +9,8 @@ import * as Animatable from 'react-native-animatable';
 import { Wrapper, Container, Title, HolderView, HeaderImage } from './styles';
 
 const PageHeader = ({ navigation, title, icons, source, onDelete, onEdit }) => {
+  const theme = !useSelector(state => state.account.darkMode);
+  const iconColor = theme ? '#000' : '#fff';
   let imageSource = '';
   if (source && icons) {
     imageSource = {
@@ -21,11 +24,14 @@ const PageHeader = ({ navigation, title, icons, source, onDelete, onEdit }) => {
 
   return (
     <Wrapper>
-      <Animatable.View animation="flipInX" style={{ backgroundColor: '#fff' }}>
+      <Animatable.View
+        animation="flipInX"
+        style={{ backgroundColor: theme ? '#fff' : '#222327' }}
+      >
         <Container>
           <HolderView>
             <TouchableOpacity onPress={() => navigation.goBack()}>
-              <Icon name="chevron-left" color="#000" size={25} />
+              <Icon name="chevron-left" color={iconColor} size={25} />
             </TouchableOpacity>
             <Title>{title}</Title>
           </HolderView>
@@ -33,10 +39,10 @@ const PageHeader = ({ navigation, title, icons, source, onDelete, onEdit }) => {
             {icons ? (
               <>
                 <TouchableOpacity onPress={onDelete}>
-                  <Icon name="trash-can" color="#000" size={20} />
+                  <Icon name="trash-can" color={iconColor} size={20} />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={onEdit}>
-                  <Icon name="pencil" color="#000" size={20} />
+                  <Icon name="pencil" color={iconColor} size={20} />
                 </TouchableOpacity>
               </>
             ) : null}
