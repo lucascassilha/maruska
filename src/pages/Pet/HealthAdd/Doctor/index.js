@@ -44,8 +44,9 @@ export default function DocAdd({ route, navigation }) {
     const pickerDoctorIndex = doctors.findIndex(
       item => item.name === selectedDoc
     );
-    if (selectedDoc && pickerDoctorIndex === -1) {
+    if (selectedDoc !== translate('noneDoc') && pickerDoctorIndex === -1) {
       Vibration.vibrate();
+      console.log(selectedDoc);
       return Alert.alert('Maruska', translate('helpInfo'));
     }
     if (pickerDoctorIndex >= 0) {
@@ -97,9 +98,12 @@ export default function DocAdd({ route, navigation }) {
       <Picker
         style={{ padding: 15 }}
         onValueChange={value => setDoc(value)}
-        selectedValue={selectedDoc || null}
+        selectedValue={selectedDoc}
       >
-        <Picker.Item label={translate('appVetSelect')} value={null} />
+        <Picker.Item
+          label={translate('appVetSelect')}
+          value={translate('noneDoc')}
+        />
         {pickerDoctors[0] &&
           pickerDoctors.map(item => (
             <Picker.Item

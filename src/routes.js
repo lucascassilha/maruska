@@ -100,20 +100,23 @@ export default function Routes() {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    alert(nativeTheme);
     if (proAccount) {
-      if (nativeTheme) {
-        setTheme(themes.light);
-        if (!themeBoolean) {
-          dispatch(darkMode());
-        }
-      } else {
-        setTheme(themes.dark);
-        if (themeBoolean) {
-          dispatch(darkMode());
-        }
+      if (nativeTheme && !themeBoolean) {
+        dispatch(darkMode());
+      } else if (!nativeTheme && themeBoolean) {
+        dispatch(darkMode());
       }
     }
   }, []);
+
+  useEffect(() => {
+    if (themeBoolean) {
+      setTheme(themes.light);
+    } else {
+      setTheme(themes.dark);
+    }
+  }, [themeBoolean]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -154,9 +157,9 @@ export default function Routes() {
         <Stack.Screen
           name="Avatar"
           component={Avatar}
-          options={() => ({
+          options={{
             title: translate('pictureTitle'),
-          })}
+          }}
         />
         <Stack.Screen
           name="Health"
@@ -166,30 +169,30 @@ export default function Routes() {
         <Stack.Screen
           name="DocAdd"
           component={DocAdd}
-          options={() => ({
+          options={{
             title: translate('addDoc'),
-          })}
+          }}
         />
         <Stack.Screen
           name="AppointAdd"
           component={AppointAdd}
-          options={({ route }) => ({
+          options={{
             title: translate('addApp'),
-          })}
+          }}
         />
         <Stack.Screen
           name="SurgeryAdd"
           component={SurgeryAdd}
-          options={() => ({
+          options={{
             title: translate('addSurg'),
-          })}
+          }}
         />
         <Stack.Screen
           name="ProblemAdd"
           component={ProblemAdd}
-          options={() => ({
+          options={{
             title: translate('addProblem'),
-          })}
+          }}
         />
         <Stack.Screen
           name="Weight"
@@ -209,16 +212,16 @@ export default function Routes() {
         <Stack.Screen
           name="LostPet"
           component={LostPet}
-          options={() => ({
+          options={{
             title: translate('contact'),
-          })}
+          }}
         />
         <Stack.Screen
           name="Notifications"
           component={Notifications}
-          options={() => ({
+          options={{
             title: translate('not'),
-          })}
+          }}
         />
       </Stack.Navigator>
     </ThemeProvider>

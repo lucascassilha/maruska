@@ -65,3 +65,20 @@ export const Title = styled.Text`
   color: ${props => props.theme.general_label};
   margin: 10px 0px;
 `;
+
+export const ModalContainer = styled.View`
+  padding: 20px;
+  background-color: ${props => props.theme.main_background};
+  flex: 1;
+`;
+
+export const SwitchBox = styled.View`
+  background-color: ${props => props.theme.settings_button};
+  border-radius: 4px;
+  margin: 5px 0px;
+  padding: 10px 0px;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 20px 10px;
+  align-items: center;
+`;

@@ -211,4 +211,7 @@ export default {
   deletePetSnack: 'Pet deletado! Esperamos que esteja tudo bem 😟',
   thk: 'Obrigado',
   helpMenu: 'Menu de Ajuda',
+  darkMode: 'Modo escuro',
+  lightMode: 'Modo claro',
+  options: 'Opções',
 };

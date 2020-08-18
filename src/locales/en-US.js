@@ -210,4 +210,7 @@ export default {
   deletePetSnack: 'Pet deleted! We hope everything is ok 😟',
   thk: 'Thank you',
   helpMenu: 'Help Menu',
+  darkMode: 'Dark Theme',
+  lightMode: 'Light Theme',
+  options: 'Options',
 };
