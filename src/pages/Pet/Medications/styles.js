@@ -2,7 +2,7 @@ import styled from 'styled-components/native';
 
 export const Container = styled.View`
   flex: 1;
-  background-color: #fff;
+  background-color: ${props => props.theme.main_background};
   padding: 0px 20px;
 `;
 
@@ -27,16 +27,16 @@ export const InputBox = styled.View`
 `;
 
 export const Input = styled.TextInput`
-  background-color: #f8f8f8;
+  background-color: ${props => props.theme.secondary_background};
   padding: 5px 10px;
   border-radius: 4px;
   margin-bottom: 10px;
-  color: #000;
+  color: ${props => props.theme.general_label};
   font-family: 'OpenSans-Regular';
 `;
 
 export const InputLabel = styled.Text`
-  color: #000;
+  color: ${props => props.theme.general_label};
   margin-top: 5px;
   font-size: 14px;
   font-family: 'OpenSans-Italic';
@@ -66,7 +66,7 @@ export const ButtonLabel = styled.Text`
 `;
 
 export const Box = styled.View`
-  background-color: #4f6d7a;
+  background-color: ${props => (props.theme.light ? '#4f6d7a' : '#37383A')};
   margin: 10px 0px;
   border-radius: 4px;
   padding: 15px;
@@ -108,7 +108,7 @@ export const ModalContainer = styled.View`
 export const Scroll = styled.ScrollView``;
 
 export const ModalBox = styled.View`
-  background-color: #fff;
+  background-color: ${props => props.theme.main_background};
   padding: 20px;
   flex: 1;
 `;
@@ -126,7 +126,7 @@ export const CancelBox = styled.TouchableOpacity``;
 
 export const ErrorLabel = styled.Text`
   font-size: 12px;
-  color: #120369;
+  color: red;
   font-family: 'OpenSans-Regular';
   text-align: left;
   margin-top: -10px;

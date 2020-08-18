@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Container, Logo, Not, Ball } from './styles';
 
 const Header = ({ navigation }) => {
+  const theme = !useSelector(state => state.account.darkMode);
   const notifications = useSelector(state => state.notifications.data.length);
   const [notEmpty, setEmpty] = useState(true);
 
@@ -18,10 +19,16 @@ const Header = ({ navigation }) => {
 
   return (
     <Container>
-      <Logo source={require('../../assets/img/logo.png')} />
+      <Logo
+        source={
+          theme
+            ? require('../../assets/img/logo.png')
+            : require('../../assets/img/logo_white.png')
+        }
+      />
       <Not onPress={() => navigation.navigate('Notifications')}>
         <Ball empty={notEmpty} />
-        <Icon name="bell" size={24} color="#470000" />
+        <Icon name="bell" size={24} color={theme ? '#470000' : '#fff'} />
       </Not>
     </Container>
   );

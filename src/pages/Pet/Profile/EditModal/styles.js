@@ -14,7 +14,7 @@ export const Box = styled.View`
   margin: 30px;
   border-radius: 4px;
   elevation: 2;
-  background-color: #fff;
+  background-color: ${props => props.theme.main_background};
 `;
 
 export const Scroll = styled.ScrollView.attrs({
@@ -24,7 +24,7 @@ export const Scroll = styled.ScrollView.attrs({
 })``;
 
 export const InputLabel = styled.Text`
-  color: #000000;
+  color: ${props => props.theme.general_label};
   font-size: 12px;
   text-align: left;
   font-family: 'OpenSans-Italic';
@@ -33,11 +33,11 @@ export const InputLabel = styled.Text`
 
 export const Input = styled.TextInput`
   align-self: stretch;
-  background-color: #f8f8f8;
+  background-color: ${props => props.theme.secondary_background};
   border-radius: 4px;
   margin-bottom: 20px;
   padding: 8px 15px;
-  color: #000;
+  color: ${props => props.theme.general_label};
   font-family: 'OpenSans-Regular';
 `;
 

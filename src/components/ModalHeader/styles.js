@@ -14,7 +14,7 @@ export const TitleImage = styled.Image`
 
 export const Title = styled.Text`
   font-size: 24px;
-  color: #000000;
+  color: ${props => props.theme.general_label};
   font-family: 'OpenSans-BoldItalic';
   margin-left: 10px;
   margin-right: 10px;

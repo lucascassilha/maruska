@@ -1,8 +1,7 @@
 import styled from 'styled-components/native';
-import LinearGradient from 'react-native-linear-gradient';
 
 export const Container = styled.ScrollView`
-  background-color: #fff;
+  background-color: ${props => props.theme.main_background};
   flex: 1;
   padding: 0px 20px;
 `;
@@ -10,10 +9,10 @@ export const Container = styled.ScrollView`
 export const Title = styled.Text`
   font-size: 18px;
   font-family: 'OpenSans-BoldItalic';
-  color: #000;
+  color: ${props => props.theme.general_label};
 `;
 export const Box = styled.View`
-  background-color: #f8f8f8;
+  background-color: ${props => props.theme.secondary_background};
   border-radius: 5px;
   padding: 20px;
   justify-content: center;
@@ -32,14 +31,14 @@ export const InfoTextHolder = styled.View``;
 export const TextColumn = styled.View``;
 
 export const Label = styled.Text`
-  color: #000;
+  color: ${props => props.theme.general_label};
   font-family: 'OpenSans-Italic';
   font-size: 12px;
 `;
 
 export const Info = styled.Text`
   font-size: 16px;
-  color: #000;
+  color: ${props => props.theme.general_label};
   font-family: 'OpenSans-Bold';
 `;
 

@@ -28,6 +28,7 @@ import {
 } from './styles';
 
 export default function Home({ navigation }) {
+  const theme = !useSelector(state => state.account.darkMode);
   const pets = useSelector(state => state.pets.data);
   const [petData, setPetData] = useState([]);
 
@@ -67,7 +68,7 @@ export default function Home({ navigation }) {
       <StatusBar
         backgroundColor="transparent"
         translucent
-        barStyle="dark-content"
+        barStyle={theme ? 'dark_content' : 'light-content'}
       />
       <Modal />
       <FAB onPress={handleOpen} />

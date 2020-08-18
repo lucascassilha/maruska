@@ -1,18 +1,32 @@
 import React, { useState, useEffect } from 'react';
-import { format, differenceInDays, parseISO, isValid } from 'date-fns';
+import { format, parseISO, isValid, isSameDay, isSameMonth } from 'date-fns';
 import { Dimensions, Alert, Vibration } from 'react-native';
-import { LineChart } from 'react-native-chart-kit';
 import { useSelector, useDispatch } from 'react-redux';
 import { ptBR, enUS } from 'date-fns/locale';
 import PropTypes from 'prop-types';
+
+import { VictoryChart, VictoryLine, VictoryTheme } from 'victory-native';
 
 import PageHeader from '~/components/PageHeader';
 import Button from '~/components/Button';
 import { petWeightAdd } from '~/store/modules/pets/actions';
 import translate, { locale } from '~/locales';
 
-import { Container, Holder, InputLabel, Input, ErrorLabel } from './styles';
+import {
+  Container,
+  Scroll,
+  Holder,
+  InputLabel,
+  Input,
+  ErrorLabel,
+  ChartTitle,
+  RegularTitle,
+  ChartHolder,
+  WeightHolder,
+  WeightLabel,
+} from './styles';
 
+const windowWidth = Math.round(Dimensions.get('window').width);
 export default function Weight({ route, navigation }) {
   const { petID } = route.params;
 
@@ -20,14 +34,19 @@ export default function Weight({ route, navigation }) {
 
   const pets = useSelector(state => state.pets.data);
 
+  const petIndex = pets.findIndex(item => item.name === petID);
+  const weightData = pets[petIndex].weight;
+  const storedWeightData = pets[petIndex].storedWeight;
+
   const localeFNS = locale === 'pt_BR' ? ptBR : enUS;
   const date = format(new Date(), 'dd MMMM', { locale: localeFNS });
   const dispatch = useDispatch();
 
   const [weight, setWeight] = useState(null);
-  const [labels, setLabels] = useState(['Jan']);
-  const [data, setData] = useState([0]);
   const [editable, setEditable] = useState(true);
+  const [chartData, setChart] = useState([]);
+  const [byMonth, setMonthChart] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const handleAddWeight = () => {
     if (weight) {
@@ -40,8 +59,8 @@ export default function Weight({ route, navigation }) {
             onPress: async () => {
               const currentDate = new Date();
 
-              const weightData = { weight, date, created_at: currentDate };
-              dispatch(petWeightAdd(weightData, petID));
+              const data = { weight, date, created_at: currentDate };
+              dispatch(petWeightAdd(data, petID));
               navigation.goBack();
             },
           },
@@ -54,88 +73,212 @@ export default function Weight({ route, navigation }) {
   };
 
   useEffect(() => {
-    const petIndex = pets.findIndex(item => item.name === petID);
-
-    const weightData = pets[petIndex].weight;
+    setLoading(true);
 
     if (weightData) {
-      const labelList = weightData.map(item => item.date);
-      const weightList = weightData.map(item => parseFloat(item.weight));
-
-      setLabels(labelList);
-      setData(weightList);
-
+      setChart(weightData);
       const currentDate = new Date();
 
-      const dayRegistered = weightData.findIndex(item => {
+      const finalArray = [];
+
+      let i = 0;
+      if (storedWeightData) {
+        while (i < storedWeightData.length) {
+          const element = storedWeightData[i];
+          let monthIndex = -1;
+          finalArray.map((item, index) => {
+            const itemValid = isValid(element.created_at);
+            const elementValid = isValid(element.created_at);
+            if (
+              isSameMonth(
+                itemValid ? item.created_at : parseISO(item.created_at),
+                elementValid ? element.created_at : parseISO(element.created_at)
+              )
+            ) {
+              monthIndex = index;
+            }
+          });
+          if (monthIndex >= 0) {
+            const countValue = Number(finalArray[monthIndex].counter) + 1;
+            const value = (
+              (Number(finalArray[monthIndex].weight) * countValue +
+                Number(element.weight)) /
+              countValue
+            ).toFixed(2);
+            finalArray[monthIndex].weight = Number(value);
+            finalArray[monthIndex].counter =
+              Number(finalArray[monthIndex].counter) + 1;
+          } else {
+            const elementValid = isValid(element.created_at);
+            const data = {
+              ...element,
+              weight: parseFloat(element.weight),
+              counter: 1,
+              formattedDate: format(
+                elementValid
+                  ? element.created_at
+                  : parseISO(element.created_at),
+                'MMMM yyyy',
+                {
+                  locale: localeFNS,
+                }
+              ),
+            };
+            finalArray.push(data);
+          }
+          i++;
+        }
+      }
+      while (i < weightData.length) {
+        const element = weightData[i];
+        let monthIndex = -1;
+        finalArray.map((item, index) => {
+          const itemValid = isValid(item.created_at);
+          const elementValid = isValid(element.created_at);
+          if (
+            isSameMonth(
+              itemValid ? item.created_at : parseISO(item.created_at),
+              elementValid ? element.created_at : parseISO(element.created_at)
+            )
+          ) {
+            monthIndex = index;
+          }
+        });
+        if (monthIndex >= 0) {
+          const countValue = Number(finalArray[monthIndex].counter);
+          const value = (
+            (Number(finalArray[monthIndex].weight) * countValue +
+              Number(element.weight)) /
+            (countValue + 1)
+          ).toFixed(2);
+          finalArray[monthIndex].weight = Number(value);
+          finalArray[monthIndex].counter += 1;
+        } else {
+          const elementValid = isValid(element.created_at);
+          const data = {
+            ...element,
+            weight: parseFloat(element.weight),
+            counter: 1,
+            formattedDate: format(
+              elementValid ? element.created_at : parseISO(element.created_at),
+              'MMMM yyyy',
+              {
+                locale: localeFNS,
+              }
+            ),
+          };
+          finalArray.push(data);
+        }
+        i++;
+      }
+
+      setMonthChart(finalArray);
+      let alreadyRegistered = false;
+      weightData.findIndex(item => {
         const dateValid = isValid(item.created_at);
         const parsedDate = dateValid
           ? item.created_at
           : parseISO(item.created_at);
-        return differenceInDays(parsedDate, currentDate) === 0;
+        alreadyRegistered = isSameDay(parsedDate, currentDate);
+        return 0;
       });
-      if (dayRegistered === 0) {
-        setEditable(false);
+      if (alreadyRegistered) {
+        setEditable(true);
       }
     }
+    setLoading(false);
   }, []);
 
   return (
-    <Container style={{ flex: 1 }}>
+    <Container>
       <PageHeader
         navigation={navigation}
         source={require('~/assets/img/weight.png')}
         title={translate('weightTitle')}
       />
-      <LineChart
-        fromZero
-        data={{
-          labels,
-          datasets: [
-            {
-              data,
-            },
-          ],
-        }}
-        width={Dimensions.get('window').width}
-        height={220}
-        yAxisSuffix={weightUnit}
-        withInnerLines={false}
-        withShadow={false}
-        chartConfig={{
-          backgroundColor: '#ffffff',
-          backgroundGradientFrom: '#ffffff',
-          backgroundGradientTo: '#ffffff',
-          color: (opacity = 0.7) => `rgba(0, 0, 0, ${opacity})`,
-          propsForDots: {
-            r: '4',
-            strokeWidth: '2',
-            stroke: '#470000',
-          },
-        }}
-      />
-      <Holder>
-        <InputLabel disabled={!editable}>
-          {`${translate('addWeightLabel')} (${weightUnit})`}
-        </InputLabel>
-        <Input
-          disabled={!editable}
-          onChangeText={setWeight}
-          maxLength={5}
-          value={weight}
-          keyboardType="number-pad"
-          placeholder="35.5"
-          onSubmitEditing={handleAddWeight}
-        />
-        {!editable ? (
-          <ErrorLabel>{translate('weightAlready')}</ErrorLabel>
-        ) : null}
-        <Button
-          title={translate('registerLabel')}
-          onPress={handleAddWeight}
-          disabled={!editable}
-        />
-      </Holder>
+      <Scroll>
+        <Holder>
+          <InputLabel disabled={!editable}>
+            {`${translate('addWeightLabel')} (${weightUnit})`}
+          </InputLabel>
+          <Input
+            disabled={!editable}
+            onChangeText={setWeight}
+            maxLength={5}
+            value={weight}
+            keyboardType="number-pad"
+            placeholder="35.5"
+            onSubmitEditing={handleAddWeight}
+          />
+          {!editable ? (
+            <ErrorLabel>{translate('weightAlready')}</ErrorLabel>
+          ) : null}
+          <Button
+            title={translate('registerLabel')}
+            onPress={handleAddWeight}
+            disabled={!editable}
+          />
+        </Holder>
+        <ChartTitle>Last weight records</ChartTitle>
+        <ChartHolder>
+          <VictoryChart
+            theme={VictoryTheme.material}
+            width={windowWidth - 40}
+            minDomain={{ y: 0 }}
+          >
+            <VictoryLine
+              data={chartData}
+              x="date"
+              y="weight"
+              style={{
+                data: {
+                  stroke: '#56a3a6',
+                },
+              }}
+            />
+          </VictoryChart>
+        </ChartHolder>
+        <ChartTitle>Weight by month</ChartTitle>
+        <ChartHolder>
+          <VictoryChart
+            theme={VictoryTheme.material}
+            width={windowWidth - 40}
+            minDomain={{ y: 0 }}
+          >
+            <VictoryLine
+              data={byMonth}
+              x="formattedDate"
+              y="weight"
+              style={{
+                data: {
+                  stroke: '#56a3a6',
+                },
+              }}
+            />
+          </VictoryChart>
+        </ChartHolder>
+        <RegularTitle>Weight registrations</RegularTitle>
+        {weightData &&
+          weightData
+            .map(item => (
+              <WeightHolder>
+                <WeightLabel>
+                  {`${item.date} - ${item.weight}${weightUnit}`}
+                </WeightLabel>
+              </WeightHolder>
+            ))
+            .reverse()}
+        {storedWeightData &&
+          storedWeightData.map(item =>
+            (
+              <WeightHolder>
+                <WeightLabel>
+                  {`${item.date} - ${item.weight}${weightUnit}`}
+                </WeightLabel>
+              </WeightHolder>
+            ).reverse()
+          )}
+      </Scroll>
     </Container>
   );
 }

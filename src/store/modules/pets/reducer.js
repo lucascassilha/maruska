@@ -28,6 +28,7 @@ export default function pets(state = INITIAL_STATE, action) {
           originalDate: returnDate,
           originalYears: years,
           originalMonths: months,
+          storedWeight: [],
         };
 
         draft.data.push(info);
@@ -200,6 +201,7 @@ export default function pets(state = INITIAL_STATE, action) {
         if (petIndex >= 0) {
           if (petData[petIndex].weight && petData[petIndex].weight.length > 0) {
             if (petData[petIndex].weight.length >= 8) {
+              petData[petIndex].storedWeight.push(petData[petIndex].weight[0]);
               petData[petIndex].weight.shift();
             }
             petData[petIndex].weight.push(weightData);

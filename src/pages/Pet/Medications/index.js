@@ -409,6 +409,7 @@ export default function Medications({ route, navigation }) {
                             setFieldValue('interval', value)
                           }
                           selectedValue={values.interval || null}
+                          style={{ color: '#888282' }}
                         >
                           <Picker.Item label="" value={null} />
                           <Picker.Item
@@ -441,8 +442,8 @@ export default function Medications({ route, navigation }) {
                         mode="datetime"
                         minimumDate={now}
                         locale={locale}
-                        textColor="#000000"
                         fadeToColor="none"
+                        textColor="#888282"
                       />
                     </DateHolder>
                     <Button

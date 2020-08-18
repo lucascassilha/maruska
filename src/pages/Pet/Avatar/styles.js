@@ -2,12 +2,12 @@ import styled from 'styled-components/native';
 
 export const Container = styled.View`
   flex: 1;
-  background-color: #fff;
+  background-color: ${props => props.theme.main_background};
   padding: 0px 30px;
 `;
 
 export const PictureBox = styled.View`
-  background-color: #fff;
+  background-color: ${props => props.theme.main_background};
   align-self: center;
   height: 250px;
   width: 250px;
@@ -24,7 +24,7 @@ export const Label = styled.Text`
   font-family: 'OpenSans-Regular';
   text-align: center;
   font-size: 18px;
-  color: #000;
+  color: ${props => props.theme.general_label};
 `;
 
 export const PetImage = styled.Image`

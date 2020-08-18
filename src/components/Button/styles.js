@@ -3,8 +3,7 @@ import styled from 'styled-components/native';
 
 export const Wrapper = styled.TouchableOpacity`
   align-self: stretch;
-  background-color: ${props =>
-    props.disabled ? '#f2f2f2' : props.secondary ? '#eb3349' : '#bc1529'};
+  background-color: ${props => props.theme.button};
   align-items: center;
   justify-content: center;
   flex-direction: row;

@@ -11,7 +11,7 @@ export const Container = styled(Animatable.View)`
 `;
 
 export const Box = styled.View`
-  background-color: #fff;
+  background-color: ${props => props.theme.main_background};
   flex: 1;
 `;
 
@@ -21,28 +21,8 @@ export const Scroll = styled.ScrollView.attrs({
   },
 })``;
 
-export const TitleBox = styled.View`
-  flex-direction: row;
-  align-items: center;
-  margin-bottom: 20px;
-  justify-content: space-between;
-`;
-
-export const TitleImage = styled.Image`
-  height: 40px;
-  width: 40px;
-`;
-
-export const Title = styled.Text`
-  font-size: 24px;
-  color: #000000;
-  font-family: 'OpenSans-BoldItalic';
-  margin-left: 10px;
-  margin-right: 10px;
-`;
-
 export const InputLabel = styled.Text`
-  color: #000;
+  color: ${props => props.theme.general_label};
   font-size: 12px;
   text-align: left;
   font-family: 'OpenSans-Italic';
@@ -51,17 +31,17 @@ export const InputLabel = styled.Text`
 
 export const Input = styled.TextInput`
   align-self: stretch;
-  background-color: #f8f8f8;
+  background-color: ${props => props.theme.secondary_background};
   border-radius: 4px;
   margin-bottom: 20px;
   padding: 8px 15px;
-  color: #000;
+  color: ${props => props.theme.general_label};
   font-family: 'OpenSans-Regular';
 `;
 
 export const Submit = styled.TouchableOpacity`
   align-self: stretch;
-  background-color: #000;
+  background-color: ${props => props.theme.general_label};
   padding: 10px;
   border-radius: 4px;
   align-items: center;
@@ -70,12 +50,12 @@ export const Submit = styled.TouchableOpacity`
 export const SubmitTitle = styled.Text`
   font-size: 16px;
   font-family: 'OpenSans-Bold';
-  color: #fff;
+  color: ${props => props.theme.general_label};
 `;
 
 export const ErrorLabel = styled.Text`
   font-size: 12px;
-  color: #eb3349;
+  color: red;
   font-family: 'OpenSans-Regular';
   text-align: left;
   margin-top: -10px;
@@ -90,9 +70,10 @@ export const ButtonHolder = styled.TouchableOpacity`
 `;
 
 export const ButtonLabel = styled.Text`
-  font-family: 'OpenSans-Regular';
+  font-family: 'OpenSans-Bold';
   font-size: 16px;
   margin-left: 10px;
+  color: ${props => props.theme.general_label};
 `;
 
 export const CategoryPicker = styled(Picker)``;

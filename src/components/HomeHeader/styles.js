@@ -1,5 +1,7 @@
 import styled from 'styled-components/native';
 
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+
 export const Container = styled.View`
   padding: 0px 20px;
   align-items: center;
@@ -33,3 +35,7 @@ export const Ball = styled.View`
   z-index: 1;
   opacity: ${props => (props.empty ? 0 : 1)};
 `;
+
+export const BellIcon = styled(Icon).attrs({
+  color: props => props.theme.logo_color,
+})``;

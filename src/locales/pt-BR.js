@@ -204,6 +204,7 @@ export default {
   registerPet: 'Registrar pet',
   specify: 'Não especificar',
   none: 'Clínica não especificada',
+  noneDoc: 'Vet não especificado',
   deletePetTitle: 'Tem certeza que quer deletar esse pet?',
   deletePetDescription:
     'Você não conseguirá recuperar nenhuma das informações guardadas!',
