@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-import { Alert, Linking, Share } from 'react-native';
+import { Alert, Linking, Share, Modal, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { format } from 'date-fns';
 import { useSelector, useDispatch } from 'react-redux';
@@ -13,12 +13,19 @@ import {
   IconHolder,
   Comment,
   Title,
+  ModalContainer,
 } from './styles';
 import translate from '~/locales';
 import terms from './terms';
 
+import { darkMode } from '~/store/modules/account/actions';
+
 export default function Settings() {
   const weight = useSelector(state => state.weight);
+  const proAccount = useSelector(state => state.account.pro);
+  const themeBoolean = !useSelector(state => state.account.darkMode);
+
+  const [modalVisible, setVisible] = useState(false);
 
   const handleEmail = () => {
     const currentDate = new Date();
@@ -47,7 +54,15 @@ export default function Settings() {
   };
 
   const handlePrivacy = () => {
-    Linking.openURL('https://lucascassilha.github.io/Maruska-Privacy-Policy/');
+    Linking.openURL('https://lucaszawadneak.github.io/Maruska-Privacy-Policy/');
+  };
+
+  const handleDarkMode = () => {
+    if (proAccount) {
+      dispatch(darkMode());
+    } else {
+      Alert.alert('PRO FEATURE');
+    }
   };
 
   return (
@@ -103,13 +118,21 @@ export default function Settings() {
           </IconHolder>
           <Label>{translate('supporters')}</Label>
         </Button>
-        <Button onPress={handleChangeUnit}>
+        <Button onPress={() => handleChangeUnit()}>
           <IconHolder color="#E733EB">
             <Icon name="weight" color="#fff" size={20} />
           </IconHolder>
           <Label>{`${translate('changeUnit')} (${weight}) `}</Label>
         </Button>
-        <Button onPress={() => Linking.openURL('https://lucascassilha.xyz/')}>
+        <Button onPress={() => handleDarkMode()}>
+          <IconHolder color={themeBoolean ? '#222327' : '#c4c4c4'}>
+            <Icon name="sunglasses" color="#fff" size={20} />
+          </IconHolder>
+          <Label>
+            {themeBoolean ? translate('darkMode') : translate('lightMode')}
+          </Label>
+        </Button>
+        <Button onPress={() => Linking.openURL('https://lucaszawadneak.me/')}>
           <IconHolder color="#000">
             <Icon name="code-tags" color="#fff" size={20} />
           </IconHolder>
