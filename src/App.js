@@ -6,24 +6,18 @@ import './config/ReactotronConfig';
 import CodePush from 'react-native-code-push';
 import OneSignal from 'react-native-onesignal';
 import Config from 'react-native-config';
-import { ThemeProvider } from 'styled-components';
 
 import { store, persistor } from '~/store/index';
 import Routes from './routes';
-import themes from '~/themes';
 
 function App() {
   OneSignal.init(Config.ONE_SIGNAL_ID);
-
-  const [theme, setTheme] = useState(themes.light);
 
   return (
     <Provider store={store}>
       <PersistGate persistor={persistor}>
         <NavigationContainer>
-          <ThemeProvider theme={theme}>
-            <Routes />
-          </ThemeProvider>
+          <Routes />
         </NavigationContainer>
       </PersistGate>
     </Provider>
