@@ -183,7 +183,7 @@ export default function Weight({ route, navigation }) {
         return 0;
       });
       if (alreadyRegistered) {
-        setEditable(true);
+        setEditable(false);
       }
     }
     setLoading(false);

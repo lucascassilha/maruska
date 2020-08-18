@@ -71,6 +71,8 @@ export default function ProblemAdd({ route, navigation }) {
           onDateChange={setDate}
           mode="datetime"
           locale={locale}
+          fadeToColor="none"
+          textColor="#888282"
         />
       </DateHolder>
       <Button title={translate('registerLabel')} onPress={handleProblem} />

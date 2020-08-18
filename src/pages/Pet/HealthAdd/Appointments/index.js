@@ -100,6 +100,7 @@ export default function AppointAdd({ route, navigation }) {
         style={{ padding: 15 }}
         onValueChange={value => setClinic(value)}
         selectedValue={clinic}
+        style={{ color: '#888282' }}
       >
         <Picker.Item value={translate('none')} label={translate('specify')} />
         {pickerPlaces.map(item => (
@@ -114,6 +115,7 @@ export default function AppointAdd({ route, navigation }) {
         style={{ padding: 15 }}
         onValueChange={value => setDoc(value)}
         selectedValue={selectedDoc || null}
+        style={{ color: '#888282' }}
       >
         <Picker.Item label={translate('appVetSelect')} value={null} />
         {pickerDoctors[0] &&
@@ -129,6 +131,8 @@ export default function AppointAdd({ route, navigation }) {
           mode="datetime"
           minimumDate={new Date()}
           locale={locale}
+          fadeToColor="none"
+          textColor="#888282"
         />
       </DateHolder>
       <Button title={translate('registerLabel')} onPress={handleAppointment} />

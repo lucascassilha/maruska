@@ -51,6 +51,7 @@ export default function SurgeryAdd({ route, navigation }) {
         style={{ padding: 15 }}
         onValueChange={value => setClinic(value)}
         selectedValue={clinic}
+        style={{ color: '#888282' }}
       >
         <Picker.Item label={translate('appClinicSelect')} value={null} />
         {pickerPlaces.map(item => (
@@ -67,6 +68,8 @@ export default function SurgeryAdd({ route, navigation }) {
           onDateChange={setDate}
           mode="date"
           locale={locale}
+          fadeToColor="none"
+          textColor="#888282"
         />
       </DateHolder>
       <Button title={translate('registerLabel')} onPress={handleSurgery} />

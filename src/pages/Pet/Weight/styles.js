@@ -3,7 +3,7 @@ import styled from 'styled-components/native';
 export const Container = styled.View`
   flex: 1;
   padding: 10px 0px;
-  background-color: #fff;
+  background-color: ${props => props.theme.main_background};
 `;
 
 export const Scroll = styled.ScrollView``;
@@ -13,19 +13,19 @@ export const Holder = styled.View`
 `;
 
 export const InputLabel = styled.Text`
-  color: #000;
+  color: ${props => props.theme.general_label};
   font-family: 'OpenSans-Italic';
-  font-size: 12px;
+  font-size: 14px;
   display: ${props => (props.disabled ? 'none' : 'flex')};
 `;
 
 export const Input = styled.TextInput`
   align-self: stretch;
-  background-color: #f8f8f8;
+  background-color: ${props => props.theme.secondary_background};
   border-radius: 4px;
   padding: 10px 15px;
   font-family: 'OpenSans-Regular';
-  color: #000;
+  color: ${props => props.theme.general_label};
   display: ${props => (props.disabled ? 'none' : 'flex')};
 `;
 
@@ -33,23 +33,20 @@ export const ErrorLabel = styled.Text`
   text-align: center;
   font-size: 14px;
   font-family: 'OpenSans-Bold';
-  color: rgba(0, 0, 0, 0.3);
+  color: red;
   margin-top: 10px;
 `;
 
 export const ChartTitle = styled.Text`
   font-size: 18px;
   font-family: 'OpenSans-BoldItalic';
-  color: #000;
+  color: ${props => props.theme.general_label};
   margin-left: 20px;
   margin-bottom: -20px;
 `;
 
-export const RegularTitle = styled.Text`
-  font-size: 18px;
-  font-family: 'OpenSans-BoldItalic';
-  color: #000;
-  margin-left: 20px;
+export const RegularTitle = styled(ChartTitle)`
+  margin-bottom: 0px;
 `;
 
 export const ChartHolder = styled.View`
@@ -59,12 +56,12 @@ export const ChartHolder = styled.View`
 export const WeightHolder = styled.View`
   align-self: stretch;
   margin: 5px 20px;
-  background-color: #f0f0f0;
+  background-color: ${props => props.theme.secondary_background};
   border-radius: 5px;
   padding: 15px;
 `;
 
 export const WeightLabel = styled.Text`
-  color: #000;
+  color: ${props => props.theme.general_label};
   font-family: 'OpenSans-Regular';
 `;

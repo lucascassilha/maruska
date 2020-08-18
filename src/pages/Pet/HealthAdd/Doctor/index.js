@@ -85,6 +85,7 @@ export default function DocAdd({ route, navigation }) {
         style={{ padding: 15 }}
         onValueChange={value => setClinic(value)}
         selectedValue={clinic}
+        style={{ color: '#888282' }}
       >
         <Picker.Item label={translate('specify')} value={translate('none')} />
         {pickerPlaces.map(item => (
@@ -99,6 +100,7 @@ export default function DocAdd({ route, navigation }) {
         style={{ padding: 15 }}
         onValueChange={value => setDoc(value)}
         selectedValue={selectedDoc}
+        style={{ color: '#888282' }}
       >
         <Picker.Item
           label={translate('appVetSelect')}

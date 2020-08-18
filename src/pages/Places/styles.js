@@ -10,7 +10,7 @@ export const Title = styled.Text`
   font-family: 'OpenSans-BoldItalic';
   font-size: 18px;
   color: ${props => props.theme.general_label};
-  margin: 10px;
+  margin: 20px;
   margin-left: 20px;
   margin-bottom: -20px;
 `;

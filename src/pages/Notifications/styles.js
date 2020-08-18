@@ -2,14 +2,14 @@ import styled from 'styled-components/native';
 
 export const Container = styled.View`
   flex: 1;
-  background-color: #fff;
+  background-color: ${props => props.theme.main_background};
   margin-top: -20px;
 `;
 
 export const NotifList = styled.FlatList.attrs({})``;
 
 export const Box = styled.View`
-  background-color: #eb3349;
+  background-color: ${props => props.theme.pet_button};
   margin: 5px 0px;
   border-radius: 4px;
   padding: 20px;

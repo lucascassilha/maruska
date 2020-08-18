@@ -3,7 +3,7 @@ import { produce } from 'immer';
 
 const INITIAL_STATE = {
   pro: true,
-  darkMode: false,
+  darkMode: true,
 };
 
 export default function doctors(state = INITIAL_STATE, action) {

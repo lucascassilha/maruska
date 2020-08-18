@@ -20,15 +20,17 @@ export const Box = styled.View`
 `;
 
 export const InfoHolder = styled.View`
-  margin-top: 5px;
+  margin-top: 10px;
   flex-direction: row;
   align-self: stretch;
-  justify-content: space-between;
+  justify-content: space-evenly;
 `;
 
 export const InfoTextHolder = styled.View``;
 
-export const TextColumn = styled.View``;
+export const TextColumn = styled.View`
+  width: 50%;
+`;
 
 export const Label = styled.Text`
   color: ${props => props.theme.general_label};

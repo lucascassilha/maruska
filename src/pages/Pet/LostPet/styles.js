@@ -2,23 +2,23 @@ import styled from 'styled-components/native';
 
 export const Container = styled.View`
   flex: 1;
-  background-color: #fff;
+  background-color: ${props => props.theme.main_background};
   padding: 10px 20px;
 `;
 
 export const LabelInput = styled.Text`
   font-family: 'OpenSans-Regular';
   font-size: 16px;
-  color: #000;
+  color: ${props => props.theme.general_label};
 `;
 
 export const Input = styled.TextInput`
-  background-color: #f8f8f8;
+  background-color:${props => props.theme.secondary_background};
   align-self: stretch;
   border-radius: 4px;
   margin: 10px 0px;
   padding: 10px;
-  color: #000;
+  color: ${props => props.theme.general_label};
   font-family: 'OpenSans-Regular'
   font-size: 18px;
 `;

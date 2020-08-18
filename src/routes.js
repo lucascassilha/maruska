@@ -100,7 +100,6 @@ export default function Routes() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    alert(nativeTheme);
     if (proAccount) {
       if (nativeTheme && !themeBoolean) {
         dispatch(darkMode());
