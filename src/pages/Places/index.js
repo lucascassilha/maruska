@@ -88,7 +88,11 @@ export default function Places({ navigation }) {
             <Box>
               <TextHolder>
                 <Name>{item.name}</Name>
-                <Info>{item.kind}</Info>
+                <Info>
+                  {`${item.kind === translate('clinic') ? '🏥' : '🛍️'} ${
+                    item.kind
+                  }`}
+                </Info>
                 <Info>{item.city}</Info>
               </TextHolder>
               <ButtonHolder>

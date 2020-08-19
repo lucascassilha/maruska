@@ -28,7 +28,7 @@ export const Box = styled.View`
 `;
 
 export const TextHolder = styled.View`
-  width: 60%;
+  width: 55%;
 `;
 
 export const Name = styled.Text`
