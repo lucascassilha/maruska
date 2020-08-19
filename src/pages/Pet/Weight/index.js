@@ -16,7 +16,9 @@ import {
   Container,
   Scroll,
   Holder,
+  InputHolder,
   InputLabel,
+  MiniLabel,
   Input,
   ErrorLabel,
   ChartTitle,
@@ -76,6 +78,7 @@ export default function Weight({ route, navigation }) {
     setLoading(true);
 
     if (weightData) {
+      console.log(weightData);
       setChart(weightData);
       const currentDate = new Date();
 
@@ -197,28 +200,32 @@ export default function Weight({ route, navigation }) {
         title={translate('weightTitle')}
       />
       <Scroll>
-        <Holder>
-          <InputLabel disabled={!editable}>
-            {`${translate('addWeightLabel')} (${weightUnit})`}
-          </InputLabel>
-          <Input
-            disabled={!editable}
-            onChangeText={setWeight}
-            maxLength={5}
-            value={weight}
-            keyboardType="number-pad"
-            placeholder="35.5"
-            onSubmitEditing={handleAddWeight}
-          />
-          {!editable ? (
-            <ErrorLabel>{translate('weightAlready')}</ErrorLabel>
-          ) : null}
-          <Button
-            title={translate('registerLabel')}
-            onPress={handleAddWeight}
-            disabled={!editable}
-          />
-        </Holder>
+        {!editable ? (
+          <ErrorLabel>{translate('weightAlready')}</ErrorLabel>
+        ) : (
+          <>
+            <InputLabel>{translate('addWeightLabel')}</InputLabel>
+            <Holder>
+              <InputHolder>
+                <Input
+                  disabled={!editable}
+                  onChangeText={setWeight}
+                  maxLength={5}
+                  value={weight}
+                  keyboardType="number-pad"
+                  placeholder="35.5"
+                  onSubmitEditing={handleAddWeight}
+                />
+                <MiniLabel>{weightUnit}</MiniLabel>
+              </InputHolder>
+              <Button
+                title={translate('registerLabel')}
+                onPress={handleAddWeight}
+                disabled={!editable}
+              />
+            </Holder>
+          </>
+        )}
         <ChartTitle>Last weight records</ChartTitle>
         <ChartHolder>
           <VictoryChart
