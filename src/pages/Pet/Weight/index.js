@@ -4,6 +4,7 @@ import { Dimensions, Alert, Vibration } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { ptBR, enUS } from 'date-fns/locale';
 import PropTypes from 'prop-types';
+import Snackbar from 'react-native-snackbar';
 
 import { VictoryChart, VictoryLine, VictoryTheme } from 'victory-native';
 
@@ -63,6 +64,14 @@ export default function Weight({ route, navigation }) {
 
               const data = { weight, date, created_at: currentDate };
               dispatch(petWeightAdd(data, petID));
+              Snackbar.show({
+                text: translate('weightRegisteredSnack'),
+                duration: Snackbar.LENGTH_LONG,
+                action: {
+                  text: translate('thk'),
+                  textColor: 'green',
+                },
+              });
               navigation.goBack();
             },
           },
@@ -78,8 +87,14 @@ export default function Weight({ route, navigation }) {
     setLoading(true);
 
     if (weightData) {
-      console.log(weightData);
-      setChart(weightData);
+      const weightAux = [];
+      weightData.map(item => {
+        weightAux.push({
+          ...item,
+          weight: Number(item.weight),
+        });
+      });
+      setChart(weightAux);
       const currentDate = new Date();
 
       const finalArray = [];

@@ -4,10 +4,11 @@ import { Picker } from '@react-native-community/picker';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import * as Yup from 'yup';
-import Button from '~/components/Button/index';
+import Snackbar from 'react-native-snackbar';
+
+import Button from '~/components/Button';
 import { addDoctor } from '~/store/modules/doctors/actions';
 import translate from '~/locales';
-
 import { Container, InputLabel, Input } from './styles';
 
 export default function DocAdd({ route, navigation }) {
@@ -15,7 +16,7 @@ export default function DocAdd({ route, navigation }) {
   const places = useSelector(state => state.places.data);
   const doctors = useSelector(state => state.doctors.data);
 
-  const [name, setName] = useState('');
+  const [name, setName] = useState(null);
   const [phone, setPhone] = useState(null);
   const [clinic, setClinic] = useState(translate('none'));
   const [selectedDoc, setDoc] = useState(translate('noneDoc'));
@@ -23,7 +24,7 @@ export default function DocAdd({ route, navigation }) {
 
   const handleAddDoctor = async () => {
     let doc = { name, phone, clinic, pets: [petID] };
-    if (!selectedDoc) {
+    if (selectedDoc === translate('noneDoc')) {
       const schema = Yup.object().shape({
         name: Yup.string().required(),
         phone: Yup.string().nullable(),
@@ -33,12 +34,12 @@ export default function DocAdd({ route, navigation }) {
 
       if (!(await schema.isValid(doc))) {
         Vibration.vibrate();
-        return Alert.alert('Maruska', translate('helpInfo'));
+        return Alert.alert(translate('errorLabel'), translate('helpInfo'));
       }
     }
     const inputDoctorIndex = doctors.findIndex(item => item.name === name);
     if (inputDoctorIndex >= 0) {
-      return Alert.alert('Maruska', translate('doubleVet'));
+      return Alert.alert(translate('errorLabel'), translate('doubleVet'));
     }
 
     const pickerDoctorIndex = doctors.findIndex(
@@ -47,13 +48,22 @@ export default function DocAdd({ route, navigation }) {
     if (selectedDoc !== translate('noneDoc') && pickerDoctorIndex === -1) {
       Vibration.vibrate();
       console.log(selectedDoc);
-      return Alert.alert('Maruska', translate('helpInfo'));
+      return Alert.alert(translate('errorLabel'), translate('helpInfo'));
     }
     if (pickerDoctorIndex >= 0) {
       doc = doctors[pickerDoctorIndex];
     }
 
     dispatch(addDoctor(doc, petID));
+    Snackbar.show({
+      text: translate('docScheduledSnack'),
+      duration: Snackbar.LENGTH_LONG,
+      action: {
+        text: translate('thk'),
+        textColor: 'green',
+      },
+    });
+
     navigation.goBack();
   };
 

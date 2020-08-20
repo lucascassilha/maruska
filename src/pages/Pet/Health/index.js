@@ -5,6 +5,7 @@ import { Linking, Alert } from 'react-native';
 import PropTypes from 'prop-types';
 import { isPast, parseISO, isValid, addYears } from 'date-fns';
 import { produce } from 'immer';
+import Snackbar from 'react-native-snackbar';
 
 import { deleteDoctor } from '~/store/modules/doctors/actions';
 import {
@@ -100,6 +101,14 @@ export default function Health({ route, navigation }) {
         text: translate('sure'),
         onPress: () => {
           dispatch(deleteDoctor(doctor, petID));
+          Snackbar.show({
+            text: translate('docDeletedSnack'),
+            duration: Snackbar.LENGTH_LONG,
+            action: {
+              text: translate('thk'),
+              textColor: 'green',
+            },
+          });
           if (docList.length === 1) {
             setDocList([]);
           }
@@ -118,6 +127,14 @@ export default function Health({ route, navigation }) {
           await Notification.cancelNotification(notificationID);
           dispatch(notificationCancel(notificationID));
           dispatch(petDeleteAppointment(date, petID));
+          Snackbar.show({
+            text: translate('appDeletedSnack'),
+            duration: Snackbar.LENGTH_LONG,
+            action: {
+              text: translate('thk'),
+              textColor: 'green',
+            },
+          });
           if (appointments.length === 1) {
             setAppointments([]);
           }
@@ -134,6 +151,14 @@ export default function Health({ route, navigation }) {
         text: translate('sure'),
         onPress: () => {
           dispatch(petDeleteSurgery(surgery, petID));
+          Snackbar.show({
+            text: translate('surgeryDeletedSnack'),
+            duration: Snackbar.LENGTH_LONG,
+            action: {
+              text: translate('thk'),
+              textColor: 'green',
+            },
+          });
           if (surgeries.length === 1) {
             setSurgeries([]);
           }
@@ -150,6 +175,14 @@ export default function Health({ route, navigation }) {
         text: translate('sure'),
         onPress: () => {
           dispatch(petDeleteProblem(problem, petID));
+          Snackbar.show({
+            text: translate('problemDeletedSnack'),
+            duration: Snackbar.LENGTH_LONG,
+            action: {
+              text: translate('thk'),
+              textColor: 'green',
+            },
+          });
           if (problems.length === 1) {
             setProblems([]);
           }

@@ -18,7 +18,7 @@ export const Title = styled.Text`
 export const PlaceList = styled.FlatList``;
 
 export const Box = styled.View`
-  background-color: ${props => props.theme.pet_button};
+  background-color: ${props => props.theme.button};
   margin: 5px 0px;
   padding: 20px;
   border-radius: 4px;

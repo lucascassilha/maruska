@@ -1,5 +1,5 @@
 import { produce } from 'immer';
-import { format, subYears, subMonths, addDays } from 'date-fns';
+import { format, subYears, subMonths, addDays, startOfDay } from 'date-fns';
 import { Alert } from 'react-native';
 import translate, { locale } from '~/locales';
 
@@ -17,9 +17,11 @@ export default function pets(state = INITIAL_STATE, action) {
         const currentDate = new Date();
         let returnDate = null;
         if (months !== '') {
-          returnDate = subYears(subMonths(currentDate, months), years);
+          returnDate = startOfDay(
+            subYears(subMonths(currentDate, months), years)
+          );
         } else {
-          returnDate = date;
+          returnDate = startOfDay(date);
         }
 
         const info = {

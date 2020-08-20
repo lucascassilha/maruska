@@ -18,6 +18,7 @@ import {
 import PropTypes from 'prop-types';
 import { ptBR, enUS } from 'date-fns/locale';
 import { Formik } from 'formik';
+import Snackbar from 'react-native-snackbar';
 
 import PageHeader from '~/components/PageHeader';
 import ModalHeader from '~/components/ModalHeader';
@@ -192,6 +193,7 @@ export default function Medications({ route, navigation }) {
         petID
       )
     );
+
     setVisible(false);
   };
 
@@ -201,65 +203,88 @@ export default function Medications({ route, navigation }) {
     notificationDate,
     notificationInfo
   ) => {
-    Alert.alert(translate('justConfirming'), '', [
-      {
-        text: translate('yes'),
-        onPress: async () => {
-          const currentDate = new Date();
+    Alert.alert(
+      translate('justConfirming'),
+      translate('justConfirmingDescription'),
+      [
+        {
+          text: translate('yes'),
+          onPress: async () => {
+            const currentDate = new Date();
 
-          dispatch(notificationCancel(notificationID));
-          Notification.cancelNotification(notificationID);
+            dispatch(notificationCancel(notificationID));
+            Notification.cancelNotification(notificationID);
 
-          const dosesLeft = notificationInfo.doses;
-          const intervalPeriod = notificationInfo.interval;
-          const intervalData = notificationInfo.intervalValue;
+            const dosesLeft = notificationInfo.doses;
+            const intervalPeriod = notificationInfo.interval;
+            const intervalData = notificationInfo.intervalValue;
 
-          let notificationData = {};
+            let notificationData = {};
 
-          let nextDoseDate = null;
-          let reminderNotification = -1;
-          if (parseInt(dosesLeft, 10) > 1) {
-            if (intervalPeriod === 1) {
-              nextDoseDate = addYears(currentDate, parseInt(intervalData, 10));
+            let nextDoseDate = null;
+            let reminderNotification = -1;
+            if (parseInt(dosesLeft, 10) > 1) {
+              if (intervalPeriod === 1) {
+                nextDoseDate = addYears(
+                  currentDate,
+                  parseInt(intervalData, 10)
+                );
+              }
+              if (intervalPeriod === 2) {
+                nextDoseDate = addMonths(
+                  currentDate,
+                  parseInt(intervalData, 10)
+                );
+              }
+              if (intervalPeriod === 3) {
+                nextDoseDate = addDays(currentDate, parseInt(intervalData, 10));
+              }
+              if (intervalPeriod === 4) {
+                nextDoseDate = addHours(
+                  currentDate,
+                  parseInt(intervalData, 10)
+                );
+              }
+              const title = translate('medNotTitle');
+              const message = `${petID} ${translate(
+                'medNeedsToTake'
+              )} ${medID}!`;
+
+              reminderNotification = await Notification.scheduleNotification(
+                nextDoseDate,
+                title,
+                message
+              );
+              notificationData = {
+                title,
+                message,
+                date: nextDoseDate,
+                id: reminderNotification,
+                petID,
+              };
+
+              dispatch(notificationAdd(notificationData));
             }
-            if (intervalPeriod === 2) {
-              nextDoseDate = addMonths(currentDate, parseInt(intervalData, 10));
-            }
-            if (intervalPeriod === 3) {
-              nextDoseDate = addDays(currentDate, parseInt(intervalData, 10));
-            }
-            if (intervalPeriod === 4) {
-              nextDoseDate = addHours(currentDate, parseInt(intervalData, 10));
-            }
-            const title = translate('medNotTitle');
-            const message = `${petID} ${translate('medNeedsToTake')} ${medID}!`;
 
-            reminderNotification = await Notification.scheduleNotification(
-              nextDoseDate,
-              title,
-              message
-            );
             notificationData = {
-              title,
-              message,
-              date: nextDoseDate,
               id: reminderNotification,
-              petID,
+              date: nextDoseDate,
             };
 
-            dispatch(notificationAdd(notificationData));
-          }
-
-          notificationData = {
-            id: reminderNotification,
-            date: nextDoseDate,
-          };
-
-          dispatch(petCheckMedication(medID, petID, notificationData));
+            dispatch(petCheckMedication(medID, petID, notificationData));
+            Snackbar.show({
+              text: translate('medCheckedSnack'),
+              duration: Snackbar.LENGTH_LONG,
+              action: {
+                text: translate('thk'),
+                textColor: 'green',
+              },
+            });
+          },
         },
-      },
-      { text: translate('cancelButton') },
-    ]);
+        { text: translate('cancelButton') },
+      ]
+    );
   };
 
   const handleDeleteMedication = async (medID, notificationID) => {
@@ -273,6 +298,14 @@ export default function Medications({ route, navigation }) {
           Notification.cancelNotification(notificationID);
           dispatch(notificationCancel(notificationID));
           dispatch(petDeleteMedication(medID, petID));
+          Snackbar.show({
+            text: translate('medDeletedSnack'),
+            duration: Snackbar.LENGTH_LONG,
+            action: {
+              text: translate('thk'),
+              textColor: 'green',
+            },
+          });
         },
       },
       { text: translate('cancelButton') },

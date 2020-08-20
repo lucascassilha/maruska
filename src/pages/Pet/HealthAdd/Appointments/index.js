@@ -6,7 +6,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import * as Yup from 'yup';
 import { format, subDays } from 'date-fns';
 import DatePicker from 'react-native-date-picker';
-import Button from '~/components/Button/index';
+import Snackbar from 'react-native-snackbar';
+
+import Button from '~/components/Button';
 import {
   petAppointment,
   petLastAppointment,
@@ -38,7 +40,7 @@ export default function AppointAdd({ route, navigation }) {
 
     if (!(await schema.isValid(appointment))) {
       Vibration.vibrate();
-      return Alert.alert('Maruska', translate('helpInfo'));
+      return Alert.alert(translate('errorLabel'), translate('helpInfo'));
     }
 
     const clinicIndex = places.findIndex(item => item.name === clinic);
@@ -81,6 +83,14 @@ export default function AppointAdd({ route, navigation }) {
         petID
       )
     );
+    Snackbar.show({
+      text: translate('appScheduledSnack'),
+      duration: Snackbar.LENGTH_LONG,
+      action: {
+        text: translate('thk'),
+        textColor: 'green',
+      },
+    });
 
     dispatch(petLastAppointment(petID, day));
     navigation.goBack();

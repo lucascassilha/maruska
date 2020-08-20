@@ -5,10 +5,11 @@ import { useDispatch } from 'react-redux';
 import * as Yup from 'yup';
 import { format } from 'date-fns';
 import DatePicker from 'react-native-date-picker';
-import Button from '~/components/Button/index';
+import Snackbar from 'react-native-snackbar';
+
+import Button from '~/components/Button';
 import { petProblem } from '~/store/modules/pets/actions';
 import translate, { locale } from '~/locales';
-
 import { Container, InputLabel, DateHolder, Input } from './styles';
 
 export default function ProblemAdd({ route, navigation }) {
@@ -29,7 +30,7 @@ export default function ProblemAdd({ route, navigation }) {
 
     if (!(await schema.isValid(surgery))) {
       Vibration.vibrate();
-      return Alert.alert('Maruska', translate('missingInfo'));
+      return Alert.alert(translate('errorLabel'), translate('helpInfo'));
     }
 
     const timeString = locale === 'en_US' ? 'hh:mm aaaa' : 'HH:mm';
@@ -39,6 +40,14 @@ export default function ProblemAdd({ route, navigation }) {
     const time = format(date, timeString);
 
     dispatch(petProblem({ ...surgery, day, time }, petID));
+    Snackbar.show({
+      text: translate('problemScheduledSnack'),
+      duration: Snackbar.LENGTH_LONG,
+      action: {
+        text: translate('thk'),
+        textColor: 'green',
+      },
+    });
     navigation.goBack();
   };
 
