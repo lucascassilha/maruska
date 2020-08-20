@@ -10,7 +10,7 @@ export const Container = styled.View`
 export const PetList = styled.FlatList.attrs({})``;
 
 export const Box = styled(RectButton)`
-  background-color: ${props => props.theme.pet_button};
+  background-color: ${props => props.theme.button};
   margin: 5px 0px;
   padding: 15px;
   border-radius: 4px;

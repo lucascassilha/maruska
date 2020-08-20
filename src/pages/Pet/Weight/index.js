@@ -4,6 +4,7 @@ import { Dimensions, Alert, Vibration } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { ptBR, enUS } from 'date-fns/locale';
 import PropTypes from 'prop-types';
+import Snackbar from 'react-native-snackbar';
 
 import { VictoryChart, VictoryLine, VictoryTheme } from 'victory-native';
 
@@ -16,7 +17,9 @@ import {
   Container,
   Scroll,
   Holder,
+  InputHolder,
   InputLabel,
+  MiniLabel,
   Input,
   ErrorLabel,
   ChartTitle,
@@ -61,6 +64,14 @@ export default function Weight({ route, navigation }) {
 
               const data = { weight, date, created_at: currentDate };
               dispatch(petWeightAdd(data, petID));
+              Snackbar.show({
+                text: translate('weightRegisteredSnack'),
+                duration: Snackbar.LENGTH_LONG,
+                action: {
+                  text: translate('thk'),
+                  textColor: 'green',
+                },
+              });
               navigation.goBack();
             },
           },
@@ -76,7 +87,14 @@ export default function Weight({ route, navigation }) {
     setLoading(true);
 
     if (weightData) {
-      setChart(weightData);
+      const weightAux = [];
+      weightData.map(item => {
+        weightAux.push({
+          ...item,
+          weight: Number(item.weight),
+        });
+      });
+      setChart(weightAux);
       const currentDate = new Date();
 
       const finalArray = [];
@@ -183,7 +201,7 @@ export default function Weight({ route, navigation }) {
         return 0;
       });
       if (alreadyRegistered) {
-        setEditable(true);
+        setEditable(false);
       }
     }
     setLoading(false);
@@ -197,28 +215,32 @@ export default function Weight({ route, navigation }) {
         title={translate('weightTitle')}
       />
       <Scroll>
-        <Holder>
-          <InputLabel disabled={!editable}>
-            {`${translate('addWeightLabel')} (${weightUnit})`}
-          </InputLabel>
-          <Input
-            disabled={!editable}
-            onChangeText={setWeight}
-            maxLength={5}
-            value={weight}
-            keyboardType="number-pad"
-            placeholder="35.5"
-            onSubmitEditing={handleAddWeight}
-          />
-          {!editable ? (
-            <ErrorLabel>{translate('weightAlready')}</ErrorLabel>
-          ) : null}
-          <Button
-            title={translate('registerLabel')}
-            onPress={handleAddWeight}
-            disabled={!editable}
-          />
-        </Holder>
+        {!editable ? (
+          <ErrorLabel>{translate('weightAlready')}</ErrorLabel>
+        ) : (
+          <>
+            <InputLabel>{translate('addWeightLabel')}</InputLabel>
+            <Holder>
+              <InputHolder>
+                <Input
+                  disabled={!editable}
+                  onChangeText={setWeight}
+                  maxLength={5}
+                  value={weight}
+                  keyboardType="number-pad"
+                  placeholder="35.5"
+                  onSubmitEditing={handleAddWeight}
+                />
+                <MiniLabel>{weightUnit}</MiniLabel>
+              </InputHolder>
+              <Button
+                title={translate('registerLabel')}
+                onPress={handleAddWeight}
+                disabled={!editable}
+              />
+            </Holder>
+          </>
+        )}
         <ChartTitle>Last weight records</ChartTitle>
         <ChartHolder>
           <VictoryChart

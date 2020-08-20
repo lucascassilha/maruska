@@ -10,7 +10,7 @@ export const Title = styled.Text`
   font-family: 'OpenSans-BoldItalic';
   font-size: 18px;
   color: ${props => props.theme.general_label};
-  margin: 10px;
+  margin: 20px;
   margin-left: 20px;
   margin-bottom: -20px;
 `;
@@ -18,7 +18,7 @@ export const Title = styled.Text`
 export const PlaceList = styled.FlatList``;
 
 export const Box = styled.View`
-  background-color: ${props => props.theme.pet_button};
+  background-color: ${props => props.theme.button};
   margin: 5px 0px;
   padding: 20px;
   border-radius: 4px;
@@ -28,7 +28,7 @@ export const Box = styled.View`
 `;
 
 export const TextHolder = styled.View`
-  width: 60%;
+  width: 55%;
 `;
 
 export const Name = styled.Text`

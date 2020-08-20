@@ -12,6 +12,8 @@ export const ButtonHolder = styled.View`
 
 export const TitleBox = styled.View`
   margin: 0px 20px;
+  margin-top: 20px;
+  margin-bottom: -5px;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
@@ -37,7 +39,7 @@ export const Box = styled.View`
   align-self: stretch;
   width: 300px;
   border-radius: 4px;
-  margin: 0px 10px;
+  margin: 0px 5px;
   padding: 20px 15px;
   flex-direction: row;
   opacity: ${props => (props.isPast ? 0.6 : 1)};

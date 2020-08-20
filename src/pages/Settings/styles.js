@@ -12,6 +12,7 @@ export const Box = styled.ScrollView.attrs({
   showsVerticalScrollIndicator: false,
 })`
   align-self: stretch;
+  margin-top: 10px;
 `;
 
 export const Button = styled.TouchableOpacity`

@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import DatePicker from 'react-native-date-picker';
 import * as Yup from 'yup';
-import * as Animatable from 'react-native-animatable';
+import Snackbar from 'react-native-snackbar';
 import { Alert, Picker } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { produce } from 'immer';
@@ -203,68 +203,87 @@ export default function Vaccines({ route, navigation }) {
     notificationDate,
     notificationInfo
   ) => {
-    Alert.alert(translate('justConfirming'), '', [
-      {
-        text: translate('yes'),
-        onPress: async () => {
-          const currentDate = new Date();
+    Alert.alert(
+      translate('justConfirming'),
+      translate('justConfirmingDescription'),
+      [
+        {
+          text: translate('yes'),
+          onPress: async () => {
+            const currentDate = new Date();
 
-          dispatch(notificationCancel(notificationID));
-          Notification.cancelNotification(notificationID);
+            dispatch(notificationCancel(notificationID));
+            Notification.cancelNotification(notificationID);
 
-          const dosesLeft = notificationInfo.doses;
-          const intervalPeriod = notificationInfo.interval;
-          const intervalData = notificationInfo.intervalValue;
+            const dosesLeft = notificationInfo.doses;
+            const intervalPeriod = notificationInfo.interval;
+            const intervalData = notificationInfo.intervalValue;
 
-          let notificationData = {};
+            let notificationData = {};
 
-          let nextDoseDate = null;
-          let reminderNotification = -1;
-          if (parseInt(dosesLeft, 10) > 1) {
-            if (intervalPeriod === 1) {
-              nextDoseDate = addYears(currentDate, parseInt(intervalData, 10));
+            let nextDoseDate = null;
+            let reminderNotification = -1;
+            if (parseInt(dosesLeft, 10) > 1) {
+              if (intervalPeriod === 1) {
+                nextDoseDate = addYears(
+                  currentDate,
+                  parseInt(intervalData, 10)
+                );
+              }
+              if (intervalPeriod === 2) {
+                nextDoseDate = addMonths(
+                  currentDate,
+                  parseInt(intervalData, 10)
+                );
+              }
+              if (intervalPeriod === 3) {
+                nextDoseDate = addDays(currentDate, parseInt(intervalData, 10));
+              }
+              const title = translate('vacNotTitle');
+              const hourString = locale === 'en_US' ? 'hh:mm aaaa' : 'HH:mm';
+              const time = format(nextDoseDate, hourString);
+              const message = `${petID} ${translate(
+                'needsToTake'
+              )} ${vacID} ${translate('tomorrowAt')} ${time}!`;
+              nextDoseDate = subDays(nextDoseDate, 1);
+
+              reminderNotification = await Notification.scheduleNotification(
+                nextDoseDate,
+                title,
+                message
+              );
+              notificationData = {
+                title,
+                message,
+                date: nextDoseDate,
+                id: reminderNotification,
+                petID,
+              };
+
+              dispatch(notificationAdd(notificationData));
+
+              Snackbar.show({
+                text: translate('vaccineCheckedSnack'),
+                duration: Snackbar.LENGTH_LONG,
+                action: {
+                  text: translate('thk'),
+                  textColor: 'green',
+                },
+              });
             }
-            if (intervalPeriod === 2) {
-              nextDoseDate = addMonths(currentDate, parseInt(intervalData, 10));
-            }
-            if (intervalPeriod === 3) {
-              nextDoseDate = addDays(currentDate, parseInt(intervalData, 10));
-            }
-            const title = translate('vacNotTitle');
-            const hourString = locale === 'en_US' ? 'hh:mm aaaa' : 'HH:mm';
-            const time = format(nextDoseDate, hourString);
-            const message = `${petID} ${translate(
-              'needsToTake'
-            )} ${vacID} ${translate('tomorrowAt')} ${time}!`;
-            nextDoseDate = subDays(nextDoseDate, 1);
 
-            reminderNotification = await Notification.scheduleNotification(
-              nextDoseDate,
-              title,
-              message
-            );
             notificationData = {
-              title,
-              message,
-              date: nextDoseDate,
               id: reminderNotification,
-              petID,
+              date: nextDoseDate,
             };
 
-            dispatch(notificationAdd(notificationData));
-          }
-
-          notificationData = {
-            id: reminderNotification,
-            date: nextDoseDate,
-          };
-
-          dispatch(petCheckVaccine(vacID, petID, notificationData));
-          dispatch(petLastVaccine(petID));
+            dispatch(petCheckVaccine(vacID, petID, notificationData));
+            dispatch(petLastVaccine(petID));
+          },
         },
-      },
-      { text: translate('cancelButton') },
-    ]);
+        { text: translate('cancelButton') },
+      ]
+    );
   };
 
   const handleDeleteVaccine = (ID, notificationID) => {
@@ -278,6 +297,14 @@ export default function Vaccines({ route, navigation }) {
           Notification.cancelNotification(notificationID);
           dispatch(notificationCancel(notificationID));
           dispatch(petDeleteVaccine(ID, petID));
+          Snackbar.show({
+            text: translate('vaccineDeletedSnack'),
+            duration: Snackbar.LENGTH_LONG,
+            action: {
+              text: translate('thk'),
+              textColor: 'green',
+            },
+          });
         },
       },
       { text: translate('cancelButton') },

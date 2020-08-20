@@ -1,9 +1,10 @@
 import React, { useRef } from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useSelector, useDispatch } from 'react-redux';
-import { Alert, Vibration, Linking, useColorScheme } from 'react-native';
+import { Alert, Vibration, Linking } from 'react-native';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
+import Snackbar from 'react-native-snackbar';
 
 import changeStatus from '~/store/modules/modalVisible/actions';
 import { addLocation } from '~/store/modules/places/actions';
@@ -54,6 +55,15 @@ export default function AddModal() {
     }
 
     dispatch(addLocation(values));
+
+    Snackbar.show({
+      text: translate('locationRegisteredSnack'),
+      duration: Snackbar.LENGTH_LONG,
+      action: {
+        text: translate('thk'),
+        textColor: 'green',
+      },
+    });
 
     handleClose();
   };
