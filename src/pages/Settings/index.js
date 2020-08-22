@@ -20,7 +20,7 @@ import terms from './terms';
 
 import { darkMode } from '~/store/modules/account/actions';
 
-export default function Settings() {
+export default function Settings({ navigation }) {
   const weight = useSelector(state => state.weight);
   const proAccount = useSelector(state => state.account.pro);
   const themeBoolean = !useSelector(state => state.account.darkMode);
@@ -69,6 +69,12 @@ export default function Settings() {
     <Container>
       <Box>
         <Title>{translate('config')}</Title>
+        <Button onPress={() => navigation.navigate('Pro')}>
+          <IconHolder color="#8ae3e6">
+            <Icon name="star" color="#fff" size={20} />
+          </IconHolder>
+          <Label>Maruska PRO</Label>
+        </Button>
         <Button onPress={handlePrivacy}>
           <IconHolder color="#eba833">
             <Icon name="file-document-box-multiple" color="#fff" size={20} />
@@ -138,7 +144,7 @@ export default function Settings() {
           </IconHolder>
           <Label>{translate('developer')}</Label>
         </Button>
-        <Version>v2.0.0</Version>
+        <Version>v2.0.3</Version>
         <Version>NeakApps - 2020</Version>
         <Comment>{translate('byUsing')}</Comment>
       </Box>

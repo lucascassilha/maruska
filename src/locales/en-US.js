@@ -229,4 +229,11 @@ export default {
   surgeryScheduledSnack: 'Surgery successfully registered!',
   surgeryDeletedSnack: 'Surgery successfully deleted!',
   locationRegisteredSnack: 'Establishment successfully deleted!',
+  maruskaDarkTheme: 'Dark Theme',
+  maruskaPets: 'Unlimited pet registrations',
+  maruskaWeight: 'Weight control feature',
+  maruskaAds: 'No ads',
+  maruskaPrice: '$4.99',
+  maruskaOneTime: 'ONE TIME ONLY',
+  features: 'Features',
 };
