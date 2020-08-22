@@ -25,7 +25,7 @@ const PageHeader = ({ navigation, title, icons, source, onDelete, onEdit }) => {
   return (
     <Wrapper>
       <Animatable.View
-        animation="flipInX"
+        animation="slideInRight"
         style={{ backgroundColor: theme ? '#fff' : '#222327' }}
       >
         <Container>

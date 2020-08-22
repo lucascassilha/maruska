@@ -230,4 +230,11 @@ export default {
   surgeryScheduledSnack: 'Cirugia registrada com sucesso!',
   surgeryDeletedSnack: 'Cirugia deletada com sucesso!',
   locationRegisteredSnack: 'Estabelecimento deletado com sucesso!',
+  maruskaDarkTheme: 'Tema escuro',
+  maruskaPets: 'Registro ilimitado de pets',
+  maruskaWeight: 'Controle de peso',
+  maruskaAds: 'Sem anúncios',
+  maruskaPrice: 'R$9,99',
+  maruskaOneTime: 'UMA VEZ APENAS',
+  features: 'Vantagens',
 };

@@ -24,6 +24,7 @@ import Notifications from '~/pages/Notifications';
 import Places from '~/pages/Places/index';
 import Settings from '~/pages/Settings';
 import LostPet from '~/pages/Pet/LostPet';
+import Pro from '~/pages/Pro';
 
 import themes from '~/themes';
 import translate from '~/locales';
@@ -220,6 +221,13 @@ export default function Routes() {
           component={Notifications}
           options={{
             title: translate('not'),
+          }}
+        />
+        <Stack.Screen
+          name="Pro"
+          component={Pro}
+          options={{
+            title: '',
           }}
         />
       </Stack.Navigator>
