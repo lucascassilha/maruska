@@ -236,4 +236,12 @@ export default {
   maruskaPrice: '$4.99',
   maruskaOneTime: 'ONE TIME ONLY',
   features: 'Features',
+  proFeatureTitle: `I'm afraid you can't do that!`,
+  proFeatureDescription:
+    'This is a Maruska PRO feature. Would you like to purchase it?',
+  proPets:
+    'With Maruska FREE you can only add two pets.  Would you like to purchase Maruska PRO to register unlimited pets?',
+  lastWeight: 'Lastest Weight Records',
+  monthWeight: 'Weight per Month',
+  registrationsWeight: 'Weight Registrations',
 };

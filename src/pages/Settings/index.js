@@ -61,7 +61,14 @@ export default function Settings({ navigation }) {
     if (proAccount) {
       dispatch(darkMode());
     } else {
-      Alert.alert('PRO FEATURE');
+      Alert.alert(
+        translate('proFeatureTitle'),
+        translate('proFeatureDescription'),
+        [
+          { text: 'Ok', onPress: () => navigation.navigate('Pro') },
+          { text: translate('cancelButton') },
+        ]
+      );
     }
   };
 

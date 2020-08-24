@@ -1,8 +1,9 @@
 /* eslint-disable react/jsx-curly-brace-presence */
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import InAppBilling from 'react-native-billing';
 import Config from 'react-native-config';
+import { proPlan, darkMode } from '~/store/modules/account/actions';
 
 import translate from '~/locales';
 import {
@@ -23,13 +24,24 @@ const Pro = () => {
 
   const [price, setPrice] = useState('$0.00');
 
+  const dispatch = useDispatch();
+
   const getDetails = async () => {
     try {
       await InAppBilling.close();
       await InAppBilling.open();
 
-      const details = await InAppBilling.getProductDetails(productID);
-      setPrice(details.priceText);
+      const purchased = InAppBilling.isPurchased(productID);
+      if (purchased) {
+        if (!proAccount) {
+          dispatch(proPlan());
+        }
+      } else {
+        const details = await InAppBilling.getProductDetails(productID);
+        setPrice(details.priceText);
+      }
+
+      console.log(`PRO USER: ${purchased}`);
     } catch (err) {
       alert(err);
     } finally {
@@ -45,9 +57,12 @@ const Pro = () => {
     try {
       await InAppBilling.open();
       const details = await InAppBilling.purchase('android.test.purchased');
-      alert('You purchased: ' + details);
+      console.log('You purchased: ', details);
+      if (details.purchaseState === 'PurchasedSuccessfully') {
+        dispatch(proPlan());
+      }
     } catch (err) {
-      alert(err);
+      console.log(err);
     } finally {
       await InAppBilling.close();
     }
@@ -68,7 +83,11 @@ const Pro = () => {
         <Label>{`🐈 ${translate('maruskaPets')}`}</Label>
         <Label>{`⚖️ ${translate('maruskaWeight')}`}</Label>
         <Label>{`📵 ${translate('maruskaAds')}`}</Label>
-        {!proAccount ? null : (
+        {proAccount ? (
+          <BuyButton>
+            <SmallLabel>You are already a pro user!</SmallLabel>
+          </BuyButton>
+        ) : (
           <BuyButton onPress={() => purchase()}>
             <ButtonLabel>{price}</ButtonLabel>
             <SmallLabel>{translate('maruskaOneTime')}</SmallLabel>

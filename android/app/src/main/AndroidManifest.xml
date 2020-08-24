@@ -32,6 +32,9 @@
                 android:value="YOUR NOTIFICATION CHANNEL DESCRIPTION"/>
       <meta-data  android:name="com.dieam.reactnativepushnotification.notification_color"
                 android:resource="@android:color/white"/>
+      <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="@string/AD_APP_KEY"/>
       <receiver   android:name="com.google.android.gms.gcm.GcmReceiver"
                 android:exported="true"
                 android:permission="com.google.android.c2dm.permission.SEND" >

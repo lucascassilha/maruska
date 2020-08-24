@@ -237,4 +237,10 @@ export default {
   maruskaPrice: 'R$9,99',
   maruskaOneTime: 'UMA VEZ APENAS',
   features: 'Vantagens',
+  proFeatureTitle: `Infelizmente você não pode fazer isso!`,
+  proFeatureDescription:
+    'Essa função é para apesas usuários Maruska PRO. Quer dar uma olhada?',
+  lastWeight: 'Últimos Registros de Peso',
+  monthWeight: 'Peso por Mês',
+  registrationsWeight: 'Registros de Peso',
 };

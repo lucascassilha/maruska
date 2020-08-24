@@ -1,23 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { produce } from 'immer';
-import {
-  formatDistanceStrict,
-  parseISO,
-  isValid,
-  differenceInCalendarDays,
-  startOfDay,
-  endOfDay,
-} from 'date-fns';
-import { StatusBar } from 'react-native';
+import { formatDistanceStrict, parseISO } from 'date-fns';
+import { StatusBar, Alert } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
+import { AdMobBanner } from 'react-native-admob';
 import PropTypes from 'prop-types';
 import LottieView from 'lottie-react-native';
 import { ptBR, enUS } from 'date-fns/locale';
+import Config from 'react-native-config';
 import * as Animatable from 'react-native-animatable';
-import changeStatus from '~/store/modules/modalVisible/actions';
-import Modal from './AddModal/index';
-import translate, { locale } from '~/locales';
 
+import translate, { locale } from '~/locales';
+import changeStatus from '~/store/modules/modalVisible/actions';
+import Modal from './AddModal';
 import FAB from '~/components/FAB';
 
 import HomeHeader from '~/components/HomeHeader';
@@ -36,11 +31,23 @@ import {
 
 export default function Home({ navigation }) {
   const theme = !useSelector(state => state.account.darkMode);
+  const proAccont = useSelector(state => state.account.pro);
   const pets = useSelector(state => state.pets.data);
   const [petData, setPetData] = useState([]);
 
   const dispatch = useDispatch();
   const handleOpen = async () => {
+    const petsLenght = pets.length;
+    console.log(petsLenght);
+
+    if (petsLenght >= 2 && !proAccont) {
+      Alert.alert(translate('proFeatureTitle'), translate('proPets'), [
+        { text: 'Ok', onPress: () => navigation.navigate('Pro') },
+        { text: translate('cancelButton') },
+      ]);
+      return 0;
+    }
+
     dispatch(changeStatus(0));
   };
 
@@ -75,7 +82,7 @@ export default function Home({ navigation }) {
       <StatusBar
         backgroundColor="transparent"
         translucent
-        barStyle={theme ? 'dark_content' : 'light-content'}
+        barStyle={theme ? 'dark-content' : 'light-content'}
       />
       <Modal />
       <FAB onPress={handleOpen} />
@@ -128,6 +135,14 @@ export default function Home({ navigation }) {
           </Animatable.View>
         )}
       />
+      {proAccont ? null : (
+        <AdMobBanner
+          adSize="fullBanner"
+          adUnitID={Config.BANNER_KEY}
+          testDevices={[AdMobBanner.simulatorId]}
+          onAdFailedToLoad={error => console.error(error)}
+        />
+      )}
     </Container>
   );
 }

@@ -2,8 +2,9 @@
 import { produce } from 'immer';
 
 const INITIAL_STATE = {
-  pro: true,
-  darkMode: true,
+  pro: false,
+  darkMode: false,
+  firstLogin: false,
 };
 
 export default function doctors(state = INITIAL_STATE, action) {
