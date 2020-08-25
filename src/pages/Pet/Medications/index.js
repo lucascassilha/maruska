@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import DatePicker from 'react-native-date-picker';
 import * as Yup from 'yup';
+import * as Animatable from 'react-native-animatable';
 import { Alert, Picker } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { produce } from 'immer';
@@ -340,54 +341,56 @@ export default function Medications({ route, navigation }) {
       />
       <Container>
         <FAB onPress={() => setVisible(true)} />
-        <List
-          data={medications}
-          keyExtractor={item => item.name}
-          renderItem={({ item }) => (
-            <Box finished={item.finished}>
-              <TextBox>
-                <Title>{item.name}</Title>
-                <SubTitle>
-                  {`${translate('nextDose')}: ${item.nextDoseString}`}
-                </SubTitle>
-                <SubTitle>
-                  {`${translate('lastDose')}: ${item.lastDoseString}`}
-                </SubTitle>
-                <SubTitle>{`${translate('dosesLeft')}: ${
-                  item.doses
-                }`}</SubTitle>
-              </TextBox>
-              <ButtonBox>
-                {item.finished ? null : (
+        <Animatable.View animation="slideInUp">
+          <List
+            data={medications}
+            keyExtractor={item => item.name}
+            renderItem={({ item }) => (
+              <Box finished={item.finished}>
+                <TextBox>
+                  <Title>{item.name}</Title>
+                  <SubTitle>
+                    {`${translate('nextDose')}: ${item.nextDoseString}`}
+                  </SubTitle>
+                  <SubTitle>
+                    {`${translate('lastDose')}: ${item.lastDoseString}`}
+                  </SubTitle>
+                  <SubTitle>{`${translate('dosesLeft')}: ${
+                    item.doses
+                  }`}</SubTitle>
+                </TextBox>
+                <ButtonBox>
+                  {item.finished ? null : (
+                    <ButtonHolder
+                      onPress={() => {
+                        const notificationInfo = {
+                          doses: item.doses,
+                          interval: item.interval,
+                          intervalValue: item.intervalValue,
+                        };
+                        handleCheckMedication(
+                          item.name,
+                          item.notificationID,
+                          item.nextDoseDate,
+                          notificationInfo
+                        );
+                      }}
+                    >
+                      <Icon name="clipboard-check" color="#fff" size={20} />
+                    </ButtonHolder>
+                  )}
                   <ButtonHolder
-                    onPress={() => {
-                      const notificationInfo = {
-                        doses: item.doses,
-                        interval: item.interval,
-                        intervalValue: item.intervalValue,
-                      };
-                      handleCheckMedication(
-                        item.name,
-                        item.notificationID,
-                        item.nextDoseDate,
-                        notificationInfo
-                      );
-                    }}
+                    onPress={() =>
+                      handleDeleteMedication(item.name, item.notificationID)
+                    }
                   >
-                    <Icon name="clipboard-check" color="#fff" size={20} />
+                    <Icon name="trash-alt" color="#fff" size={20} />
                   </ButtonHolder>
-                )}
-                <ButtonHolder
-                  onPress={() =>
-                    handleDeleteMedication(item.name, item.notificationID)
-                  }
-                >
-                  <Icon name="trash-alt" color="#fff" size={20} />
-                </ButtonHolder>
-              </ButtonBox>
-            </Box>
-          )}
-        />
+                </ButtonBox>
+              </Box>
+            )}
+          />
+        </Animatable.View>
         <ModalHolder
           visible={modalVisible}
           transparent
