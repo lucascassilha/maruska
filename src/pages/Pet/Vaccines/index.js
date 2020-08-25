@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import DatePicker from 'react-native-date-picker';
 import * as Yup from 'yup';
+import * as Animatable from 'react-native-animatable';
 import Snackbar from 'react-native-snackbar';
 import { Alert, Picker } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
@@ -340,52 +341,54 @@ export default function Vaccines({ route, navigation }) {
       />
       <Container>
         <FAB onPress={() => setVisible(true)} />
-        <List
-          data={vaccines}
-          keyExtractor={item => item.name}
-          renderItem={({ item }) => (
-            <Box vaccinated={item.vaccinated}>
-              <TextBox>
-                <Title>{item.name}</Title>
-                <SubTitle>
-                  {`${translate('nextDose')}: ${item.nextDoseString}`}
-                </SubTitle>
-                <SubTitle>
-                  {`${translate('lastDose')}: ${item.lastDoseString}`}
-                </SubTitle>
-                <SubTitle>{`${translate('dosesLeft')}: ${
-                  item.doses
-                }`}</SubTitle>
-              </TextBox>
-              <ButtonBox>
-                <ButtonHolder
-                  onPress={() => {
-                    const notificationInfo = {
-                      doses: item.doses,
-                      interval: item.interval,
-                      intervalValue: item.intervalValue,
-                    };
-                    handleCheckVaccine(
-                      item.name,
-                      item.notificationID,
-                      item.nextDoseDate,
-                      notificationInfo
-                    );
-                  }}
-                >
-                  <Icon name="clipboard-check" color="#fff" size={20} />
-                </ButtonHolder>
-                <ButtonHolder
-                  onPress={() =>
-                    handleDeleteVaccine(item.name, item.notificationID)
-                  }
-                >
-                  <Icon name="trash-alt" color="#fff" size={20} />
-                </ButtonHolder>
-              </ButtonBox>
-            </Box>
-          )}
-        />
+        <Animatable.View animation="slideInUp">
+          <List
+            data={vaccines}
+            keyExtractor={item => item.name}
+            renderItem={({ item }) => (
+              <Box vaccinated={item.vaccinated}>
+                <TextBox>
+                  <Title>{item.name}</Title>
+                  <SubTitle>
+                    {`${translate('nextDose')}: ${item.nextDoseString}`}
+                  </SubTitle>
+                  <SubTitle>
+                    {`${translate('lastDose')}: ${item.lastDoseString}`}
+                  </SubTitle>
+                  <SubTitle>{`${translate('dosesLeft')}: ${
+                    item.doses
+                  }`}</SubTitle>
+                </TextBox>
+                <ButtonBox>
+                  <ButtonHolder
+                    onPress={() => {
+                      const notificationInfo = {
+                        doses: item.doses,
+                        interval: item.interval,
+                        intervalValue: item.intervalValue,
+                      };
+                      handleCheckVaccine(
+                        item.name,
+                        item.notificationID,
+                        item.nextDoseDate,
+                        notificationInfo
+                      );
+                    }}
+                  >
+                    <Icon name="clipboard-check" color="#fff" size={20} />
+                  </ButtonHolder>
+                  <ButtonHolder
+                    onPress={() =>
+                      handleDeleteVaccine(item.name, item.notificationID)
+                    }
+                  >
+                    <Icon name="trash-alt" color="#fff" size={20} />
+                  </ButtonHolder>
+                </ButtonBox>
+              </Box>
+            )}
+          />
+        </Animatable.View>
         <ModalHolder
           visible={modalVisible}
           transparent

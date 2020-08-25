@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { format, parseISO, isValid, isSameDay, isSameMonth } from 'date-fns';
-import { Dimensions, Alert, Vibration } from 'react-native';
+import { Dimensions, Alert, Vibration, Modal, View } from 'react-native';
+import LottieView from 'lottie-react-native';
 import { useSelector, useDispatch } from 'react-redux';
-import { ptBR, enUS } from 'date-fns/locale';
 import PropTypes from 'prop-types';
 import Snackbar from 'react-native-snackbar';
+import * as Animatable from 'react-native-animatable';
 
 import { VictoryChart, VictoryLine, VictoryTheme } from 'victory-native';
 
@@ -41,9 +42,11 @@ export default function Weight({ route, navigation }) {
   const weightData = pets[petIndex].weight;
   const storedWeightData = pets[petIndex].storedWeight;
 
-  const localeFNS = locale === 'pt_BR' ? ptBR : enUS;
-  const date = format(new Date(), 'dd MMMM', { locale: localeFNS });
+  const localeFNS = locale === 'en_US';
+  const date = format(new Date(), localeFNS ? 'MM/dd' : 'dd/MM');
   const dispatch = useDispatch();
+
+  const [modalVisible, setVisible] = useState(false);
 
   const [weight, setWeight] = useState(null);
   const [editable, setEditable] = useState(true);
@@ -136,10 +139,7 @@ export default function Weight({ route, navigation }) {
                 elementValid
                   ? element.created_at
                   : parseISO(element.created_at),
-                'MMMM yyyy',
-                {
-                  locale: localeFNS,
-                }
+                'MM/yyyy'
               ),
             };
             finalArray.push(data);
@@ -179,10 +179,7 @@ export default function Weight({ route, navigation }) {
             counter: 1,
             formattedDate: format(
               elementValid ? element.created_at : parseISO(element.created_at),
-              'MMMM yyyy',
-              {
-                locale: localeFNS,
-              }
+              'MM/yyyy'
             ),
           };
           finalArray.push(data);
@@ -207,6 +204,14 @@ export default function Weight({ route, navigation }) {
     setLoading(false);
   }, []);
 
+  useEffect(() => {
+    if (loading) {
+      setVisible(true);
+    } else {
+      setVisible(false);
+    }
+  }, [loading]);
+
   return (
     <Container>
       <PageHeader
@@ -214,93 +219,114 @@ export default function Weight({ route, navigation }) {
         source={require('~/assets/img/weight.png')}
         title={translate('weightTitle')}
       />
-      <Scroll>
-        {!editable ? (
-          <ErrorLabel>{translate('weightAlready')}</ErrorLabel>
-        ) : (
-          <>
-            <InputLabel>{translate('addWeightLabel')}</InputLabel>
-            <Holder>
-              <InputHolder>
-                <Input
+      <Modal visible={modalVisible} animationType="fade" transparent>
+        <View
+          style={{
+            alignItems: 'center',
+            justifyContent: 'center',
+            flex: 1,
+            backgroundColor: 'rgba(0,0,0,0.2)',
+          }}
+        >
+          <LottieView
+            style={{
+              alignSelf: 'center',
+            }}
+            source={require('~/assets/animations/loading.json')}
+            autoPlay
+            loop
+          />
+        </View>
+      </Modal>
+      <Animatable.View animation="slideInUp">
+        <Scroll>
+          {!editable ? (
+            <ErrorLabel>{translate('weightAlready')}</ErrorLabel>
+          ) : (
+            <>
+              <InputLabel>{translate('addWeightLabel')}</InputLabel>
+              <Holder>
+                <InputHolder>
+                  <Input
+                    disabled={!editable}
+                    onChangeText={setWeight}
+                    maxLength={5}
+                    value={weight}
+                    keyboardType="number-pad"
+                    placeholder="35.5"
+                    onSubmitEditing={handleAddWeight}
+                  />
+                  <MiniLabel>{weightUnit}</MiniLabel>
+                </InputHolder>
+                <Button
+                  title={translate('registerLabel')}
+                  onPress={handleAddWeight}
                   disabled={!editable}
-                  onChangeText={setWeight}
-                  maxLength={5}
-                  value={weight}
-                  keyboardType="number-pad"
-                  placeholder="35.5"
-                  onSubmitEditing={handleAddWeight}
                 />
-                <MiniLabel>{weightUnit}</MiniLabel>
-              </InputHolder>
-              <Button
-                title={translate('registerLabel')}
-                onPress={handleAddWeight}
-                disabled={!editable}
-              />
-            </Holder>
-          </>
-        )}
-        <ChartTitle>{translate('lastWeight')}</ChartTitle>
-        <ChartHolder>
-          <VictoryChart
-            theme={VictoryTheme.material}
-            width={windowWidth - 40}
-            minDomain={{ y: 0 }}
-          >
-            <VictoryLine
-              data={chartData}
-              x="date"
-              y="weight"
-              style={{
-                data: {
-                  stroke: '#56a3a6',
-                },
-              }}
-            />
-          </VictoryChart>
-        </ChartHolder>
-        <ChartTitle>{translate('monthWeight')}</ChartTitle>
-        <ChartHolder>
-          <VictoryChart
-            theme={VictoryTheme.material}
-            width={windowWidth - 40}
-            minDomain={{ y: 0 }}
-          >
-            <VictoryLine
-              data={byMonth}
-              x="formattedDate"
-              y="weight"
-              style={{
-                data: {
-                  stroke: '#56a3a6',
-                },
-              }}
-            />
-          </VictoryChart>
-        </ChartHolder>
-        <RegularTitle>{translate('registrationsWeight')}</RegularTitle>
-        {weightData &&
-          weightData
-            .map(item => (
-              <WeightHolder>
-                <WeightLabel>
-                  {`${item.date} - ${item.weight}${weightUnit}`}
-                </WeightLabel>
-              </WeightHolder>
-            ))
-            .reverse()}
-        {storedWeightData &&
-          storedWeightData.map(item =>
-            (
-              <WeightHolder>
-                <WeightLabel>
-                  {`${item.date} - ${item.weight}${weightUnit}`}
-                </WeightLabel>
-              </WeightHolder>
-            ).reverse()
+              </Holder>
+            </>
           )}
-      </Scroll>
+          <ChartTitle>{translate('lastWeight')}</ChartTitle>
+          <ChartHolder>
+            <VictoryChart
+              theme={VictoryTheme.material}
+              width={windowWidth - 40}
+              minDomain={{ y: 0 }}
+            >
+              <VictoryLine
+                data={chartData}
+                x="date"
+                y="weight"
+                style={{
+                  data: {
+                    stroke: '#56a3a6',
+                  },
+                }}
+              />
+            </VictoryChart>
+          </ChartHolder>
+          <ChartTitle>{translate('monthWeight')}</ChartTitle>
+          <ChartHolder>
+            <VictoryChart
+              theme={VictoryTheme.material}
+              width={windowWidth - 40}
+              minDomain={{ y: 0 }}
+            >
+              <VictoryLine
+                data={byMonth}
+                x="formattedDate"
+                y="weight"
+                style={{
+                  data: {
+                    stroke: '#56a3a6',
+                  },
+                }}
+              />
+            </VictoryChart>
+          </ChartHolder>
+          <RegularTitle>{translate('registrationsWeight')}</RegularTitle>
+          {weightData &&
+            weightData
+              .map(item => (
+                <WeightHolder>
+                  <WeightLabel>
+                    {`${item.date} - ${item.weight}${weightUnit}`}
+                  </WeightLabel>
+                </WeightHolder>
+              ))
+              .reverse()}
+          {storedWeightData &&
+            storedWeightData.map(item =>
+              (
+                <WeightHolder>
+                  <WeightLabel>
+                    {`${item.date} - ${item.weight}${weightUnit}`}
+                  </WeightLabel>
+                </WeightHolder>
+              ).reverse()
+            )}
+        </Scroll>
+      </Animatable.View>
     </Container>
   );
 }

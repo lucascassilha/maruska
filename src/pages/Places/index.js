@@ -76,7 +76,7 @@ export default function Places({ navigation }) {
                 alignSelf: 'center',
                 marginBottom: -40,
               }}
-              source={require('~/assets/animations/bear_waiting.json')}
+              source={require('~/assets/animations/sqr.json')}
               autoPlay
               loop
             />
