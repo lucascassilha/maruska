@@ -20,6 +20,10 @@ export default function doctors(state = INITIAL_STATE, action) {
         }
         break;
       }
+      case '@account/FIRST_LOGIN': {
+        draft.firstLogin = !draft.firstLogin;
+        break;
+      }
       default:
     }
   });

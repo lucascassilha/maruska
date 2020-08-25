@@ -18,7 +18,7 @@ import {
 import translate from '~/locales';
 import terms from './terms';
 
-import { darkMode } from '~/store/modules/account/actions';
+import { darkMode, firstLogin } from '~/store/modules/account/actions';
 
 export default function Settings({ navigation }) {
   const weight = useSelector(state => state.weight);
@@ -70,6 +70,11 @@ export default function Settings({ navigation }) {
         ]
       );
     }
+  };
+
+  const handleAppIntro = () => {
+    navigation.navigate('Home');
+    dispatch(firstLogin());
   };
 
   return (
@@ -136,6 +141,12 @@ export default function Settings({ navigation }) {
             <Icon name="weight" color="#fff" size={20} />
           </IconHolder>
           <Label>{`${translate('changeUnit')} (${weight}) `}</Label>
+        </Button>
+        <Button onPress={() => handleAppIntro()}>
+          <IconHolder color="#E733EB">
+            <Icon name="weight" color="#fff" size={20} />
+          </IconHolder>
+          <Label>App Intro</Label>
         </Button>
         <Button onPress={() => handleDarkMode()}>
           <IconHolder color={themeBoolean ? '#222327' : '#c4c4c4'}>

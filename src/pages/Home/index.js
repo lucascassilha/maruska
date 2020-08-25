@@ -32,14 +32,13 @@ import {
 export default function Home({ navigation }) {
   const theme = !useSelector(state => state.account.darkMode);
   const proAccont = useSelector(state => state.account.pro);
+  const firstLogin = useSelector(state => state.account.firstLogin);
   const pets = useSelector(state => state.pets.data);
   const [petData, setPetData] = useState([]);
 
   const dispatch = useDispatch();
   const handleOpen = async () => {
     const petsLenght = pets.length;
-    console.log(petsLenght);
-
     if (petsLenght >= 2 && !proAccont) {
       Alert.alert(translate('proFeatureTitle'), translate('proPets'), [
         { text: 'Ok', onPress: () => navigation.navigate('Pro') },

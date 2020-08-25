@@ -9,3 +9,9 @@ export function darkMode() {
     type: '@account/DARK_MODE',
   };
 }
+
+export function firstLogin() {
+  return {
+    type: '@account/FIRST_LOGIN',
+  };
+}
