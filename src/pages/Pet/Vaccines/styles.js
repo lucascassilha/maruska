@@ -61,7 +61,7 @@ export const Button = styled.TouchableOpacity`
 
 export const Box = styled.View`
   background-color: ${props => (props.theme.light ? '#084c61' : '#37383A')};
-  margin: 10px 0px;
+  margin: 5px 0px;
   border-radius: 4px;
   padding: 15px;
   flex-direction: row;

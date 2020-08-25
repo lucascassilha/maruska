@@ -25,6 +25,7 @@ import Places from '~/pages/Places/index';
 import Settings from '~/pages/Settings';
 import LostPet from '~/pages/Pet/LostPet';
 import Pro from '~/pages/Pro';
+import Intro from '~/pages/Intro';
 
 import themes from '~/themes';
 import translate from '~/locales';
@@ -33,10 +34,11 @@ const Stack = createStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
 
 function Tabs() {
-  const theme = !useSelector(state => state.account.darkMode);
-  const proAccount = useSelector(state => state.account.darkMode);
+  const account = useSelector(state => state.account);
 
-  let themeBoolean = theme;
+  const { darkMode: theme, pro: proAccount, firstLogin } = account;
+
+  let themeBoolean = !theme;
   if (!proAccount) {
     themeBoolean = true;
   }
@@ -44,7 +46,7 @@ function Tabs() {
   return (
     <Tab.Navigator
       shifting
-      initialRouteName="Home"
+      initialRouteName="Pets"
       activeColor="#fff"
       inactiveColor={`${themeBoolean ? '#ad0c00' : '#544F4F'}`}
       barStyle={{
@@ -92,31 +94,34 @@ function Tabs() {
 }
 
 export default function Routes() {
-  const themeBoolean = !useSelector(state => state.account.darkMode);
-  const proAccount = useSelector(state => state.account.pro);
+  const account = useSelector(state => state.account);
+
+  const { darkMode: themeBoolean, pro: proAccount, firstLogin } = account;
   const nativeTheme = useColorScheme() === 'light';
 
   const [theme, setTheme] = useState(themes.light);
 
   const dispatch = useDispatch();
 
+  const themeBoolInverted = !themeBoolean;
+
   useEffect(() => {
     if (proAccount) {
-      if (nativeTheme && !themeBoolean) {
+      if (nativeTheme && !themeBoolInverted) {
         dispatch(darkMode());
-      } else if (!nativeTheme && themeBoolean) {
+      } else if (!nativeTheme && themeBoolInverted) {
         dispatch(darkMode());
       }
     }
   }, []);
 
   useEffect(() => {
-    if (themeBoolean) {
+    if (themeBoolInverted) {
       setTheme(themes.light);
     } else {
       setTheme(themes.dark);
     }
-  }, [themeBoolean]);
+  }, [themeBoolInverted]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -125,19 +130,19 @@ export default function Routes() {
           headerTitleStyle: {
             fontFamily: 'OpenSans-BoldItalic',
             marginLeft: -25,
-            color: themeBoolean ? '#000' : '#fff',
+            color: themeBoolInverted ? '#000' : '#fff',
           },
           headerStyle: {
             elevation: 0,
             shadowOpacity: 0,
             borderBottomWidth: 0,
-            backgroundColor: themeBoolean ? '#fff' : '#222327',
+            backgroundColor: themeBoolInverted ? '#fff' : '#222327',
           },
           headerBackImage: () => {
             return (
               <Icon
                 name="chevron-left"
-                color={themeBoolean ? '#000' : '#fff'}
+                color={themeBoolInverted ? '#000' : '#fff'}
                 size={25}
               />
             );
@@ -146,7 +151,7 @@ export default function Routes() {
       >
         <Stack.Screen
           name="Home"
-          component={Tabs}
+          component={firstLogin ? Tabs : Intro}
           options={{ headerShown: false, headerMode: 'screen' }}
         />
         <Stack.Screen

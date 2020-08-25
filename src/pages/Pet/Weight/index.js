@@ -241,7 +241,7 @@ export default function Weight({ route, navigation }) {
             </Holder>
           </>
         )}
-        <ChartTitle>Last weight records</ChartTitle>
+        <ChartTitle>{translate('lastWeight')}</ChartTitle>
         <ChartHolder>
           <VictoryChart
             theme={VictoryTheme.material}
@@ -260,7 +260,7 @@ export default function Weight({ route, navigation }) {
             />
           </VictoryChart>
         </ChartHolder>
-        <ChartTitle>Weight by month</ChartTitle>
+        <ChartTitle>{translate('monthWeight')}</ChartTitle>
         <ChartHolder>
           <VictoryChart
             theme={VictoryTheme.material}
@@ -279,7 +279,7 @@ export default function Weight({ route, navigation }) {
             />
           </VictoryChart>
         </ChartHolder>
-        <RegularTitle>Weight registrations</RegularTitle>
+        <RegularTitle>{translate('registrationsWeight')}</RegularTitle>
         {weightData &&
           weightData
             .map(item => (

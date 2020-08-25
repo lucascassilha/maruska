@@ -6,6 +6,7 @@ import Snackbar from 'react-native-snackbar';
 import { Alert, Picker } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { produce } from 'immer';
+import Config from 'react-native-config';
 import PropTypes from 'prop-types';
 import {
   formatDistanceStrict,
@@ -18,6 +19,7 @@ import {
   addDays,
   isPast,
 } from 'date-fns';
+import { AdMobInterstitial } from 'react-native-admob';
 import { ptBR, enUS } from 'date-fns/locale';
 import { Formik } from 'formik';
 
@@ -86,6 +88,7 @@ const now = new Date();
 export default function Vaccines({ route, navigation }) {
   const { petID } = route.params;
   const pets = useSelector(state => state.pets.data);
+  const proAccount = useSelector(state => state.account.pro);
 
   const [modalVisible, setVisible] = useState(false);
 
@@ -195,6 +198,12 @@ export default function Vaccines({ route, navigation }) {
       )
     );
     setVisible(false);
+
+    if (!proAccount) {
+      AdMobInterstitial.setAdUnitID(Config.INTERSTICIAL_ID);
+      AdMobInterstitial.setTestDevices([AdMobInterstitial.simulatorId]);
+      AdMobInterstitial.requestAd().then(() => AdMobInterstitial.showAd());
+    }
   };
 
   const handleCheckVaccine = async (
@@ -279,6 +288,14 @@ export default function Vaccines({ route, navigation }) {
 
             dispatch(petCheckVaccine(vacID, petID, notificationData));
             dispatch(petLastVaccine(petID));
+
+            if (!proAccount) {
+              AdMobInterstitial.setAdUnitID(Config.INTERSTICIAL_ID);
+              AdMobInterstitial.setTestDevices([AdMobInterstitial.simulatorId]);
+              AdMobInterstitial.requestAd().then(() =>
+                AdMobInterstitial.showAd()
+              );
+            }
           },
         },
         { text: translate('cancelButton') },

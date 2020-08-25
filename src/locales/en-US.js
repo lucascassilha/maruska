@@ -236,4 +236,27 @@ export default {
   maruskaPrice: '$4.99',
   maruskaOneTime: 'ONE TIME ONLY',
   features: 'Features',
+  proFeatureTitle: `I'm afraid you can't do that!`,
+  proFeatureDescription:
+    'This is a Maruska PRO feature. Would you like to purchase it?',
+  proPets:
+    'With Maruska FREE you can only add two pets.  Would you like to purchase Maruska PRO to register unlimited pets?',
+  lastWeight: 'Lastest Weight Records',
+  monthWeight: 'Weight per Month',
+  registrationsWeight: 'Weight Registrations',
+  screen1title: 'Welcome to Maruska!',
+  screen1:
+    'We will help you better fit a pet in your life! Use our vaccination card, medication record, and medical center to never forget to take care of your buddies!',
+  screen2title: 'First things first...',
+  screen2:
+    "The first thing you need to do before using our app is to remove Maruksa from your battery saver list! Don't worry, we will use very little of it. Without that, our notification service may not work properly.",
+  screen3title: 'Do more with Maruska PRO!',
+  screen3:
+    'With Maruska PRO you can register unlimited pets, have access to our weight control feature, be free of ads, and unlock our beautiful dark theme!',
+  purchase: 'Purchase!',
+  introAlertTitle: 'Please confirm battery configuration!',
+  introAlertDescription: `If you didn't registered Maruska in you battery saver whitelist, the app may not work correctly`,
+  goToSettings: 'Open settigns',
+  understand: 'I understand',
+  helpMe: 'I need help doing that',
 };

@@ -39,6 +39,7 @@ export default function Health({ route, navigation }) {
   const { petID } = route.params;
 
   const theme = !useSelector(state => state.account.darkMode);
+  const proAccont = useSelector(state => state.account.pro);
 
   const doctors = useSelector(state => state.doctors.data);
   const pets = useSelector(state => state.pets.data);
@@ -194,6 +195,21 @@ export default function Health({ route, navigation }) {
     ]);
   };
 
+  const handleWeight = () => {
+    if (proAccont) {
+      navigation.navigate('Weight', { petID: petID });
+    } else {
+      Alert.alert(
+        translate('proFeatureTitle'),
+        translate('proFeatureDescription'),
+        [
+          { text: 'Ok', onPress: () => navigation.navigate('Pro') },
+          { text: translate('cancelButton') },
+        ]
+      );
+    }
+  };
+
   return (
     <>
       <PageHeader
@@ -204,10 +220,10 @@ export default function Health({ route, navigation }) {
       <Container>
         <ButtonHolder>
           <MenuButton
-            title="Weight Control"
+            title={translate('weightTitle')}
             color={theme ? '#56a3a6' : '#37383A'}
             image={require('~/assets/img/weight.png')}
-            onPress={() => navigation.navigate('Weight', { petID: petID })}
+            onPress={handleWeight}
           />
         </ButtonHolder>
         <TitleBox>

@@ -2,8 +2,9 @@
 import { produce } from 'immer';
 
 const INITIAL_STATE = {
-  pro: true,
-  darkMode: true,
+  pro: false,
+  darkMode: false,
+  firstLogin: false,
 };
 
 export default function doctors(state = INITIAL_STATE, action) {
@@ -17,6 +18,10 @@ export default function doctors(state = INITIAL_STATE, action) {
         if (draft.pro) {
           draft.darkMode = !draft.darkMode;
         }
+        break;
+      }
+      case '@account/FIRST_LOGIN': {
+        draft.firstLogin = !draft.firstLogin;
         break;
       }
       default:
