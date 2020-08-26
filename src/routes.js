@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { TouchableOpacity } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { ThemeProvider } from 'styled-components';
@@ -231,9 +232,21 @@ export default function Routes() {
         <Stack.Screen
           name="Pro"
           component={Pro}
-          options={{
+          options={({ navigation }) => ({
             title: '',
-          }}
+            headerLeft: props => (
+              <TouchableOpacity
+                style={{ marginLeft: 20 }}
+                onPress={() => navigation.navigate('Settings')}
+              >
+                <Icon
+                  name="chevron-left"
+                  color={themeBoolInverted ? '#000' : '#fff'}
+                  size={25}
+                />
+              </TouchableOpacity>
+            ),
+          })}
         />
       </Stack.Navigator>
     </ThemeProvider>

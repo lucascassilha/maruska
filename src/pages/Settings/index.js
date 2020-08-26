@@ -143,10 +143,10 @@ export default function Settings({ navigation }) {
           <Label>{`${translate('changeUnit')} (${weight}) `}</Label>
         </Button>
         <Button onPress={() => handleAppIntro()}>
-          <IconHolder color="#E733EB">
-            <Icon name="weight" color="#fff" size={20} />
+          <IconHolder color="#470000">
+            <Icon name="play" color="#fff" size={20} />
           </IconHolder>
-          <Label>App Intro</Label>
+          <Label>{translate('appIntro')}</Label>
         </Button>
         <Button onPress={() => handleDarkMode()}>
           <IconHolder color={themeBoolean ? '#222327' : '#c4c4c4'}>
@@ -162,7 +162,7 @@ export default function Settings({ navigation }) {
           </IconHolder>
           <Label>{translate('developer')}</Label>
         </Button>
-        <Version>v2.0.3</Version>
+        <Version>v2.0.4</Version>
         <Version>NeakApps - 2020</Version>
         <Comment>{translate('byUsing')}</Comment>
       </Box>
