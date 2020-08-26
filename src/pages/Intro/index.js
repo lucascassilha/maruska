@@ -78,7 +78,7 @@ const Intro = ({ navigation }) => {
   }, [pageIndex]);
 
   const handleClose = () => {
-    if (pageIndex === 2) {
+    if (pageIndex !== 0) {
       dispatch(firstLogin());
     }
   };

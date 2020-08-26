@@ -251,11 +251,13 @@ export default {
     'A primeira coisa que você precisa fazer antes de usar o app é remover o Maruska da sua lista de economia de bateria. Não se preocupe, não vamos usar quase nada dela! Isso serve apenas para nosso serviço de notificações funcionar corretamente.',
   screen3title: 'Faça mais com Maruska PRO!',
   screen3:
-    'With Maruska PRO you can register unlimited pets, have access to our weight control feature, be free of ads, and unlock our beautiful dark theme!',
-  purchase: 'Purchase!',
-  introAlertTitle: 'Please confirm battery configuration!',
-  introAlertDescription: `If you didn't registered Maruska in you battery saver whitelist, the app may not work correctly`,
-  goToSettings: 'Open settigns',
-  understand: 'I understand',
+    'Com Maruska PRO você pode registrar pets ilimitados, ter acesso ao controle de peso, ficar livre de anúncios e desbloquear nosso tema escuro!',
+  purchase: 'Comprar!',
+  introAlertTitle: 'Por favor, confirme a configuração da bateria!',
+  introAlertDescription:
+    'Se você não tiver retirado o app da lista de economia de bateria, as notificações podem não funcionar corretamente.',
+  goToSettings: 'Configurações',
+  understand: 'Eu entendi',
   helpMe: 'Preciso de ajuda',
+  appIntro: 'Introdução do app',
 };

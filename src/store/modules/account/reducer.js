@@ -2,7 +2,7 @@
 import { produce } from 'immer';
 
 const INITIAL_STATE = {
-  pro: true,
+  pro: false,
   darkMode: false,
   firstLogin: false,
 };
