@@ -6,7 +6,14 @@ export default reducers => {
     {
       key: 'maruska',
       storage: AsyncStorage,
-      whitelist: ['pets', 'notifications', 'places', 'doctors', 'weight'],
+      whitelist: [
+        'pets',
+        'notifications',
+        'places',
+        'doctors',
+        'weight',
+        'account',
+      ],
     },
     reducers
   );

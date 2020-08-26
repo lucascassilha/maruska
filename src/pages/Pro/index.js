@@ -85,7 +85,7 @@ const Pro = () => {
         <Label>{`📵 ${translate('maruskaAds')}`}</Label>
         {proAccount ? (
           <BuyButton>
-            <SmallLabel>You are already a pro user!</SmallLabel>
+            <SmallLabel>{translate('alreadyPRO')}</SmallLabel>
           </BuyButton>
         ) : (
           <BuyButton onPress={() => purchase()}>
