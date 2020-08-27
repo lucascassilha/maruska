@@ -18,5 +18,5 @@ export const Title = styled.Text`
   font-family: 'OpenSans-BoldItalic';
   margin-left: 10px;
   margin-right: 10px;
-  max-width: 75%;
+  width: 75%;
 `;

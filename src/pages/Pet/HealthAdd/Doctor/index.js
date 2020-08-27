@@ -119,6 +119,7 @@ export default function DocAdd({ route, navigation }) {
         {pickerDoctors[0] &&
           pickerDoctors.map(item => (
             <Picker.Item
+              key={item.name}
               label={`${item.name} - ${item.clinic}`}
               value={item.name}
             />

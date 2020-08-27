@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Alert, TouchableOpacity } from 'react-native';
+import { Alert, TouchableOpacity, Dimensions } from 'react-native';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Animatable from 'react-native-animatable';
@@ -28,6 +28,8 @@ import {
 
 export default function Profile({ route, navigation }) {
   const { pet } = route.params;
+
+  const { width } = Dimensions.get('window');
 
   const theme = !useSelector(state => state.account.darkMode);
   const weightLabel = useSelector(state => state.weight);
@@ -139,6 +141,7 @@ export default function Profile({ route, navigation }) {
             >
               {pet.avatar ? (
                 <Picture
+                  width={width - 80}
                   source={{ uri: `data:image/*;base64,${pet.avatar}` }}
                 />
               ) : (

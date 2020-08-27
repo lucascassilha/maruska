@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import LottieView from 'lottie-react-native';
+import { Dimensions } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -18,6 +19,8 @@ import {
 export default function Avatar({ route, navigation }) {
   const { petID } = route.params;
   const [picture, setPicture] = useState(null);
+
+  const { width } = Dimensions.get('window');
 
   const dispatch = useDispatch();
 
@@ -62,6 +65,7 @@ export default function Avatar({ route, navigation }) {
         <>
           <PictureButton onPress={handleSelectImage}>
             <PetImage
+              width={width - 40}
               source={{
                 uri: `data:image/*;base64,${picture}`,
               }}

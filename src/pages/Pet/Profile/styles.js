@@ -47,8 +47,8 @@ export const Info = styled.Text`
 export const Picture = styled.Image`
   align-self: center;
   margin-top: 10px;
-  height: 250px;
-  width: 250px;
+  height: ${props => props.width};
+  width: ${props => props.width};
   border-radius: 5px;
 `;
 
