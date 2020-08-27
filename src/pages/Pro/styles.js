@@ -13,6 +13,8 @@ export const Holder = styled.View`
   padding: 20px;
 `;
 
+export const Scroll = styled.ScrollView``;
+
 export const ProImage = styled.Image`
   height: 200px;
   width: 190px;

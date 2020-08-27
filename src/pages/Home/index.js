@@ -32,7 +32,6 @@ import {
 export default function Home({ navigation }) {
   const theme = !useSelector(state => state.account.darkMode);
   const proAccont = useSelector(state => state.account.pro);
-  const firstLogin = useSelector(state => state.account.firstLogin);
   const pets = useSelector(state => state.pets.data);
   const [petData, setPetData] = useState([]);
 
@@ -97,6 +96,7 @@ export default function Home({ navigation }) {
               style={{
                 width: '70%',
                 alignSelf: 'center',
+                marginBottom: 20,
               }}
               source={require('~/assets/animations/cat_waiting.json')}
               autoPlay

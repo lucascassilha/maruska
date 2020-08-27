@@ -28,23 +28,24 @@ import {
 
 const Intro = ({ navigation }) => {
   const { width, height } = Dimensions.get('window');
-  const [sliderState, setSliderState] = useState({ currentPage: 0 });
+  const [currentPage, setPage] = useState(0);
 
   const dispatch = useDispatch();
 
   const setSliderPage = e => {
-    const { currentPage } = sliderState;
     const { x } = e.nativeEvent.contentOffset;
-    const indexOfNextScreen = Math.floor(x / width);
+    let indexOfNextScreen = 1;
+    const offsetPercentage = width * 0.4;
+    if (x + width >= (width + offsetPercentage) * indexOfNextScreen) {
+      indexOfNextScreen++;
+    }
+    if (x + width <= (width + offsetPercentage) * indexOfNextScreen) {
+      indexOfNextScreen--;
+    }
     if (indexOfNextScreen !== currentPage) {
-      setSliderState({
-        ...sliderState,
-        currentPage: indexOfNextScreen,
-      });
+      setPage(indexOfNextScreen);
     }
   };
-
-  const { currentPage: pageIndex } = sliderState;
 
   const handleBattery = () => {
     Linking.openSettings();
@@ -61,7 +62,7 @@ const Intro = ({ navigation }) => {
   };
 
   useEffect(() => {
-    if (pageIndex === 2) {
+    if (currentPage === 2) {
       Alert.alert(
         translate('introAlertTitle'),
         translate('introAlertDescription'),
@@ -75,10 +76,10 @@ const Intro = ({ navigation }) => {
         ]
       );
     }
-  }, [pageIndex]);
+  }, [currentPage]);
 
   const handleClose = () => {
-    if (pageIndex !== 0) {
+    if (currentPage !== 0) {
       dispatch(firstLogin());
     }
   };
@@ -133,13 +134,13 @@ const Intro = ({ navigation }) => {
         </ButtonHolder>
         <View style={{ flexDirection: 'row' }}>
           {Array.from(Array(3).keys()).map((key, index) => (
-            <Dot key={index} active={pageIndex === index} />
+            <Dot key={index} active={currentPage === index} />
           ))}
         </View>
         <ButtonHolder onPress={handleClose}>
           <Icon
             name="close"
-            color={pageIndex === 2 ? '#000' : '#fff'}
+            color={currentPage === 2 ? '#000' : '#fff'}
             size={25}
           />
         </ButtonHolder>

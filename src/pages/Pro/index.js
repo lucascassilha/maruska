@@ -9,6 +9,7 @@ import translate from '~/locales';
 import {
   Container,
   Holder,
+  Scroll,
   ProImage,
   Title,
   Label,
@@ -71,28 +72,30 @@ const Pro = () => {
   return (
     <Container>
       <Holder>
-        <ProImage
-          source={
-            theme
-              ? require('~/assets/img/pro.png')
-              : require('~/assets/img/pro_white.png')
-          }
-        />
-        <Title>{translate('features')}</Title>
-        <Label>{`🌙 ${translate('maruskaDarkTheme')}`}</Label>
-        <Label>{`🐈 ${translate('maruskaPets')}`}</Label>
-        <Label>{`⚖️ ${translate('maruskaWeight')}`}</Label>
-        <Label>{`📵 ${translate('maruskaAds')}`}</Label>
-        {proAccount ? (
-          <BuyButton>
-            <SmallLabel>{translate('alreadyPRO')}</SmallLabel>
-          </BuyButton>
-        ) : (
-          <BuyButton onPress={() => purchase()}>
-            <ButtonLabel>{price}</ButtonLabel>
-            <SmallLabel>{translate('maruskaOneTime')}</SmallLabel>
-          </BuyButton>
-        )}
+        <Scroll showsVerticalScrollIndicator={false}>
+          <ProImage
+            source={
+              theme
+                ? require('~/assets/img/pro.png')
+                : require('~/assets/img/pro_white.png')
+            }
+          />
+          <Title>{translate('features')}</Title>
+          <Label>{`🌙 ${translate('maruskaDarkTheme')}`}</Label>
+          <Label>{`🐈 ${translate('maruskaPets')}`}</Label>
+          <Label>{`⚖️ ${translate('maruskaWeight')}`}</Label>
+          <Label>{`📵 ${translate('maruskaAds')}`}</Label>
+          {proAccount ? (
+            <BuyButton>
+              <SmallLabel>{translate('alreadyPRO')}</SmallLabel>
+            </BuyButton>
+          ) : (
+            <BuyButton onPress={() => purchase()}>
+              <ButtonLabel>{price}</ButtonLabel>
+              <SmallLabel>{translate('maruskaOneTime')}</SmallLabel>
+            </BuyButton>
+          )}
+        </Scroll>
       </Holder>
     </Container>
   );

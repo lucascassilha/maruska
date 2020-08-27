@@ -10,26 +10,28 @@ export const Screen = styled.View`
   flex: 1;
   align-items: center;
   background-color: ${props => props.color};
+  justify-content: center;
 `;
 
 export const Title = styled.Text`
   font-family: 'OpenSans-BoldItalic';
   color: #fff;
   margin-top: 20px;
-  font-size: 21px;
+  font-size: 18px;
+  text-align: center;
 `;
 
 export const SubTitle = styled.Text`
   font-family: 'OpenSans-Regular';
   color: #fff;
   margin-top: 20px;
-  font-size: 16px;
+  font-size: 14px;
   max-width: 280px;
   text-align: center;
 `;
 
 export const ImageHolder = styled.Image`
-  height: ${PixelRatio.getPixelSizeForLayoutSize(120)};
+  height: 20%;
   width: 100%;
   align-self: center;
 `;
@@ -41,7 +43,7 @@ export const LogoHolder = styled(ImageHolder)`
 `;
 
 export const DotsHolder = styled.View`
-  padding: 20px;
+  padding: 10px;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
