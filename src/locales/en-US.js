@@ -260,4 +260,5 @@ export default {
   understand: 'I understand',
   helpMe: 'I need help doing that',
   appIntro: 'App Intro',
+  alreadyPRO: 'You are PRO',
 };

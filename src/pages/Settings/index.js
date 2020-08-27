@@ -162,7 +162,7 @@ export default function Settings({ navigation }) {
           </IconHolder>
           <Label>{translate('developer')}</Label>
         </Button>
-        <Version>v2.0.4</Version>
+        <Version>v2.0.5</Version>
         <Version>NeakApps - 2020</Version>
         <Comment>{translate('byUsing')}</Comment>
       </Box>

@@ -238,7 +238,7 @@ export default function Weight({ route, navigation }) {
           />
         </View>
       </Modal>
-      <Animatable.View animation="slideInUp">
+      <Animatable.View animation="slideInUp" style={{ flex: 1 }}>
         <Scroll>
           {!editable ? (
             <ErrorLabel>{translate('weightAlready')}</ErrorLabel>

@@ -107,10 +107,9 @@ export default function AppointAdd({ route, navigation }) {
     <Container>
       <InputLabel>{translate('appWhere')}</InputLabel>
       <Picker
-        style={{ padding: 15 }}
         onValueChange={value => setClinic(value)}
         selectedValue={clinic}
-        style={{ color: '#888282' }}
+        style={{ color: '#888282', padding: 15 }}
       >
         <Picker.Item value={translate('none')} label={translate('specify')} />
         {pickerPlaces.map(item => (
@@ -122,10 +121,9 @@ export default function AppointAdd({ route, navigation }) {
       </Picker>
       <InputLabel>{translate('appWho')}</InputLabel>
       <Picker
-        style={{ padding: 15 }}
         onValueChange={value => setDoc(value)}
         selectedValue={selectedDoc || null}
-        style={{ color: '#888282' }}
+        style={{ color: '#888282', padding: 15 }}
       >
         <Picker.Item label={translate('appVetSelect')} value={null} />
         {pickerDoctors[0] &&

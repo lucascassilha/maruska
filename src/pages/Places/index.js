@@ -74,7 +74,6 @@ export default function Places({ navigation }) {
               style={{
                 width: '70%',
                 alignSelf: 'center',
-                marginBottom: -40,
               }}
               source={require('~/assets/animations/sqr.json')}
               autoPlay
