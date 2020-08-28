@@ -18,7 +18,7 @@ export const Title = styled.Text`
   font-family: 'OpenSans-BoldItalic';
   color: ${props => props.theme.general_label};
   margin-left: 5px;
-  max-width: 60%;
+  width: 60%;
 `;
 
 export const HolderView = styled.View`

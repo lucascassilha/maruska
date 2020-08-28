@@ -23,7 +23,9 @@ export default function DocAdd({ route, navigation }) {
   const dispatch = useDispatch();
 
   const handleAddDoctor = async () => {
-    let doc = { name, phone, clinic, pets: [petID] };
+    const id = new Date().getTime();
+
+    let doc = { id, name, phone, clinic, pets: [petID] };
     if (selectedDoc === translate('noneDoc')) {
       const schema = Yup.object().shape({
         name: Yup.string().required(),
@@ -68,9 +70,11 @@ export default function DocAdd({ route, navigation }) {
   };
 
   const pickerPlaces = places.filter(item => item.kind === translate('clinic'));
-  const pickerDoctors = doctors.map(item => {
+  const pickerDoctors = [];
+
+  doctors.map(item => {
     if (!item.pets.includes(petID)) {
-      return item;
+      pickerDoctors.push(item);
     }
   });
 
@@ -119,6 +123,7 @@ export default function DocAdd({ route, navigation }) {
         {pickerDoctors[0] &&
           pickerDoctors.map(item => (
             <Picker.Item
+              key={item.name}
               label={`${item.name} - ${item.clinic}`}
               value={item.name}
             />

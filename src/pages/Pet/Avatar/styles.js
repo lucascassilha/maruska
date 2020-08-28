@@ -28,8 +28,8 @@ export const Label = styled.Text`
 `;
 
 export const PetImage = styled.Image`
-  height: 250px;
-  width: 250px;
+  height: ${props => props.width};
+  width: ${props => props.width};
   border-radius: 10px;
   align-self: center;
 `;

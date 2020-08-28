@@ -52,13 +52,14 @@ export default function Health({ route, navigation }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const docs = doctors.map(item => {
+    const docAuxList = [];
+    doctors.map(item => {
       if (item.pets.includes(petID)) {
-        return item;
+        docAuxList.push(item);
       }
     });
-    if (docs[0]) {
-      setDocList(docs);
+    if (docAuxList[0]) {
+      setDocList(docAuxList);
     }
   }, [doctors]);
 
@@ -240,7 +241,7 @@ export default function Health({ route, navigation }) {
           </TitleBox>
           <List
             data={docList}
-            keyExtractor={item => item.name}
+            keyExtractor={item => item.name || item.id}
             renderItem={({ item }) => (
               <Box>
                 <TextBox>

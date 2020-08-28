@@ -229,25 +229,7 @@ export default function Routes() {
             title: translate('not'),
           }}
         />
-        <Stack.Screen
-          name="Pro"
-          component={Pro}
-          options={({ navigation }) => ({
-            title: '',
-            headerLeft: props => (
-              <TouchableOpacity
-                style={{ marginLeft: 20 }}
-                onPress={() => navigation.navigate('Settings')}
-              >
-                <Icon
-                  name="chevron-left"
-                  color={themeBoolInverted ? '#000' : '#fff'}
-                  size={25}
-                />
-              </TouchableOpacity>
-            ),
-          })}
-        />
+        <Stack.Screen name="Pro" component={Pro} options={{ title: '' }} />
       </Stack.Navigator>
     </ThemeProvider>
   );

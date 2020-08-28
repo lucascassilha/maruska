@@ -53,8 +53,9 @@ const Intro = ({ navigation }) => {
 
   const handleHelp = () => {
     if (locale === 'pt_BR') {
-      Linking.openURL(
-        'https://www.tecmundo.com.br/android-marshmallow/90879-android-6-0-remova-apps-modo-economia-mantenha-notificacoes-ativas.htm'
+      Alert.alert(
+        'Retirando Maruska da economia de bateria',
+        translate('ptBRTutorial')
       );
     } else {
       Linking.openURL('https://www.youtube.com/watch?v=rYxZWBlSdBE');
