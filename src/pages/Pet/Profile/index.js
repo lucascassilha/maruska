@@ -1,43 +1,37 @@
 import React, { useMemo } from 'react';
-import { StatusBar, Alert } from 'react-native';
+import { Alert, TouchableOpacity, Dimensions } from 'react-native';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Animatable from 'react-native-animatable';
+import LottieView from 'lottie-react-native';
+import Snackbar from 'react-native-snackbar';
+
 import changeStatus from '~/store/modules/modalVisible/actions';
-import EditModal from './EditModal';
-import Button from '~/components/Button/index';
 import { deletePet } from '~/store/modules/pets/actions';
 import translate from '~/locales';
+import MenuButton from '~/components/MenuButton';
+import PageHeader from '~/components/PageHeader';
+import EditModal from './EditModal';
 
 import {
   Container,
-  PetInfo,
-  PetMenu,
-  Header,
-  Avatar,
+  Box,
+  Title,
   InfoHolder,
   InfoTextHolder,
-  TextLine,
+  TextColumn,
   Label,
   Info,
-  MenuTitle,
-  EmergencyHolder,
-  MenuHolder,
-  ButtonHolder,
-  Gradient,
-  ImageIcon,
-  Dot,
+  Picture,
+  AnimationHolder,
 } from './styles';
-
-import vaccine from '~/assets/img/vaccine.png';
-import pill from '~/assets/img/pill.png';
-import weight from '~/assets/img/weight.png';
-import doctor from '~/assets/img/doctor.png';
-import camera from '~/assets/img/camera.png';
-import pencil from '~/assets/img/pencil.png';
 
 export default function Profile({ route, navigation }) {
   const { pet } = route.params;
+
+  const { width } = Dimensions.get('window');
+
+  const theme = !useSelector(state => state.account.darkMode);
   const weightLabel = useSelector(state => state.weight);
 
   const dispatch = useDispatch();
@@ -50,151 +44,131 @@ export default function Profile({ route, navigation }) {
     [pet]
   );
 
-  const buttons = [
-    {
-      id: 0,
-      image: vaccine,
-      colors: ['#FED3D8', '#F9DEE1'],
-      onPress: () => {
-        navigation.navigate('Vaccines', { petID: pet.name });
-      },
-    },
-    {
-      id: 1,
-      image: pill,
-      colors: ['#CFFFF4', '#DAFBF3'],
-      onPress: () => {
-        navigation.navigate('Medications', { petID: pet.name });
-      },
-    },
-    {
-      id: 2,
-      image: weight,
-      colors: ['#CFDDFF', '#DAEBFB'],
-      onPress: () => {
-        navigation.navigate('Weight', { petID: pet.name });
-      },
-    },
-    {
-      id: 3,
-      image: doctor,
-      colors: ['#FFF4CF', '#FFFDE7'],
-      onPress: () => {
-        navigation.navigate('Health', { petID: pet.name });
-      },
-    },
-    {
-      id: 4,
-      image: camera,
-      colors: ['#DCFFCF', '#EBFFE7'],
-      onPress: () => {
-        navigation.navigate('Avatar', { petID: pet.name });
-      },
-    },
-    {
-      id: 5,
-      image: pencil,
-      colors: ['#F2F6FF', '#ECECEC'],
-      onPress: handleOpen,
-    },
-  ];
-
   const handleDeletePet = () => {
-    Alert.alert(translate('areYouSure'), translate('notGetBack'), [
-      {
-        text: translate('sure'),
-        onPress: () => {
-          dispatch(deletePet(pet.name));
-          navigation.navigate('Home');
+    Alert.alert(
+      translate('deletePetTitle'),
+      translate('deletePetDescription'),
+      [
+        {
+          text: translate('sure'),
+          onPress: () => {
+            dispatch(deletePet(pet.name));
+            navigation.navigate('Home');
+            Snackbar.show({
+              text: translate('deletePetSnack'),
+              duration: Snackbar.LENGTH_LONG,
+              action: {
+                text: translate('thk'),
+                textColor: 'green',
+              },
+            });
+          },
         },
-      },
-      { text: translate('cancelButton') },
-    ]);
+        { text: translate('cancelButton') },
+      ]
+    );
   };
 
   return (
-    <Container>
-      <StatusBar backgroundColor="#eb3349" barStyle="light-content" />
+    <>
+      <PageHeader
+        title={pet.name}
+        source={pet.avatar ? pet.avatar : undefined}
+        icons
+        navigation={navigation}
+        onDelete={handleDeletePet}
+        onEdit={handleOpen}
+      />
       <EditModal petInformation={pet} />
-      <PetInfo>
-        <Header>
-          <Avatar
-            nullImage={pet.avatar}
-            source={
-              pet.avatar ? { uri: `data:image/*;base64,${pet.avatar}` } : null
-            }
-          />
-        </Header>
-        <InfoHolder>
-          <TextLine>
-            <InfoTextHolder>
-              <Label>{translate('infoWeight')}</Label>
-              <Info>{`${weightData} ${weightLabel}`}</Info>
-            </InfoTextHolder>
-            <InfoTextHolder>
-              <Label>{translate('infoKind')}</Label>
-              <Info>{pet.kind}</Info>
-            </InfoTextHolder>
-          </TextLine>
-          <TextLine>
-            <InfoTextHolder>
-              <Label>{translate('infoVac')}</Label>
-              <Info>{pet.lastVaccine || '--/--/--'}</Info>
-            </InfoTextHolder>
-            <InfoTextHolder>
-              <Label>{translate('infoApp')}</Label>
-              <Info>{pet.lastAppoint || '--/--/--'}</Info>
-            </InfoTextHolder>
-          </TextLine>
-          <TextLine>
-            <InfoTextHolder>
-              <Label>{translate('infoBreed')}</Label>
-              <Info>{pet.breed || translate('notInformed')}</Info>
-            </InfoTextHolder>
-            <InfoTextHolder>
-              <Label>{translate('infoSex')}</Label>
-              <Info>{pet.sex}</Info>
-            </InfoTextHolder>
-          </TextLine>
-        </InfoHolder>
-      </PetInfo>
-      <PetMenu>
-        <MenuTitle>{translate('petMenu')}</MenuTitle>
-        <Animatable.View animation="slideInRight">
-          <MenuHolder
-            showsHorizontalScrollIndicator={false}
-            horizontal
-            data={buttons}
-            keyExtractor={item => String(item.id)}
-            renderItem={({ item }) => (
-              <ButtonHolder onPress={item.onPress}>
-                <Gradient colors={item.colors}>
-                  <ImageIcon source={item.image} />
-                </Gradient>
-              </ButtonHolder>
-            )}
-          />
+      <Container>
+        <Animatable.View animation="slideInUp">
+          <Box>
+            <Title>{translate('petMenu')}</Title>
+            <MenuButton
+              color={theme ? '#084C61' : '#37383A'}
+              image={require('~/assets/img/vaccine.png')}
+              title={translate('vaccines')}
+              onPress={() => {
+                navigation.navigate('Vaccines', { petID: pet.name });
+              }}
+            />
+            <MenuButton
+              color={theme ? '#4F6D7A' : '#37383A'}
+              image={require('~/assets/img/pills.png')}
+              title={translate('medTitle')}
+              onPress={() => {
+                navigation.navigate('Medications', { petID: pet.name });
+              }}
+            />
+            <MenuButton
+              color={theme ? '#56A3A6' : '#37383A'}
+              image={require('~/assets/img/hospital.png')}
+              title={translate('healthTitle')}
+              onPress={() => {
+                navigation.navigate('Health', { petID: pet.name });
+              }}
+            />
+          </Box>
+          <Box>
+            <Title>{translate('informations')}</Title>
+            <InfoHolder>
+              <TextColumn>
+                <InfoTextHolder>
+                  <Label>{translate('infoWeight')}</Label>
+                  <Info>{`${weightData} ${weightLabel}`}</Info>
+                </InfoTextHolder>
+                <InfoTextHolder>
+                  <Label>{translate('infoKind')}</Label>
+                  <Info>{pet.kind}</Info>
+                </InfoTextHolder>
+              </TextColumn>
+              <TextColumn>
+                <InfoTextHolder>
+                  <Label>{translate('infoBreed')}</Label>
+                  <Info>{pet.breed || translate('notInformed')}</Info>
+                </InfoTextHolder>
+                <InfoTextHolder>
+                  <Label>{translate('infoSex')}</Label>
+                  <Info>{pet.sex}</Info>
+                </InfoTextHolder>
+              </TextColumn>
+            </InfoHolder>
+          </Box>
+          <Box>
+            <Title>{translate('picture')}</Title>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('Avatar', { petID: pet.name })}
+            >
+              {pet.avatar ? (
+                <Picture
+                  width={width - 80}
+                  source={{ uri: `data:image/*;base64,${pet.avatar}` }}
+                />
+              ) : (
+                <AnimationHolder>
+                  <LottieView
+                    source={require('~/assets/animations/camera.json')}
+                    autoPlay
+                    loop
+                  />
+                </AnimationHolder>
+              )}
+            </TouchableOpacity>
+          </Box>
+          <Box>
+            <Title>{translate('helpMenu')}</Title>
+            <MenuButton
+              color="#eb3349"
+              image={require('~/assets/img/lostpet.png')}
+              title={translate('emerLabel')}
+              onPress={() => {
+                navigation.navigate('LostPet', { pet });
+              }}
+            />
+          </Box>
         </Animatable.View>
-        <MenuTitle>{translate('emerMenu')}</MenuTitle>
-        <EmergencyHolder>
-          <Button
-            secondary
-            title={translate('emerLabel')}
-            onPress={() =>
-              navigation.navigate('LostPet', { changeInfo: false, pet })
-            }
-          />
-        </EmergencyHolder>
-        <MenuTitle>{translate('optMenu')}</MenuTitle>
-        <EmergencyHolder>
-          <Button
-            secondary
-            title={translate('optLabel')}
-            onPress={handleDeletePet}
-          />
-        </EmergencyHolder>
-      </PetMenu>
-    </Container>
+      </Container>
+    </>
   );
 }
 

@@ -1,5 +1,5 @@
 import { produce } from 'immer';
-import { format, subYears, subMonths, addDays } from 'date-fns';
+import { format, subYears, subMonths, addDays, startOfDay } from 'date-fns';
 import { Alert } from 'react-native';
 import translate, { locale } from '~/locales';
 
@@ -17,9 +17,11 @@ export default function pets(state = INITIAL_STATE, action) {
         const currentDate = new Date();
         let returnDate = null;
         if (months !== '') {
-          returnDate = subYears(subMonths(currentDate, months), years);
+          returnDate = startOfDay(
+            subYears(subMonths(currentDate, months), years)
+          );
         } else {
-          returnDate = date;
+          returnDate = startOfDay(date);
         }
 
         const info = {
@@ -28,6 +30,7 @@ export default function pets(state = INITIAL_STATE, action) {
           originalDate: returnDate,
           originalYears: years,
           originalMonths: months,
+          storedWeight: [],
         };
 
         draft.data.push(info);
@@ -35,9 +38,11 @@ export default function pets(state = INITIAL_STATE, action) {
       }
       case '@pet/EDIT': {
         const { pet } = action.payload;
-        const { chip, breed, name } = pet;
+        const { chip, breed, name, previousName } = pet;
 
-        const findIndex = draft.data.findIndex(item => item.name === name);
+        const findIndex = draft.data.findIndex(
+          item => item.name === previousName
+        );
         if (findIndex >= 0) {
           const petData = draft.data[findIndex];
 
@@ -49,6 +54,9 @@ export default function pets(state = INITIAL_STATE, action) {
           if (breed !== petData.breed) {
             updatedInfo = { ...updatedInfo, breed };
           }
+          if (name !== previousName) {
+            updatedInfo = { ...updatedInfo, name };
+          }
 
           draft.data[findIndex] = { ...petData, ...updatedInfo };
         }
@@ -59,7 +67,7 @@ export default function pets(state = INITIAL_STATE, action) {
 
         const findIndex = draft.data.findIndex(item => item.name === pet);
         if (draft.data.length === 1) {
-          Alert.alert('Maruksa', translate('reopenApp'));
+          draft.data = [];
         }
         if (findIndex >= 0) {
           draft.data.splice(findIndex, 1);
@@ -194,7 +202,8 @@ export default function pets(state = INITIAL_STATE, action) {
         const petIndex = petData.findIndex(item => item.name === petID);
         if (petIndex >= 0) {
           if (petData[petIndex].weight && petData[petIndex].weight.length > 0) {
-            if (petData[petIndex].weight.length >= 8) {
+            if (petData[petIndex].weight.length >= 6) {
+              petData[petIndex].storedWeight.push(petData[petIndex].weight[0]);
               petData[petIndex].weight.shift();
             }
             petData[petIndex].weight.push(weightData);

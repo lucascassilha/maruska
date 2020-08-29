@@ -10,12 +10,11 @@ export const Container = styled(Animatable.View)`
   justify-content: center;
 `;
 
-export const Box = styled(LinearGradient).attrs({
-  colors: ['#fff', '#EFEFEF'],
-})`
+export const Box = styled.View`
   margin: 30px;
   border-radius: 4px;
   elevation: 2;
+  background-color: ${props => props.theme.main_background};
 `;
 
 export const Scroll = styled.ScrollView.attrs({
@@ -24,45 +23,28 @@ export const Scroll = styled.ScrollView.attrs({
   },
 })``;
 
-export const Title = styled.Text`
-  font-size: 24px;
-  color: #eb3349;
-  font-weight: bold;
-  margin-bottom: 20px;
-  text-align: center;
-`;
-
 export const InputLabel = styled.Text`
-  color: #eb3349;
-  font-size: 14px;
+  color: ${props => props.theme.general_label};
+  font-size: 12px;
   text-align: left;
+  font-family: 'OpenSans-Italic';
+  margin-bottom: 5px;
 `;
 
 export const Input = styled.TextInput`
   align-self: stretch;
-  background-color: #eb3349;
+  background-color: ${props => props.theme.secondary_background};
   border-radius: 4px;
   margin-bottom: 20px;
   padding: 8px 15px;
-  color: #fff;
+  color: ${props => props.theme.general_label};
+  font-family: 'OpenSans-Regular';
 `;
 
 export const CheckHolder = styled.View`
   align-items: center;
   flex-direction: row;
   margin-bottom: 20px;
-`;
-
-export const CancelHolder = styled.TouchableOpacity`
-  align-self: stretch;
-  align-items: center;
-  margin-top: 20px;
-`;
-
-export const CancelLabel = styled.Text`
-  color: #eb3349;
-  font-weight: bold;
-  text-decoration: underline;
 `;
 
 export const DateHolder = styled.View`
@@ -79,4 +61,23 @@ export const Instruction = styled.Text`
   font-weight: bold;
   font-size: 16px;
   margin: 10px 0px;
+`;
+
+export const TitleBox = styled.View`
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 20px;
+`;
+
+export const TitleImage = styled.Image`
+  height: 40px;
+  width: 40px;
+`;
+
+export const Title = styled.Text`
+  font-size: 24px;
+  color: #000000;
+  font-family: 'OpenSans-BoldItalic';
+  margin-left: 10px;
+  margin-right: 10px;
 `;

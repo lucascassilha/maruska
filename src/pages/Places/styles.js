@@ -1,15 +1,25 @@
 import styled from 'styled-components/native';
 
 export const Container = styled.View`
-  background-color: #fff;
+  background-color: ${props => props.theme.main_background};
   flex: 1;
+  padding-top: 20px;
+`;
+
+export const Title = styled.Text`
+  font-family: 'OpenSans-BoldItalic';
+  font-size: 18px;
+  color: ${props => props.theme.general_label};
+  margin: 20px;
+  margin-left: 20px;
+  margin-bottom: -20px;
 `;
 
 export const PlaceList = styled.FlatList``;
 
 export const Box = styled.View`
-  background-color: #eb3349;
-  margin: 10px 0px;
+  background-color: ${props => props.theme.button};
+  margin: 5px 0px;
   padding: 20px;
   border-radius: 4px;
   align-items: center;
@@ -18,7 +28,7 @@ export const Box = styled.View`
 `;
 
 export const TextHolder = styled.View`
-  width: 60%;
+  width: 55%;
 `;
 
 export const Name = styled.Text`
@@ -51,7 +61,7 @@ export const AnimationHolder = styled.View`
 
 export const AnimationLabel = styled.Text`
   font-size: 16px;
-  color: #000;
+  color: ${props => props.theme.general_label};
   opacity: 0.5;
   text-align: center;
   font-family: 'OpenSans-Regular';

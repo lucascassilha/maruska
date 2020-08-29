@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import LottieView from 'lottie-react-native';
+import { Dimensions } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -16,17 +17,12 @@ import {
 } from './styles';
 
 export default function Avatar({ route, navigation }) {
-  let animate = null;
   const { petID } = route.params;
   const [picture, setPicture] = useState(null);
 
-  const dispatch = useDispatch();
+  const { width } = Dimensions.get('window');
 
-  useEffect(() => {
-    if (animate) {
-      animate.play();
-    }
-  }, []);
+  const dispatch = useDispatch();
 
   const handleSelectImage = () => {
     const options = {
@@ -59,7 +55,7 @@ export default function Avatar({ route, navigation }) {
             <PictureBox>
               <LottieView
                 source={require('~/assets/animations/camera.json')}
-                ref={animation => (animate = animation)}
+                autoPlay
                 loop
               />
             </PictureBox>
@@ -69,6 +65,7 @@ export default function Avatar({ route, navigation }) {
         <>
           <PictureButton onPress={handleSelectImage}>
             <PetImage
+              width={width - 40}
               source={{
                 uri: `data:image/*;base64,${picture}`,
               }}

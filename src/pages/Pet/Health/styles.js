@@ -2,10 +2,18 @@ import styled from 'styled-components/native';
 
 export const Container = styled.ScrollView.attrs({
   contentContainerStyle: {},
-})``;
+})`
+  background-color: ${props => props.theme.main_background};
+`;
+
+export const ButtonHolder = styled.View`
+  padding: 0px 20px;
+`;
 
 export const TitleBox = styled.View`
-  margin: 10px 20px;
+  margin: 0px 20px;
+  margin-top: 20px;
+  margin-bottom: -5px;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
@@ -13,9 +21,9 @@ export const TitleBox = styled.View`
 `;
 
 export const Title = styled.Text`
-  font-family: 'OpenSans-Regular';
-  font-size: 21px;
-  color: #eb3349;
+  font-family: 'OpenSans-Italic';
+  font-size: 16px;
+  color: ${props => props.theme.general_label};
   text-align: left;
 `;
 
@@ -27,11 +35,11 @@ export const List = styled.FlatList.attrs({
 `;
 
 export const Box = styled.View`
-  background-color: #eb3349;
+  background-color: ${props => (props.theme.light ? '#56a3a6' : '#37383A')};
   align-self: stretch;
   width: 300px;
   border-radius: 4px;
-  margin: 0px 10px;
+  margin: 0px 5px;
   padding: 20px 15px;
   flex-direction: row;
   opacity: ${props => (props.isPast ? 0.6 : 1)};

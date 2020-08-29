@@ -6,6 +6,7 @@ import notifications from './notifications/reducer';
 import modal from './modalVisible/reducer';
 import doctors from './doctors/reducer';
 import weight from './weight/reducer';
+import account from './account/reducer';
 
 export default combineReducers({
   pets,
@@ -14,4 +15,5 @@ export default combineReducers({
   modal,
   doctors,
   weight,
+  account,
 });

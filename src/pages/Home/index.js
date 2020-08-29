@@ -1,19 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { produce } from 'immer';
 import { formatDistanceStrict, parseISO } from 'date-fns';
-import { StatusBar } from 'react-native';
+import { StatusBar, Alert } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
+import { AdMobBanner } from 'react-native-admob';
 import PropTypes from 'prop-types';
 import LottieView from 'lottie-react-native';
 import { ptBR, enUS } from 'date-fns/locale';
+import Config from 'react-native-config';
 import * as Animatable from 'react-native-animatable';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import Maruska from '~/components/MaruskaLogo/index';
-import changeStatus from '~/store/modules/modalVisible/actions';
-import Modal from './AddModal/index';
-import translate, { locale } from '~/locales';
 
-import FAB from '~/components/FAB/index';
+import translate, { locale } from '~/locales';
+import changeStatus from '~/store/modules/modalVisible/actions';
+import Modal from './AddModal';
+import FAB from '~/components/FAB';
+
+import HomeHeader from '~/components/HomeHeader';
 
 import {
   Container,
@@ -25,30 +27,27 @@ import {
   Info,
   AnimationHolder,
   AnimationLabel,
-  Not,
-  Ball,
 } from './styles';
 
-import logo from '~/assets/img/logo.png';
-
 export default function Home({ navigation }) {
+  const theme = !useSelector(state => state.account.darkMode);
+  const proAccont = useSelector(state => state.account.pro);
   const pets = useSelector(state => state.pets.data);
-  const notifications = useSelector(state => state.notifications.data.length);
   const [petData, setPetData] = useState([]);
-  const [notEmpty, setEmpty] = useState(true);
 
   const dispatch = useDispatch();
   const handleOpen = async () => {
+    const petsLenght = pets.length;
+    if (petsLenght >= 2 && !proAccont) {
+      Alert.alert(translate('proFeatureTitle'), translate('proPets'), [
+        { text: 'Ok', onPress: () => navigation.navigate('Pro') },
+        { text: translate('cancelButton') },
+      ]);
+      return 0;
+    }
+
     dispatch(changeStatus(0));
   };
-
-  useEffect(() => {
-    if (notifications > 0) {
-      setEmpty(false);
-    } else if (notifications === 0) {
-      setEmpty(true);
-    }
-  }, [notifications]);
 
   useEffect(() => {
     const currentDate = new Date();
@@ -71,18 +70,21 @@ export default function Home({ navigation }) {
       });
       setPetData(list);
     }
+    if (!pets[0]) {
+      setPetData([]);
+    }
   }, [pets]);
 
   return (
     <Container>
-      <StatusBar backgroundColor="#fafafa" barStyle="dark-content" />
-      <Maruska source={logo} />
+      <StatusBar
+        backgroundColor="transparent"
+        translucent
+        barStyle={theme ? 'dark-content' : 'light-content'}
+      />
       <Modal />
       <FAB onPress={handleOpen} />
-      <Not onPress={() => navigation.navigate('Notifications')}>
-        <Ball empty={notEmpty} />
-        <Icon name="bell" size={25} color="#8e1120" />
-      </Not>
+      <HomeHeader navigation={navigation} />
       <PetList
         contentContainerStyle={{
           padding: 20,
@@ -94,6 +96,7 @@ export default function Home({ navigation }) {
               style={{
                 width: '70%',
                 alignSelf: 'center',
+                marginBottom: 20,
               }}
               source={require('~/assets/animations/cat_waiting.json')}
               autoPlay
@@ -110,11 +113,10 @@ export default function Home({ navigation }) {
           <Animatable.View animation="slideInLeft">
             <Box onPress={() => navigation.navigate('Pet', { pet: item })}>
               <PetImage
-                nullImage={item.avatar}
                 source={
                   item.avatar
                     ? { uri: `data:image/*;base64,${item.avatar}` }
-                    : null
+                    : require('~/assets/img/icon.png')
                 }
               />
               <TextHolder>
@@ -132,6 +134,14 @@ export default function Home({ navigation }) {
           </Animatable.View>
         )}
       />
+      {proAccont ? null : (
+        <AdMobBanner
+          adSize="fullBanner"
+          adUnitID={Config.BANNER_KEY}
+          testDevices={[AdMobBanner.simulatorId]}
+          onAdFailedToLoad={error => console.error(error)}
+        />
+      )}
     </Container>
   );
 }

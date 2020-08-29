@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
-import { Picker, Alert, Vibration } from 'react-native';
+import { Alert, Vibration } from 'react-native';
+import { Picker } from '@react-native-community/picker';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import * as Yup from 'yup';
 import { format, subDays } from 'date-fns';
 import DatePicker from 'react-native-date-picker';
-import Button from '~/components/Button/index';
+import Snackbar from 'react-native-snackbar';
+
+import Button from '~/components/Button';
 import {
   petAppointment,
   petLastAppointment,
@@ -22,7 +25,7 @@ export default function AppointAdd({ route, navigation }) {
   const places = useSelector(state => state.places.data);
   const doctors = useSelector(state => state.doctors.data);
 
-  const [clinic, setClinic] = useState(null);
+  const [clinic, setClinic] = useState(translate('none'));
   const [date, setDate] = useState(new Date());
   const [selectedDoc, setDoc] = useState(null);
   const dispatch = useDispatch();
@@ -37,7 +40,7 @@ export default function AppointAdd({ route, navigation }) {
 
     if (!(await schema.isValid(appointment))) {
       Vibration.vibrate();
-      return Alert.alert('Maruska', translate('helpInfo'));
+      return Alert.alert(translate('errorLabel'), translate('helpInfo'));
     }
 
     const clinicIndex = places.findIndex(item => item.name === clinic);
@@ -80,6 +83,14 @@ export default function AppointAdd({ route, navigation }) {
         petID
       )
     );
+    Snackbar.show({
+      text: translate('appScheduledSnack'),
+      duration: Snackbar.LENGTH_LONG,
+      action: {
+        text: translate('thk'),
+        textColor: 'green',
+      },
+    });
 
     dispatch(petLastAppointment(petID, day));
     navigation.goBack();
@@ -96,11 +107,11 @@ export default function AppointAdd({ route, navigation }) {
     <Container>
       <InputLabel>{translate('appWhere')}</InputLabel>
       <Picker
-        style={{ padding: 15 }}
         onValueChange={value => setClinic(value)}
         selectedValue={clinic}
+        style={{ color: '#888282', padding: 15 }}
       >
-        <Picker.Item label={translate('appClinicSelect')} value={null} />
+        <Picker.Item value={translate('none')} label={translate('specify')} />
         {pickerPlaces.map(item => (
           <Picker.Item
             label={`${item.name} - ${item.city}`}
@@ -110,9 +121,9 @@ export default function AppointAdd({ route, navigation }) {
       </Picker>
       <InputLabel>{translate('appWho')}</InputLabel>
       <Picker
-        style={{ padding: 15 }}
         onValueChange={value => setDoc(value)}
         selectedValue={selectedDoc || null}
+        style={{ color: '#888282', padding: 15 }}
       >
         <Picker.Item label={translate('appVetSelect')} value={null} />
         {pickerDoctors[0] &&
@@ -128,6 +139,8 @@ export default function AppointAdd({ route, navigation }) {
           mode="datetime"
           minimumDate={new Date()}
           locale={locale}
+          fadeToColor="none"
+          textColor="#888282"
         />
       </DateHolder>
       <Button title={translate('registerLabel')} onPress={handleAppointment} />

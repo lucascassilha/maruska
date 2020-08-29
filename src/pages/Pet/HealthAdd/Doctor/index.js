@@ -1,12 +1,14 @@
 import React, { useState, useRef } from 'react';
-import { Picker, Alert, Vibration } from 'react-native';
+import { Alert, Vibration } from 'react-native';
+import { Picker } from '@react-native-community/picker';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import * as Yup from 'yup';
-import Button from '~/components/Button/index';
+import Snackbar from 'react-native-snackbar';
+
+import Button from '~/components/Button';
 import { addDoctor } from '~/store/modules/doctors/actions';
 import translate from '~/locales';
-
 import { Container, InputLabel, Input } from './styles';
 
 export default function DocAdd({ route, navigation }) {
@@ -16,49 +18,63 @@ export default function DocAdd({ route, navigation }) {
 
   const [name, setName] = useState(null);
   const [phone, setPhone] = useState(null);
-  const [clinic, setClinic] = useState(null);
-  const [selectedDoc, setDoc] = useState(null);
+  const [clinic, setClinic] = useState(translate('none'));
+  const [selectedDoc, setDoc] = useState(translate('noneDoc'));
   const dispatch = useDispatch();
 
   const handleAddDoctor = async () => {
-    let doc = { name, phone, clinic, pets: [petID] };
-    if (!selectedDoc) {
+    const id = new Date().getTime();
+
+    let doc = { id, name, phone, clinic, pets: [petID] };
+    if (selectedDoc === translate('noneDoc')) {
       const schema = Yup.object().shape({
         name: Yup.string().required(),
         phone: Yup.string().nullable(),
-        clinic: Yup.string().required(),
+        clinic: Yup.string(),
         pets: Yup.array().required(),
       });
 
       if (!(await schema.isValid(doc))) {
         Vibration.vibrate();
-        return Alert.alert('Maruska', translate('helpInfo'));
+        return Alert.alert(translate('errorLabel'), translate('helpInfo'));
       }
     }
     const inputDoctorIndex = doctors.findIndex(item => item.name === name);
     if (inputDoctorIndex >= 0) {
-      return Alert.alert('Maruska', translate('doubleVet'));
+      return Alert.alert(translate('errorLabel'), translate('doubleVet'));
     }
 
     const pickerDoctorIndex = doctors.findIndex(
       item => item.name === selectedDoc
     );
-    if (selectedDoc && pickerDoctorIndex === -1) {
+    if (selectedDoc !== translate('noneDoc') && pickerDoctorIndex === -1) {
       Vibration.vibrate();
-      return Alert.alert('Maruska', translate('helpInfo'));
+      console.log(selectedDoc);
+      return Alert.alert(translate('errorLabel'), translate('helpInfo'));
     }
     if (pickerDoctorIndex >= 0) {
       doc = doctors[pickerDoctorIndex];
     }
 
-    await dispatch(addDoctor(doc, petID));
+    dispatch(addDoctor(doc, petID));
+    Snackbar.show({
+      text: translate('docScheduledSnack'),
+      duration: Snackbar.LENGTH_LONG,
+      action: {
+        text: translate('thk'),
+        textColor: 'green',
+      },
+    });
+
     navigation.goBack();
   };
 
   const pickerPlaces = places.filter(item => item.kind === translate('clinic'));
-  const pickerDoctors = doctors.map(item => {
+  const pickerDoctors = [];
+
+  doctors.map(item => {
     if (!item.pets.includes(petID)) {
-      return item;
+      pickerDoctors.push(item);
     }
   });
 
@@ -83,8 +99,9 @@ export default function DocAdd({ route, navigation }) {
         style={{ padding: 15 }}
         onValueChange={value => setClinic(value)}
         selectedValue={clinic}
+        style={{ color: '#888282' }}
       >
-        <Picker.Item label={translate('appClinicSelect')} value={null} />
+        <Picker.Item label={translate('specify')} value={translate('none')} />
         {pickerPlaces.map(item => (
           <Picker.Item
             label={`${item.name} - ${item.city}`}
@@ -96,12 +113,17 @@ export default function DocAdd({ route, navigation }) {
       <Picker
         style={{ padding: 15 }}
         onValueChange={value => setDoc(value)}
-        selectedValue={selectedDoc || null}
+        selectedValue={selectedDoc}
+        style={{ color: '#888282' }}
       >
-        <Picker.Item label={translate('appVetSelect')} value={null} />
+        <Picker.Item
+          label={translate('appVetSelect')}
+          value={translate('noneDoc')}
+        />
         {pickerDoctors[0] &&
           pickerDoctors.map(item => (
             <Picker.Item
+              key={item.name}
               label={`${item.name} - ${item.clinic}`}
               value={item.name}
             />

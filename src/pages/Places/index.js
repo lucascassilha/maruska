@@ -1,10 +1,12 @@
 import React from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useSelector, useDispatch } from 'react-redux';
-
 import { Alert, Linking } from 'react-native';
 import LottieView from 'lottie-react-native';
 import * as Animatable from 'react-native-animatable';
+import { AdMobBanner } from 'react-native-admob';
+import Config from 'react-native-config';
+
 import changeStatus from '~/store/modules/modalVisible/actions';
 import Modal from './AddModal/index';
 import { deleteLocation } from '~/store/modules/places/actions';
@@ -21,13 +23,13 @@ import {
   TextHolder,
   AnimationHolder,
   AnimationLabel,
+  Title,
 } from './styles';
-import Maruska from '~/components/MaruskaLogo/index';
-
 import FAB from '~/components/FAB/index';
 
-export default function Places() {
+export default function Places({ navigation }) {
   const places = useSelector(state => state.places.data);
+  const proAccont = useSelector(state => state.account.pro);
 
   const dispatch = useDispatch();
   const handleOpen = () => {
@@ -58,9 +60,9 @@ export default function Places() {
 
   return (
     <Container>
-      <Maruska />
       <FAB onPress={handleOpen} />
       <Modal />
+      <Title>{translate('places')}</Title>
       <PlaceList
         contentContainerStyle={{
           padding: 20,
@@ -72,9 +74,8 @@ export default function Places() {
               style={{
                 width: '70%',
                 alignSelf: 'center',
-                marginBottom: -40,
               }}
-              source={require('~/assets/animations/bear_waiting.json')}
+              source={require('~/assets/animations/sqr.json')}
               autoPlay
               loop
             />
@@ -89,7 +90,11 @@ export default function Places() {
             <Box>
               <TextHolder>
                 <Name>{item.name}</Name>
-                <Info>{item.kind}</Info>
+                <Info>
+                  {`${item.kind === translate('clinic') ? '🏥' : '🛍️'} ${
+                    item.kind
+                  }`}
+                </Info>
                 <Info>{item.city}</Info>
               </TextHolder>
               <ButtonHolder>
@@ -107,6 +112,14 @@ export default function Places() {
           </Animatable.View>
         )}
       />
+      {proAccont ? null : (
+        <AdMobBanner
+          adSize="fullBanner"
+          adUnitID={Config.BANNER_KEY}
+          testDevices={[AdMobBanner.simulatorId]}
+          onAdFailedToLoad={error => console.error(error)}
+        />
+      )}
     </Container>
   );
 }

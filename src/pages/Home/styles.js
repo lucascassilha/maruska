@@ -1,14 +1,16 @@
 import styled from 'styled-components/native';
+import { RectButton } from 'react-native-gesture-handler';
 
 export const Container = styled.View`
   flex: 1;
-  background-color: #fafafa;
+  background-color: ${props => props.theme.main_background};
+  padding-top: 30px;
 `;
 
 export const PetList = styled.FlatList.attrs({})``;
 
-export const Box = styled.TouchableOpacity`
-  background-color: #eb3349;
+export const Box = styled(RectButton)`
+  background-color: ${props => props.theme.button};
   margin: 5px 0px;
   padding: 15px;
   border-radius: 4px;
@@ -20,8 +22,6 @@ export const PetImage = styled.Image`
   height: 100px;
   width: 100px;
   border-radius: 4px;
-  background-color: #fff;
-  opacity: ${props => (props.nullImage ? 1 : 0.3)};
 `;
 
 export const TextHolder = styled.View`
@@ -48,28 +48,7 @@ export const AnimationHolder = styled.View`
 `;
 export const AnimationLabel = styled.Text`
   font-size: 16px;
-  color: #000;
+  color: ${props => props.theme.general_label};
   opacity: 0.5;
   font-family: 'OpenSans-Regular';
-`;
-
-export const Not = styled.TouchableOpacity`
-  position: absolute;
-  right: 0;
-  top: 0;
-  margin-top: 10px;
-  margin-right: 20px;
-`;
-
-export const Ball = styled.View`
-  height: 8px;
-  width: 8px;
-  border-radius: 4px;
-  background-color: #f5cb42;
-  position: absolute;
-  right: 0;
-  margin-right: 3px;
-  margin-top: 3px;
-  z-index: 1;
-  opacity: ${props => (props.empty ? 0 : 1)};
 `;

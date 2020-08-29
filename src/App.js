@@ -8,13 +8,10 @@ import OneSignal from 'react-native-onesignal';
 import Config from 'react-native-config';
 
 import { store, persistor } from '~/store/index';
-
 import Routes from './routes';
 
 function App() {
-  OneSignal.init(Config.ONE_SIGNAL_ID, {
-    kOSSettingsKeyAutoPrompt: true,
-  });
+  OneSignal.init(Config.ONE_SIGNAL_ID);
 
   return (
     <Provider store={store}>

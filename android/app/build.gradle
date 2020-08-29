@@ -149,8 +149,8 @@ android {
         applicationId "com.lcdev.maruska"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 2
-        versionName "1.0.3"
+        versionCode 72
+        versionName "2.0.6"
         multiDexEnabled true
     }
     splits {
@@ -172,6 +172,7 @@ android {
     buildTypes {
         debug {
             signingConfig signingConfigs.debug
+            resValue "string", "CodePushDeploymentKey", ""
         }
 
         releaseStaging {

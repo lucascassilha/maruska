@@ -5,6 +5,9 @@ import { Linking, Alert } from 'react-native';
 import PropTypes from 'prop-types';
 import { isPast, parseISO, isValid, addYears } from 'date-fns';
 import { produce } from 'immer';
+import Snackbar from 'react-native-snackbar';
+import * as Animatable from 'react-native-animatable';
+
 import { deleteDoctor } from '~/store/modules/doctors/actions';
 import {
   petDeleteAppointment,
@@ -13,11 +16,12 @@ import {
 } from '~/store/modules/pets/actions';
 import { notificationCancel } from '~/store/modules/notifications/actions';
 import translate from '~/locales';
-
 import Notification from '~/config/NotificationService';
-
+import PageHeader from '~/components/PageHeader';
+import MenuButton from '~/components/MenuButton';
 import {
   Container,
+  ButtonHolder,
   Title,
   TitleBox,
   List,
@@ -35,6 +39,9 @@ import {
 export default function Health({ route, navigation }) {
   const { petID } = route.params;
 
+  const theme = !useSelector(state => state.account.darkMode);
+  const proAccont = useSelector(state => state.account.pro);
+
   const doctors = useSelector(state => state.doctors.data);
   const pets = useSelector(state => state.pets.data);
   const [appointments, setAppointments] = useState([]);
@@ -45,13 +52,14 @@ export default function Health({ route, navigation }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const docs = doctors.map(item => {
+    const docAuxList = [];
+    doctors.map(item => {
       if (item.pets.includes(petID)) {
-        return item;
+        docAuxList.push(item);
       }
     });
-    if (docs[0]) {
-      setDocList(docs);
+    if (docAuxList[0]) {
+      setDocList(docAuxList);
     }
   }, [doctors]);
 
@@ -96,6 +104,14 @@ export default function Health({ route, navigation }) {
         text: translate('sure'),
         onPress: () => {
           dispatch(deleteDoctor(doctor, petID));
+          Snackbar.show({
+            text: translate('docDeletedSnack'),
+            duration: Snackbar.LENGTH_LONG,
+            action: {
+              text: translate('thk'),
+              textColor: 'green',
+            },
+          });
           if (docList.length === 1) {
             setDocList([]);
           }
@@ -114,6 +130,14 @@ export default function Health({ route, navigation }) {
           await Notification.cancelNotification(notificationID);
           dispatch(notificationCancel(notificationID));
           dispatch(petDeleteAppointment(date, petID));
+          Snackbar.show({
+            text: translate('appDeletedSnack'),
+            duration: Snackbar.LENGTH_LONG,
+            action: {
+              text: translate('thk'),
+              textColor: 'green',
+            },
+          });
           if (appointments.length === 1) {
             setAppointments([]);
           }
@@ -130,6 +154,14 @@ export default function Health({ route, navigation }) {
         text: translate('sure'),
         onPress: () => {
           dispatch(petDeleteSurgery(surgery, petID));
+          Snackbar.show({
+            text: translate('surgeryDeletedSnack'),
+            duration: Snackbar.LENGTH_LONG,
+            action: {
+              text: translate('thk'),
+              textColor: 'green',
+            },
+          });
           if (surgeries.length === 1) {
             setSurgeries([]);
           }
@@ -146,6 +178,14 @@ export default function Health({ route, navigation }) {
         text: translate('sure'),
         onPress: () => {
           dispatch(petDeleteProblem(problem, petID));
+          Snackbar.show({
+            text: translate('problemDeletedSnack'),
+            duration: Snackbar.LENGTH_LONG,
+            action: {
+              text: translate('thk'),
+              textColor: 'green',
+            },
+          });
           if (problems.length === 1) {
             setProblems([]);
           }
@@ -157,153 +197,188 @@ export default function Health({ route, navigation }) {
     ]);
   };
 
+  const handleWeight = () => {
+    if (proAccont) {
+      navigation.navigate('Weight', { petID: petID });
+    } else {
+      Alert.alert(
+        translate('proFeatureTitle'),
+        translate('proFeatureDescription'),
+        [
+          { text: 'Ok', onPress: () => navigation.navigate('Pro') },
+          { text: translate('cancelButton') },
+        ]
+      );
+    }
+  };
+
   return (
-    <Container>
-      <TitleBox>
-        <Title>{translate('healthDoc')}</Title>
-        <ButtonBox>
-          <IconHolder onPress={() => navigation.navigate('DocAdd', { petID })}>
-            <Icon name="plus" color="#eb3349" size={20} />
-          </IconHolder>
-        </ButtonBox>
-      </TitleBox>
-      <List
-        data={docList}
-        keyExtractor={item => item.name}
-        renderItem={({ item }) => (
-          <Box>
-            <TextBox>
-              <LabelTitle>{item.name}</LabelTitle>
-              <LabelSubtitle>{item.clinic}</LabelSubtitle>
-            </TextBox>
-            <ButtonBox>
-              {item.phone ? (
-                <IconHolder
-                  onPress={() => {
-                    Linking.openURL(`tel://${item.phone}`);
-                  }}
-                >
-                  <Icon name="phone" color="#fff" size={20} />
-                </IconHolder>
-              ) : null}
-              <IconHolder
-                onPress={() => {
-                  handleDeleteDoctors(item.name);
-                }}
-              >
-                <Icon name="trash-alt" color="#fff" size={20} />
-              </IconHolder>
-            </ButtonBox>
-          </Box>
-        )}
+    <>
+      <PageHeader
+        title={translate('healthTitle')}
+        navigation={navigation}
+        source={require('~/assets/img/hospital.png')}
       />
-      <TitleBox>
-        <Title>{translate('healthApp')}</Title>
-        <ButtonBox>
-          <IconHolder
-            onPress={() => navigation.navigate('AppointAdd', { petID })}
-          >
-            <Icon name="plus" color="#eb3349" size={20} />
-          </IconHolder>
-        </ButtonBox>
-      </TitleBox>
-      <List
-        data={appointments}
-        keyExtractor={item => item.date}
-        renderItem={({ item }) => (
-          <Box isPast={item.isPast}>
-            <TextBox>
-              <LabelTitle>{item.clinic}</LabelTitle>
-              {item.doctor ? (
-                <LabelSubtitle>{item.doctor}</LabelSubtitle>
-              ) : null}
-              <DateBox>
-                <DateLabel>{`${item.day} - ${item.time}`}</DateLabel>
-              </DateBox>
-            </TextBox>
+      <Container>
+        <Animatable.View animation="slideInUp">
+          <ButtonHolder>
+            <MenuButton
+              title={translate('weightTitle')}
+              color={theme ? '#56a3a6' : '#37383A'}
+              image={require('~/assets/img/weight.png')}
+              onPress={handleWeight}
+            />
+          </ButtonHolder>
+          <TitleBox>
+            <Title>{translate('healthDoc')}</Title>
             <ButtonBox>
               <IconHolder
-                onPress={() => {
-                  Linking.openURL(`tel://${item.phone}`);
-                }}
+                onPress={() => navigation.navigate('DocAdd', { petID })}
               >
-                <Icon name="phone" color="#fff" size={20} />
-              </IconHolder>
-              <IconHolder
-                onPress={() =>
-                  handleDeleteAppointment(
-                    item.date,
-                    item.notificationID,
-                    item.calendarID ? item.calendarID : null
-                  )}
-              >
-                <Icon name="trash-alt" color="#fff" size={20} />
+                <Icon name="plus" color={theme ? '#000' : '#FFF'} size={18} />
               </IconHolder>
             </ButtonBox>
-          </Box>
-        )}
-      />
-      <TitleBox>
-        <Title>{translate('healthSurg')}</Title>
-        <ButtonBox>
-          <IconHolder
-            onPress={() => navigation.navigate('SurgeryAdd', { petID })}
-          >
-            <Icon name="plus" color="#eb3349" size={20} />
-          </IconHolder>
-        </ButtonBox>
-      </TitleBox>
-      <List
-        data={surgeries}
-        keyExtractor={item => item.id}
-        renderItem={({ item }) => (
-          <Box>
-            <TextBox>
-              <LabelTitle>{item.name || ''}</LabelTitle>
-              {item.clinic ? (
-                <LabelSubtitle>{item.clinic}</LabelSubtitle>
-              ) : null}
-              <DateBox>
-                <DateLabel>{item.day}</DateLabel>
-              </DateBox>
-            </TextBox>
-            <ButtonBoxSmall>
-              <IconHolder onPress={() => handleDeleteSurgery(item.name)}>
-                <Icon name="trash-alt" color="#fff" size={20} />
+          </TitleBox>
+          <List
+            data={docList}
+            keyExtractor={item => item.name || item.id}
+            renderItem={({ item }) => (
+              <Box>
+                <TextBox>
+                  <LabelTitle>{item.name}</LabelTitle>
+                  <LabelSubtitle>{item.clinic}</LabelSubtitle>
+                </TextBox>
+                <ButtonBox>
+                  {item.phone ? (
+                    <IconHolder
+                      onPress={() => {
+                        Linking.openURL(`tel://${item.phone}`);
+                      }}
+                    >
+                      <Icon name="phone" color="#fff" size={18} />
+                    </IconHolder>
+                  ) : null}
+                  <IconHolder
+                    onPress={() => {
+                      handleDeleteDoctors(item.name);
+                    }}
+                  >
+                    <Icon name="trash-alt" color="#fff" size={18} />
+                  </IconHolder>
+                </ButtonBox>
+              </Box>
+            )}
+          />
+          <TitleBox>
+            <Title>{translate('healthApp')}</Title>
+            <ButtonBox>
+              <IconHolder
+                onPress={() => navigation.navigate('AppointAdd', { petID })}
+              >
+                <Icon name="plus" color={theme ? '#000' : '#FFF'} size={18} />
               </IconHolder>
-            </ButtonBoxSmall>
-          </Box>
-        )}
-      />
-      <TitleBox>
-        <Title>{translate('healthProblems')}</Title>
-        <ButtonBox>
-          <IconHolder
-            onPress={() => navigation.navigate('ProblemAdd', { petID })}
-          >
-            <Icon name="plus" color="#eb3349" size={20} />
-          </IconHolder>
-        </ButtonBox>
-      </TitleBox>
-      <List
-        data={problems}
-        keyExtractor={item => item.description}
-        renderItem={({ item }) => (
-          <Box>
-            <TextBox>
-              <LabelTitle>{item.title}</LabelTitle>
-              <LabelSubtitle>{`${item.day} - ${item.time}`}</LabelSubtitle>
-              <LabelSubtitle>{item.description}</LabelSubtitle>
-            </TextBox>
-            <ButtonBoxSmall>
-              <IconHolder onPress={() => handleDeleteProblem(item.title)}>
-                <Icon name="trash-alt" color="#fff" size={20} />
+            </ButtonBox>
+          </TitleBox>
+          <List
+            data={appointments}
+            keyExtractor={item => item.date}
+            renderItem={({ item }) => (
+              <Box isPast={item.isPast}>
+                <TextBox>
+                  <LabelTitle>{item.clinic}</LabelTitle>
+                  {item.doctor ? (
+                    <LabelSubtitle>{item.doctor}</LabelSubtitle>
+                  ) : null}
+                  <DateBox>
+                    <DateLabel>{`${item.day} - ${item.time}`}</DateLabel>
+                  </DateBox>
+                </TextBox>
+                <ButtonBox>
+                  <IconHolder
+                    onPress={() => {
+                      Linking.openURL(`tel://${item.phone}`);
+                    }}
+                  >
+                    <Icon name="phone" color="#fff" size={18} />
+                  </IconHolder>
+                  <IconHolder
+                    onPress={() =>
+                      handleDeleteAppointment(
+                        item.date,
+                        item.notificationID,
+                        item.calendarID ? item.calendarID : null
+                      )
+                    }
+                  >
+                    <Icon name="trash-alt" color="#fff" size={18} />
+                  </IconHolder>
+                </ButtonBox>
+              </Box>
+            )}
+          />
+          <TitleBox>
+            <Title>{translate('healthSurg')}</Title>
+            <ButtonBox>
+              <IconHolder
+                onPress={() => navigation.navigate('SurgeryAdd', { petID })}
+              >
+                <Icon name="plus" color={theme ? '#000' : '#FFF'} size={20} />
               </IconHolder>
-            </ButtonBoxSmall>
-          </Box>
-        )}
-      />
-    </Container>
+            </ButtonBox>
+          </TitleBox>
+          <List
+            data={surgeries}
+            keyExtractor={item => item.id}
+            renderItem={({ item }) => (
+              <Box>
+                <TextBox>
+                  <LabelTitle>{item.name || ''}</LabelTitle>
+                  {item.clinic ? (
+                    <LabelSubtitle>{item.clinic}</LabelSubtitle>
+                  ) : null}
+                  <DateBox>
+                    <DateLabel>{item.day}</DateLabel>
+                  </DateBox>
+                </TextBox>
+                <ButtonBoxSmall>
+                  <IconHolder onPress={() => handleDeleteSurgery(item.name)}>
+                    <Icon name="trash-alt" color="#fff" size={20} />
+                  </IconHolder>
+                </ButtonBoxSmall>
+              </Box>
+            )}
+          />
+          <TitleBox>
+            <Title>{translate('healthProblems')}</Title>
+            <ButtonBox>
+              <IconHolder
+                onPress={() => navigation.navigate('ProblemAdd', { petID })}
+              >
+                <Icon name="plus" color={theme ? '#000' : '#FFF'} size={20} />
+              </IconHolder>
+            </ButtonBox>
+          </TitleBox>
+          <List
+            data={problems}
+            keyExtractor={item => item.description}
+            renderItem={({ item }) => (
+              <Box>
+                <TextBox>
+                  <LabelTitle>{item.title}</LabelTitle>
+                  <LabelSubtitle>{`${item.day} - ${item.time}`}</LabelSubtitle>
+                  <LabelSubtitle>{item.description}</LabelSubtitle>
+                </TextBox>
+                <ButtonBoxSmall>
+                  <IconHolder onPress={() => handleDeleteProblem(item.title)}>
+                    <Icon name="trash-alt" color="#fff" size={20} />
+                  </IconHolder>
+                </ButtonBoxSmall>
+              </Box>
+            )}
+          />
+        </Animatable.View>
+      </Container>
+    </>
   );
 }
 

@@ -1,13 +1,15 @@
 import React, { useRef } from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { Checkbox } from 'react-native-paper';
 import { useSelector, useDispatch } from 'react-redux';
 import { Alert, Vibration, Linking } from 'react-native';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
+import Snackbar from 'react-native-snackbar';
+
 import changeStatus from '~/store/modules/modalVisible/actions';
 import { addLocation } from '~/store/modules/places/actions';
-import Button from '~/components/Button/index';
+import Button from '~/components/Button';
+import ModalHeader from '~/components/ModalHeader';
 import translate from '~/locales';
 
 import {
@@ -15,17 +17,12 @@ import {
   Container,
   Box,
   Scroll,
-  Title,
   InputLabel,
-  PickerLabel,
-  SelectorBox,
   Input,
-  CheckHolder,
-  CancelHolder,
-  CancelLabel,
   ErrorLabel,
   ButtonHolder,
   ButtonLabel,
+  CategoryPicker,
 } from './styles';
 
 const schema = Yup.object().shape({
@@ -37,6 +34,7 @@ const schema = Yup.object().shape({
 });
 
 export default function AddModal() {
+  const theme = !useSelector(state => state.account.darkMode);
   const visible = useSelector(state => state.modal);
   const locations = useSelector(state => state.places.data);
 
@@ -57,6 +55,15 @@ export default function AddModal() {
     }
 
     dispatch(addLocation(values));
+
+    Snackbar.show({
+      text: translate('locationRegisteredSnack'),
+      duration: Snackbar.LENGTH_LONG,
+      action: {
+        text: translate('thk'),
+        textColor: 'green',
+      },
+    });
 
     handleClose();
   };
@@ -88,7 +95,7 @@ export default function AddModal() {
             initialValues={{
               city: '',
               name: '',
-              kind: '',
+              kind: 'PetShop',
               phone: '',
               address: '',
             }}
@@ -103,46 +110,28 @@ export default function AddModal() {
               errors,
             }) => (
               <Scroll showsVerticalScrollIndicator={false}>
-                <Title>{translate('addPlace')}</Title>
+                <ModalHeader
+                  title={translate('addPlace')}
+                  onPress={handleClose}
+                  source={require('~/assets/img/addplace.png')}
+                />
                 <InputLabel>{translate('placeKind')}</InputLabel>
-                <SelectorBox>
-                  <CheckHolder>
-                    <Checkbox
-                      status={
-                        values.kind === 'PetShop' ? 'checked' : 'unchecked'
-                      }
-                      color="#eb3349"
-                      uncheckedColor="#eb3349"
-                      onPress={() => setFieldValue('kind', 'PetShop')}
-                    />
-                    <Icon
-                      name="bone"
-                      color="#eb3349"
-                      size={25}
-                      style={{ marginRight: 5 }}
-                    />
-                    <PickerLabel>Pet Shop</PickerLabel>
-                  </CheckHolder>
-                  <CheckHolder>
-                    <Checkbox
-                      color="#eb3349"
-                      uncheckedColor="#eb3349"
-                      status={
-                        values.kind === translate('clinic')
-                          ? 'checked'
-                          : 'unchecked'
-                      }
-                      onPress={() => setFieldValue('kind', translate('clinic'))}
-                    />
-                    <Icon
-                      name="hospital"
-                      color="#eb3349"
-                      size={25}
-                      style={{ marginRight: 5 }}
-                    />
-                    <PickerLabel>{translate('clinic')}</PickerLabel>
-                  </CheckHolder>
-                </SelectorBox>
+                <CategoryPicker
+                  selectedValue={values.kind}
+                  onValueChange={category => setFieldValue('kind', category)}
+                  style={{ color: '#888282' }}
+                >
+                  <CategoryPicker.Item
+                    label="🛍️ PetShop"
+                    value="PetShop"
+                    key={0}
+                  />
+                  <CategoryPicker.Item
+                    label={`🏥 ${translate('clinic')}`}
+                    value={translate('clinic')}
+                    key={1}
+                  />
+                </CategoryPicker>
                 {errors.kind && <ErrorLabel>{errors.kind}</ErrorLabel>}
                 <InputLabel>{translate('name')}</InputLabel>
                 <Input
@@ -162,7 +151,11 @@ export default function AddModal() {
                 />
                 {errors.city && <ErrorLabel>{errors.city}</ErrorLabel>}
                 <ButtonHolder onPress={() => handleMaps(values)}>
-                  <Icon name="map-search" size={25} />
+                  <Icon
+                    name="map-search"
+                    size={25}
+                    color={theme ? '#000' : '#fff'}
+                  />
                   <ButtonLabel>{translate('openMap')}</ButtonLabel>
                 </ButtonHolder>
                 <InputLabel>{translate('address')}</InputLabel>
@@ -187,9 +180,6 @@ export default function AddModal() {
                   onPress={handleSubmit}
                   title={translate('addLocation')}
                 />
-                <CancelHolder onPress={handleClose}>
-                  <CancelLabel>{translate('cancelButton')}</CancelLabel>
-                </CancelHolder>
               </Scroll>
             )}
           </Formik>

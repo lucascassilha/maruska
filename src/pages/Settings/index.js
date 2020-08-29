@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-import { Alert, Linking, Share } from 'react-native';
+import { Alert, Linking, Share, Modal, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { format } from 'date-fns';
 import { useSelector, useDispatch } from 'react-redux';
@@ -12,14 +12,20 @@ import {
   Version,
   IconHolder,
   Comment,
+  Title,
+  ModalContainer,
 } from './styles';
 import translate from '~/locales';
 import terms from './terms';
 
-import Maruska from '~/components/MaruskaLogo/index';
+import { darkMode, firstLogin } from '~/store/modules/account/actions';
 
-export default function Settings() {
+export default function Settings({ navigation }) {
   const weight = useSelector(state => state.weight);
+  const proAccount = useSelector(state => state.account.pro);
+  const themeBoolean = !useSelector(state => state.account.darkMode);
+
+  const [modalVisible, setVisible] = useState(false);
 
   const handleEmail = () => {
     const currentDate = new Date();
@@ -31,10 +37,6 @@ export default function Settings() {
 
   const handleAlert = () => {
     Alert.alert(translate('supportersLabel'), translate('supportersList'));
-  };
-
-  const handleLink = () => {
-    Linking.openURL('https://ko-fi.com/developlc');
   };
 
   const dispatch = useDispatch();
@@ -52,17 +54,39 @@ export default function Settings() {
   };
 
   const handlePrivacy = () => {
-    Linking.openURL('https://lucascassilha.github.io/Maruska-Privacy-Policy/');
+    Linking.openURL('https://lucaszawadneak.github.io/Maruska-Privacy-Policy/');
   };
 
-  const handleResearch = () => {
-    alert('Oi');
+  const handleDarkMode = () => {
+    if (proAccount) {
+      dispatch(darkMode());
+    } else {
+      Alert.alert(
+        translate('proFeatureTitle'),
+        translate('proFeatureDescription'),
+        [
+          { text: 'Ok', onPress: () => navigation.navigate('Pro') },
+          { text: translate('cancelButton') },
+        ]
+      );
+    }
+  };
+
+  const handleAppIntro = () => {
+    navigation.navigate('Home');
+    dispatch(firstLogin());
   };
 
   return (
     <Container>
       <Box>
-        <Maruska />
+        <Title>{translate('config')}</Title>
+        <Button onPress={() => navigation.navigate('Pro')}>
+          <IconHolder color="#8ae3e6">
+            <Icon name="star" color="#fff" size={20} />
+          </IconHolder>
+          <Label>Maruska PRO</Label>
+        </Button>
         <Button onPress={handlePrivacy}>
           <IconHolder color="#eba833">
             <Icon name="file-document-box-multiple" color="#fff" size={20} />
@@ -112,20 +136,34 @@ export default function Settings() {
           </IconHolder>
           <Label>{translate('supporters')}</Label>
         </Button>
-        <Button onPress={handleChangeUnit}>
+        <Button onPress={() => handleChangeUnit()}>
           <IconHolder color="#E733EB">
             <Icon name="weight" color="#fff" size={20} />
           </IconHolder>
-          <Label>{`${translate('changeUnit')} - ${weight} `}</Label>
+          <Label>{`${translate('changeUnit')} (${weight}) `}</Label>
         </Button>
-        <Button onPress={() => Linking.openURL('https://lucascassilha.xyz/')}>
+        <Button onPress={() => handleAppIntro()}>
+          <IconHolder color="#470000">
+            <Icon name="play" color="#fff" size={20} />
+          </IconHolder>
+          <Label>{translate('appIntro')}</Label>
+        </Button>
+        <Button onPress={() => handleDarkMode()}>
+          <IconHolder color={themeBoolean ? '#222327' : '#c4c4c4'}>
+            <Icon name="sunglasses" color="#fff" size={20} />
+          </IconHolder>
+          <Label>
+            {themeBoolean ? translate('darkMode') : translate('lightMode')}
+          </Label>
+        </Button>
+        <Button onPress={() => Linking.openURL('https://lucaszawadneak.me/')}>
           <IconHolder color="#000">
             <Icon name="code-tags" color="#fff" size={20} />
           </IconHolder>
           <Label>{translate('developer')}</Label>
         </Button>
-        <Version>v1.0.3</Version>
-        <Version>DevelopLC - 2020</Version>
+        <Version>v2.0.6</Version>
+        <Version>NeakApps - 2020</Version>
         <Comment>{translate('byUsing')}</Comment>
       </Box>
     </Container>
