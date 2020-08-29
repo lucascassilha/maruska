@@ -202,7 +202,7 @@ export default function pets(state = INITIAL_STATE, action) {
         const petIndex = petData.findIndex(item => item.name === petID);
         if (petIndex >= 0) {
           if (petData[petIndex].weight && petData[petIndex].weight.length > 0) {
-            if (petData[petIndex].weight.length >= 8) {
+            if (petData[petIndex].weight.length >= 6) {
               petData[petIndex].storedWeight.push(petData[petIndex].weight[0]);
               petData[petIndex].weight.shift();
             }

@@ -29,10 +29,9 @@ import {
   WeightHolder,
   WeightLabel,
 } from './styles';
-
-const windowWidth = Math.round(Dimensions.get('window').width);
 export default function Weight({ route, navigation }) {
   const { petID } = route.params;
+  const { width } = Dimensions.get('window');
 
   const weightUnit = useSelector(state => state.weight);
 
@@ -197,9 +196,9 @@ export default function Weight({ route, navigation }) {
         alreadyRegistered = isSameDay(parsedDate, currentDate);
         return 0;
       });
-      if (alreadyRegistered) {
-        setEditable(false);
-      }
+      // if (alreadyRegistered) {
+      //   setEditable(false);
+      // }
     }
     setLoading(false);
   }, []);
@@ -270,7 +269,8 @@ export default function Weight({ route, navigation }) {
           <ChartHolder>
             <VictoryChart
               theme={VictoryTheme.material}
-              width={windowWidth - 40}
+              width={width - 40}
+              height={width - 40}
               minDomain={{ y: 0 }}
             >
               <VictoryLine
@@ -289,7 +289,8 @@ export default function Weight({ route, navigation }) {
           <ChartHolder>
             <VictoryChart
               theme={VictoryTheme.material}
-              width={windowWidth - 40}
+              width={width - 40}
+              height={width - 40}
               minDomain={{ y: 0 }}
             >
               <VictoryLine
@@ -316,15 +317,15 @@ export default function Weight({ route, navigation }) {
               ))
               .reverse()}
           {storedWeightData &&
-            storedWeightData.map(item =>
-              (
+            storedWeightData
+              .map(item => (
                 <WeightHolder>
                   <WeightLabel>
                     {`${item.date} - ${item.weight}${weightUnit}`}
                   </WeightLabel>
                 </WeightHolder>
-              ).reverse()
-            )}
+              ))
+              .reverse()}
         </Scroll>
       </Animatable.View>
     </Container>
