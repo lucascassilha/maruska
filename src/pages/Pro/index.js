@@ -32,7 +32,8 @@ const Pro = () => {
       await InAppBilling.close();
       await InAppBilling.open();
 
-      const purchased = InAppBilling.isPurchased(productID);
+      const purchased = await InAppBilling.isPurchased(productID);
+      console.log(purchased);
       if (purchased) {
         if (!proAccount) {
           dispatch(proPlan());
@@ -57,7 +58,7 @@ const Pro = () => {
   const purchase = async () => {
     try {
       await InAppBilling.open();
-      const details = await InAppBilling.purchase('android.test.purchased');
+      const details = await InAppBilling.purchase(productID);
       console.log('You purchased: ', details);
       if (details.purchaseState === 'PurchasedSuccessfully') {
         dispatch(proPlan());

@@ -261,6 +261,8 @@ export default {
   helpMe: 'Preciso de ajuda',
   appIntro: 'Introdução do app',
   alreadyPRO: 'Você já é PRO',
+  proPets:
+    'Com Maruska GRÁTIS você só pode registrar dois pets. Com Maruska PRO você pode registrar pets ilimitados. Gostaria ver nosso plano?',
   ptBRTutorial:
     'Vá para Configurações > Bateria > … (três pontos) > Otimização da bateria. Escolha Todos os aplicativos na parte superior, encontre Maruska na lista e desative as otimizações para o aplicativo. \n\nOU Vá para Configurações > Apps e notificações > Todos os apps/Informações do app > Polar Flow/Polar Beat > Bateria. Desative todas as restrições e otimizações em segundo plano. \n\nOU Clicando na opção abrir configurações na página anterior, procure por otimização de bateria/economia de bateria e selecione a opção sem restrições',
 };
