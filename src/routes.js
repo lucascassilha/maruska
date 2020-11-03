@@ -92,7 +92,7 @@ function Tabs() {
 export default function Routes() {
   const account = useSelector(state => state.account);
 
-  const { darkMode: themeBoolean, pro: proAccount, firstLogin } = account;
+  const { darkMode: themeBoolean, firstLogin } = account;
   const nativeTheme = useColorScheme() === 'light';
 
   const [theme, setTheme] = useState(themes.light);
@@ -102,12 +102,10 @@ export default function Routes() {
   const themeBoolInverted = !themeBoolean;
 
   useEffect(() => {
-    if (proAccount) {
-      if (nativeTheme && !themeBoolInverted) {
-        dispatch(darkMode());
-      } else if (!nativeTheme && themeBoolInverted) {
-        dispatch(darkMode());
-      }
+    if (nativeTheme && !themeBoolInverted) {
+      dispatch(darkMode());
+    } else if (!nativeTheme && themeBoolInverted) {
+      dispatch(darkMode());
     }
   }, []);
 
