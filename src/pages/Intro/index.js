@@ -100,9 +100,9 @@ const Intro = ({ navigation }) => {
       />
       <ScrollView
         style={{ flex: 1 }}
-        horizontal={true}
+        horizontal
         scrollEventThrottle={16}
-        pagingEnabled={true}
+        pagingEnabled
         showsHorizontalScrollIndicator={false}
         onScroll={e => setSliderPage(e)}
       >

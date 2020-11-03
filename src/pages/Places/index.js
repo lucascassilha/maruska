@@ -4,7 +4,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Alert, Linking } from 'react-native';
 import LottieView from 'lottie-react-native';
 import * as Animatable from 'react-native-animatable';
-import { AdMobBanner } from 'react-native-admob';
 import Config from 'react-native-config';
 
 import changeStatus from '~/store/modules/modalVisible/actions';
@@ -29,7 +28,6 @@ import FAB from '~/components/FAB/index';
 
 export default function Places({ navigation }) {
   const places = useSelector(state => state.places.data);
-  const proAccont = useSelector(state => state.account.pro);
 
   const dispatch = useDispatch();
   const handleOpen = () => {
@@ -112,14 +110,6 @@ export default function Places({ navigation }) {
           </Animatable.View>
         )}
       />
-      {proAccont ? null : (
-        <AdMobBanner
-          adSize="fullBanner"
-          adUnitID={Config.BANNER_KEY}
-          testDevices={[AdMobBanner.simulatorId]}
-          onAdFailedToLoad={error => console.error(error)}
-        />
-      )}
     </Container>
   );
 }
