@@ -2,6 +2,11 @@
   <img src="https://lh3.googleusercontent.com/YZNElPQkn8cODV95Rlf_uAIvsh2aLJ0Fp0kEbfhU73v22M3sBtSdEcWdFYHw1U8BUNV2" height="300"/>
  </p>
  
+ 
+ <p align="center">
+   <img src="https://build.appcenter.ms/v0.1/apps/ba6e2ca4-e8a9-44d3-bad5-a7de43897f93/branches/master/badge">
+ </p>
+ 
 A pet management app :dog:
 -----------------------------------
 *Having a pet is a lot of responsibility! So let us help.*
