@@ -252,7 +252,7 @@ export default {
     "The first thing you need to do before using our app is to remove Maruksa from your battery saver list! Don't worry, we will use very little of it. Without that, our notification service may not work properly.",
   screen3title: 'Do more with Maruska PRO!',
   screen3:
-    'With Maruska PRO you can register unlimited pets, have access to our weight control feature, be free of ads, and unlock our beautiful dark theme! Now everyone is a PRO user of Maruska (free)!',
+    'With Maruska PRO you can register unlimited pets, have access to our weight control feature, be free of ads, and unlock our beautiful dark theme!',
   purchase: 'Purchase!',
   introAlertTitle: 'Please confirm battery configuration!',
   introAlertDescription: `If you didn't registered Maruska in you battery saver whitelist, the app may not work correctly`,

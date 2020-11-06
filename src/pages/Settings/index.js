@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { Alert, Linking, Share } from 'react-native';
+import { Alert, Linking, Share, Modal, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { format } from 'date-fns';
 import { useSelector, useDispatch } from 'react-redux';
@@ -13,6 +13,7 @@ import {
   IconHolder,
   Comment,
   Title,
+  ModalContainer,
 } from './styles';
 import translate from '~/locales';
 import terms from './terms';
@@ -21,6 +22,7 @@ import { darkMode, firstLogin } from '~/store/modules/account/actions';
 
 export default function Settings({ navigation }) {
   const weight = useSelector(state => state.weight);
+  const proAccount = useSelector(state => state.account.pro);
   const themeBoolean = !useSelector(state => state.account.darkMode);
 
   const [modalVisible, setVisible] = useState(false);
@@ -56,7 +58,18 @@ export default function Settings({ navigation }) {
   };
 
   const handleDarkMode = () => {
-    dispatch(darkMode());
+    if (proAccount) {
+      dispatch(darkMode());
+    } else {
+      Alert.alert(
+        translate('proFeatureTitle'),
+        translate('proFeatureDescription'),
+        [
+          { text: 'Ok', onPress: () => navigation.navigate('Pro') },
+          { text: translate('cancelButton') },
+        ]
+      );
+    }
   };
 
   const handleAppIntro = () => {
@@ -68,6 +81,12 @@ export default function Settings({ navigation }) {
     <Container>
       <Box>
         <Title>{translate('config')}</Title>
+        <Button onPress={() => navigation.navigate('Pro')}>
+          <IconHolder color="#8ae3e6">
+            <Icon name="star" color="#fff" size={20} />
+          </IconHolder>
+          <Label>Maruska PRO</Label>
+        </Button>
         <Button onPress={handlePrivacy}>
           <IconHolder color="#eba833">
             <Icon name="file-document-box-multiple" color="#fff" size={20} />
@@ -143,7 +162,7 @@ export default function Settings({ navigation }) {
           </IconHolder>
           <Label>{translate('developer')}</Label>
         </Button>
-        <Version>v2.0.7</Version>
+        <Version>v2.0.6</Version>
         <Version>NeakApps - 2020</Version>
         <Comment>{translate('byUsing')}</Comment>
       </Box>

@@ -29,7 +29,6 @@ import {
   WeightHolder,
   WeightLabel,
 } from './styles';
-
 export default function Weight({ route, navigation }) {
   const { petID } = route.params;
   const { width } = Dimensions.get('window');

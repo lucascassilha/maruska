@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { TouchableOpacity } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { ThemeProvider } from 'styled-components';
@@ -24,6 +25,7 @@ import Notifications from '~/pages/Notifications';
 import Places from '~/pages/Places/index';
 import Settings from '~/pages/Settings';
 import LostPet from '~/pages/Pet/LostPet';
+import Pro from '~/pages/Pro';
 import Intro from '~/pages/Intro';
 
 import themes from '~/themes';
@@ -35,9 +37,12 @@ const Tab = createMaterialBottomTabNavigator();
 function Tabs() {
   const account = useSelector(state => state.account);
 
-  const { darkMode: theme } = account;
+  const { darkMode: theme, pro: proAccount, firstLogin } = account;
 
-  const themeBoolean = !theme;
+  let themeBoolean = !theme;
+  if (!proAccount) {
+    themeBoolean = true;
+  }
 
   return (
     <Tab.Navigator
@@ -92,7 +97,7 @@ function Tabs() {
 export default function Routes() {
   const account = useSelector(state => state.account);
 
-  const { darkMode: themeBoolean, firstLogin } = account;
+  const { darkMode: themeBoolean, pro: proAccount, firstLogin } = account;
   const nativeTheme = useColorScheme() === 'light';
 
   const [theme, setTheme] = useState(themes.light);
@@ -102,10 +107,12 @@ export default function Routes() {
   const themeBoolInverted = !themeBoolean;
 
   useEffect(() => {
-    if (nativeTheme && !themeBoolInverted) {
-      dispatch(darkMode());
-    } else if (!nativeTheme && themeBoolInverted) {
-      dispatch(darkMode());
+    if (proAccount) {
+      if (nativeTheme && !themeBoolInverted) {
+        dispatch(darkMode());
+      } else if (!nativeTheme && themeBoolInverted) {
+        dispatch(darkMode());
+      }
     }
   }, []);
 
@@ -222,6 +229,7 @@ export default function Routes() {
             title: translate('not'),
           }}
         />
+        <Stack.Screen name="Pro" component={Pro} options={{ title: '' }} />
       </Stack.Navigator>
     </ThemeProvider>
   );
