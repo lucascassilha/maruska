@@ -20,6 +20,7 @@ import {
   addDays,
   isPast,
 } from 'date-fns';
+import { AdMobInterstitial } from 'react-native-admob';
 import { ptBR, enUS } from 'date-fns/locale';
 import { Formik } from 'formik';
 
@@ -198,6 +199,12 @@ export default function Vaccines({ route, navigation }) {
       )
     );
     setVisible(false);
+
+    if (!proAccount) {
+      AdMobInterstitial.setAdUnitID(Config.INTERSTICIAL_ID);
+      AdMobInterstitial.setTestDevices([AdMobInterstitial.simulatorId]);
+      AdMobInterstitial.requestAd().then(() => AdMobInterstitial.showAd());
+    }
   };
 
   const handleCheckVaccine = async (
@@ -282,6 +289,14 @@ export default function Vaccines({ route, navigation }) {
 
             dispatch(petCheckVaccine(vacID, petID, notificationData));
             dispatch(petLastVaccine(petID));
+
+            if (!proAccount) {
+              AdMobInterstitial.setAdUnitID(Config.INTERSTICIAL_ID);
+              AdMobInterstitial.setTestDevices([AdMobInterstitial.simulatorId]);
+              AdMobInterstitial.requestAd().then(() =>
+                AdMobInterstitial.showAd()
+              );
+            }
           },
         },
         { text: translate('cancelButton') },
