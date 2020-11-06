@@ -6,7 +6,6 @@ import * as Animatable from 'react-native-animatable';
 import { Alert, Picker } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { produce } from 'immer';
-import { AdMobInterstitial } from 'react-native-admob';
 import Config from 'react-native-config';
 import {
   formatDistanceStrict,
@@ -199,11 +198,6 @@ export default function Medications({ route, navigation }) {
     );
 
     setVisible(false);
-    if (!proAccount) {
-      AdMobInterstitial.setAdUnitID(Config.INTERSTICIAL_ID);
-      AdMobInterstitial.setTestDevices([AdMobInterstitial.simulatorId]);
-      AdMobInterstitial.requestAd().then(() => AdMobInterstitial.showAd());
-    }
   };
 
   const handleCheckMedication = async (
@@ -281,14 +275,6 @@ export default function Medications({ route, navigation }) {
             };
 
             dispatch(petCheckMedication(medID, petID, notificationData));
-
-            if (!proAccount) {
-              AdMobInterstitial.setAdUnitID(Config.INTERSTICIAL_ID);
-              AdMobInterstitial.setTestDevices([AdMobInterstitial.simulatorId]);
-              AdMobInterstitial.requestAd().then(() =>
-                AdMobInterstitial.showAd()
-              );
-            }
             Snackbar.show({
               text: translate('medCheckedSnack'),
               duration: Snackbar.LENGTH_LONG,

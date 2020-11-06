@@ -3,7 +3,6 @@ import { produce } from 'immer';
 import { formatDistanceStrict, parseISO } from 'date-fns';
 import { StatusBar, Alert } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
-import { AdMobBanner } from 'react-native-admob';
 import PropTypes from 'prop-types';
 import LottieView from 'lottie-react-native';
 import { ptBR, enUS } from 'date-fns/locale';
@@ -134,14 +133,6 @@ export default function Home({ navigation }) {
           </Animatable.View>
         )}
       />
-      {proAccont ? null : (
-        <AdMobBanner
-          adSize="fullBanner"
-          adUnitID={Config.BANNER_KEY}
-          testDevices={[AdMobBanner.simulatorId]}
-          onAdFailedToLoad={error => console.error(error)}
-        />
-      )}
     </Container>
   );
 }
