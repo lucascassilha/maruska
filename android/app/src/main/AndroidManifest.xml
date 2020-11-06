@@ -4,7 +4,6 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="com.android.vending.BILLING" />
     <uses-feature android:name="android.hardware.telephony" android:required="true" />
     <permission
        android:name="${applicationId}.permission.C2D_MESSAGE"
