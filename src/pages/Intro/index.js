@@ -124,9 +124,6 @@ const Intro = ({ navigation }) => {
           <LogoHolder source={require('~/assets/img/pro_white.png')} />
           <Title>{translate('screen3title')}</Title>
           <SubTitle>{translate('screen3')}</SubTitle>
-          <ProButtonHolder onPress={handlePurchase}>
-            <ButtonLabel>{translate('purchase')}</ButtonLabel>
-          </ProButtonHolder>
         </Screen>
       </ScrollView>
       <DotsHolder>
