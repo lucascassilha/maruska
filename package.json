@@ -23,7 +23,7 @@
     "date-fns": "^2.10.0",
     "formik": "^2.1.4",
     "i18n-js": "^3.5.1",
-    "immer": "^6.0.1",
+    "immer": "^8.0.1",
     "lottie-react-native": "^3.3.2",
     "prop-types": "^15.7.2",
     "react": "16.13.1",
